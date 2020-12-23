@@ -338,7 +338,7 @@
                   <span class="three-quarters dis-none" v-show="loading"></span>
                 </button>
               </div>
-              <div class="text-center p-t-45 p-b-4">
+              <!-- <div class="text-center p-t-45 p-b-4">
                 <span class="txt1"> Forgot </span>
                 <a href="#" class="txt2 hov1"> Password? </a>
               </div>
@@ -351,7 +351,7 @@
                   class="txt2 hov1"
                   >Sign up</a
                 >
-              </div>
+              </div> -->
             </form>
           </div>
         </div>
