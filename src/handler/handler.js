@@ -5,7 +5,9 @@ import {
 import { getToken } from "../config";
 
 if (getToken()) {
-    axios.defaults.headers.common['Authorization'] = getToken();
+    axios.defaults.headers.common = {
+        'Authorization': getToken()
+    };
     console.log(getToken());
 }
 
