@@ -5,7 +5,8 @@ import {
 import { getToken } from "../config";
 
 if (getToken()) {
-    axios.defaults.headers.common['Authorization'] = `${getToken()}`;
+    axios.defaults.headers.common['Authorization'] = getToken();
+    console.log(getToken());
 }
 
 const baseHandler = axios.create({
@@ -46,7 +47,7 @@ class BaseHandler {
     }
 
     get(res, slug = "") {
-        return baseHandler.get(`${res}/${slug}`);
+        return baseHandler.get(`${ res }/${slug}`);
     }
 
     patch(res, params) {
