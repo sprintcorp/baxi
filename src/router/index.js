@@ -8,6 +8,7 @@ import BusinessComponent from "../views/user/business/Business.vue";
 import OutletComponent from "../views/user/outlet/Outlet.vue";
 import TransactionComponent from "../views/user/transaction/Transaction.vue";
 import ProductComponent from "../views/user/product/Product.vue";
+import OrderComponent from "../views/user/order/Orders.vue";
 
 Vue.use(VueRouter);
 
@@ -55,8 +56,12 @@ const routes = [{
         component: ProductComponent,
         ...preventRoutes
     },
-
-
+    {
+        name: "outletOrder",
+        path: "/my/order/:id",
+        component: OrderComponent,
+        ...preventRoutes
+    },
 ];
 
 const router = new VueRouter({

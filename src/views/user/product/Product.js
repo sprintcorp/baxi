@@ -68,13 +68,16 @@ export default {
                             outlet_id: parseInt(getOutlet()),
                             name: data.product.name,
                             amount: parseInt(data.product.recommended_price),
-                            quantity: data.product.qty_in_pack,
+                            quantity: data.product.stock_quantity,
                             qty: 1,
                             retailer_id: getId(),
                             customer: {
-                                name: window.localStorage.getItem("customer_name"),
-                                email: window.localStorage.getItem("customer_email"),
-                                phone: window.localStorage.getItem("customer_phone")
+                                // name: window.localStorage.getItem("customer_name"),
+                                // email: window.localStorage.getItem("customer_email"),
+                                // phone: window.localStorage.getItem("customer_phone")
+                                name: this.cart.customer.name,
+                                email: this.cart.customer.email,
+                                phone: this.cart.customer.phone
                             }
 
                         });
@@ -155,6 +158,10 @@ export default {
 
         },
         addToCart(product) {
+            console.log(product)
+            product.customer.name = window.localStorage.getItem("customer_name")
+            product.customer.email = window.localStorage.getItem("customer_email")
+            product.customer.phone = window.localStorage.getItem("customer_phone")
             console.log("Product " + product)
             this.retailer_orders.push(product);
             console.log(this.retailer_orders)
@@ -174,8 +181,8 @@ export default {
                 console.log(err)
                 if (err.response.status == 401) {
                     this.$swal("Session Expired");
-                    logout();
-                    this.$router.push({ name: 'welcome' });
+                    // logout();
+                    // this.$router.push({ name: 'welcome' });
                 }
             });
         },
@@ -190,6 +197,7 @@ export default {
             window.localStorage.setItem('customer_name', this.cart.customer.name);
             window.localStorage.setItem('customer_email', this.cart.customer.email);
             window.localStorage.setItem('customer_phone', this.cart.customer.phone);
+            // this.getProducts();
         }
     },
 

@@ -17,12 +17,12 @@
                     </li>
                     
                     <li class="menu-item-has-children" v-if="((route != 'dashboard') && (route != 'business'))">
-                        <a title=""><i class="fa fa-file"></i> <span>My Reports</span></a>
+                        <router-link :to="{name:'outletOrder',params:outlet}"><i class="fa fa-list"></i> <span>My Order</span></router-link>
                     </li>
 
-                    <li class="menu-item-has-children"  v-if="((route != 'dashboard') && (route != 'business'))">
+                    <!-- <li class="menu-item-has-children"  v-if="((route != 'dashboard') && (route != 'business'))">
                         <a title=""><i class="fa fa-users"></i> <span>My Customers</span></a>
-                    </li>
+                    </li> -->
 
                 </ul>
             </nav>
