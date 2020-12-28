@@ -1,5 +1,5 @@
 <template>
-  <MainLayoutComponent>
+  <!-- <RetailerLayoutComponent> -->
     <div>
       <div class="main-content style2" style="background-color: #e8edf2;min-height:80vh">
         <div class="heading-sec">
@@ -129,7 +129,7 @@
         </section>
       </div>
     </div>
-  </MainLayoutComponent>
+  <!-- </RetailerLayoutComponent> -->
 </template>
 
 <script src="./DashboardComponent.js">

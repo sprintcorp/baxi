@@ -329,16 +329,16 @@
                 <span class="focus-input100-1"></span>
                 <span class="focus-input100-2"></span>
               </div> -->
-              <div class="k-form-error dis-none">
+              <!-- <div class="k-form-error dis-none">
                 <div>Password is required</div>
-              </div>
+              </div> -->
               <div class="container-login100-form-btn m-t-20">
                 <button class="login100-form-btn" data-dismiss="modal" @click.prevent="switchToIMS()">
                   Sign in &nbsp;
                   <span class="three-quarters dis-none" v-show="loading"></span>
                 </button>
               </div>
-              <div class="text-center p-t-45 p-b-4">
+              <!-- <div class="text-center p-t-45 p-b-4">
                 <span class="txt1"> Forgot </span>
                 <a href="#" class="txt2 hov1"> Password? </a>
               </div>
@@ -351,7 +351,7 @@
                   class="txt2 hov1"
                   >Sign up</a
                 >
-              </div>
+              </div> -->
             </form>
           </div>
         </div>

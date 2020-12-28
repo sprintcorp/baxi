@@ -1,9 +1,7 @@
-import MainLayoutComponent from "../../../components/layout/MainLayoutComponent";
 import { getName, getToken, saveOutlet } from '../../../config'
 import { BASE_URL } from '../../../env'
 export default {
     name: "OutletComponent",
-    components: { MainLayoutComponent },
     data() {
         return {
             outlet: '',
@@ -101,6 +99,7 @@ export default {
         this.getBusinessOutletsProduct();
         this.getOutletTransaction();
         this.name = getName();
+        console.log(this.$router.currentRoute.name)
         saveOutlet(this.$route.params.id);
     },
 

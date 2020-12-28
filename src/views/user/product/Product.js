@@ -1,10 +1,8 @@
-import MainLayoutComponent from "../../../components/layout/MainLayoutComponent";
 import { getName, logout, getToken, getOutlet, getId } from '../../../config'
 import { BASE_URL } from '../../../env'
-import { CREATE_ORDER, CREATE_PRODUCT } from "../../../store/action";
+// import { CREATE_ORDER, CREATE_PRODUCT } from "../../../store/action";
 export default {
     name: "ProductComponent",
-    components: { MainLayoutComponent },
     data() {
         return {
             products: '',
@@ -68,13 +66,10 @@ export default {
                             outlet_id: parseInt(getOutlet()),
                             name: data.product.name,
                             amount: parseInt(data.product.recommended_price),
-                            quantity: data.product.stock_quantity,
+                            quantity: data.qty,
                             qty: 1,
                             retailer_id: getId(),
                             customer: {
-                                // name: window.localStorage.getItem("customer_name"),
-                                // email: window.localStorage.getItem("customer_email"),
-                                // phone: window.localStorage.getItem("customer_phone")
                                 name: this.cart.customer.name,
                                 email: this.cart.customer.email,
                                 phone: this.cart.customer.phone
@@ -136,25 +131,56 @@ export default {
                 "category_id": parseInt(this.product.category_id),
                 "restock_level": this.product.restock_level,
                 "name": this.product.name,
-                "brand_id": 1,
-                "outlet": this.$route.params.id
+                "brand_id": 1
+                    // "outlet": this.$route.params.id
             };
             console.log(payload);
-            this.$store.dispatch(CREATE_PRODUCT, payload).then((data) => {
-                    this.$swal(data.message);
-                    this.getProducts();
+            // this.$store.dispatch(CREATE_PRODUCT, payload).then((data) => {
+            //         this.$swal(data.message);
+            //         this.getProducts();
+            //         this.saving = false;
+            //     })
+            //     .catch(err => {
+            //         this.$swal(err.response.data.message);
+            //         this.saving = false;
+            //         console.log(err)
+            //         if (err.response.status == 401) {
+            //             this.$swal("Session Expired");
+            //             logout();
+            //             this.$router.push({ name: 'welcome' });
+            //         }
+            //     });
+
+            fetch(BASE_URL + '/my/outlet/' + this.$route.params.id + '/products/new', {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
                     this.saving = false;
+                    this.$swal(res.message);
+                    this.getProducts();
+                    this.getCategories();
                 })
                 .catch(err => {
+
                     this.$swal(err.response.data.message);
                     this.saving = false;
                     console.log(err)
                     if (err.response.status == 401) {
+                        this.saving = false;
                         this.$swal("Session Expired");
                         logout();
                         this.$router.push({ name: 'welcome' });
                     }
                 });
+
+
 
         },
         addToCart(product) {
@@ -172,19 +198,45 @@ export default {
                 "orders": JSON.parse(window.localStorage.getItem("order"))
             }
             console.log(payload);
-            this.$store.dispatch(CREATE_ORDER, payload).then((data) => {
-                this.$swal(data.message);
-                window.localStorage.removeItem("order");
-            }).catch(err => {
-                this.$swal(err.response.data.message);
-                this.saving = false;
-                console.log(err)
-                if (err.response.status == 401) {
-                    this.$swal("Session Expired");
-                    // logout();
-                    // this.$router.push({ name: 'welcome' });
-                }
-            });
+            // this.$store.dispatch(CREATE_ORDER, payload).then((data) => {
+            //     this.$swal(data.message);
+            //     window.localStorage.removeItem("order");
+            // }).catch(err => {
+            //     this.$swal(err.response.data.message);
+            //     this.saving = false;
+            //     console.log(err)
+            //     if (err.response.status == 401) {
+            //         this.$swal("Session Expired");
+            //         // logout();
+            //         // this.$router.push({ name: 'welcome' });
+            //     }
+            // });
+
+
+            fetch(BASE_URL + '/my/retailer/orders', {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    this.$swal(res.message);
+                    window.localStorage.removeItem("order");
+                })
+                .catch(err => {
+                    this.$swal(err.response.data.message);
+                    this.saving = false;
+                    console.log(err)
+                    if (err.response.status == 401) {
+                        this.$swal("Session Expired");
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                });
         },
         showUserForm() {
             this.user_form = true;

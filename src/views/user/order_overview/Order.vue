@@ -8,7 +8,7 @@
                             <ul>
                             <li><router-link :to="{name:'dashboard'}" title="">Home</router-link></li>
                             <li><router-link :to="{name: 'outletOverview', params: { id: outlet }}" title="">Outlet</router-link></li>
-                            <li><span>Transaction</span></li>
+                            <li><span>Order</span></li>
                             </ul>
                         </div>
                         <section class="panel-content">
@@ -23,29 +23,33 @@
           </div>
           <div class="our-clients-sec">
             <div class="widget-title">
-              <h3> Transactions</h3>
+              <h3>Order</h3>
             </div>
-            <div class="table-responsive" v-if="transactions.length && !loading">
+            <div class="table-responsive" v-if="orders.length && !loading">
               <table class="table table-striped">
                 <thead>
                 <tr>
                   <th>S/N</th>
-                  <th>Reference</th>
+                  <th>Product</th>
                   <th>Amount (&#8358;)</th>
-                  <th>Payment Type</th>
-                  <th>Customer Name</th>
-                  <!-- <th>Numbers</th> -->
+                  <th>Quatity</th>                  
+                  <th>Available Quantity</th>
+                  <th>Distributor</th>
+                  <th>Date</th>
+                  <th>Status</th>
                 </tr>
                 </thead>
                 <tbody>
 
-                <tr v-for="(transaction,index) in transactions" :key="index">
+                <tr v-for="(order,index) in orders" :key="index">
                   <td>{{ index+1 }}</td>
-                  <td>{{ transaction.trans_ref }}</td>
-                  <td>&#8358; {{ transaction.amount }}</td>
-                  <td>{{ transaction.type }}</td>
-                  <td>{{ transaction.order_group[0].customer.name }}</td>
-                  <!-- <td><a href="tel:09089y">0908879}</a></td> -->
+                  <td>{{ order.product.name }}</td>
+                  <td>&#8358; {{ order.amount }}</td>
+                  <td>{{ order.qty}}</td>
+                  <td>{{ order.product.stock_quantity}}</td>
+                  <td>{{ order.business.name }}</td>
+                  <td>{{ order.updated_at }}</td>
+                  <td>{{ order.status == 0 ?'Pending':'Delivered' }}</td>
                 </tr>
                 </tbody>
                
@@ -53,16 +57,16 @@
               
             </div>
 
-             <div  v-if="!transactions.length && loading" style="text-align:center">
+             <div  v-if="!orders.length && loading" style="text-align:center">
                   
                   <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
                     <span class="sr-only">Loading...</span>
                   </div>
                   
             </div>
-            <div class="card" v-if="!transactions.length && !loading">
+            <div class="card" v-if="!orders.length && !loading">
               <div class="card-body text-center">
-                There are no transactions for this outlet at the moment
+                There are no order at the moment
               </div>
             </div>
           </div>
@@ -80,7 +84,7 @@
         </div>
     <!-- </RetailerLayoutComponent> -->
 </template>
-<script src="./Transaction.js">
+<script src="./Order.js">
 </script>
 
 <style scoped>

@@ -1,11 +1,9 @@
 // import { mapGetters } from "vuex";
-import MainLayoutComponent from "../../../components/layout/MainLayoutComponent";
 // import { GET_BUSINESS } from "../../../store/action";
 import { getName, getToken, logout } from '../../../config'
 import { BASE_URL } from '../../../env'
 export default {
     name: "DashboardComponent",
-    components: { MainLayoutComponent },
     data() {
         return {
             user: null,

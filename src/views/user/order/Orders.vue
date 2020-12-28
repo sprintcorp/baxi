@@ -1,5 +1,5 @@
 <template>
-    <MainLayoutComponent>
+    <!-- <RetailerLayoutComponent> -->
         <div>
             <div class="main-content style2" style="background-color: #e8edf2;min-height:80vh">
                 <div class="heading-sec">
@@ -21,6 +21,7 @@
             <span class="expand-content"><i class="fa fa-expand"></i></span>
             <span class="refresh-content"><i class="fa fa-refresh"></i></span>
           </div>
+          <pre>{{this.orders.length}}</pre>
           <div class="our-clients-sec">
             <div class="widget-title">
               <h3>Order</h3>
@@ -30,12 +31,12 @@
                 <thead>
                 <tr>
                   <th>S/N</th>
-                  <th>Product</th>
-                  <th>Amount (&#8358;)</th>
+                  <th>Order</th>
+                  <!-- <th>Amount (&#8358;)</th>
                   <th>Quatity</th>                  
                   <th>Available Quantity</th>
-                  <th>Outlet</th>
-                  <th>Customer Name</th>
+                  <th>Outlet</th> -->
+                  <th>View</th>
                   <th>Status</th>
                 </tr>
                 </thead>
@@ -43,13 +44,13 @@
 
                 <tr v-for="(order,index) in orders" :key="index">
                   <td>{{ index+1 }}</td>
-                  <td>{{ order.product.name }}</td>
-                  <td>&#8358; {{ order.amount }}</td>
+                  <td>{{ order[0] }}</td>
+                  <!-- <td>&#8358; {{ order.amount }}</td>
                   <td>{{ order.qty}}</td>
-                  <td>{{ order.product.stock_quantity}}</td>
-                  <td>{{ order.outlet.name }}</td>
-                  <td>{{ order.customer.name }}</td>
-                  <td>{{ order.delivery == 0 ?'Pending':'Delivered' }}</td>
+                  <td>{{ order.product.stock_quantity}}</td> -->
+                  <!-- <td>{{ order.outlet.name }}</td> -->
+                  <td></td>
+                  <td></td>
                 </tr>
                 </tbody>
                
@@ -82,7 +83,7 @@
                 </div>
             </div>
         </div>
-    </MainLayoutComponent>
+    <!-- </RetailerLayoutComponent> -->
 </template>
 <script src="./Orders.js">
 </script>

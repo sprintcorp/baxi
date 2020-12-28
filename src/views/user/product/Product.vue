@@ -1,5 +1,5 @@
 <template>
-    <MainLayoutComponent>
+    <!-- <RetailerLayoutComponent> -->
         <div>
             <div class="main-content style2" style="background-color: #e8edf2;min-height:80vh">
                 <div class="heading-sec">
@@ -19,22 +19,22 @@
                                 <h2> Products in Outlet | <span class="badge badge-info" style="background-color:#FFCF00;color:white">{{retailer_orders.length ? retailer_orders.length: 0}}</span> Order  </h2>
                                 </div>
                             </div>
-                            <div class="col-md-8 column">
-                                <div class="top-bar-chart">
-                                <div class="quick-report">
-                                    <div class="quick-report-infos">
-                                      <button data-toggle="modal" type="button" @click="saveOrder()" class="btns shadow yellow-skin lrg-btn sml-radius">Save Order &nbsp; <i class="fa fa-save"></i>
-                                    </button>
-                                      <button data-toggle="modal" data-target="#user" @click="showUserForm()" type="button" class="btns shadow yellow-skin lrg-btn sml-radius">Create User Order &nbsp; <i class="fa fa-user"></i>
-                                    </button>
-                                    <button data-toggle="modal" data-target="#product" type="button" class="btns shadow yellow-skin lrg-btn sml-radius">Create Product &nbsp; <i class="fa fa-plus"></i>
-                                    </button>
+                              <div class="col-md-8 column">
+                                  <div class="top-bar-chart">
+                                  <div class="quick-report">
+                                      <div class="quick-report-infos">
+                                        <button data-toggle="modal" type="button" @click="saveOrder()" class="btns shadow yellow-skin lrg-btn sml-radius">Save Order &nbsp; <i class="fa fa-save"></i>
+                                      </button>
+                                        <button data-toggle="modal" data-target="#user" @click="showUserForm()" type="button" class="btns shadow yellow-skin lrg-btn sml-radius">Create User Order &nbsp; <i class="fa fa-user"></i>
+                                      </button>
+                                      <button data-toggle="modal" data-target="#product" type="button" class="btns shadow yellow-skin lrg-btn sml-radius">Create Product &nbsp; <i class="fa fa-plus"></i>
+                                      </button>
 
-                                    
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
+                                      
+                                      </div>
+                                  </div>
+                                  </div>
+                              </div>
                             </div>
                         </div>
 
@@ -212,7 +212,7 @@
                 </div>
             </div>
         </div>
-    </MainLayoutComponent>
+    <!-- </RetailerLayoutComponent> -->
 </template>
 <script src="./Product.js">
 </script>

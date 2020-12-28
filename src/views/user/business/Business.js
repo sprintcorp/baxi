@@ -1,11 +1,9 @@
 // import { mapGetters } from "vuex";
-import MainLayoutComponent from "../../../components/layout/MainLayoutComponent";
 import { getName, getToken, logout } from '../../../config'
 import { BASE_URL } from '../../../env'
 // import { GET_BUSINESS_OUTLETS } from "../../../store/action";
 export default {
     name: "BusinessComponent",
-    components: { MainLayoutComponent },
     data() {
         return {
             user: null,

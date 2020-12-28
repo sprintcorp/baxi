@@ -1,19 +1,19 @@
 import { getName, logout, getToken, getOutlet } from '../../../config'
 import { BASE_URL } from '../../../env'
 export default {
-    name: "TransactionComponent",
+    name: "RetailerOrderComponent",
     data() {
         return {
-            transactions: '',
-            name: '',
+            orders: [],
             loading: false,
-            outlet: ''
+            name: '',
+            outlet: '',
         }
     },
     methods: {
-        getOutletTransaction() {
+        getRetailerOrders() {
             this.loading = true;
-            fetch(BASE_URL + '/my/outlets/' + this.$route.params.id + '/transactions', {
+            fetch(BASE_URL + '/my/retailer/products/orders', {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
@@ -23,13 +23,16 @@ export default {
                 .then(res => res.json())
                 .then(res => {
                     if (res.message === 'Unauthenticated.') {
+                        this.$swal("Session Expired");
                         console.log(res);
                         logout();
                         this.$router.push({ name: 'welcome' });
                     }
                     this.loading = false;
-                    this.transactions = res.data.transactions;
-                    console.log(this.transactions);
+                    res.data.forEach((data) => {
+                        this.orders.push(data);
+                    });
+                    console.log(this.orders);
                 })
                 .catch(err => {
                         console.log(err)
@@ -44,16 +47,9 @@ export default {
                 );
         }
     },
-
     mounted() {
-        this.getOutletTransaction();
+        this.getRetailerOrders();
         this.name = getName();
         this.outlet = getOutlet();
-    },
-
-
-
-    computed: {
-
     }
 }
