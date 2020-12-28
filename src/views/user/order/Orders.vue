@@ -21,7 +21,7 @@
             <span class="expand-content"><i class="fa fa-expand"></i></span>
             <span class="refresh-content"><i class="fa fa-refresh"></i></span>
           </div>
-          <pre>{{this.orders.length}}</pre>
+          <pre>{{orders}}</pre>
           <div class="our-clients-sec">
             <div class="widget-title">
               <h3>Order</h3>

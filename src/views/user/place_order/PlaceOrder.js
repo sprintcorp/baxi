@@ -57,7 +57,7 @@ export default {
             this.loading = true
             fetch(BASE_URL + '/my/products?category_id=' +
                     window.localStorage.getItem("category_id") + '&business_id=' +
-                    window.localStorage.getItem("product_id"), {
+                    window.localStorage.getItem("business_id"), {
                         headers: {
                             'Content-Type': 'application/json',
                             'Accept': 'application/json',
