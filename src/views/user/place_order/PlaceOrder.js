@@ -160,18 +160,33 @@ export default {
                 })
                 .catch(err => console.log(err));
         },
+        pushToArray(arr, obj) {
+            const index = arr.findIndex((e) => e.product_id === obj.product_id);
+
+            if (index === -1) {
+                arr.push(obj);
+            } else {
+                arr[index] = obj;
+            }
+        },
         addToCart(product) {
-            this.retailer_orders.push(product);
+            this.pushToArray(this.retailer_orders, product);
             console.log(this.retailer_orders)
             window.localStorage.setItem('order', JSON.stringify(this.retailer_orders));
             this.products = JSON.parse(window.localStorage.getItem("order"));
 
         },
+        // removeElement(array, elem) {
+        //     var index = array.indexOf(elem);
+        //     if (index > -1) {
+        //         array.splice(index, 1);
+        //     }
+        // },
         removeFromCart(index) {
-            console.log(index)
-            console.log(this.products)
-            this.products = this.products.slice(index, 1);
-            console.log(this.products)
+            console.log(index.product_id)
+            this.products = JSON.parse(window.localStorage.getItem("order"));
+            const removeProduct = this.products.map(function(product) { return product.product_id; }).indexOf(index.product_id);
+            this.products.splice(removeProduct, 1);
             window.localStorage.setItem('order', JSON.stringify(this.products));
             this.products = JSON.parse(window.localStorage.getItem("order"));
         }

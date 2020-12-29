@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div v-if="!loading">
     <div class="site-wrap" id="home-section">
       <nav
         class="site-nav navbar navbar-expand-lg navbar-light fixed-top py-3 site-navbar-target"
@@ -554,6 +555,38 @@
         </div>
       </div>
     </div>
+    </div>
+
+    <div v-if="loading">
+    <div class="row text-center center">
+      <div class="row">
+      <div class="spinner-grow text-primary" role="status">
+        <span class="visually-hidden"></span>
+      </div>
+      <div class="spinner-grow text-secondary" role="status">
+        <span class="visually-hidden"></span>
+      </div>
+      <div class="spinner-grow text-success" role="status">
+        <span class="visually-hidden"></span>
+      </div>
+      <div class="spinner-grow text-danger" role="status">
+        <span class="visually-hidden"></span>
+      </div>
+      <div class="spinner-grow text-warning" role="status">
+        <span class="visually-hidden"></span>
+      </div>
+      <div class="spinner-grow text-info" role="status">
+        <span class="visually-hidden"></span>
+      </div>
+      <div class="spinner-grow text-dark" role="status">
+        <span class="visually-hidden"></span>
+      </div>
+      </div>
+      
+    </div>
+    <div class="row" style="margin-left: 40%;">Authenticating {{credentials.username}}</div>
+    
+    </div>
   </div>
 </template>
 
@@ -561,4 +594,12 @@
 </script>
 
 <style scoped>
+.center {
+  margin: auto;
+  width: 100%;
+  padding: 10px;
+   margin-left: 40%;
+  /* margin-right: 50%; */
+  margin-top: 20%;
+}
 </style>

@@ -142,7 +142,7 @@
       <td>{{ product.name }}</td>
       <td>{{ product.qty }}</td>
       <td>{{ product.amount }}</td>
-      <td><button type="button" @click="removeFromCart(index)" class="btn btn-secondary"><i class="fa fa-trash-o"></i></button></td>
+      <td><button type="button" @click="removeFromCart(product)" class="btn btn-secondary"><i class="fa fa-trash-o"></i></button></td>
     </tr>
     
   </tbody>

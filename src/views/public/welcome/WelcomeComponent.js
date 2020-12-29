@@ -23,7 +23,9 @@ export default {
             this.login = true;
         },
         switchToIMS() {
+            this.loading = true;
             if (getToken()) {
+                this.loading = false;
                 this.$router.push({ name: 'dashboard' });
             } else {
                 const payload = {
@@ -37,6 +39,7 @@ export default {
                         this.$router.push({ name: 'dashboard' });
                     }
                 ).catch((error) => {
+                    this.loading = false
                     this.$swal(error.response.data.message);
                 })
             }

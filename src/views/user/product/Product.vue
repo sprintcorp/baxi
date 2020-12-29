@@ -16,7 +16,7 @@
                             <div class="row">
                             <div class="col-md-4 column">
                                 <div class="heading-profile">
-                                <h2> Products in Outlet | <span class="badge badge-info" style="background-color:#FFCF00;color:white">{{retailer_orders.length ? retailer_orders.length: 0}}</span> Order  </h2>
+                                <h2> Products in Outlet | <span class="badge badge-info" style="background-color:#FFCF00;color:white">{{product_orders.length}}</span> Order  </h2>
                                 </div>
                             </div>
                               <div class="col-md-8 column">
@@ -25,9 +25,11 @@
                                       <div class="quick-report-infos">
                                         <button data-toggle="modal" type="button" @click="saveOrder()" class="btns shadow yellow-skin lrg-btn sml-radius">Save Order &nbsp; <i class="fa fa-save"></i>
                                       </button>
-                                        <button data-toggle="modal" data-target="#user" @click="showUserForm()" type="button" class="btns shadow yellow-skin lrg-btn sml-radius">Create User Order &nbsp; <i class="fa fa-user"></i>
+                                        <button data-toggle="modal" data-target="#user" @click="showUserForm()" type="button" class="btns shadow yellow-skin lrg-btn sml-radius">Add User to Order &nbsp; <i class="fa fa-user-plus"></i>
                                       </button>
                                       <button data-toggle="modal" data-target="#product" type="button" class="btns shadow yellow-skin lrg-btn sml-radius">Create Product &nbsp; <i class="fa fa-plus"></i>
+                                      </button>
+                                      <button data-toggle="modal" data-target="#cart" type="button" class="btns shadow yellow-skin lrg-btn sml-radius">View Cart &nbsp; <i class="fa fa-shopping-cart"></i>
                                       </button>
 
                                       
@@ -208,6 +210,55 @@
       </div>
     </div>
   </div>
+
+
+
+
+  <!--cart-->
+    <div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="product" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+        <span class="login100-form-title p-b-33">Cart Item</span>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">name</th>
+      <th scope="col">qty</th>
+      <th scope="col">price</th>
+      <th scope="col">customer name</th>
+      <th scope="col">customer email</th>
+      <th scope="col">customer phone</th>
+      <th scope="col">remove</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr v-for="(product,index) in product_orders" :key="index">
+      <th scope="row">{{index+1}}</th>
+      <td>{{ product.name }}</td>
+      <td>{{ product.qty }}</td>
+      <td>{{ product.amount }}</td>
+      <td>{{ product.customer.name }}</td>
+      <td>{{ product.customer.email }}</td>
+      <td>{{ product.customer.phone }}</td>
+      <td><button type="button" @click="removeFromCart(product)" class="btn btn-secondary"><i class="fa fa-trash-o"></i></button></td>
+    </tr>
+    
+  </tbody>
+</table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" @click="clearCartItem()" data-dismiss="modal"><i class="fa fa-times-circle"></i></button>
+        <button type="button" class="btn btn-warning text-white" @click="saveOrder()">&nbsp; <i class="fa fa-save"></i></button>
+      </div>
+      </div>
+    </div>
+</div>
+  <!--cart end-->
                     </div>
                 </div>
             </div>

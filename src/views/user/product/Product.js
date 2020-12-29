@@ -29,6 +29,7 @@ export default {
                 },
             },
             retailer_orders: [],
+            product_orders: []
         }
     },
     methods: {
@@ -183,19 +184,43 @@ export default {
 
 
         },
+        pushToArray(arr, obj) {
+            const index = arr.findIndex((e) => e.product_id === obj.product_id);
+
+            if (index === -1) {
+                arr.push(obj);
+            } else {
+                arr[index] = obj;
+            }
+        },
         addToCart(product) {
             console.log(product)
+
             product.customer.name = window.localStorage.getItem("customer_name")
             product.customer.email = window.localStorage.getItem("customer_email")
             product.customer.phone = window.localStorage.getItem("customer_phone")
-            console.log("Product " + product)
-            this.retailer_orders.push(product);
+            this.pushToArray(this.retailer_orders, product);
             console.log(this.retailer_orders)
-            window.localStorage.setItem('order', JSON.stringify(this.retailer_orders));
+            window.localStorage.setItem('orders', JSON.stringify(this.retailer_orders));
+            this.product_orders = JSON.parse(window.localStorage.getItem("orders"));
+        },
+        removeFromCart(index) {
+            console.log(index.product_id)
+            this.product_orders = JSON.parse(window.localStorage.getItem("orders"));
+            const removeProduct = this.product_orders.map(function(product) { return product.product_id; }).indexOf(index.product_id);
+            this.product_orders.splice(removeProduct, 1);
+            window.localStorage.setItem('orders', JSON.stringify(this.product_orders));
+            this.product_orders = JSON.parse(window.localStorage.getItem("orders"));
+        },
+        clearCartItem() {
+            window.localStorage.removeItem("orders");
+            this.product_orders = [];
+            this.$swal("Cart Item Cleared");
+
         },
         saveOrder() {
             const payload = {
-                "orders": JSON.parse(window.localStorage.getItem("order"))
+                "orders": JSON.parse(window.localStorage.getItem("orders"))
             }
             console.log(payload);
             // this.$store.dispatch(CREATE_ORDER, payload).then((data) => {
@@ -225,7 +250,7 @@ export default {
                 .then(res => res.json())
                 .then(res => {
                     this.$swal(res.message);
-                    window.localStorage.removeItem("order");
+                    window.localStorage.removeItem("orders");
                 })
                 .catch(err => {
                     this.$swal(err.response.data.message);
@@ -258,6 +283,9 @@ export default {
         this.getProducts();
         this.getCategories();
         this.outlet = getOutlet();
+        if (JSON.parse(window.localStorage.getItem("orders"))) {
+            this.product_orders = JSON.parse(window.localStorage.getItem("orders"));
+        }
     },
 
 
