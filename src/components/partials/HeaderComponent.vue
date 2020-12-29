@@ -30,7 +30,7 @@
                         <router-link :to="{name:'dashboard'}" title=""><i class="fa fa-home"></i> <span>My Businesses</span></router-link>
                     </li>
                     <li v-if="((this.$router.currentRoute.name != 'dashboard') && (this.$router.currentRoute.name != 'business'))">
-                        <router-link :to="{name:'retailerOrder',params:outlet}" title=""><i class="fa fa-cube"></i> <span>Place Order</span></router-link>
+                        <router-link :to="{name:'retailerOrder',params:outlet}" title=""><i class="fa fa-cube"></i> <span>Order Distributor Product</span></router-link>
                     </li>
                     <li v-if="((this.$router.currentRoute.name != 'dashboard') && (this.$router.currentRoute.name != 'business'))">
                         <router-link :to="{name:'retailerOrderOverview',params:outlet}" title=""><i class="fa fa-list"></i> <span>My Orders</span></router-link>

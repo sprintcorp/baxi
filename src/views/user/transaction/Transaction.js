@@ -4,7 +4,7 @@ export default {
     name: "TransactionComponent",
     data() {
         return {
-            transactions: '',
+            transactions: [],
             name: '',
             loading: false,
             outlet: ''

@@ -8,9 +8,17 @@ export default {
             loading: false,
             name: '',
             outlet: '',
+            group_orders: []
         }
     },
     methods: {
+        showOrders(order) {
+            console.log(order)
+            this.group_orders = order;
+        },
+        acceptOrder(order) {
+            alert(order)
+        },
         getRetailerOrders() {
             this.loading = true;
             fetch(BASE_URL + '/my/retailer/groupedOrders', {
@@ -29,12 +37,12 @@ export default {
                         this.$router.push({ name: 'welcome' });
                     }
                     this.loading = false;
-                    this.orders = res.data
+                    // this.orders = res.data;
                     console.log(this.orders)
-                        // res.data.forEach((data) => {
-                        //     this.orders.push(data);
-                        // });
-                        // console.log("order " + this.orders);
+                    res.data.forEach((data) => {
+                        this.orders.push(data);
+                    });
+                    // console.log("order " + this.orders);
                 })
                 .catch(err => {
                         console.log(err)

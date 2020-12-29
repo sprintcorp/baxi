@@ -120,9 +120,10 @@ export default {
                 })
                 .then(res => res.json())
                 .then(res => {
+                    window.localStorage.removeItem("order");
                     this.saving = false;
                     this.$swal(res.message);
-                    window.localStorage.removeItem("order");
+
                     this.getBusinessProducts();
                 })
                 .catch(err => {
