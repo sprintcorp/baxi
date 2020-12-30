@@ -31,6 +31,8 @@
                 <tr>
                   <!-- <th>S/N</th> -->
                   <th>Order</th>
+                  <th>Customer</th>
+                  <th>Numbers of items</th>
                   <!-- <th>Amount (&#8358;)</th>
                   <th>Quatity</th>                  
                   <th>Available Quantity</th>
@@ -44,6 +46,8 @@
                 <tr v-for="(order,index) in orders[0]" :key="index">
                   <!-- <td>{{  }}</td> -->
                   <td>{{ order.group_id }}</td>
+                  <td>{{ order.orders[0].customer.name }}</td>
+                  <td>{{ order.orders.length }}</td>
                   <td>{{ order.created_at }}</td>
                   <td>
                     <button data-toggle="modal" data-target="#order" type="button" @click="showOrders(order)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
