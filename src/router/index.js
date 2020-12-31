@@ -89,7 +89,7 @@ const routes = [{
             },
             {
                 name: "retailerProfile",
-                path: "/retailer/profile/:id",
+                path: "/retailer/profile",
                 component: RetailerProfileComponent,
                 ...preventRoutes
             },
