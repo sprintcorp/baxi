@@ -12,12 +12,20 @@
                             </ul>
                         </div>
                         <section class="panel-content">
+                          <div class="row text-right">
+                            <div class="col-md 4">
+                              <form class="search-form">
+                                  <input type="text" v-model="search" v-on:keyup="keymonitor" placeholder="Search Here..." style="background-color:white;width:175%"/>
+                                  <button type="submit"><i class="fa fa-search"></i></button>
+                              </form> 
+                            </div>
+                          </div>
     
     <div class="row">
       <div class="col-md-12">
         <div class="widget">
           <div class="widget-controls">
-            <span class="close-content"><i class="fa fa-trash-o"></i></span>
+            <!-- <span class="close-content"><i class="fa fa-trash-o"></i></span> -->
             <span class="expand-content"><i class="fa fa-expand"></i></span>
             <span class="refresh-content"><i class="fa fa-refresh"></i></span>
           </div>
@@ -47,7 +55,7 @@
                   <!-- <td>{{  }}</td> -->
                   <td>{{ order.group_id }}</td>
                   <td>{{ order.orders[0].customer.name }}</td>
-                  <td>{{ order.orders.length }}</td>
+                  <td>{{ order.orders.length == 1 ? order.orders.length+" Item" : order.orders.length+" Items" }}</td>
                   <td>{{ order.created_at }}</td>
                   <td>
                     <button data-toggle="modal" data-target="#order" type="button" @click="showOrders(order)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>

@@ -8,10 +8,19 @@ export default {
             loading: false,
             name: '',
             outlet: '',
-            group_orders: []
+            group_orders: [],
+            search:''
         }
     },
     methods: {
+        keymonitor(){
+            console.log(this.search)
+            const search_order = this.group_orders[0].find((order)=>{
+                return order.group_id == this.search;
+                
+            })
+            console.log(search_order);
+        },
         showOrders(order) {
             console.log(order)
             this.group_orders = order;

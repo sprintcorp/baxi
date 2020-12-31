@@ -51,9 +51,9 @@
                 </div>
                 <div class="mini-stats ">
                   <span class="yellow-skin"><i class="fa fa-credit-card"></i></span>
-                  <p><i class="fa  fa-arrow-down down"></i> Transactions</p>
+                  <p><i class="fa  fa-arrow-down down"></i> Transaction</p>
                   <h3>Count:{{ transactions }} |
-                    Amount: &#8358;{{ total_transaction }}</h3>
+                    Amount: &#8358; 45000</h3>
                 </div>
               </div>
             </div>
@@ -113,7 +113,7 @@
           </div>
           <div class="our-clients-sec">
             <div class="widget-title">
-              <h3>Latest 5 Transactions</h3>
+              <h3>Latest Transactions</h3>
             </div>
             <div class="table-responsive">
               <table class="table table-striped">
@@ -129,10 +129,10 @@
                 <tbody>
                 <tr>
                   <td>007101</td>
-                  <td>2000000000000</td>
+                  <td>6000</td>
                   <td>Cash</td>
-                  <td>Ade Bill</td>
-                  <td><a href="tel:09089y">0908879}</a></td>
+                  <td>Williams</td>
+                  <td><a href="tel:09089y">08145058301</a></td>
                 </tr>
                 </tbody>
               </table>

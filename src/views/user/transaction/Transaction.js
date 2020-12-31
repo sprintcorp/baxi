@@ -7,10 +7,14 @@ export default {
             transactions: [],
             name: '',
             loading: false,
-            outlet: ''
+            outlet: '',
+            transaction_product:[],
         }
     },
     methods: {
+        showProducts(transaction){
+            this.transaction_product = transaction;
+        },
         getOutletTransaction() {
             this.loading = true;
             fetch(BASE_URL + '/my/outlets/' + this.$route.params.id + '/transactions', {

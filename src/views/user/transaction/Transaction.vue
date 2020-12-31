@@ -17,7 +17,7 @@
       <div class="col-md-12">
         <div class="widget">
           <div class="widget-controls">
-            <span class="close-content"><i class="fa fa-trash-o"></i></span>
+            <!-- <span class="close-content"><i class="fa fa-trash-o"></i></span> -->
             <span class="expand-content"><i class="fa fa-expand"></i></span>
             <span class="refresh-content"><i class="fa fa-refresh"></i></span>
           </div>
@@ -33,7 +33,9 @@
                   <th>Reference</th>
                   <th>Amount (&#8358;)</th>
                   <th>Payment Type</th>
+                  <th>Number of items</th>
                   <th>Customer Name</th>
+                  <th>View</th>
                   <!-- <th>Numbers</th> -->
                 </tr>
                 </thead>
@@ -44,8 +46,11 @@
                   <td>{{ transaction.trans_ref }}</td>
                   <td>&#8358; {{ transaction.amount }}</td>
                   <td>{{ transaction.type }}</td>
+                  <td>{{ transaction.order_group.length == 1 ? transaction.order_group.length + " Item" : transaction.order_group.length+" Items" }}</td>
                   <td>{{ transaction.order_group[0].customer.name }}</td>
-                  <!-- <td><a href="tel:09089y">0908879}</a></td> -->
+                  <td>
+                    <button data-toggle="modal" data-target="#order" type="button" @click="showProducts(transaction)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
+                  </td>
                 </tr>
                 </tbody>
                
@@ -65,6 +70,53 @@
                 There are no transactions for this outlet at the moment
               </div>
             </div>
+
+
+            <div class="modal fade" id="order" tabindex="-1" role="dialog" aria-labelledby="product" aria-hidden="true">
+              <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header text-center">
+                  <span class="login100-form-title p-b-33">Transaction Item</span>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">customer name</th>
+                        <th scope="col">customer phone</th>
+                        <th scope="col">customer email</th>
+                        <th scope="col">product</th>
+                        <th scope="col">price</th>
+                        <th scope="col">quantity</th>
+                        <th scope="col">date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(product,index) in transaction_product.order_group" :key="index">
+                        <th scope="row">{{index+1}}</th>
+                        <td>{{ product.customer.name }}</td>
+                        <td>{{ product.customer.phone }}</td>
+                        <td>{{ product.customer.email }}</td>
+                        <td>{{ product.product.name }}</td>
+                        <td>{{ product.amount }}</td>
+                        <td>{{ product.qty }}</td>
+                        <td>{{ product.created_at }}</td>
+                      </tr>
+                      
+                    </tbody>
+                  </table>
+                        </div>
+                        <!-- <div class="modal-footer">
+                          <button type="button" class="btn btn-danger"><i class="fa fa-times-circle"></i></button>
+                          <button type="button" class="btn btn-success text-white" @click="acceptOrder(group_orders.group_id)">&nbsp; <i class="fa fa-check-circle"></i></button>
+                        </div> -->
+                        </div>
+                      </div>
+            </div>
+
+
           </div>
         </div>
       </div>

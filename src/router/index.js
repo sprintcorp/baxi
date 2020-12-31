@@ -12,6 +12,7 @@ import ProductComponent from "../views/user/product/Product.vue";
 import OrderComponent from "../views/user/order/Orders.vue";
 import RetailerOrderOverviewComponent from "../views/user/order_overview/Order.vue";
 import RetailerOrderComponent from "../views/user/place_order/PlaceOrder.vue";
+import RetailerProfileComponent from "../views/user/profile/Profile.vue";
 
 Vue.use(VueRouter);
 
@@ -84,6 +85,12 @@ const routes = [{
                 name: "retailerOrderOverview",
                 path: "/retailer/order/:id",
                 component: RetailerOrderOverviewComponent,
+                ...preventRoutes
+            },
+            {
+                name: "retailerProfile",
+                path: "/retailer/profile/:id",
+                component: RetailerProfileComponent,
                 ...preventRoutes
             },
         ]

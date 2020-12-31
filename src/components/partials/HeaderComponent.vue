@@ -5,10 +5,10 @@
                 <a href="#" title=""><i class="fa fa-shopping-bag"></i> Inventory Management System</a>
             </div>
 
-            <form class="search-form">
-                <input type="text" placeholder="Search Here..." />
-                <button type="submit"><i class="fa fa-search"></i></button>
-            </form>
+            <!-- <form class="search-form">
+                <input type="text" v-model="search" placeholder="Search Here..." />
+                <button type="submit" @keypress="search()"><i class="fa fa-search"></i></button>
+            </form> -->
 
             <ul class="dis-none">
                 <li><a title=""><i class="fa fa-plus"></i>New Tasks</a></li>
@@ -16,7 +16,7 @@
             </ul>
             <div class="quick-links">
                 <ul>
-                    <li><a title="" class="yellow-skin"><i class="fa fa-user"></i></a></li>
+                    <li><router-link title="" :to="{name:'retailerProfile',params:outlet}" class="yellow-skin"><i class="fa fa-user"></i></router-link></li>
                     <li><a title="" id="toolFullScreen" class="black-skin" @click="logout()"><i class="fa fa-sign-out"></i></a></li>
                 </ul>
             </div>
