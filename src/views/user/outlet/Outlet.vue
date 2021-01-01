@@ -38,9 +38,8 @@
                 </div>
                 <div class="mini-stats ">
                   <span class="yellow-skin"><i class="fa fa-shopping-basket"></i></span>
-                  <p><i class="fa  fa-arrow-down down"></i> Products</p>
-                  <h3>Total: 89 |
-                    Active: 10</h3>
+                  <p><i class="fa  fa-arrow-down down"></i> Outlet Products</p>
+                  <h3>Total: {{product.length}}</h3>
                 </div>
               </div>
             </div>
@@ -51,9 +50,9 @@
                 </div>
                 <div class="mini-stats ">
                   <span class="yellow-skin"><i class="fa fa-credit-card"></i></span>
-                  <p><i class="fa  fa-arrow-down down"></i> Transaction</p>
-                  <h3>Count:{{ transactions }} |
-                    Amount: &#8358; 45000</h3>
+                  <p><i class="fa  fa-arrow-down down"></i> Outlet Transaction</p>
+                  <h3>Total: {{ transactions }} |
+                    Amount: &#8358; {{total_transaction}}</h3>
                 </div>
               </div>
             </div>
@@ -113,26 +112,33 @@
           </div>
           <div class="our-clients-sec">
             <div class="widget-title">
-              <h3>Latest Transactions</h3>
+              <h3>Last 5 Transactions</h3>
             </div>
             <div class="table-responsive">
               <table class="table table-striped">
                 <thead>
                 <tr>
+                  <th>S/N</th>
                   <th>Reference</th>
                   <th>Amount (&#8358;)</th>
                   <th>Payment Type</th>
+                  <th>Number of items</th>
                   <th>Customer Name</th>
-                  <th>Customer Phone</th>
+                  <!-- <th>View</th> -->
+                  <!-- <th>Numbers</th> -->
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td>007101</td>
-                  <td>6000</td>
-                  <td>Cash</td>
-                  <td>Williams</td>
-                  <td><a href="tel:09089y">08145058301</a></td>
+                <tr v-for="(transaction,index) in recent_transaction" :key="index">
+                  <td>{{ index+1 }}</td>
+                  <td>{{ transaction.trans_ref }}</td>
+                  <td>&#8358; {{ transaction.amount }}</td>
+                  <td>{{ transaction.type }}</td>
+                  <td>{{ transaction.order_group.length == 1 ? transaction.order_group.length + " Item" : transaction.order_group.length+" Items" }}</td>
+                  <td>{{ transaction.order_group[0].customer.name }}</td>
+                  <!-- <td>
+                    <button data-toggle="modal" data-target="#order" type="button" @click="showProducts(transaction)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
+                  </td> -->
                 </tr>
                 </tbody>
               </table>

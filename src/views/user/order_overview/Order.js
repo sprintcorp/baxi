@@ -8,9 +8,24 @@ export default {
             loading: false,
             name: '',
             outlet: '',
+            search:''
         }
     },
     methods: {
+        keymonitor(){
+            if(this.search.length == 0){
+                this.getRetailerOrders();
+            }
+            const search = this.search
+            const orders = this.orders
+            const search_order = orders.filter(function(order){
+                return order.group_id == search || order.business.name == search || order.product.name == search;
+                
+            })
+            console.log(search_order)
+            this.orders = search_order;
+            
+        },
         getRetailerOrders() {
             this.loading = true;
             fetch(BASE_URL + '/my/retailer/products/orders', {
@@ -32,7 +47,7 @@ export default {
                     res.data.forEach((data) => {
                         this.orders.push(data);
                     });
-                    console.log(this.orders);
+                    // console.log(this.orders);
                 })
                 .catch(err => {
                         console.log(err)

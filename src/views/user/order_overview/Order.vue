@@ -11,8 +11,17 @@
                             <li><span>Order</span></li>
                             </ul>
                         </div>
+
+                        
                         <section class="panel-content">
-    
+                        <div class="row text-right">
+                            <div class="col-md 4">
+                              <form class="search-form">
+                                  <input type="text" v-model="search" v-on:keyup="keymonitor" placeholder="Search Here..." style="background-color:white;width:175%"/>
+                                  <button type="submit"><i class="fa fa-search"></i></button>
+                              </form> 
+                            </div>
+                          </div>
     <div class="row">
       <div class="col-md-12">
         <div class="widget">

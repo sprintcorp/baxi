@@ -9,17 +9,21 @@ export default {
             name: '',
             outlet: '',
             group_orders: [],
-            search:''
+            search:'',
+            // data:[{ "empid": 1, "fname": "X", "lname": "Y" }, { "empid": 2, "fname": "A", "lname": "Y" }, { "empid": 3, "fname": "B", "lname": "Y" }, { "empid": 4, "fname": "C", "lname": "Y" }, { "empid": 5, "fname": "C", "lname": "Y" }]
         }
     },
     methods: {
         keymonitor(){
-            console.log(this.search)
-            const search_order = this.group_orders[0].find((order)=>{
-                return order.group_id == this.search;
+            // const num = this.search
+            console.log(this.orders);
+            const orders = this.orders
+            const search_order = orders.filter(function(order){
+                return order[0].group_id ==  196398388;
                 
             })
-            console.log(search_order);
+            console.log(search_order)
+            
         },
         showOrders(order) {
             console.log(order)

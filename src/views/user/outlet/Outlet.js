@@ -10,6 +10,7 @@ export default {
             transactions: 0,
             transaction: '',
             total_transaction: 0,
+            recent_transaction:[],
         }
     },
     methods: {
@@ -34,7 +35,7 @@ export default {
         },
 
         getBusinessOutletsProduct() {
-            fetch(BASE_URL + '/my/outlets/' + this.$route.params.id + '/products', {
+            fetch(BASE_URL + '/my/outlet/' + this.$route.params.id + '/products', {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
@@ -52,18 +53,7 @@ export default {
                 })
                 .catch(err => console.log(err));
         },
-        addTransaction(numbers) {
-
-            // foreach(numbers as number) {
-
-            //     total += number.amount;
-            // }
-            let total = 0;
-            numbers.reduce(function(number) {
-                total += parseInt(number.amount);
-            });
-            return total;
-        },
+        
         getOutletTransaction() {
             this.loading = true;
             fetch(BASE_URL + '/my/outlets/' + this.$route.params.id + '/transactions', {
@@ -79,10 +69,13 @@ export default {
                     this.loading = false;
                     this.transactions = res.data.count;
                     this.transaction = res.data.transactions;
-                    let total = 0;
-                    this.total_transaction = this.transaction.forEach(trans => total += parseInt(trans));
-                    console.log(this.total_transaction);
-                    console.log(this.transactions);
+                    console.log(this.transaction);
+                    let sum = this.transaction.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
+                    console.log(sum);
+                    this.total_transaction = sum;
+                    this.recent_transaction = res.data.transactions.slice(Math.max(res.data.transactions.length - 5, 0))
+                    console.log(this.recent_transaction);
+                   
                 })
                 .catch(err => {
                         console.log(err)
