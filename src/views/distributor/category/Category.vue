@@ -14,7 +14,7 @@
                   <div class="col-md-4">
                       <router-link :to="{name:'distributorProduct',params: { id: 3 }}">
                         <div class="card p-5" style="width: 18rem;">
-                            <div style="font-size:100px"><i class="fa fa-th"></i></div>
+                            <div style="font-size:100px"><i class="fa fa-beer"></i></div>
                             <div class="card-body">
                                 Alcholic
                             </div>
@@ -25,7 +25,7 @@
                   <div class="col-md-4">
                       <router-link :to="{name:'distributorProduct',params: { id: 2}}">
                       <div class="card p-5" style="width: 18rem;">
-                          <div style="font-size:100px"><i class="fa fa-shopping-cart"></i></div>
+                          <div style="font-size:100px"><i class="fa fa-coffee"></i></div>
                         <div class="card-body">
                             Non-Alcholic
                         </div>
@@ -36,7 +36,7 @@
                   <div class="col-md-4">
                     <router-link :to="{name:'distributorProduct', params: { id: 1 }}">
                       <div class="card p-5" style="width: 18rem;">
-                          <div style="font-size:100px"><i class="fa fa-money"></i></div>
+                          <div style="font-size:100px"><i class="fa fa-shopping-cart"></i></div>
                           <div class="card-body">
                             Grocery
                           </div>

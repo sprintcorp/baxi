@@ -24,7 +24,7 @@
 
         <header class="horizontal-menu">
             <span class="open-hide-menu"><i class="fa fa-bars"></i></span>
-            <nav>
+            <nav class="navbar">
                 <ul>
                     <li class="menu-item-has-children">
                         <router-link :to="{name:'distributorDashboard'}" title=""><i class="fa fa-home"></i> <span>Dashboard</span></router-link>
