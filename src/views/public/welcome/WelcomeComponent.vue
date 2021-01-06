@@ -10,7 +10,7 @@
           <div class="col-6 col-md-3 col-xl-4 d-block">
             <h1 class="mb-0 site-logo">
               <a class="text-black h2 mb-0"
-                >BaxiPay - Mock<span class="text-yellow">.</span>
+                >BaxiPay<span class="text-yellow">.</span>
               </a>
             </h1>
           </div>

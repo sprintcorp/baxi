@@ -34,7 +34,7 @@ export default {
         },
         getRetailerOrders() {
             this.loading = true;
-            fetch(BASE_URL + '/my/retailer/groupedOrders', {
+            fetch(BASE_URL + '/my/retailer/groupedTransactions', {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
