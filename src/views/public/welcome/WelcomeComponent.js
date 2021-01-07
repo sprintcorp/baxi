@@ -39,6 +39,9 @@ export default {
                         if(data.data.user.role == "Retailer"){
                             this.$router.push({ name: 'dashboard' });
                         }
+                        if(data.data.user.role == "Distributor"){
+                            this.$router.push({ name: 'distributorDashboard' });
+                        }
                     }
                 ).catch((error) => {
                     this.loading = false

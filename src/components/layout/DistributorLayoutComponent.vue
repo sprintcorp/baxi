@@ -12,9 +12,9 @@
 </template>
 
 <script>
-    import HeaderComponent from "../partials/retailer/HeaderComponent";
+    import HeaderComponent from "../partials/distributor/HeaderComponent";
     // import BodyComponent from "../partials/BodyComponent";
-    import FooterComponent from "../partials/retailer/FooterComponent";
+    import FooterComponent from "../partials/distributor/FooterComponent";
 
     export default {
         name: "RetailerLayoutComponent",
