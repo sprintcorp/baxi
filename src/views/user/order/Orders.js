@@ -19,17 +19,17 @@ export default {
         }
     },
     methods: {
-        keymonitor(){
-            // const num = this.search
-            console.log(this.orders);
-            const orders = this.orders
-            const search_order = orders.filter(function(order){
-                return order[0].group_id ==  196398388;
+        // keymonitor(){
+        //     // const num = this.search
+        //     console.log(this.orders);
+        //     const orders = this.orders
+        //     const search_order = orders.filter(function(order){
+        //         return order[0].group_id ==  196398388;
                 
-            })
-            console.log(search_order)
+        //     })
+        //     console.log(search_order)
             
-        },
+        // },
         showOrders(order) {
             console.log(order)
             this.group_orders = order;
@@ -39,7 +39,7 @@ export default {
         },
         getRetailerOrders() {
             this.loading = true;
-            fetch(BASE_URL + '/my/retailer/groupedTransactions', {
+            fetch(BASE_URL + '/my/retailer/groupTransactions', {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',

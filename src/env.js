@@ -4,3 +4,4 @@ export const AUTH_TOKEN = 'access_token';
 export const NAME = 'name';
 export const ID = 'id';
 export const OUTLET = 'outlet';
+export const ROLE = 'role';

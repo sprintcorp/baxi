@@ -38,9 +38,9 @@
       <div class="col-md-12">
         <div class="widget">
           <div class="widget-controls">
-            <span class="close-content"><i class="fa fa-trash-o"></i></span>
+            <!-- <span class="close-content"><i class="fa fa-trash-o"></i></span>
             <span class="expand-content"><i class="fa fa-expand"></i></span>
-            <span class="refresh-content"><i class="fa fa-refresh"></i></span>
+            <span class="refresh-content"><i class="fa fa-refresh"></i></span> -->
           </div>
           <div class="our-clients-sec">
             <div class="widget-title">

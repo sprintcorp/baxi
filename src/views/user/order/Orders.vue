@@ -14,10 +14,10 @@
                         <section class="panel-content">
                           <div class="row text-right">
                             <div class="col-md 4">
-                              <form class="search-form">
+                              <!-- <form class="search-form">
                                   <input type="text" v-model="search" placeholder="Search Here..." style="background-color:white;width:175%"/>
                                   <button type="submit"><i class="fa fa-search"></i></button>
-                              </form> 
+                              </form>  -->
                             </div>
                           </div>
     
@@ -29,6 +29,7 @@
             <span class="expand-content"><i class="fa fa-expand"></i></span>
             <span class="refresh-content"><i class="fa fa-refresh"></i></span>
           </div>
+          <!-- <pre>{{fiilterSearch}}</pre> -->
           <div class="our-clients-sec">
             <div class="widget-title">
               <h3>Order</h3>
@@ -51,7 +52,7 @@
                 </thead>
                 <tbody>
 
-                <tr v-for="(order,index) in fiilterSearch" :key="index">
+                <tr v-for="(order,index) in orders[0]" :key="index">
                   <!-- <td>{{  }}</td> -->
                   <td>{{ order.group_id }}</td>
                   <td>{{ order.orders[0].customer.name }}</td>
