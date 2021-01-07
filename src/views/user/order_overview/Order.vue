@@ -29,7 +29,7 @@
                           </div>
                             <div class="col-md 4">
                               <form class="search-form">
-                                  <input type="text" v-model="search" placeholder="Search Here oooo..." style="background-color:white;width:175%"/>
+                                  <input type="text" v-model="search" placeholder="Search Product Here..." style="background-color:white;width:175%"/>
                                   <button type="submit"><i class="fa fa-search"></i></button>
                               </form> 
                             </div>
