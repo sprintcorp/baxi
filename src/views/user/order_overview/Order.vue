@@ -15,9 +15,21 @@
                         
                         <section class="panel-content">
                         <div class="row text-right">
+                          <div class="col-md-8 text-left">
+
+                            <download-csv
+                              class   = "btn btn-info"
+                              :data   = "fiilterSearch"
+                              name    = "filename.csv">
+
+                              Download Excel <i class="fa fa-file"></i>
+
+                            </download-csv>
+                            
+                          </div>
                             <div class="col-md 4">
                               <form class="search-form">
-                                  <input type="text" v-model="search" v-on:keyup="keymonitor" placeholder="Search Here..." style="background-color:white;width:175%"/>
+                                  <input type="text" v-model="search" placeholder="Search Here oooo..." style="background-color:white;width:175%"/>
                                   <button type="submit"><i class="fa fa-search"></i></button>
                               </form> 
                             </div>
@@ -34,12 +46,13 @@
             <div class="widget-title">
               <h3>Order</h3>
             </div>
+            
             <div class="table-responsive" v-if="orders.length && !loading">
               <table class="table table-striped">
                 <thead>
                 <tr>
                   <th>S/N</th>
-                  <th>Product</th>
+                  <th>Products</th>
                   <th>Amount (&#8358;)</th>
                   <th>Quatity</th>                  
                   <th>Available Quantity</th>
@@ -50,7 +63,7 @@
                 </thead>
                 <tbody>
 
-                <tr v-for="(order,index) in orders" :key="index">
+                <tr v-for="(order,index) in fiilterSearch" :key="index">
                   <td>{{ index+1 }}</td>
                   <td>{{ order.product.name }}</td>
                   <td>&#8358; {{ order.amount }}</td>

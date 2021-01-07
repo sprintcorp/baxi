@@ -13,6 +13,11 @@ export default {
             // data:[{ "empid": 1, "fname": "X", "lname": "Y" }, { "empid": 2, "fname": "A", "lname": "Y" }, { "empid": 3, "fname": "B", "lname": "Y" }, { "empid": 4, "fname": "C", "lname": "Y" }, { "empid": 5, "fname": "C", "lname": "Y" }]
         }
     },
+    computed:{
+        fiilterSearch(){
+            return this.orders[0].filter((order)=> order.group_id.toLowerCase().includes(this.search.toLowerCase()))
+        }
+    },
     methods: {
         keymonitor(){
             // const num = this.search

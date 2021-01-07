@@ -15,7 +15,7 @@
                           <div class="row text-right">
                             <div class="col-md 4">
                               <form class="search-form">
-                                  <input type="text" v-model="search" v-on:keyup="keymonitor" placeholder="Search Here..." style="background-color:white;width:175%"/>
+                                  <input type="text" v-model="search" placeholder="Search Here..." style="background-color:white;width:175%"/>
                                   <button type="submit"><i class="fa fa-search"></i></button>
                               </form> 
                             </div>
@@ -51,7 +51,7 @@
                 </thead>
                 <tbody>
 
-                <tr v-for="(order,index) in orders[0]" :key="index">
+                <tr v-for="(order,index) in fiilterSearch" :key="index">
                   <!-- <td>{{  }}</td> -->
                   <td>{{ order.group_id }}</td>
                   <td>{{ order.orders[0].customer.name }}</td>
