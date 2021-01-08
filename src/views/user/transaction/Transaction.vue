@@ -12,7 +12,14 @@
                             </ul>
                         </div>
                         <section class="panel-content">
-    
+                          <div class="row">
+                        <div class="col-md 4">
+                              <form class="search-form">
+                                  <input type="text" v-model="search" placeholder="Search Product Here..." style="background-color:white;width:175%"/>
+                                  <button type="submit"><i class="fa fa-search"></i></button>
+                              </form> 
+                            </div>
+                            </div>
     <div class="row">
       <div class="col-md-12">
         <div class="widget">
@@ -41,7 +48,7 @@
                 </thead>
                 <tbody>
 
-                <tr v-for="(transaction,index) in transactions" :key="index">
+                <tr v-for="(transaction,index) in filerTransactions" :key="index">
                   <td>{{ index+1 }}</td>
                   <td>{{ transaction.trans_ref }}</td>
                   <td>&#8358; {{ transaction.amount }}</td>

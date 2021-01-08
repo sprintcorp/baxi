@@ -9,6 +9,12 @@ export default {
             loading: false,
             outlet: '',
             transaction_product:[],
+            search:''
+        }
+    },
+    computed:{
+        filerTransactions(){
+            return this.transactions.filter((transaction)=> transaction.type.toLowerCase().includes(this.search.toLowerCase()) || transaction.order_group[0].customer.name.toLowerCase().includes(this.search.toLowerCase()))
         }
     },
     methods: {
@@ -54,10 +60,4 @@ export default {
         this.name = getName();
         this.outlet = getOutlet();
     },
-
-
-
-    computed: {
-
-    }
 }
