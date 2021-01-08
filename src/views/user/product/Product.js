@@ -195,7 +195,7 @@ export default {
         },
         addToCart(product) {
             console.log(product)
-
+            this.$toasted.show(product.name +' added to cart',{duration:2000,type:'success'});
             product.customer.name = window.localStorage.getItem("customer_name")
             product.customer.email = window.localStorage.getItem("customer_email")
             product.customer.phone = window.localStorage.getItem("customer_phone")
