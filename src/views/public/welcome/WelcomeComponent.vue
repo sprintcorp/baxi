@@ -64,7 +64,7 @@
 
               <div class="row mb-4" data-aos="fade-up" data-aos-delay="200">
                 <div class="col-lg-6 mr-auto">
-                  <h1>You're on BaxiPay! - Deborah Offor</h1>
+                  <h1>You're on BaxiPay!</h1>
                   <!--                                        <h1>Make Your Business More Profitable</h1>-->
                   <p class="mb-5">
                     We create a fully customizable product catalog that empowers
