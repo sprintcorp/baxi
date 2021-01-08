@@ -13,7 +13,7 @@
                         </div>
                         <section class="panel-content">
                           <div class="row">
-                            <div class="col-md-8"></div>
+                        <div class="col-md-8"></div>
                             <div class="col-md-4">
                               <form class="search-form">
                                   <input type="text" v-model="search" placeholder="Search Product Here..." style="background-color:white;width:175%"/>

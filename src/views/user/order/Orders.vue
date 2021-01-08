@@ -14,10 +14,10 @@
                         <section class="panel-content">
                           <div class="row text-right">
                             <div class="col-md 4">
-                              <!-- <form class="search-form">
+                              <form class="search-form">
                                   <input type="text" v-model="search" placeholder="Search Here..." style="background-color:white;width:175%"/>
                                   <button type="submit"><i class="fa fa-search"></i></button>
-                              </form>  -->
+                              </form> 
                             </div>
                           </div>
     
@@ -38,7 +38,7 @@
               <table class="table table-striped">
                 <thead>
                 <tr>
-                  <!-- <th>S/N</th> -->
+                  <th>S/N</th>
                   <th>Order</th>
                   <th>Customer</th>
                   <th>Numbers of items</th>
@@ -52,9 +52,9 @@
                 </thead>
                 <tbody>
 
-                <tr v-for="(order,index) in orders[0]" :key="index">
-                  <!-- <td>{{  }}</td> -->
-                  <td>{{ order.group_id }}</td>
+                <tr v-for="(order,index) in fiilterSearch" :key="index">
+                  <td>{{ index+1 }}</td>
+                  <td>{{ order.order_group_id }}</td>
                   <td>{{ order.orders[0].customer.name }}</td>
                   <td>{{ order.orders.length == 1 ? order.orders.length+" Item" : order.orders.length+" Items" }}</td>
                   <td>{{ order.created_at }}</td>

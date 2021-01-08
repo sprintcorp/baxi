@@ -9,13 +9,13 @@ export default {
             name: '',
             outlet: '',
             group_orders: [],
-            search:'a',
+            search:'',
             // data:[{ "empid": 1, "fname": "X", "lname": "Y" }, { "empid": 2, "fname": "A", "lname": "Y" }, { "empid": 3, "fname": "B", "lname": "Y" }, { "empid": 4, "fname": "C", "lname": "Y" }, { "empid": 5, "fname": "C", "lname": "Y" }]
         }
     },
     computed:{
         fiilterSearch(){
-            return this.orders[0].filter((order)=> order.group_id.toLowerCase().includes(this.search.toLowerCase()))
+            return this.orders.filter((order)=> order.type.toLowerCase().includes(this.search.toLowerCase()) || order.orders[0].customer.name.toLowerCase().includes(this.search.toLowerCase()) || order.orders[0].product.name.toLowerCase().includes(this.search.toLowerCase()))
         }
     },
     methods: {
@@ -30,9 +30,9 @@ export default {
         //     console.log(search_order)
             
         // },
-        showOrders(order) {
-            console.log(order)
+        showOrders(order) {            
             this.group_orders = order;
+            console.log(this.group_orders)
         },
         acceptOrder(order) {
             alert(order)
@@ -57,7 +57,7 @@ export default {
                     this.loading = false;
                     // this.orders = res.data;
                     console.log(this.orders)
-                    res.data.forEach((data) => {
+                    res.data.data.forEach((data) => {
                         this.orders.push(data);
                     });
                     // console.log("order " + this.orders);

@@ -18,9 +18,9 @@
                           <div class="col-md-8 text-left">
 
                             <download-csv
-                              class   = "btn btn-info"
-                              :data   = "fiilterSearch"
-                              name    = "filename.csv">
+                              class="btn btn-info"
+                              :data="retailer_orders"
+                              name="filename.csv">
 
                               Download Excel <i class="fa fa-file"></i>
 
@@ -30,7 +30,7 @@
                             <div class="col-md 4">
                               <form class="search-form">
                                   <input type="text" v-model="search" placeholder="Search Product Here..." style="background-color:white;width:175%"/>
-                                  <button type="submit"><i class="fa fa-search"></i></button>
+                                  <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
                               </form> 
                             </div>
                           </div>
@@ -42,12 +42,14 @@
             <span class="expand-content"><i class="fa fa-expand"></i></span>
             <span class="refresh-content"><i class="fa fa-refresh"></i></span> -->
           </div>
+          <!-- <pre>{{retailer_orders}}</pre> -->
+          <!-- <pre>{{fiilterSearch}}</pre> -->
           <div class="our-clients-sec">
             <div class="widget-title">
               <h3>Order</h3>
             </div>
             
-            <div class="table-responsive" v-if="orders.length && !loading">
+            <div class="table-responsive" v-if="retailer_orders.length && !loading">
               <table class="table table-striped">
                 <thead>
                 <tr>
@@ -56,20 +58,20 @@
                   <th>Amount (&#8358;)</th>
                   <th>Quatity</th>                  
                   <th>Available Quantity</th>
-                  <th>Distributor</th>
+                  <!-- <th>Distributor</th> -->
                   <th>Date</th>
                   <th>Status</th>
                 </tr>
                 </thead>
                 <tbody>
 
-                <tr v-for="(order,index) in fiilterSearch" :key="index">
+                <tr v-for="(order,index) in filterOrder" :key="index">
                   <td>{{ index+1 }}</td>
-                  <td>{{ order.product.name }}</td>
+                   <td>{{ order.product.name }}</td>
                   <td>&#8358; {{ order.amount }}</td>
                   <td>{{ order.qty}}</td>
                   <td>{{ order.product.stock_quantity}}</td>
-                  <td>{{ order.business.name }}</td>
+                  <!-- <td>{{ order.business.name }}</td> -->
                   <td>{{ order.updated_at }}</td>
                   <td>{{ order.status == 0 ?'Pending':'Delivered' }}</td>
                 </tr>
@@ -79,14 +81,14 @@
               
             </div>
 
-             <div  v-if="!orders.length && loading" style="text-align:center">
+             <div  v-if="!retailer_orders.length && loading" style="text-align:center">
                   
                   <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
                     <span class="sr-only">Loading...</span>
                   </div>
                   
             </div>
-            <div class="card" v-if="!orders.length && !loading">
+            <div class="card" v-if="!retailer_orders.length && !loading">
               <div class="card-body text-center">
                 There are no order at the moment
               </div>

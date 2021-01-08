@@ -1,36 +1,22 @@
 import { getName, logout, getToken, getOutlet } from '../../../config'
 import { BASE_URL } from '../../../env'
 export default {
-    name: "RetailerOrderComponent",
+    name: "RetailerOrderOverviewComponent",
     data() {
         return {
-            orders: [],
+            retailer_orders: [],
             loading: false,
             name: '',
             outlet: '',
-            search:''
+            search:'',
         }
     },
     computed:{
-        fiilterSearch(){
-            return this.orders.filter((order)=> order.product.name.toLowerCase().includes(this.search.toLowerCase()))
+        filterOrder(){
+            return this.retailer_orders.filter((order)=> order.product.name.toLowerCase().includes(this.search.toLowerCase()))
         }
     },
     methods: {
-        // keymonitor(){
-        //     if(this.search.length == 0){
-        //         this.getRetailerOrders();
-        //     }
-        //     const search = this.search
-        //     const orders = this.orders
-        //     const search_order = orders.filter(function(order){
-        //         return order.group_id == search || order.business.name == search || order.product.name == search;
-                
-        //     })
-        //     console.log(search_order)
-        //     this.orders = search_order;
-            
-        // },
         getRetailerOrders() {
             this.loading = true;
             fetch(BASE_URL + '/my/retailer/products/orders', {
@@ -49,10 +35,11 @@ export default {
                         this.$router.push({ name: 'welcome' });
                     }
                     this.loading = false;
+                    // this.retailer_orders = res;
                     res.data.forEach((data) => {
-                        this.orders.push(data);
+                        this.retailer_orders.push(data);
                     });
-                    // console.log(this.orders);
+                    console.log(this.retailer_orders);
                 })
                 .catch(err => {
                         console.log(err)
