@@ -9,7 +9,7 @@ export default {
             name: '',
             outlet: '',
             group_orders: [],
-            search:'',
+            search:'a',
             // data:[{ "empid": 1, "fname": "X", "lname": "Y" }, { "empid": 2, "fname": "A", "lname": "Y" }, { "empid": 3, "fname": "B", "lname": "Y" }, { "empid": 4, "fname": "C", "lname": "Y" }, { "empid": 5, "fname": "C", "lname": "Y" }]
         }
     },
