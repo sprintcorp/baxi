@@ -19,7 +19,7 @@
 
                             <download-csv
                               class="btn btn-info"
-                              :data="retailer_orders"
+                              :data="filterOrder"
                               name="filename.csv">
 
                               Download Excel <i class="fa fa-file"></i>
@@ -27,7 +27,7 @@
                             </download-csv>
                             
                           </div>
-                            <div class="col-md 4">
+                            <div class="col-md-4">
                               <form class="search-form">
                                   <input type="text" v-model="search" placeholder="Search Product Here..." style="background-color:white;width:175%"/>
                                   <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
