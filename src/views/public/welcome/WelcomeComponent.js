@@ -41,10 +41,10 @@ export default {
                         this.message = data.message;
                         this.login = false;
                         this.loading = false;
-                        if(data.data.user.role[0].name == "Retailer"){
+                        if(data.data.user.roles[0].name == "Retailer"){
                             this.$router.push({ name: 'dashboard' });
                         }
-                        if(data.data.user.role[0].name == "Distributor"){
+                        if(data.data.user.roles[0].name == "Distributor"){
                             this.$router.push({ name: 'distributorDashboard' });
                         }
                     }
