@@ -9,6 +9,8 @@ export default {
             name: '',
             outlet: '',
             search:'',
+            start_date:'',
+            end_date:''
         }
     },
     computed:{
@@ -17,6 +19,9 @@ export default {
         }
     },
     methods: {
+        showDate(){
+            console.log(this.start_date.toString());
+        },
         getRetailerOrders() {
             this.loading = true;
             fetch(BASE_URL + '/my/retailer/products/orders', {

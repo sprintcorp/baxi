@@ -10,26 +10,20 @@ export default {
             outlet: '',
             group_orders: [],
             search:'',
+            start_date:'',
+            end_date:''
             // data:[{ "empid": 1, "fname": "X", "lname": "Y" }, { "empid": 2, "fname": "A", "lname": "Y" }, { "empid": 3, "fname": "B", "lname": "Y" }, { "empid": 4, "fname": "C", "lname": "Y" }, { "empid": 5, "fname": "C", "lname": "Y" }]
         }
     },
     computed:{
         fiilterSearch(){
-            return this.orders.filter((order)=> order.type.toLowerCase().includes(this.search.toLowerCase()) || order.orders[0].customer.name.toLowerCase().includes(this.search.toLowerCase()) || order.orders[0].product.name.toLowerCase().includes(this.search.toLowerCase()))
+            return this.orders.filter((order)=> order.type.toLowerCase().includes(this.search.toLowerCase()))
         }
     },
     methods: {
-        // keymonitor(){
-        //     // const num = this.search
-        //     console.log(this.orders);
-        //     const orders = this.orders
-        //     const search_order = orders.filter(function(order){
-        //         return order[0].group_id ==  196398388;
-                
-        //     })
-        //     console.log(search_order)
-            
-        // },
+        showDate(){
+            console.log(this.start_date.toString());
+        },
         showOrders(order) {            
             this.group_orders = order;
             console.log(this.group_orders)

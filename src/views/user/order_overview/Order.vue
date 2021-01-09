@@ -14,24 +14,36 @@
 
                         
                         <section class="panel-content">
-                        <div class="row text-right">
-                          <div class="col-md-8 text-left">
-
-                            <download-csv
+                        <div class="row">
+                          <div class="col-md-2">
+                          <download-csv
                               class="btn btn-info"
                               :data="filterOrder"
-                              name="filename.csv">
+                              name="transaction.csv">
 
                               Download Excel <i class="fa fa-file"></i>
 
                             </download-csv>
-                            
+                        </div>
+                        <div class="col-md-6">
+                          <div class="row">
+                          <div class="col-md-6">
+                            <div class="input-group">
+                              <span class="input-group-text" id="basic-addon3">From</span>
+                              <input type="date" v-model="start_date" class="form-control" @change="showDate"/>
+                            </div>
                           </div>
+                          <div class="col-md-6">
+                            <div class="input-group">
+                              <span class="input-group-text" id="basic-addon3">To</span>
+                              <input type="date" v-model="end_date" class="form-control" @change="showDate"/>
+                            </div>
+                          </div>
+                          </div>
+                        </div>
                             <div class="col-md-4">
-                              <form class="search-form">
-                                  <input type="text" v-model="search" placeholder="Search Product Here..." style="background-color:white;width:175%"/>
-                                  <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
-                              </form> 
+                                  <input type="text" v-model="search" placeholder="Search Here..." class="form-control" style="background-color:white;"/>
+                                 
                             </div>
                           </div>
     <div class="row">

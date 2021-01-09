@@ -12,15 +12,39 @@
                             </ul>
                         </div>
                         <section class="panel-content">
+                      <div class="row">
+                        <div class="col-md-2">
+                          <download-csv
+                              class="btn btn-info"
+                              :data="filerTransactions"
+                              name="transaction.csv">
+
+                              Download Excel <i class="fa fa-file"></i>
+
+                            </download-csv>
+                        </div>
+                        <div class="col-md-6">
                           <div class="row">
-                        <div class="col-md-8"></div>
+                          <div class="col-md-6">
+                            <div class="input-group">
+                              <span class="input-group-text" id="basic-addon3">From</span>
+                              <input type="date" v-model="start_date" class="form-control" @change="showDate"/>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="input-group">
+                              <span class="input-group-text" id="basic-addon3">To</span>
+                              <input type="date" v-model="end_date" class="form-control" @change="showDate"/>
+                            </div>
+                          </div>
+                          </div>
+                        </div>
                             <div class="col-md-4">
-                              <form class="search-form">
-                                  <input type="text" v-model="search" placeholder="Search Product Here..." style="background-color:white;width:175%"/>
-                                  <button type="submit"><i class="fa fa-search"></i></button>
-                              </form> 
+                                  <input type="text" v-model="search" placeholder="Search Here..." class="form-control" style="background-color:white;"/>
+                                 
                             </div>
-                            </div>
+                    </div>
+                            <!-- {{transactions}} -->
     <div class="row">
       <div class="col-md-12">
         <div class="widget">
@@ -54,8 +78,8 @@
                   <td>{{ transaction.trans_ref }}</td>
                   <td>&#8358; {{ transaction.amount }}</td>
                   <td>{{ transaction.type }}</td>
-                  <td>{{ transaction.order_group.length == 1 ? transaction.order_group.length + " Item" : transaction.order_group.length+" Items" }}</td>
-                  <td>{{ transaction.order_group[0].customer.name }}</td>
+                  <td>{{ transaction.orders.length == 1 ? transaction.orders.length + " Item" : transaction.orders.length+" Items" }}</td>
+                  <td>{{ transaction.orders[0].customer.name }}</td>
                   <td>
                     <button data-toggle="modal" data-target="#order" type="button" @click="showProducts(transaction)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
                   </td>
@@ -102,7 +126,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="(product,index) in transaction_product.order_group" :key="index">
+                      <tr v-for="(product,index) in transaction_product.orders" :key="index">
                         <th scope="row">{{index+1}}</th>
                         <td>{{ product.customer.name }}</td>
                         <td>{{ product.customer.phone }}</td>

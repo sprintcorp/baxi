@@ -12,14 +12,36 @@
                             </ul>
                         </div>
                         <section class="panel-content">
-                          <div class="row text-right">
-                            <div class="col-md-8">
+                          <div class="row">
+                        <div class="col-md-2">
+                          <download-csv
+                              class="btn btn-info"
+                              :data="fiilterSearch"
+                              name="transaction.csv">
+
+                              Download Excel <i class="fa fa-file"></i>
+
+                            </download-csv>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="row">
+                          <div class="col-md-6">
+                            <div class="input-group">
+                              <span class="input-group-text" id="basic-addon3">From</span>
+                              <input type="date" v-model="start_date" class="form-control" @change="showDate"/>
                             </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="input-group">
+                              <span class="input-group-text" id="basic-addon3">To</span>
+                              <input type="date" v-model="end_date" class="form-control" @change="showDate"/>
+                            </div>
+                          </div>
+                          </div>
+                        </div>
                             <div class="col-md-4">
-                              <form class="search-form">
-                                  <input type="text" v-model="search" placeholder="Search Here..." style="background-color:white;width:175%"/>
-                                  <button type="submit"><i class="fa fa-search"></i></button>
-                              </form> 
+                                  <input type="text" v-model="search" placeholder="Search Here..." class="form-control" style="background-color:white;"/>
+                                 
                             </div>
                           </div>
     
@@ -42,7 +64,7 @@
                 <tr>
                   <th>S/N</th>
                   <th>Order</th>
-                  <th>Customer</th>
+                  <!-- <th>Customer</th> -->
                   <th>Numbers of items</th>
                   <!-- <th>Amount (&#8358;)</th>
                   <th>Quatity</th>                  
@@ -57,7 +79,7 @@
                 <tr v-for="(order,index) in fiilterSearch" :key="index">
                   <td>{{ index+1 }}</td>
                   <td>{{ order.order_group_id }}</td>
-                  <td>{{ order.orders[0].customer.name }}</td>
+                  <!-- <td>{{ order.orders[0].customer.name }}</td> -->
                   <td>{{ order.orders.length == 1 ? order.orders.length+" Item" : order.orders.length+" Items" }}</td>
                   <td>{{ order.created_at }}</td>
                   <td>

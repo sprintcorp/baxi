@@ -9,15 +9,21 @@ export default {
             loading: false,
             outlet: '',
             transaction_product:[],
-            search:''
+            search:'',
+            start_date:'',
+            end_date:''
         }
     },
     computed:{
         filerTransactions(){
-            return this.transactions.filter((transaction)=> transaction.type.toLowerCase().includes(this.search.toLowerCase()) || transaction.order_group[0].customer.name.toLowerCase().includes(this.search.toLowerCase()))
+            console.log(this.start_date.toString())
+            return this.transactions.filter((transaction)=> transaction.type.toLowerCase().includes(this.search.toLowerCase()) || transaction.orders[0].product.name.toLowerCase().includes(this.search.toLowerCase()) && transaction.updated_at.includes(this.start_date.toString()))
         }
     },
     methods: {
+        showDate(){
+            console.log(this.start_date.toString());
+        },
         showProducts(transaction){
             this.transaction_product = transaction;
         },
