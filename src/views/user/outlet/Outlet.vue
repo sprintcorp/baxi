@@ -134,8 +134,8 @@
                   <td>{{ transaction.trans_ref }}</td>
                   <td>&#8358; {{ transaction.amount }}</td>
                   <td>{{ transaction.type }}</td>
-                  <td>{{ transaction.order_group.length == 1 ? transaction.order_group.length + " Item" : transaction.order_group.length+" Items" }}</td>
-                  <td>{{ transaction.order_group[0].customer.name }}</td>
+                  <td>{{ transaction.orders.length == 1 ? transaction.orders.length + " Item" : transaction.orders.length+" Items" }}</td>
+                  <td>{{ transaction.orders[0].customer.name }}</td>
                   <!-- <td>
                     <button data-toggle="modal" data-target="#order" type="button" @click="showProducts(transaction)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
                   </td> -->
