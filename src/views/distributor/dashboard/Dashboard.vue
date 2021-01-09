@@ -16,7 +16,7 @@
                         <div class="card p-5" style="width: 18rem;">
                             <div style="font-size:100px"><i class="fa fa-th"></i></div>
                             <div class="card-body">
-                                Category <span class="badge bg-secondary text-white">4</span>
+                                Category <span class="badge bg-secondary text-white">{{categories.length}}</span>
                             </div>
                         </div>
                       </router-link>

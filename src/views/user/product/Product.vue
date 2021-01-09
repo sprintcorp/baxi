@@ -57,6 +57,7 @@
                                         <h3>{{ product.name }}</h3>
                                         <p><i class="fa fa-money"></i>&#8358;{{ product.amount }}</p>
                                         <p>Quantity {{ product.quantity }}</p>
+                                        <p>Size {{product.size}}</p>
                                         </div>
                                         <div class="row p-3" style="float:right !important">
                                           <div class="col-md-8">
@@ -79,7 +80,8 @@
                   
                                       <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
                                         <span class="sr-only">Loading...</span>
-                                      </div>
+                                      </div><br>
+                                      Loading...
                                       
                                 </div>
                                 <div class="card" v-if="!local_product.length && !loading">

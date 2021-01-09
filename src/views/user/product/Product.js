@@ -68,6 +68,7 @@ export default {
                             name: data.product.name,
                             amount: parseInt(data.product.recommended_price),
                             quantity: data.qty,
+                            size: data.product.size,
                             qty: 1,
                             retailer_id: getId(),
                             customer: {

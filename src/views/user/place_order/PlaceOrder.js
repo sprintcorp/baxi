@@ -175,7 +175,6 @@ export default {
             window.localStorage.setItem('order', JSON.stringify(this.retailer_orders));
             this.products = JSON.parse(window.localStorage.getItem("order"));
             this.$toasted.show(product.name +' added to cart',{duration:2000,type:'success'});
-
         },
         // removeElement(array, elem) {
         //     var index = array.indexOf(elem);

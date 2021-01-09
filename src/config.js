@@ -6,7 +6,7 @@ export const saveToken = (token) => {
 
 export const saveUser = (user) => {
 
-    window.localStorage.setItem(NAME, user.info.first_name + " " + user.info.last_name);
+    window.localStorage.setItem(NAME, user.businesses[0].name);
     window.localStorage.setItem(ID, user.id);
     window.localStorage.setItem(ROLE, user.roles[0].name);
     console.log(user.roles[0].name)

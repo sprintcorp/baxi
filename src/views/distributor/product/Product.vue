@@ -11,30 +11,20 @@
                 </div>
 
 
-
+                <!-- {{local_product}} -->
                  <div class="heading-sec">
                             <div class="row">
                                 <div class="col-md-4 column">
                                     <div class="heading-profile">
-                                    <h2> Products | <span class="badge badge-info" style="background-color:#FFCF00;color:white">10</span></h2>
+                                    <h2> Products | <span class="badge badge-info" style="background-color:#FFCF00;color:white">{{local_product.length}}</span></h2>
                                     </div>
                                 </div>
-                                <!-- <div class="col-md-8 column">
-                                    <div class="top-bar-chart">
-                                    <div class="quick-report">
-                                        <div class="quick-report-infos">
-                                        <button data-toggle="modal" data-target="#product" type="button" class="btns shadow yellow-skin lrg-btn sml-radius">Create Product &nbsp; <i class="fa fa-plus"></i>
-                                        </button>                                      
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div> -->
                             </div>
 
                             <div class="row p-3">
                                 <div class="col-md-12 card p-3">
-                                    <div class="row">
-                                    <div class="col-md-3" v-for="(n,i) in 50" :key="i">
+                                <div class="row" v-if="local_product.length && !loading">
+                                    <div class="col-md-3" v-for="(product,i) in local_product" :key="i">
                                     <div class="widget shadow">
                                         <div class="widget-controls">
                                         <!-- <span class="refresh-content"><i class="fa fa-trash" tooltip="'Remove'"></i></span> -->
@@ -45,9 +35,10 @@
                                             <div class="row col-md-12">
                                                 <div class="col-md-8 pt-5">
                                                     <div class="">
-                                                    <h6>Product name</h6>
-                                                    <p><i class="fa fa-money"></i> &#8358; 200</p>
-                                                    <p>Quantity 3</p>
+                                                    <h6>{{product.name}}</h6>
+                                                    <p><i class="fa fa-money"></i> &#8358; {{product.amount}}</p>
+                                                    <p>Quantity {{product.quantity}}</p>
+                                                    <p>Size {{product.size}}</p>
                                                     </div>
                                                     
                                                 </div>
@@ -65,11 +56,26 @@
                                           </div>
                                           <div class="col-md-4">
                                             <label>ADD</label>
-                                            <button @click="addToCart()"><h4><i class="fa fa-cart-plus"></i></h4></button>
+                                            <button><h4><i class="fa fa-cart-plus"></i></h4></button>
                                           </div>
                                         </div>
                                     </div>
                                     </div>
+                                </div>
+
+                                <div  v-if="!local_product.length && loading" style="text-align:center">
+                  
+                                      <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                        
+                                      </div><br>
+                                      Loading...
+                                      
+                                </div>
+                                <div class="card" v-if="!local_product.length && !loading">
+                                  <div class="card-body text-center">
+                                    There are no product for this category at the moment
+                                  </div>
                                 </div>
                             </div>
                             </div>

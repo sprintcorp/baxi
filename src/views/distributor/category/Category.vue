@@ -10,40 +10,39 @@
                         <li><span>Category</span></li>
                     </ul>
                 </div>
-              <div class="row col-md-12 text-center">
-                  <div class="col-md-4">
-                      <router-link :to="{name:'distributorProduct',params: { id: 3 }}">
-                        <div class="card p-5" style="width: 18rem;">
-                            <div style="font-size:100px"><i class="fa fa-beer"></i></div>
-                            <div class="card-body">
-                                Alcholic
-                            </div>
-                        </div>
-                      </router-link>
-                  </div>
-
-                  <div class="col-md-4">
-                      <router-link :to="{name:'distributorProduct',params: { id: 2}}">
-                      <div class="card p-5" style="width: 18rem;">
-                          <div style="font-size:100px"><i class="fa fa-coffee"></i></div>
-                        <div class="card-body">
-                            Non-Alcholic
-                        </div>
-                      </div>
-                      </router-link>
-                  </div>
-
-                  <div class="col-md-4">
-                    <router-link :to="{name:'distributorProduct', params: { id: 1 }}">
-                      <div class="card p-5" style="width: 18rem;">
-                          <div style="font-size:100px"><i class="fa fa-shopping-cart"></i></div>
-                          <div class="card-body">
-                            Grocery
+              <section class="panel-content text-center">
+                <div class="row col-md-12 text-center" v-if="categories.length && !loading">
+                    <div class="col-md-4" v-for="(category,index) in categories" :key="index">
+                        <router-link :to="{name:'distributorProduct',params: { id: category.id }}">
+                          <div class="card p-5" style="width: 20rem;height:20rem">
+                              <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
+                              <div><img :src="category.public_image_url" style="max-width: 80%;"/></div>
+                              <div class="card-body">
+                                  {{category.name}}
+                              </div>
                           </div>
-                      </div>
-                    </router-link>
+                        </router-link>
+                    </div>
+                </div>
+                
+                
+                <div class="row col-md-12" style="position: absolute;left: 50%;top: 50%;">
+                  <div v-if="!categories.length && loading" style="text-align:center">                  
+                      <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                          <span class="sr-only">Loading...</span>
+                      </div><br>
+                                      Loading...
+                                        
                   </div>
-              </div>
+                  <div class="card" v-if="!categories.length && !loading">
+                      <div class="card-body text-center">
+                          There are no category at the moment
+                      </div>
+                  </div>
+                </div>
+              </section>
+
+
             </div>
           </div>
 

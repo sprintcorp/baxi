@@ -26,7 +26,7 @@
             <span class="open-hide-menu"><i class="fa fa-bars"></i></span>
             <nav>
                 <ul>
-                    <li class="menu-item-has-children">
+                    <li class="active">
                         <router-link :to="{name:'dashboard'}" title=""><i class="fa fa-home"></i> <span>My Businesses</span></router-link>
                     </li>
                     <li v-if="((this.$router.currentRoute.name != 'dashboard') && (this.$router.currentRoute.name != 'business') && (this.$router.currentRoute.name != 'retailerProfile'))">
