@@ -67,6 +67,7 @@
                   <th>Payment Type</th>
                   <th>Number of items</th>
                   <th>Customer Name</th>
+                  <th>Date</th>
                   <th>View</th>
                   <!-- <th>Numbers</th> -->
                 </tr>
@@ -80,6 +81,7 @@
                   <td>{{ transaction.type }}</td>
                   <td>{{ transaction.orders.length == 1 ? transaction.orders.length + " Item" : transaction.orders.length+" Items" }}</td>
                   <td>{{ transaction.orders[0].customer.name }}</td>
+                  <td>{{ transaction.created_at }}</td>
                   <td>
                     <button data-toggle="modal" data-target="#order" type="button" @click="showProducts(transaction)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
                   </td>

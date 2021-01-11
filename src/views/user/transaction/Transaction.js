@@ -8,23 +8,23 @@ export default {
             name: '',
             loading: false,
             outlet: '',
-            transaction_product:[],
-            search:'',
-            start_date:'',
-            end_date:''
+            transaction_product: [],
+            search: '',
+            start_date: '',
+            end_date: ''
         }
     },
-    computed:{
-        filerTransactions(){
-            console.log(this.start_date.toString())
-            return this.transactions.filter((transaction)=> transaction.type.toLowerCase().includes(this.search.toLowerCase()) || transaction.orders[0].product.name.toLowerCase().includes(this.search.toLowerCase()) && transaction.updated_at.includes(this.start_date.toString()))
+    computed: {
+        filerTransactions() {
+            console.log(this.search)
+            return this.transactions.filter((transaction) => (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() && new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()) && transaction.type.toLowerCase().includes(this.search.toLowerCase()) && transaction.orders[0].product.name.toLowerCase().includes(this.search.toLowerCase()))
         }
     },
     methods: {
-        showDate(){
+        showDate() {
             console.log(this.start_date.toString());
         },
-        showProducts(transaction){
+        showProducts(transaction) {
             this.transaction_product = transaction;
         },
         getOutletTransaction() {
@@ -65,5 +65,7 @@ export default {
         this.getOutletTransaction();
         this.name = getName();
         this.outlet = getOutlet();
+        this.start_date = new Date("2015-08-21").getTime();
+        this.end_date = new Date().getTime();
     },
 }

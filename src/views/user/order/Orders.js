@@ -9,22 +9,25 @@ export default {
             name: '',
             outlet: '',
             group_orders: [],
-            search:'',
-            start_date:'',
-            end_date:''
-            // data:[{ "empid": 1, "fname": "X", "lname": "Y" }, { "empid": 2, "fname": "A", "lname": "Y" }, { "empid": 3, "fname": "B", "lname": "Y" }, { "empid": 4, "fname": "C", "lname": "Y" }, { "empid": 5, "fname": "C", "lname": "Y" }]
+            search: '',
+            start_date: '',
+            end_date: ''
+                // data:[{ "empid": 1, "fname": "X", "lname": "Y" }, { "empid": 2, "fname": "A", "lname": "Y" }, { "empid": 3, "fname": "B", "lname": "Y" }, { "empid": 4, "fname": "C", "lname": "Y" }, { "empid": 5, "fname": "C", "lname": "Y" }]
         }
     },
-    computed:{
-        fiilterSearch(){
-            return this.orders.filter((order)=> order.type.toLowerCase().includes(this.search.toLowerCase()))
+    computed: {
+        fiilterSearch() {
+            return this.orders.filter((order) =>
+                order.type.toLowerCase().includes(this.search.toLowerCase()) && (new Date(this.start_date).getTime() < new Date(order.updated_at).getTime() && new Date(order.updated_at).getTime() < new Date(this.end_date).getTime())
+            )
         }
     },
     methods: {
-        showDate(){
-            console.log(this.start_date.toString());
+        showDate() {
+            // const ed = new Date(this.start_date).getTime()
+            console.log(this.start_date);
         },
-        showOrders(order) {            
+        showOrders(order) {
             this.group_orders = order;
             console.log(this.group_orders)
         },
@@ -73,5 +76,7 @@ export default {
         this.getRetailerOrders();
         this.name = getName();
         this.outlet = getOutlet();
+        this.start_date = new Date("2015-08-21").getTime();
+        this.end_date = new Date().getTime();
     }
 }

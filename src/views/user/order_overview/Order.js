@@ -8,18 +8,18 @@ export default {
             loading: false,
             name: '',
             outlet: '',
-            search:'',
-            start_date:'',
-            end_date:''
+            search: '',
+            start_date: '',
+            end_date: ''
         }
     },
-    computed:{
-        filterOrder(){
-            return this.retailer_orders.filter((order)=> order.product.name.toLowerCase().includes(this.search.toLowerCase()))
+    computed: {
+        filterOrder() {
+            return this.retailer_orders.filter((order) => order.product.name.toLowerCase().includes(this.search.toLowerCase()) && (new Date(this.start_date).getTime() < new Date(order.updated_at).getTime() && new Date(order.updated_at).getTime() < new Date(this.end_date).getTime()))
         }
     },
     methods: {
-        showDate(){
+        showDate() {
             console.log(this.start_date.toString());
         },
         getRetailerOrders() {
@@ -63,5 +63,7 @@ export default {
         this.getRetailerOrders();
         this.name = getName();
         this.outlet = getOutlet();
+        this.start_date = new Date("2015-08-21").getTime();
+        this.end_date = new Date().getTime();
     }
 }
