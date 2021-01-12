@@ -16,8 +16,10 @@ export default {
     },
     computed: {
         filerTransactions() {
-            console.log(this.search)
-            return this.transactions.filter((transaction) => (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() && new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()) && transaction.type.toLowerCase().includes(this.search.toLowerCase()) && transaction.orders[0].product.name.toLowerCase().includes(this.search.toLowerCase()))
+            // console.log(this.search)
+            return this.transactions.filter((transaction) => transaction.type.toLowerCase().includes(this.search.toLowerCase())
+            || transaction.orders[0].product.name.toLowerCase().includes(this.search.toLowerCase()) && (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime()
+            && new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()))
         }
     },
     methods: {
