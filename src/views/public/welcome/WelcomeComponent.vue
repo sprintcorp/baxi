@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="!loading">
-     <div class="container-fluid">
+     <div class="container-fluid bg-white">
        <div class="row">
          <div class="col-md-4 mr-5" style="margin-top:100px">
            <div class="mr-5">
