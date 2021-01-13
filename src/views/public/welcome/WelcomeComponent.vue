@@ -3,7 +3,7 @@
     <div v-if="!loading">
      <div class="container-fluid">
        <div class="row">
-         <div class="col-md-4" style="margin-top:100px">
+         <div class="col-md-4 mr-5" style="margin-top:100px">
            <div class="mr-5">
            <div class="form-heading mt-5">
              <h3 class="mb-n1">Welcome to Baxi IMS.</h3> 
@@ -26,19 +26,8 @@
            </div>
            </div>
 
-
-           <!-- <div class="col-md-9 mt-5">
-              <input type="email" class="form-control" placeholder="Username" v-model="credentials.username">                        
-            </div>
-            <div class="col-md-9 mt-5">
-              <input type="password" class="form-control" placeholder="Password">
-            </div>
-            <div class="col-md-9 mt-3">
-              <button class="btn btn-warning btn-block text-black font-weight-bold" @click.prevent="switchToIMS()">Login</button>
-            </div> -->
-
          </div>
-         <div class="col-md-8">
+         <div class="col-md-7">
             <div class="right-side-image">
              
               
@@ -102,6 +91,6 @@
   background-repeat: no-repeat;
 }
 .container-fluid{
-  margin-right: -100px !important;
+  margin-right: -60px !important;
 }
 </style>
