@@ -15,7 +15,7 @@
            </div>
 
            <div class="form-group mt-4">
-              <input type="password" class="form-control" placeholder="Password">
+              <input type="password" class="form-control" placeholder="Password" v-model="credentials.password">
            </div>
            <div class="form-group" style="margin-top:80px;margin-bottom:50px;">
              <button class="btn btn-warning btn-block" style="border-radius:20px" @click.prevent="switchToIMS()">Login</button>

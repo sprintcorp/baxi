@@ -1,5 +1,5 @@
 import { LOGIN_USER } from "../../../store/action";
-import { getToken ,getRole} from '../../../config';
+import { getToken, getRole } from '../../../config';
 
 export default {
     name: "WelcomeComponent",
@@ -26,25 +26,26 @@ export default {
             this.loading = true;
             if (getToken()) {
                 this.loading = false;
-                if(getRole() == "Retailer"){
+                if (getRole() == "Retailer") {
                     this.$router.push({ name: 'dashboard' });
                 }
-                if(getRole() == "Distributor"){
+                if (getRole() == "Distributor") {
                     this.$router.push({ name: 'distributorDashboard' });
                 }
             } else {
                 const payload = {
-                    'user_id': this.credentials.username
+                    'user_id': this.credentials.username,
+                    'password': this.credentials.password
                 };
                 this.$store.dispatch(LOGIN_USER, payload).then(
                     (data) => {
                         this.message = data.message;
                         this.login = false;
                         this.loading = false;
-                        if(data.data.user.roles[0].name == "Retailer"){
+                        if (data.data.user.roles[0].name == "Retailer") {
                             this.$router.push({ name: 'dashboard' });
                         }
-                        if(data.data.user.roles[0].name == "Distributor"){
+                        if (data.data.user.roles[0].name == "Distributor") {
                             this.$router.push({ name: 'distributorDashboard' });
                         }
                     }
@@ -55,4 +56,4 @@ export default {
             }
         }
     },
-};
+}
