@@ -2,7 +2,7 @@
   <div>
     <div v-if="!loading">
      <div class="container-fluid bg-white">
-       <div class="row">
+       <div class="row" style="height:100vh">
          <div class="col-md-4 mr-5" style="margin-top:100px">
            <div class="mr-5">
            <div class="form-heading mt-5">
@@ -92,5 +92,6 @@
 }
 .container-fluid{
   margin-right: -60px !important;
+
 }
 </style>
