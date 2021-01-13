@@ -15,6 +15,9 @@ export default {
 a{
   text-decoration: none !important;
 }
+body{
+  background: white
+}
 
 
 @import url("../public/css/style.css");
