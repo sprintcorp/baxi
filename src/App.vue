@@ -18,4 +18,8 @@ a{
 
 
 @import url("../public/css/style.css");
+@import url("../public/css/sidebar.css");
+@import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
+@import url("https://use.fontawesome.com/releases/v5.0.6/css/all.css");
+@import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
 </style>

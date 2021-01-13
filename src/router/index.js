@@ -15,6 +15,10 @@ import DistributorTransactionComponent from "../views/distributor/transaction/Tr
 
 //Retailer
 import RetailerLayoutComponent from "../components/layout/RetailerLayoutComponent.vue";
+
+import DemoLayoutComponent from "../components/layout/Demo.vue";
+import DemoComponent from "../views/user/demo.vue";
+
 import DashboardComponent from "../views/user/dashboard/Dashboard.vue";
 import BusinessComponent from "../views/user/business/Business.vue";
 import OutletComponent from "../views/user/outlet/Outlet.vue";
@@ -50,34 +54,47 @@ const routes = [{
             name: 'distributorDashboard'
         },
         children: [{
-            name: "distributorDashboard",
-            path: "/distributor",
-            component: DistributorDashboardComponent,
-            ...preventRoutes
-        },{
-            name: "distributorProductCategory",
-            path: "/category",
-            component: DistributorProductCategoryComponent,
-            ...preventRoutes
-        },{
-            name: "distributorProduct",
-            path: "/product/:id",
-            component: DistributorProductComponent,
-            ...preventRoutes
-        },{
-            name: "distributorOrder",
-            path: "/order",
-            component: DistributorOrderComponent,
-            ...preventRoutes
-        },
-        {
-            name: "distributorTransaction",
-            path: "/transaction",
-            component: DistributorTransactionComponent,
-            ...preventRoutes
-        }]
+                name: "distributorDashboard",
+                path: "/distributor",
+                component: DistributorDashboardComponent,
+                ...preventRoutes
+            }, {
+                name: "distributorProductCategory",
+                path: "/category",
+                component: DistributorProductCategoryComponent,
+                ...preventRoutes
+            }, {
+                name: "distributorProduct",
+                path: "/product/:id",
+                component: DistributorProductComponent,
+                ...preventRoutes
+            }, {
+                name: "distributorOrder",
+                path: "/order",
+                component: DistributorOrderComponent,
+                ...preventRoutes
+            },
+            {
+                name: "distributorTransaction",
+                path: "/transaction",
+                component: DistributorTransactionComponent,
+                ...preventRoutes
+            }
+        ]
     },
     {
+        path: '/demo',
+        component: DemoLayoutComponent,
+        redirect: {
+            name: 'demo'
+        },
+        children: [{
+            name: "demo",
+            path: "/demo",
+            component: DemoComponent,
+
+        }]
+    }, {
         path: '/retailer',
         component: RetailerLayoutComponent,
         redirect: {

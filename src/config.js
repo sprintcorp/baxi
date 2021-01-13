@@ -1,4 +1,4 @@
-import { BASE_URL, AUTH_TOKEN, NAME, ID, OUTLET,ROLE } from "./env";
+import { BASE_URL, AUTH_TOKEN, NAME, ID, OUTLET, ROLE } from "./env";
 
 export const saveToken = (token) => {
     window.localStorage.setItem(AUTH_TOKEN, token);
