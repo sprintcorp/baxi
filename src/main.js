@@ -8,6 +8,9 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import JsonCSV from 'vue-json-csv';
 import Toasted from 'vue-toasted';
+import '@fortawesome/fontawesome-free/css/all.css';
+import '@fortawesome/fontawesome-free/js/all.js';
+
 // import $ from 'jquery';
 
 Vue.use(Toasted)
