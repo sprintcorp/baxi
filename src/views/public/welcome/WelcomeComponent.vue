@@ -92,6 +92,8 @@
 }
 .container-fluid{
   margin-right: -60px !important;
-
+}
+body{
+  overflow: hidden;
 }
 </style>
