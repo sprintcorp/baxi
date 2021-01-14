@@ -1,40 +1,34 @@
 <template>
     <!-- <RetailerLayoutComponent> -->
         <div>
-            <div class="main-content style2" style="background-color: #e8edf2;min-height:80vh">
+            <div class="container" style="background-color: white;min-height:80vh">
                 <div class="heading-sec">
                     <div class="row">
-                         <div class="breadcrumbs">
-                            <ul>
-                            <li><router-link :to="{name:'dashboard'}" title="">Home</router-link></li>
-                            <li><router-link :to="{name: 'outletOverview', params: { id: outlet }}" title="">Outlet</router-link></li>
-                            <li><span>Products</span></li>
-                            </ul>
-                        </div>
+                         
 
                         <div class="heading-sec">
                             <div class="row">
                             <div class="col-md-4 column">
-                                <div class="heading-profile">
-                                <h2> Products in Outlet | <span class="badge badge-info" style="background-color:#FFCF00;color:white">{{product_orders.length}}</span> Order  </h2>
-                                </div>
+                                <!-- <div class="heading-profile">
+                                  <h2> Products </h2>
+                                </div> -->
                             </div>
                               <div class="col-md-8 column">
                                   <div class="top-bar-chart">
-                                  <div class="quick-report">
-                                      <div class="quick-report-infos">
-                                        <button data-toggle="modal" type="button" @click="saveOrder()" class="btns shadow yellow-skin lrg-btn sml-radius">Save Order &nbsp; <i class="fa fa-save"></i>
-                                      </button>
-                                        <button data-toggle="modal" data-target="#user" @click="showUserForm()" type="button" class="btns shadow yellow-skin lrg-btn sml-radius">Add User to Order &nbsp; <i class="fa fa-user-plus"></i>
-                                      </button>
-                                      <button data-toggle="modal" data-target="#product" type="button" class="btns shadow yellow-skin lrg-btn sml-radius">Create Product &nbsp; <i class="fa fa-plus"></i>
-                                      </button>
-                                      <button data-toggle="modal" data-target="#cart" type="button" class="btns shadow yellow-skin lrg-btn sml-radius">View Cart &nbsp; <i class="fa fa-shopping-cart"></i>
-                                      </button>
+                                    <!-- <div class="quick-report">
+                                        <div class="quick-report-infos">
+                                          <button data-toggle="modal" type="button" @click="saveOrder()" class="btns shadow yellow-skin lrg-btn sml-radius">Save Order &nbsp; <i class="fa fa-save"></i>
+                                        </button>
+                                          <button data-toggle="modal" data-target="#user" @click="showUserForm()" type="button" class="btns shadow yellow-skin lrg-btn sml-radius">Add User to Order &nbsp; <i class="fa fa-user-plus"></i>
+                                        </button>
+                                        <button data-toggle="modal" data-target="#product" type="button" class="btns shadow yellow-skin lrg-btn sml-radius">Create Product &nbsp; <i class="fa fa-plus"></i>
+                                        </button>
+                                        <button data-toggle="modal" data-target="#cart" type="button" class="btns shadow yellow-skin lrg-btn sml-radius">View Cart &nbsp; <i class="fa fa-shopping-cart"></i>
+                                        </button>
 
-                                      
-                                      </div>
-                                  </div>
+                                        
+                                        </div>
+                                  </div> -->
                                   </div>
                               </div>
                             </div>
@@ -43,36 +37,68 @@
                         <section class="panel-content">
                             <div class="row">
                             <div class="col-md-12">
-                                <div class="mini-stats-sec">
-                                <span> My Products</span>
-                                <div class="row" v-if="local_product.length && !loading">
+                                <div class="row border-2">
+                                  <div class="col-md-2 font-weight-bold"> Product</div>
+                                  <div class="col-md-6">
+                                    <div class="row">
+                          <div class="col-md-6">
+                            <div class="input-group">
+                              <span class="input-group-text" id="basic-addon3">From</span>
+                              <input type="date" v-model="start_date" class="form-control" @change="showDate"/>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="input-group">
+                              <span class="input-group-text" id="basic-addon3">To</span>
+                              <input type="date" v-model="end_date" class="form-control" @change="showDate"/>
+                            </div>
+                          </div>
+                          </div>
+                                  </div>
+                                  <div class="col-md-4 d-flex justify-content-end">
+                                    <button  class="btns shadow white-skin btn-sm sml-radius text-black  mr-2 p-2"  style="border-radius:25px;border:2px solid black">
+                                      <i class="fa fa-microchip"></i> Restock Level
+                                    </button>
+                                    <button data-toggle="modal" data-target="#product" class="btns shadow yellow-skin btn-sm sml-radius text-black" style="border-radius:30px"><i class="fa fa-plus-circle"></i> Add Product
+                                    </button>
+                                  </div>
+                                </div>
+                                  <div class="row">
+                                  <div class="table-responsive" v-if="local_product.length && !loading">
+                                    <table class="table table-striped">
+                                      <thead>
+                                      <tr>
+                                        <th>S/N</th>
+                                        <th>Products</th>
+                                        <th>Products ID</th>
+                                        <th>Category</th>
+                                        <th>Status</th>
+                                        <th>Date Ordered</th>
+                                        <th>Date Delivered</th>
+                                        <th>Amount</th>
+                                        <!-- <th>Numbers</th> -->
+                                      </tr>
+                                      </thead>
+                                      <tbody>
 
-                                    <div class="col-md-3" v-for="(product,index) in local_product" :key="index">
-                                    <div class="widget shadow">
-                                        <div class="widget-controls">
-                                        <!-- <span class="refresh-content"><i class="fa fa-trash" tooltip="'Remove'"></i></span> -->
-                                        <span class="refresh-content" tooltip="'Edit'">Edit</span>
-                                        </div>
-                                        <div class="mini-stats">
-                                        <h3>{{ product.name }}</h3>
-                                        <p><i class="fa fa-money"></i>&#8358;{{ product.amount }}</p>
-                                        <p>Quantity {{ product.quantity }}</p>
-                                        <p>Size {{product.size}}</p>
-                                        </div>
-                                        <div class="row p-3" style="float:right !important">
-                                          <div class="col-md-8">
-                                            <label>QTY</label>
-                                            <select class="form-control"  @change="getQuatity(index,$event)">
-                                              <option v-for="(n,i) in 50" :key="i">{{i+1}}</option>
-                                            </select>
-                                          </div>
-                                          <div class="col-md-4">
-                                            <label>ADD</label>
-                                            <button @click="addToCart(product)"><h4><i class="fa fa-cart-plus"></i></h4></button>
-                                          </div>
-                                        </div>
-                                    </div>
-                                    </div>
+                                      <!-- <tr v-for="(transaction,index) in filerTransactions" :key="index">
+                                        <td>{{ index+1 }}</td>
+                                        <td>{{ transaction.trans_ref }}</td>
+                                        <td>&#8358; {{ transaction.amount }}</td>
+                                        <td>{{ transaction.type }}</td>
+                                        <td>{{ transaction.orders.length == 1 ? transaction.orders.length + " Item" : transaction.orders.length+" Items" }}</td>
+                                        <td>{{ transaction.orders[0].customer.name }}</td>
+                                        <td>{{ transaction.created_at }}</td>
+                                        <td>
+                                          <button data-toggle="modal" data-target="#order" type="button" @click="showProducts(transaction)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
+                                        </td>
+                                      </tr> -->
+                                      </tbody>
+                                    
+                                    </table>
+              
+                                  </div>
+                                   
 
                                 </div>
 
@@ -89,7 +115,7 @@
                                     There are no products for this outlet at the moment
                                   </div>
                                 </div>
-                                </div>
+                                <!-- </div> -->
                             </div>
                             </div>
                         </section>

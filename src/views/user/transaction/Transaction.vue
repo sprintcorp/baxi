@@ -107,7 +107,7 @@
             </div>
 
 
-            <div class="modal fade" id="order" tabindex="-1" role="dialog" aria-labelledby="product" aria-hidden="true">
+        <div class="modal fade" id="order" tabindex="-1" role="dialog" aria-labelledby="product"      aria-hidden="true">
               <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
                 <div class="modal-content">
                   <div class="modal-header text-center">

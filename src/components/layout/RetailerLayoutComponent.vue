@@ -6,19 +6,19 @@
 
         <router-view/> 
 
-        <FooterComponent>
-        </FooterComponent>
+        <!-- <FooterComponent>
+        </FooterComponent> -->
     </div>
 </template>
 
 <script>
     import HeaderComponent from "../partials/retailer/DemoComponent";
     // import BodyComponent from "../partials/BodyComponent";
-    import FooterComponent from "../partials/retailer/FooterComponent";
+    // import FooterComponent from "../partials/retailer/FooterComponent";
 
     export default {
         name: "RetailerLayoutComponent",
-        components: {HeaderComponent, FooterComponent}
+        components: {HeaderComponent}
     }
 </script>
 

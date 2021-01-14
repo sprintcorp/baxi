@@ -9,13 +9,13 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse bg-white" style="z-index:10" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mt-3">
                 <li class="nav-item active">
                     <router-link :to="{name:'dashboard'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-home"></i> Dashboard</router-link>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold" href="#"><i class="fa fa-cube"></i> Product</a>
+                    <router-link :to="{name:'productOverview'}"  class="nav-link font-weight-bold" href="#"><i class="fa fa-cube"></i> Product</router-link>
                 </li>
                 <li class="nav-item ">
                     <a class="nav-link font-weight-bold" href="#"><i class="fa fa-calendar"></i> Order </a>

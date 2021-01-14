@@ -126,7 +126,7 @@ const routes = [{
             },
             {
                 name: "productOverview",
-                path: "/product/overview/:id",
+                path: "/retailer/products/",
                 component: ProductComponent,
                 ...preventRoutes
             },

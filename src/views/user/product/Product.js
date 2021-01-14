@@ -44,13 +44,14 @@ export default {
 
         getProducts() {
             this.loading = true;
-            fetch(BASE_URL + '/my/outlet/' + this.$route.params.id + '/products', {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': getToken()
-                    }
-                })
+            fetch(BASE_URL + '/my/business/' + window.localStorage.getItem("retailer_business") +
+                    '/products', {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'Authorization': getToken()
+                        }
+                    })
                 .then(res => res.json())
                 .then(res => {
                     if (res.message === 'Unauthenticated.') {
@@ -67,8 +68,9 @@ export default {
                             outlet_id: parseInt(getOutlet()),
                             name: data.product.name,
                             amount: parseInt(data.product.recommended_price),
-                            quantity: data.qty,
+                            quantity: data.product.qty,
                             size: data.product.size,
+                            image: data.product.public_image_url,
                             qty: 1,
                             retailer_id: getId(),
                             customer: {
@@ -196,7 +198,7 @@ export default {
         },
         addToCart(product) {
             console.log(product)
-            this.$toasted.show(product.name +' added to cart',{duration:2000,type:'success'});
+            this.$toasted.show(product.name + ' added to cart', { duration: 2000, type: 'success' });
             product.customer.name = window.localStorage.getItem("customer_name")
             product.customer.email = window.localStorage.getItem("customer_email")
             product.customer.phone = window.localStorage.getItem("customer_phone")
