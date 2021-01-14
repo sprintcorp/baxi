@@ -12,7 +12,7 @@
 </template>
 
 <script>
-    import HeaderComponent from "../partials/retailer/HeaderComponent";
+    import HeaderComponent from "../partials/retailer/DemoComponent";
     // import BodyComponent from "../partials/BodyComponent";
     import FooterComponent from "../partials/retailer/FooterComponent";
 

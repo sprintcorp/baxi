@@ -1,37 +1,48 @@
 <template>
     <div>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height:70px;border-bottom:2px solid #ccc;background-color:white !important">
             <a class="navbar-brand" href="#">
                 <img src="/images/baxi.png" alt="" width="50" height="45">
             </a>
+            <div class="vl"></div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
+                <ul class="navbar-nav mr-auto mt-3">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#"><i class="fa fa-home"></i> Dashboard <span class="sr-only">(current)</span></a>
+                    <router-link :to="{name:'dashboard'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-home"></i> Dashboard</router-link>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-cube"></i> Product</a>
+                    <a class="nav-link font-weight-bold" href="#"><i class="fa fa-cube"></i> Product</a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="#"><i class="fa fa-calendar"></i> Order </a>
+                    <a class="nav-link font-weight-bold" href="#"><i class="fa fa-calendar"></i> Order </a>
                 </li>
 
                 <li class="nav-item ">
-                    <a class="nav-link" href="#"><i class="fa fa-credit-card"></i>  Transaction</a>
+                    <a class="nav-link font-weight-bold" href="#"><i class="fa fa-credit-card"></i>  Transaction</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-building"></i> Outlet</a>
+                    <a class="nav-link font-weight-bold" href="#"><i class="fa fa-building"></i> Outlet</a>
                 </li>
 
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <form class="form-inline search-form my-2 my-lg-0">
+                    <input type="text" v-model="search" placeholder="Search Products" style="background-color:white;width:175%;border-radius:20px"/>
+                    <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
+                <div class="vl"></div>
+                <div class="">
+                    <div class="icon-badge-container">
+                        <i class="far fa-bell icon-badge-icon" style="color:yellow"></i>
+                        <div class="icon-badge">6</div>
+                    </div>
+                </div>
+                <div class="mr-3 ml-3">
+                    <img src="/images/baxi.png" class="rounded-circle border" alt="" width="45" height="45">
+                </div>
             </div>
         </nav>
     </div>
@@ -69,11 +80,56 @@ import {logout,getOutlet} from '../../../config';
 
 <style scoped>
     .active{
-        padding-bottom:0px !important;
+        padding-bottom:50px !important;
         border-bottom: 4px solid rgb(255, 193, 7);
+        /* background-color: white; */
+        
     }
-    .a{
+    a{
         font-family: 'Times New Roman', Times, serif;
-        font-size: 40px
+        font-size: 15px;
     }
+    li{
+        margin-right: 20px;
+        height: 30px;
+    }
+    .icon-badge-group .icon-badge-container {
+  display: inline-block;
+  margin-left: 15px;
+}
+
+.icon-badge-group .icon-badge-container:first-child {
+  margin-left: 0
+}
+
+.icon-badge-container {
+  margin-top: 20px;
+  position: relative;
+}
+
+.icon-badge-icon {
+  font-size: 30px;
+  position: relative;
+}
+
+.icon-badge {
+  background-color: red;
+  font-size: 12px;
+  color: white;
+  text-align: center;
+  width: 15px;
+  height: 15px;
+  border-radius: 35%;
+  position: relative;
+  top: -35px;
+  left: 17px;
+}
+.vl {
+  border-left: 2px solid black;
+  height: 60px;
+  left: 50%;
+  margin-left: 10px;
+  margin-right: 10px;
+  top: -70px;
+}
 </style>
