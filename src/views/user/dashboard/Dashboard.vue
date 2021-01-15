@@ -85,7 +85,7 @@
             </div>
           <div class="mt-3 border-2">
             <div class="row mt-2 ml-5">
-              <div class="col-md-2">
+              <div class="col-md-3">
                           <download-csv
                               class="btn btn-info"
                               :data="filerTransactions"
@@ -111,7 +111,7 @@
                           </div>
                           </div>
                         </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                   <input type="text" v-model="search" placeholder="Search Here..." class="form-control" style="background-color:white;"/>
                                  
                             </div>
