@@ -20,10 +20,10 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12" v-if="vendor_products.length && !loading">
-                            <div class="row">
+                            <div class="row mr-2">
                                 <div class="col-md-6 d-flex justify-content-center" v-for="(product,index) in vendor_products" :key="index">
                                     <!-- <router-link :to="{name:'vendorProduct',params: { id: vendor.id }}"> -->
-                                    <div class="card p-2" style="width: 30rem;height:6.5rem;border-radius:0px">
+                                    <div class="card p-2" style="width: 25rem;height:6.5rem;border-radius:0px">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                         <div class="row g-0">
                                         <div class="col-md-2 mt-2"><img :src="product.image" class="rounded-circle" alt="" width="70" height="70"/></div>
