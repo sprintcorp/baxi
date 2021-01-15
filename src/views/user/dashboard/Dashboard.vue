@@ -84,7 +84,7 @@
                 </div> 
             </div>
           <div class="mt-3 border-2">
-            <div class="row mt-2 ml-5">
+            <div class="row mt-2">
               <div class="col-md-3">
                           <download-csv
                               class="btn btn-info"
@@ -119,7 +119,7 @@
 
             <div class="row mt-2">
 
-              <div class="col-md-12 col-sm-6 ml-5">
+              <div class="col-md-12 col-sm-6">
                 <div class="table-responsive" v-if="transactions.length && !loading">
                   <table class="table table-striped">
                     <thead>
