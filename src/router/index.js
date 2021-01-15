@@ -20,6 +20,9 @@ import DemoLayoutComponent from "../components/layout/Demo.vue";
 import DemoComponent from "../views/user/demo.vue";
 
 import DashboardComponent from "../views/user/dashboard/Dashboard.vue";
+import OrderCategoryComponent from "../views/user/category/Category.vue";
+import VendorComponent from "../views/user/vendor/Vendor.vue";
+import VendorProductComponent from "../views/user/vendor_product/Product.vue";
 import BusinessComponent from "../views/user/business/Business.vue";
 import OutletComponent from "../views/user/outlet/Outlet.vue";
 import TransactionComponent from "../views/user/transaction/Transaction.vue";
@@ -110,6 +113,24 @@ const routes = [{
                 name: "business",
                 path: "/business/:id",
                 component: BusinessComponent,
+                ...preventRoutes
+            },
+            {
+                name: "categoryOrder",
+                path: "/order/category",
+                component: OrderCategoryComponent,
+                ...preventRoutes
+            },
+            {
+                name: "categoryVendor",
+                path: "/category/vendor/:id",
+                component: VendorComponent,
+                ...preventRoutes
+            },
+            {
+                name: "vendorProduct",
+                path: "/vendor/product/:id",
+                component: VendorProductComponent,
                 ...preventRoutes
             },
             {

@@ -18,7 +18,7 @@
                     <router-link :to="{name:'productOverview'}"  class="nav-link font-weight-bold" href="#"><i class="fa fa-cube"></i> Product</router-link>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link font-weight-bold" href="#"><i class="fa fa-calendar"></i> Order </a>
+                    <router-link :to="{name:'categoryOrder'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-calendar"></i> Order </router-link>
                 </li>
 
                 <li class="nav-item ">
@@ -29,8 +29,8 @@
                 </li>
 
                 </ul>
-                <form class="form-inline search-form my-2 my-lg-0">
-                    <input type="text" v-model="search" placeholder="Search Products" style="background-color:white;width:175%;border-radius:20px"/>
+                <form class="form-inline search-form my-2 my-lg-0" v-if="(this.$router.currentRoute.name != 'categoryOrder')">
+                    <input type="text" v-model="search" placeholder="Search Products" style="background-color:white;width:255%;border-radius:20px"/>
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
                 <div class="vl"></div>
@@ -40,8 +40,17 @@
                         <div class="icon-badge">6</div>
                     </div>
                 </div>
-                <div class="mr-3 ml-3">
+                <!-- <div class="mr-3 ml-3">
                     <img src="/images/baxi.png" class="rounded-circle border" alt="" width="45" height="45">
+                </div> -->
+                <div class="mr-3 ml-3 mb-3">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <img src="/images/baxi.png" class="rounded-circle border" alt="" width="45" height="45"></a>
+                    <ul class="dropdown-menu">
+                    <li><a title="" @click="logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
+                    </ul>
+                </li>
                 </div>
             </div>
         </nav>
@@ -92,6 +101,7 @@ import {logout,getOutlet} from '../../../config';
     li{
         margin-right: 20px;
         height: 30px;
+        list-style: none;
     }
     .icon-badge-group .icon-badge-container {
   display: inline-block;

@@ -18,6 +18,9 @@ a{
 body{
   background: white
 }
+.round-item{
+border-radius: 10px;
+}
 
 
 @import url("../public/css/style.css");

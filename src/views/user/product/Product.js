@@ -1,4 +1,4 @@
-import { getName, logout, getToken, getOutlet, getId } from '../../../config'
+import { getName, logout, getToken, getOutlet } from '../../../config'
 import { BASE_URL } from '../../../env'
 // import { CREATE_ORDER, CREATE_PRODUCT } from "../../../store/action";
 export default {
@@ -9,7 +9,11 @@ export default {
             user_form: false,
             loading: false,
             local_product: [],
+            search: '',
+            start_date: '',
+            end_date: '',
             saving: false,
+            categories: '',
             product: {
                 barcode: '',
                 recommended_price: '',
@@ -18,7 +22,7 @@ export default {
                 restock_level: '',
                 name: '',
 
-                categories: '',
+                
                 outlet: '',
             },
             cart: {
@@ -32,7 +36,17 @@ export default {
             product_orders: []
         }
     },
+    computed: {
+        filerProducts() {
+            return this.local_product.filter((product) => product.name.toLowerCase().includes(this.search.toLowerCase()) ||
+                product.sku.toLowerCase().includes(this.search.toLowerCase()) || (new Date(this.start_date).getTime() < new Date(product.created_at).getTime() &&
+                new Date(product.created_at).getTime() < new Date(this.end_date).getTime()))
+        }
+    },
     methods: {
+        showDate() {
+            console.log(this.start_date.toString());
+        },
         getQuatity(index, event) {
             console.log(event.target.value + " index " + index);
 
@@ -71,13 +85,14 @@ export default {
                             quantity: data.product.qty,
                             size: data.product.size,
                             image: data.product.public_image_url,
-                            qty: 1,
-                            retailer_id: getId(),
-                            customer: {
-                                name: this.cart.customer.name,
-                                email: this.cart.customer.email,
-                                phone: this.cart.customer.phone
-                            }
+                            qty: data.qty,
+                            sku: data.product.sku,
+                            date:data.created_at
+                            // customer: {
+                            //     name: this.cart.customer.name,
+                            //     email: this.cart.customer.email,
+                            //     phone: this.cart.customer.phone
+                            // }
 
                         });
                     });
@@ -139,21 +154,6 @@ export default {
                     // "outlet": this.$route.params.id
             };
             console.log(payload);
-            // this.$store.dispatch(CREATE_PRODUCT, payload).then((data) => {
-            //         this.$swal(data.message);
-            //         this.getProducts();
-            //         this.saving = false;
-            //     })
-            //     .catch(err => {
-            //         this.$swal(err.response.data.message);
-            //         this.saving = false;
-            //         console.log(err)
-            //         if (err.response.status == 401) {
-            //             this.$swal("Session Expired");
-            //             logout();
-            //             this.$router.push({ name: 'welcome' });
-            //         }
-            //     });
 
             fetch(BASE_URL + '/my/outlet/' + this.$route.params.id + '/products/new', {
                     method: 'POST',
@@ -226,19 +226,6 @@ export default {
                 "orders": JSON.parse(window.localStorage.getItem("orders"))
             }
             console.log(payload);
-            // this.$store.dispatch(CREATE_ORDER, payload).then((data) => {
-            //     this.$swal(data.message);
-            //     window.localStorage.removeItem("order");
-            // }).catch(err => {
-            //     this.$swal(err.response.data.message);
-            //     this.saving = false;
-            //     console.log(err)
-            //     if (err.response.status == 401) {
-            //         this.$swal("Session Expired");
-            //         // logout();
-            //         // this.$router.push({ name: 'welcome' });
-            //     }
-            // });
 
 
             fetch(BASE_URL + '/my/retailer/orders', {
@@ -289,11 +276,5 @@ export default {
         if (JSON.parse(window.localStorage.getItem("orders"))) {
             this.product_orders = JSON.parse(window.localStorage.getItem("orders"));
         }
-    },
-
-
-
-    computed: {
-
-    }
+    }, 
 }

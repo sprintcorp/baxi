@@ -37,23 +37,23 @@
                         <section class="panel-content">
                             <div class="row">
                             <div class="col-md-12">
-                                <div class="row border-2">
+                                <div class="row border-2 mt-3">
                                   <div class="col-md-2 font-weight-bold"> Product</div>
                                   <div class="col-md-6">
                                     <div class="row">
-                          <div class="col-md-6">
-                            <div class="input-group">
-                              <span class="input-group-text" id="basic-addon3">From</span>
-                              <input type="date" v-model="start_date" class="form-control" @change="showDate"/>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="input-group">
-                              <span class="input-group-text" id="basic-addon3">To</span>
-                              <input type="date" v-model="end_date" class="form-control" @change="showDate"/>
-                            </div>
-                          </div>
-                          </div>
+                                      <div class="col-md-6">
+                                        <div class="input-group">
+                                          <span class="input-group-text" id="basic-addon3">From</span>
+                                          <input type="date" v-model="start_date" class="form-control" @change="showDate"/>
+                                        </div>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <div class="input-group">
+                                          <span class="input-group-text" id="basic-addon3">To</span>
+                                          <input type="date" v-model="end_date" class="form-control" @change="showDate"/>
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
                                   <div class="col-md-4 d-flex justify-content-end">
                                     <button  class="btns shadow white-skin btn-sm sml-radius text-black  mr-2 p-2"  style="border-radius:25px;border:2px solid black">
@@ -64,7 +64,7 @@
                                   </div>
                                 </div>
                                   <div class="row">
-                                  <div class="table-responsive" v-if="local_product.length && !loading">
+                                  <div class="table-responsive mt-5" v-if="local_product.length && !loading">
                                     <table class="table table-striped">
                                       <thead>
                                       <tr>
@@ -81,18 +81,19 @@
                                       </thead>
                                       <tbody>
 
-                                      <!-- <tr v-for="(transaction,index) in filerTransactions" :key="index">
+                                      <tr v-for="(product,index) in filerProducts" :key="index">
                                         <td>{{ index+1 }}</td>
-                                        <td>{{ transaction.trans_ref }}</td>
-                                        <td>&#8358; {{ transaction.amount }}</td>
-                                        <td>{{ transaction.type }}</td>
-                                        <td>{{ transaction.orders.length == 1 ? transaction.orders.length + " Item" : transaction.orders.length+" Items" }}</td>
-                                        <td>{{ transaction.orders[0].customer.name }}</td>
-                                        <td>{{ transaction.created_at }}</td>
-                                        <td>
-                                          <button data-toggle="modal" data-target="#order" type="button" @click="showProducts(transaction)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
-                                        </td>
-                                      </tr> -->
+                                        <td>{{ product.name }}</td>
+                                        <td>{{ product.sku }}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{  }}</td>
+                                        <td>{{  }}</td>
+                                        <td>{{ product.amount }}</td>
+                                        <!-- <td>
+                                          <button data-toggle="modal" data-target="#order" type="button" @click="showProducts(product)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
+                                        </td> -->
+                                      </tr>
                                       </tbody>
                                     
                                     </table>
@@ -102,15 +103,15 @@
 
                                 </div>
 
-                                <div  v-if="!local_product.length && loading" style="text-align:center">
+                                <div class="mt-5" v-if="!local_product.length && loading" style="text-align:center">
                   
-                                      <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                      <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
                                         <span class="sr-only">Loading...</span>
                                       </div><br>
                                       Loading...
                                       
                                 </div>
-                                <div class="card" v-if="!local_product.length && !loading">
+                                <div class="card mt-5" v-if="!local_product.length && !loading">
                                   <div class="card-body text-center">
                                     There are no products for this outlet at the moment
                                   </div>
