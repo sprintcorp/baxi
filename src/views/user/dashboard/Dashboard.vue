@@ -21,7 +21,7 @@
                     <button  class="btns shadow white-skin sml-btn sml-radius text-black mr-2 p-2"  style="border-radius:25px;border:2px solid black">
                       <i class="fa fa-microchip"></i> Restock Level
                     </button>
-                    <button  class="btns shadow yellow-skin sml-btn sml-radius text-black p-2"  style="border-radius:25px">
+                    <button  class="btns shadow yellow-skin sml-btn sml-radius text-black p-2" @click="goToProduct()"  style="border-radius:25px">
                       <i class="fa fa-plus-circle"></i> Add Product 
                     </button>
                   </div>

@@ -28,6 +28,9 @@ export default {
         showDate() {
             console.log(this.start_date.toString());
         },
+        goToProduct(){            
+            this.$router.push({ name: 'productOverview' });
+        },
         getUserBusiness() {
             this.loading = true;
             fetch(BASE_URL + '/my/businesses', {
