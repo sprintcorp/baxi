@@ -59,7 +59,7 @@
                                     <button  class="btns shadow white-skin btn-sm sml-radius text-black  mr-2 p-2"  style="border-radius:25px;border:2px solid black">
                                       <i class="fa fa-microchip"></i> Restock Level
                                     </button>
-                                    <button data-toggle="modal" data-target="#product" class="btns shadow yellow-skin btn-sm sml-radius text-black" style="border-radius:30px"><i class="fa fa-plus-circle"></i> Add Product
+                                    <button data-toggle="modal" data-target="#product" class="btns shadow yellow-skin btn-sm sml-radius text-black p-2" style="border-radius:30px"><i class="fa fa-plus-circle"></i> Add Product
                                     </button>
                                   </div>
                                 </div>
