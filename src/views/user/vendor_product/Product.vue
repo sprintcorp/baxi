@@ -76,7 +76,7 @@
                                         <div class="row">
                                             <div class="col-md-2 fs-20"></div>
                                             <div class="col-md-1 fs-20"></div>
-                                            <div class="col-md-2"><button class="btn btn-success" @click="increase(product.qty)"><i class="fa fa-plus"></i></button></div>
+                                            <div class="col-md-3"><button class="btn btn-success" @click="increase(product.qty)"><i class="fa fa-plus"></i></button></div>
                                             <div class="col-md-2"><input type="text" :value="quantity_value" style="width:50px" @change="changes()"></div>
                                             
                                             <div class="col-md-2"><button class="btn btn-danger" @click="decrease(product.qty)"><i class="fa fa-minus"></i></button></div>
