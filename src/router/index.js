@@ -24,7 +24,7 @@ import OrderCategoryComponent from "../views/user/category/Category.vue";
 import VendorComponent from "../views/user/vendor/Vendor.vue";
 import VendorProductComponent from "../views/user/vendor_product/Product.vue";
 import BusinessComponent from "../views/user/business/Business.vue";
-import OutletComponent from "../views/user/outlet/Outlet.vue";
+import OutletComponent from "../views/user/retailer_outlet/Outlet.vue";
 import TransactionComponent from "../views/user/transaction/Transaction.vue";
 import ProductComponent from "../views/user/product/Product.vue";
 import OrderComponent from "../views/user/order/Orders.vue";
@@ -135,7 +135,7 @@ const routes = [{
             },
             {
                 name: "outletOverview",
-                path: "/outlet/:id",
+                path: "/retailer/outlet/:id",
                 component: OutletComponent,
                 ...preventRoutes
             },

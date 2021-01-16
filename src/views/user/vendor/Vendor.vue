@@ -49,7 +49,7 @@
                             </div>
                             <div class="card" v-if="!vendors.length && !loading">
                                 <div class="card-body text-center">
-                                    There are no vendor at the moment for this category
+                                    There are no vendors at the moment for this category
                                 </div>
                             </div>
                         </div>

@@ -94,21 +94,6 @@ export default {
                 "orders": JSON.parse(window.localStorage.getItem("order"))
             }
             console.log(payload);
-            // this.$store.dispatch(CREATE_RETAILER_ORDER, payload).then((data) => {
-            //     this.$swal(data.message);
-            //     window.localStorage.removeItem("order");
-            //     this.products = [];
-            // }).catch(err => {
-            //     this.$swal(err.response.data.message);
-            //     this.saving = false;
-            //     this.getBusinessProducts();
-            //     console.log(err)
-            //     if (err.response.status == 401) {
-            //         this.$swal("Session Expired");
-            //         // logout();
-            //         // this.$router.push({ name: 'welcome' });
-            //     }
-            // });
             fetch(BASE_URL + '/my/distributor/orders', {
                     method: 'POST',
                     body: JSON.stringify(payload),

@@ -11,21 +11,21 @@
 
             <div class="collapse navbar-collapse bg-white" style="z-index:10" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mt-3">
-                <li class="nav-item active">
+                <li :class="[this.$router.currentRoute.name == 'dashboard' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'dashboard'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-home"></i> Dashboard</router-link>
                 </li>
-                <li class="nav-item">
+                <li :class="[this.$router.currentRoute.name == 'productOverview' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'productOverview'}"  class="nav-link font-weight-bold" href="#"><i class="fa fa-cube"></i> Product</router-link>
                 </li>
-                <li class="nav-item ">
+                <li :class="[this.$router.currentRoute.name == 'categoryOrder' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'categoryOrder'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-calendar"></i> Order </router-link>
                 </li>
 
-                <li class="nav-item ">
+                <li>
                     <a class="nav-link font-weight-bold" href="#"><i class="fa fa-credit-card"></i>  Transaction</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link font-weight-bold" href="#"><i class="fa fa-building"></i> Outlet</a>
+                <li :class="[this.$router.currentRoute.name == 'outletOverview' ? 'nav-item active' : 'nav-item']">
+                    <router-link :to="{name:'outletOverview',params:{ id:outlet}}" class="nav-link font-weight-bold" href="#"><i class="fa fa-building"></i> Outlet</router-link>
                 </li>
 
                 </ul>
@@ -34,26 +34,81 @@
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
                 <div class="vl"></div>
+                <button class="mr-2" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-shopping-cart fs-25" style="color:#ffc107"></i></button>
                 <div class="">
                     <div class="icon-badge-container">
-                        <i class="far fa-bell icon-badge-icon" style="color:yellow"></i>
+                        <i class="far fa-bell icon-badge-icon" style="color:#ffc107"></i>
                         <div class="icon-badge">6</div>
                     </div>
                 </div>
                 <!-- <div class="mr-3 ml-3">
                     <img src="/images/baxi.png" class="rounded-circle border" alt="" width="45" height="45">
                 </div> -->
-                <div class="mr-3 ml-3 mb-3">
+                <div class="mr-4 ml-3 mb-3">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <img src="/images/baxi.png" class="rounded-circle border" alt="" width="45" height="45"></a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" style="">
                     <li><a title="" @click="logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
+                    <li></li>
                     </ul>
                 </li>
                 </div>
             </div>
         </nav>
+
+        <!-- Cart -->
+            <div class="modal left fade" id="exampleModal" tabindex="" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Cart</h5>
+                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row p-3" style="margin-top:-17px;background-color:#d8d4d4">
+                                <h5><i class="fa fa-shopping-cart"></i>  3 Items in cart</h5>   
+                            </div>
+                            <div class="row" style="margin-top:-15px">
+                                <div style="margin-top:-15px" class="col-md-12 d-flex justify-content-center" v-for="(product,index) in cart_order" :key="index">
+                                        <!-- <router-link :to="{name:'vendorProduct',params: { id: vendor.id }}"> -->
+                                        <div class="card p-2" style="width: 25rem;height:6.5rem;border-radius:0px">
+                                            <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
+                                            <div class="row g-0">
+                                            <div class="col-md-2 mt-2"><img :src="product.image" class="rounded-circle" alt="" width="70" height="70"/></div>
+                                            <div class="col-md-5 mt-4">
+                                                <p class="fs-15 font-weight-bold text-black"> {{product.name}}</p>
+                                                <p class="fs-10 font-weight-bold text-black" style="margin-top:-15px"> {{product.qty}} Products</p>
+                                            </div>
+                                            <div class="col-md-3 mt-4">&#8358; {{ product.amount }}</div>
+                                            <div class="col-md-2">
+                                                <div class="mt-4">
+                                                    <button @click="removeFromCart(cart_order,index)">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <!-- </router-link> -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="modal-footer"> -->
+                            <div class="row align-items-end p-3">
+                                <div class="col-sm-6">
+                                    Total : &#8358; {{total}}
+                                </div>
+                                <div class="col-sm-6 d-flex justify-content-end">
+                                    <button type="button" class="btn btn-warning pl-4 pr-4" style="border-radius:15px" data-dismiss="modal">Order</button>
+                                </div>
+                            </div>
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+
+        <!-- End Cart -->
     </div>
 </template>
 
@@ -68,7 +123,9 @@ import {logout,getOutlet} from '../../../config';
             return{
                 route:'',
                 outlet:'',
-                show:false
+                show:false,
+                cart_order:[],
+                total:''
             }
         },
        
@@ -76,10 +133,18 @@ import {logout,getOutlet} from '../../../config';
             logout() {
                 logout();
                 this.$router.push({ name: 'welcome' });
-            }
+            },
+            sumProduct() {
+            this.cart_order = JSON.parse(window.localStorage.getItem("retailer_order"))
+            let sum = this.cart_order.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
+            this.total = sum;
+        },
         },
          mounted(){
-            
+            if (JSON.parse(window.localStorage.getItem("retailer_order"))) {
+            this.cart_order = JSON.parse(window.localStorage.getItem("retailer_order"));
+            this.sumProduct()
+        }
             this.outlet = getOutlet();
             
         },

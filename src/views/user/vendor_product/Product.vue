@@ -16,7 +16,13 @@
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <button class="btn btn-warning" style="border-radius:20px"><i class="fa fa-calendar"></i> Order History</button>
+                        <div class="col-md-4">
+                            <button class="btn btn-warning" style="border-radius:20px"><i class="fa fa-calendar"></i> Order History</button>
+                        </div>
+
+                        <div class="col-md-7 d-flex justify-content-end">
+                            <button class="btn btn-warning" style="border-radius:20px" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-shopping-cart"></i> Cart</button>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12" v-if="vendor_products.length && !loading">
@@ -34,7 +40,7 @@
                                         <div class="col-md-3 mt-4">&#8358; {{ product.amount }}</div>
                                         <div class="col-md-2">
                                             <div class="mt-4">
-                                                <button @click="addToCart(product)" data-toggle="modal" data-target="#cart">
+                                                <button @click="addToCart(product,index)" data-toggle="modal" data-target="#cart">
                                                     <i class="fa fa-shopping-cart"></i>
                                                 </button>
                                             </div>
@@ -47,7 +53,7 @@
 
                         </div>
 
-
+                        <!-- Add Cart -->
                         <div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="product" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
@@ -60,17 +66,22 @@
                                         </div>
                                     </div>
                                     
-                                <div class="modal-body d-flex justify-content-center" style="margin-top:-30px">
+                                <div class="modal-body" style="margin-top:-30px">
                                      <div class="row card border-0">
                                         <div class="text-center"><img :src="product.image" width="100" height="100"/></div>
                                         <div class="fs-15 mt-2 text-center">{{product.name}}</div>
-                                        <div class="fs-15 mt-2 text-center">&#8358; {{ product.amount }}</div>
+                                        <div class="fs-15 mt-1 text-center">&#8358; {{ product.amount }}</div>
+                                        <div class="fs-15 mt-1 text-center">{{ product.qty }} Quantity</div>
+                                        <div class="fs-15 mt-3 mb-1 text-center">Select Quantity</div>
                                         <div class="row">
-                                            <div class="col-md-4 fs-20">QTY</div>
-                                            <div class="col-md-3 border">{{quantity_value}}</div>
-                                            <div class="col-md-2"><button class="btn btn-success" @click="increase()"><i class="fa fa-plus"></i></button></div>
-                                            <div class="col-md-2"><button class="btn btn-danger" @click="decrease()"><i class="fa fa-minus"></i></button></div>
+                                            <div class="col-md-2 fs-20"></div>
+                                            <div class="col-md-1 fs-20"></div>
+                                            <div class="col-md-2"><button class="btn btn-success" @click="increase(product.qty)"><i class="fa fa-plus"></i></button></div>
+                                            <div class="col-md-2"><input type="text" :value="quantity_value" style="width:50px" @change="changes()"></div>
+                                            
+                                            <div class="col-md-2"><button class="btn btn-danger" @click="decrease(product.qty)"><i class="fa fa-minus"></i></button></div>
                                         </div>
+                                        <div class="fs-15 mt-3 mb-1 text-center" style="color:red" v-if="error">Selected quantity is more than available quantity</div>
                                     </div>
                                     
 
@@ -78,12 +89,38 @@
                                     
                                 </div>
                                 <div class="row p-5 d-flex justify-content-center">
-                                    <button type="button" class="btn btn-warning mr-3" style="border-radius:20px"><i class="fa fa-shopping-cart"></i> ADD TO CART</button>
+                                    <button type="button" class="btn btn-warning mr-3" @click="submitToCart(quantity_value,product)" style="border-radius:20px"><i class="fa fa-shopping-cart"></i> ADD TO CART</button>
                                     <button type="button" class="btn btn-light" style="border-radius:20px;color:red" data-dismiss="modal">CANCEL</button>                                    
                                 </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- End of Add Cart -->
+
+                        <!-- Sidebar Cart -->
+                            <!-- <div class="modal left fade" id="exampleModal" tabindex="" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Cart</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="nav flex-sm-column flex-row">
+                                                <a class="nav-item nav-link active" href="#">Home</a>
+                                                <a href="#" class="nav-item nav-link">Link</a>
+                                                <a href="#" class="nav-item nav-link">Link</a>
+                                                <a href="#" class="nav-item nav-link">Link</a>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                        <!-- End Sidebar Cart -->
 
                         <div class="row col-md-12">
                             <div v-if="!vendor_products.length && loading" style="text-align:center;position: absolute;left: 50%;top: 50%;">                  
@@ -96,7 +133,7 @@
                             </div>
                             <div class="card" v-if="!vendor_products.length && !loading">
                                 <div class="card-body text-center">
-                                    There are no product available for this vendor at the moment
+                                    There are no products available for this vendor at the moment
                                 </div>
                             </div>
                         </div>
@@ -137,7 +174,7 @@
 
 
 <style scoped>
-
+    @import url('./Product.css');
 </style>
 
 <script src="./Product.js">

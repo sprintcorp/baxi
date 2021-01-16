@@ -7,21 +7,56 @@ export default {
             vendor_products:[],
             loading:false,
             product:'',
-            quantity_value:0
+            quantity_value:0,
+            error:false,
+            cart:[],
+            key:'',
         }
     },
     methods:{
-        addToCart(product){
+        pushToArray(arr, obj) {
+            const index = arr.findIndex((e) => e.product_id === obj.product_id);
+
+            if (index === -1) {
+                arr.push(obj);
+            } else {
+                arr[index] = obj;
+            }
+        },
+        submitToCart(value,product){
+            product.quantity = value
+            if (JSON.parse(window.localStorage.getItem("retailer_order"))) {
+                this.cart = JSON.parse(window.localStorage.getItem("retailer_order"))
+            }
+            // product.qty = value;
+            this.pushToArray(this.cart, product);
+            window.localStorage.setItem("retailer_order", JSON.stringify(this.cart));
+            this.quantity_value = 0;
+            console.log(this.cart)
+            
+
+        },
+        addToCart(product,index){
             this.product = product;
-            console.log(product)
+            this.key = index
+            console.log(this.key)
             // alert("hello")
         },
-        increase(){
-            this.quantity_value++
+        increase(qty){
+            if(qty >= this.quantity_value){
+                this.quantity_value++
+            }else{
+                this.error = true
+            }
         },
-        decrease(){
-            if(this.quantity_value > 0)
+        decrease(qty){
+            if(this.quantity_value > 0){
             this.quantity_value--
+            }
+            if(qty >= this.quantity_value){
+                this.error = false
+            }
+
         },
 
         getVendorProducts() {

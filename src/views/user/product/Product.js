@@ -38,9 +38,8 @@ export default {
     },
     computed: {
         filerProducts() {
-            return this.local_product.filter((product) => product.name.toLowerCase().includes(this.search.toLowerCase()) ||
-                product.sku.toLowerCase().includes(this.search.toLowerCase()) || (new Date(this.start_date).getTime() < new Date(product.created_at).getTime() &&
-                new Date(product.created_at).getTime() < new Date(this.end_date).getTime()))
+            return this.local_product.filter((product) => (new Date(this.start_date).getTime() < new Date(product.date).getTime() &&
+                new Date(product.date).getTime() < new Date(this.end_date).getTime()))
         }
     },
     methods: {
@@ -273,6 +272,8 @@ export default {
         this.getProducts();
         this.getCategories();
         this.outlet = getOutlet();
+        this.start_date = new Date("2015-08-21").getTime();
+        this.end_date = new Date().getTime();
         if (JSON.parse(window.localStorage.getItem("orders"))) {
             this.product_orders = JSON.parse(window.localStorage.getItem("orders"));
         }

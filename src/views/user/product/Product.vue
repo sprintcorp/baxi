@@ -38,22 +38,11 @@
                             <div class="row">
                             <div class="col-md-12">
                                 <div class="row border-2 mt-3">
-                                  <div class="col-md-2 font-weight-bold"> Product</div>
-                                  <div class="col-md-6">
-                                    <div class="row">
-                                      <div class="col-md-6">
-                                        <div class="input-group">
-                                          <span class="input-group-text" id="basic-addon3">From</span>
-                                          <input type="date" v-model="start_date" class="form-control" @change="showDate"/>
-                                        </div>
-                                      </div>
-                                      <div class="col-md-6">
-                                        <div class="input-group">
-                                          <span class="input-group-text" id="basic-addon3">To</span>
-                                          <input type="date" v-model="end_date" class="form-control" @change="showDate"/>
-                                        </div>
-                                      </div>
-                                    </div>
+                                  <div class="col-md-4 mt-2 font-weight-bold"> Product</div>
+                                  <div class="col-md-4">
+                                    <button data-toggle="modal" data-target="#search" class="btns shadow btn-light btn-sm sml-radius text-black p-2" style="border-radius:30px">
+                                      <i class="fa fa-search"></i> Filter by transaction: From last 30 days
+                                    </button>
                                   </div>
                                   <div class="col-md-4 d-flex justify-content-end">
                                     <button  class="btns shadow white-skin btn-sm sml-radius text-black  mr-2 p-2"  style="border-radius:25px;border:2px solid black">
@@ -87,7 +76,7 @@
                                         <td>{{ product.sku }}</td>
                                         <td></td>
                                         <td></td>
-                                        <td>{{  }}</td>
+                                        <td>{{product.date  }}</td>
                                         <td>{{  }}</td>
                                         <td>{{ product.amount }}</td>
                                         <!-- <td>
@@ -194,47 +183,29 @@
   </div>
 
 
-  <div class="modal fade" id="user" tabindex="-1" role="dialog" aria-labelledby="user" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal fade" id="search" tabindex="-1" role="dialog" aria-labelledby="user" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
-          <span class="login100-form-title p-b-33">Customer Information</span>
-          
-          <form class="login100-form validate-form">
-            <div class="form-row mb-4">
-              <div class="col">
-                <div class="input-group mb-2 mr-sm-2">
-                  <input v-model="cart.customer.name" type="text" class="form-control" placeholder="Customer name">
-                </div>
-              </div>
-            </div>
-            <div class="form-row mb-4">
-              <div class="col">
-                <div class="input-group mb-2 mr-sm-2">
-                  <input v-model="cart.customer.email" type="email" class="form-control" placeholder="Customer email">
-                </div>
-                
-              </div>
-            </div>
-            <div class="form-row mb-4">
-              <div class="col">
-                <div class="input-group mb-2 mr-sm-2">
-                  <input v-model="cart.customer.phone" type="number" class="form-control" placeholder="Customer phone">
-                </div>
-              </div>
-            </div>
-            <p class="lead">
-              <button type="button" @click="addUserToProduct()" data-dismiss="modal" class="btn btn-primary btn-lg float-right">Save
-                <!-- <i class="fa fa-save"></i> -->
-                <div class="spinner-grow text-light" role="status" v-if="saving">
-                  <span class="visually-hidden"></span>
-                </div>
-              </button>
-              <button @click.prevent="closeUserForm()" data-dismiss="modal" class="btn btn-warning btn-lg float-right mr-3 text-white">Close
-              </button>
-              
-            </p>
-          </form>
+          <span class="login100-form-title p-b-33">Search with date range</span>
+            <div class="row">
+                                      <div class="col-md-6">
+                                        <div class="input-group">
+                                          <span class="input-group-text" id="basic-addon3">From</span>
+                                          <input type="date" v-model="start_date" class="form-control" @change="showDate"/>
+                                        </div>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <div class="input-group">
+                                          <span class="input-group-text" id="basic-addon3">To</span>
+                                          <input type="date" v-model="end_date" class="form-control" @change="showDate"/>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                      <button data-dismiss="modal" class="btn btn-danger btn-block">CLOSE</button>
+                                    </div>
+         
         </div>
       </div>
     </div>
@@ -244,49 +215,7 @@
 
 
   <!--cart-->
-    <div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="product" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header text-center">
-        <span class="login100-form-title p-b-33">Cart Item</span>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i></button>
-      </div>
-      <div class="modal-body">
-        <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">name</th>
-      <th scope="col">qty</th>
-      <th scope="col">price</th>
-      <th scope="col">customer name</th>
-      <th scope="col">customer email</th>
-      <th scope="col">customer phone</th>
-      <th scope="col">remove</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr v-for="(product,index) in product_orders" :key="index">
-      <th scope="row">{{index+1}}</th>
-      <td>{{ product.name }}</td>
-      <td>{{ product.qty }}</td>
-      <td>{{ product.amount }}</td>
-      <td>{{ product.customer.name }}</td>
-      <td>{{ product.customer.email }}</td>
-      <td>{{ product.customer.phone }}</td>
-      <td><button type="button" @click="removeFromCart(product)" class="btn btn-secondary"><i class="fa fa-trash-o"></i></button></td>
-    </tr>
-    
-  </tbody>
-</table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" @click="clearCartItem()" data-dismiss="modal"><i class="fa fa-times-circle"></i></button>
-        <button type="button" class="btn btn-warning text-white" @click="saveOrder()">&nbsp; <i class="fa fa-save"></i></button>
-      </div>
-      </div>
-    </div>
-</div>
+
   <!--cart end-->
                     </div>
                 </div>
