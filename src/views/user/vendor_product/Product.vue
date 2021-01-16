@@ -20,9 +20,9 @@
                             <button class="btn btn-warning" style="border-radius:20px"><i class="fa fa-calendar"></i> Order History</button>
                         </div>
 
-                        <div class="col-md-7 d-flex justify-content-end">
+                        <!-- <div class="col-md-7 d-flex justify-content-end">
                             <button @click="getCart()" class="btn btn-warning" style="border-radius:20px" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-shopping-cart"></i> Cart</button>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="row">
                         <div class="col-md-12" v-if="vendor_products.length && !loading">

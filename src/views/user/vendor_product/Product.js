@@ -32,6 +32,7 @@ export default {
             this.pushToArray(this.cart, product);
             window.localStorage.setItem("retailer_order", JSON.stringify(this.cart));
             this.quantity_value = 0;
+            // this.getCart();
             console.log(this.cart)
             
 

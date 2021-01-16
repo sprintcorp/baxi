@@ -144,6 +144,12 @@ import {logout,getOutlet} from '../../../config';
                 this.cart_order = JSON.parse(window.localStorage.getItem("retailer_order"));
                 this.sumProduct()
             }
+        },
+        removeFromCart(cart_order,index){
+            const filteredItems = cart_order.slice(0, index).concat(cart_order.slice(index + 1, cart_order.length))
+            window.localStorage.setItem("retailer_order", JSON.stringify(filteredItems));
+            this.getCart();
+            console.log(filteredItems)
         }
         },
          mounted(){
