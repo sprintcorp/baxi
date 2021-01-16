@@ -63,11 +63,11 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Cart</h5>
-                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
+                            <button type="button" @click="getCart()" class="btn-close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
                         </div>
                         <div class="modal-body">
                             <div class="row p-3" style="margin-top:-17px;background-color:#d8d4d4">
-                                <h5><i class="fa fa-shopping-cart"></i>  3 Items in cart</h5>   
+                                <h5><i class="fa fa-shopping-cart"></i>  {{cart_order.length}} items in cart</h5>   
                             </div>
                             <div class="row" style="margin-top:-15px">
                                 <div style="margin-top:-15px" class="col-md-12 d-flex justify-content-center" v-for="(product,index) in cart_order" :key="index">
@@ -139,12 +139,15 @@ import {logout,getOutlet} from '../../../config';
             let sum = this.cart_order.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
             this.total = sum;
         },
+        getCart(){
+            if (JSON.parse(window.localStorage.getItem("retailer_order"))) {
+                this.cart_order = JSON.parse(window.localStorage.getItem("retailer_order"));
+                this.sumProduct()
+            }
+        }
         },
          mounted(){
-            if (JSON.parse(window.localStorage.getItem("retailer_order"))) {
-            this.cart_order = JSON.parse(window.localStorage.getItem("retailer_order"));
-            this.sumProduct()
-        }
+            this.getCart();
             this.outlet = getOutlet();
             
         },

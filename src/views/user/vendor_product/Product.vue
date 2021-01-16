@@ -21,7 +21,7 @@
                         </div>
 
                         <div class="col-md-7 d-flex justify-content-end">
-                            <button class="btn btn-warning" style="border-radius:20px" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-shopping-cart"></i> Cart</button>
+                            <button @click="getCart()" class="btn btn-warning" style="border-radius:20px" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-shopping-cart"></i> Cart</button>
                         </div>
                     </div>
                     <div class="row">
