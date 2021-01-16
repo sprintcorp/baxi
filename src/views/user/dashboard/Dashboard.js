@@ -8,7 +8,7 @@ export default {
         return {
             user: null,
             businesses: [],
-            name: '',
+            username: '',
             loading: false,
             type: 'category',
             search: '',
@@ -18,6 +18,13 @@ export default {
             products: [],
             results: [],
             cat:true,
+            cart_order:[],
+            show_cat:false,
+            total:0,
+            product:'',
+            quantity_value:0,
+            error:false,
+            cart:[]
         }
     },
     computed: {
@@ -26,13 +33,62 @@ export default {
         }
     },
     methods: {
+        addToCart(product,index){
+            this.product = product;
+            this.key = index
+            console.log(this.key)
+            // alert("hello")
+        },
+        increase(qty){
+            if(qty >= this.quantity_value){
+                this.quantity_value++
+            }else{
+                this.error = true
+            }
+        },
+        decrease(qty){
+            if(this.quantity_value > 0){
+            this.quantity_value--
+            }
+            if(qty >= this.quantity_value){
+                this.error = false
+            }
+
+        },
+        pushToArray(arr, obj) {
+            const index = arr.findIndex((e) => e.product_id === obj.product_id);
+
+            if (index === -1) {
+                arr.push(obj);
+            } else {
+                arr[index] = obj;
+            }
+        },
+        submitToCart(value,product){
+            product.quantity = value
+            product.price = value * product.amount
+            if (JSON.parse(window.localStorage.getItem("retailer_cashier_order"))) {
+                this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
+            }
+            // product.qty = value;
+            this.pushToArray(this.cart, product);
+            window.localStorage.setItem("retailer_cashier_order", JSON.stringify(this.cart));
+            this.quantity_value = 0;
+            // this.getProduct()
+            this.getCart();
+            console.log(this.cart)
+            
+
+        },
         getResponse() {
             this.results = [];
             if(this.type == 'product'){
-                this.getProducts()   
+                this.getProducts();
+                this.checkColumn();
             }
             if(this.type == 'category'){
-                this.getProductCategories()
+                this.getProductCategories();
+                this.checkColumn();
             }
         },
         goToProduct(){            
@@ -78,6 +134,7 @@ export default {
         getProductCategories() {
             this.loading = true
             this.cat = true
+            this.show_cat = false;
             fetch(BASE_URL + '/my/product_categories', {
                     headers: {
                         'Content-Type': 'application/json',
@@ -152,13 +209,47 @@ export default {
                 );
         },
 
+
+        sumProduct() {
+            if (JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length) {
+                this.cart_order = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
+                let sum = this.cart_order.map(o => parseFloat(o.price)).reduce((a, c) => { return a + c });
+                this.total = sum;
+            }
+        },
+        getCart(){
+            if (JSON.parse(window.localStorage.getItem("retailer_cashier_order"))) {
+                this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"));
+                this.sumProduct()
+                this.show_cat = true;
+            }
+        },
+        removeFromCart(cart_order,index){
+            const filteredItems = cart_order.slice(0, index).concat(cart_order.slice(index + 1, cart_order.length))
+            window.localStorage.setItem("retailer_cashier_order", JSON.stringify(filteredItems));
+            this.getCart();
+            this.sumProduct();
+            this.checkColumn();
+        },
+        checkColumn(){
+            if (JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length && !this.cat) {
+                this.show_cat = true;
+            }else{
+                this.show_cat = false;
+            }
+        }
+
     },
 
     mounted() {
+        if (JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length) {
+            this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"));
+            this.getCart();
+        }
+        this.checkColumn();
         this.getUserBusiness();
         this.getProductCategories();
-        this.name = getName();
-        console.log(this.$router.currentRoute.name);
+        this.username = getName();
         this.start_date = new Date("2015-08-21").getTime();
         this.end_date = new Date().getTime();
     }

@@ -34,7 +34,7 @@
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
                 <div class="vl"></div>
-                <button class="mr-2" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-shopping-cart fs-25" style="color:#ffc107"></i></button>
+                <button class="mr-2" data-toggle="modal" data-target="#cartModal"><i class="fa fa-shopping-cart fs-25" style="color:#ffc107"></i></button>
                 <div class="">
                     <div class="icon-badge-container">
                         <i class="far fa-bell icon-badge-icon" style="color:#ffc107"></i>
@@ -58,7 +58,7 @@
         </nav>
 
         <!-- Cart -->
-            <div class="modal left fade" id="exampleModal" tabindex="" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal left fade" id="cartModal" tabindex="" role="dialog" aria-labelledby="cartModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -78,7 +78,7 @@
                                             <div class="col-md-2 mt-2"><img :src="product.image" class="rounded-circle" alt="" width="70" height="70"/></div>
                                             <div class="col-md-5 mt-4">
                                                 <p class="fs-15 font-weight-bold text-black"> {{product.name}}</p>
-                                                <p class="fs-10 font-weight-bold text-black" style="margin-top:-15px"> {{product.qty}} Products</p>
+                                                <p class="fs-10 font-weight-bold text-black" style="margin-top:-15px"> {{product.quantity}} Products</p>
                                             </div>
                                             <div class="col-md-3 mt-4">&#8358; {{ product.amount }}</div>
                                             <div class="col-md-2">
@@ -135,10 +135,12 @@ import {logout,getOutlet} from '../../../config';
                 this.$router.push({ name: 'welcome' });
             },
             sumProduct() {
-            this.cart_order = JSON.parse(window.localStorage.getItem("retailer_order"))
-            let sum = this.cart_order.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
-            this.total = sum;
-        },
+                if (JSON.parse(window.localStorage.getItem("retailer_order")) && JSON.parse(window.localStorage.getItem("retailer_order")).length) {
+                    this.cart_order = JSON.parse(window.localStorage.getItem("retailer_order"))
+                    let sum = this.cart_order.map(o => parseFloat(o.price)).reduce((a, c) => { return a + c });
+                    this.total = sum;
+                }
+            },
         getCart(){
             if (JSON.parse(window.localStorage.getItem("retailer_order"))) {
                 this.cart_order = JSON.parse(window.localStorage.getItem("retailer_order"));
@@ -149,6 +151,7 @@ import {logout,getOutlet} from '../../../config';
             const filteredItems = cart_order.slice(0, index).concat(cart_order.slice(index + 1, cart_order.length))
             window.localStorage.setItem("retailer_order", JSON.stringify(filteredItems));
             this.getCart();
+            this.sumProduct();
             console.log(filteredItems)
         }
         },

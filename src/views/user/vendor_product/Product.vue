@@ -76,10 +76,12 @@
                                         <div class="row">
                                             <div class="col-md-2 fs-20"></div>
                                             <div class="col-md-1 fs-20"></div>
-                                            <div class="col-md-3"><button class="btn btn-success" @click="increase(product.qty)"><i class="fa fa-plus"></i></button></div>
+                                            <div class="col-md-3">
+                                                <button class="btn btn-danger" @click="decrease(product.qty)"><i class="fa fa-minus"></i></button>
+                                            </div>
                                             <div class="col-md-2"><input type="text" :value="quantity_value" style="width:50px" @change="changes()"></div>
                                             
-                                            <div class="col-md-2"><button class="btn btn-danger" @click="decrease(product.qty)"><i class="fa fa-minus"></i></button></div>
+                                            <div class="col-md-2"><button class="btn btn-success" @click="increase(product.qty)"><i class="fa fa-plus"></i></button></div>
                                         </div>
                                         <div class="fs-15 mt-3 mb-1 text-center" style="color:red" v-if="error">Selected quantity is more than available quantity</div>
                                     </div>
@@ -89,7 +91,7 @@
                                     
                                 </div>
                                 <div class="row p-5 d-flex justify-content-center">
-                                    <button type="button" class="btn btn-warning mr-3" @click="submitToCart(quantity_value,product)" style="border-radius:20px"><i class="fa fa-shopping-cart"></i> ADD TO CART</button>
+                                    <button type="button" class="btn btn-warning mr-3" v-if="quantity_value > 0 && !error" @click="submitToCart(quantity_value,product)" style="border-radius:20px"><i class="fa fa-shopping-cart"></i> ADD TO CART</button>
                                     <button type="button" class="btn btn-light" style="border-radius:20px;color:red" data-dismiss="modal">CANCEL</button>                                    
                                 </div>
                                 </div>

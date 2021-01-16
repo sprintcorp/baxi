@@ -25,6 +25,7 @@ export default {
         },
         submitToCart(value,product){
             product.quantity = value
+            product.price = value * product.amount
             if (JSON.parse(window.localStorage.getItem("retailer_order"))) {
                 this.cart = JSON.parse(window.localStorage.getItem("retailer_order"))
             }
