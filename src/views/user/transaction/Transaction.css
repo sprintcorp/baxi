@@ -1,0 +1,30 @@
+.container-fluid{
+    background-color: white;
+    min-height:80vh;
+    padding-left:5% !important;
+    padding-right:5% !important;
+}
+.page-item.active .page-link{
+    background-color:#FFCF00 !important;
+    border:1px solid #FFCF00 !important;
+    color:white!important;
+  }
+  .page-link{
+    color:black !important;
+  }
+  .top-section{
+    width: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 7px;
+  }
+  .store-info{
+    width: 100%;
+    background-color: #ececec8f;
+    margin-top: -5px;
+    height: 20vh;
+  }
+  .store-column{
+    border:1px solid white;
+    height:8vh;
+    border-radius:35px
+  }

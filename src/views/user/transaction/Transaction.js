@@ -12,7 +12,8 @@ export default {
             transaction_product: [],
             search: '',
             start_date: '',
-            end_date: ''
+            end_date: '',
+            transaction_tab:true,
         }
     },
     computed: {
@@ -24,6 +25,10 @@ export default {
     methods: {
         showDate() {
             console.log(this.start_date.toString());
+        },
+        changeTab() {
+            console.log(this.transaction_tab)
+            this.transaction_tab = !this.transaction_tab;
         },
         showProducts(transaction) {
             this.transaction_product = transaction;

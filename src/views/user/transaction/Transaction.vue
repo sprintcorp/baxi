@@ -1,43 +1,30 @@
 <template>
     <!-- <RetailerLayoutComponent> -->
         <div>
-            <div class="container" style="background-color: white;min-height:80vh">
+            <div class="container-fluid" style="">
                 <div class="heading-sec">
                     <div class="row">
                          
 
-                        <div class="heading-sec">
-                            <div class="row">
-                            <div class="col-md-4 column">
-                                <!-- <div class="heading-profile">
-                                  <h2> Products </h2>
-                                </div> -->
+                            <div class="row mt-5">
+                              <nav>
+                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                  <button @click="changeTab()" class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">
+                                    Transactions
+                                  </button>
+                                  <button @click="changeTab()" class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">
+                                    Transaction tracker
+                                  </button>
+                                  
+                                </div>
+                              </nav>
                             </div>
-                              <div class="col-md-8 column">
-                                  <div class="top-bar-chart">
-                                    <!-- <div class="quick-report">
-                                        <div class="quick-report-infos">
-                                          <button data-toggle="modal" type="button" @click="saveOrder()" class="btns shadow yellow-skin lrg-btn sml-radius">Save Order &nbsp; <i class="fa fa-save"></i>
-                                        </button>
-                                          <button data-toggle="modal" data-target="#user" @click="showUserForm()" type="button" class="btns shadow yellow-skin lrg-btn sml-radius">Add User to Order &nbsp; <i class="fa fa-user-plus"></i>
-                                        </button>
-                                        <button data-toggle="modal" data-target="#product" type="button" class="btns shadow yellow-skin lrg-btn sml-radius">Create Product &nbsp; <i class="fa fa-plus"></i>
-                                        </button>
-                                        <button data-toggle="modal" data-target="#cart" type="button" class="btns shadow yellow-skin lrg-btn sml-radius">View Cart &nbsp; <i class="fa fa-shopping-cart"></i>
-                                        </button>
-
-                                        
-                                        </div>
-                                  </div> -->
-                                  </div>
-                              </div>
-                            </div>
-                        </div>
+                        
 
                         <section class="panel-content">
-                            <div class="row">
-                            <div class="col-md-12">
-                                <div class="row border-2 mt-3">
+                          <div class="row">
+                            <div class="col-md-12" v-if="transaction_tab">
+                                <div class="row border-2 mt-1">
                                   <div class="col-md-4 mt-2 font-weight-bold"> Transaction</div>
                                   <div class="col-md-4">
                                     
@@ -124,6 +111,114 @@
                                 </div>
                                 <!-- </div> -->
                             </div>
+
+                            <div class="col-md-12" v-if="!transaction_tab">
+                              <div class="row  top-section">
+                                <div class="col-md-12 p-3">
+                                  Transaction tracker
+                                </div>
+                              </div>
+                              
+                              <div class="row store-info pt-5 pl-3 mb-2">
+                                <div class="col-md-2" style="">
+                                  <div class=" pt-3 pb-1 pl-3 bg-white store-column"> <i class="fa fa-user fs-20 mr-2"></i> Canon Store </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                  <div class=""> Contact number: </div>
+                                  <div class=""> 08145058301 </div>
+                                </div>
+                                
+                                <div class="col-md-2">
+                                  <div class=""> Contact address: </div>
+                                  <div class=""> House 14 Aduba Est </div>
+                                </div>
+                                
+                                <div class="col-md-2">
+                                  <div class=""> Order Number: </div>
+                                  <div class=""> WEII986JUT </div>
+                                </div>
+                                
+                                <div class="col-md-2">
+                                  <div class=""> Date Placed: </div>
+                                  <div class=""> 17-01-2021 </div>
+                                </div>
+                                
+                                <div class="col-md-2">
+                                  <div class=""> Payment mode: </div>
+                                  <div class=""> POS </div>
+                                </div>
+
+                              </div>
+
+                              <div class="row ml-3 p-5">
+                                <div class="col-md-4">
+                                  <h4>Order Details.</h4>
+                                  <table class="table caption-top">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Items</th>
+                                        <th scope="col">Price</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <th scope="row">1</th>
+                                        <td>Mark</td>
+                                        <td>200</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">2</th>
+                                        <td>Jacob</td>
+                                        <td>300</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">3</th>
+                                        <td>Larry</td>
+                                        <td>400</td>
+                                      </tr>                                     
+                                      <tr>
+                                        <th scope="row"></th>
+                                        <td>Delivery</td>
+                                        <td>900</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row"></th>
+                                        <td>Total</td>
+                                        <td class="font-weight-bold">1800</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-7 mt-5">
+                                  <div class="row mt-5">
+                                    Delivery Date
+                                  </div>
+                                  <div class="row fs-50">
+                                    Arrives Jan 10
+                                  </div>
+                                  <!-- <div class="row"> -->
+                                    <div class="progress">
+                                      <div class="progress-bar bg-warning w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                  <!-- </div> -->
+                                  <div class="row mt-5">
+                                    <div class="col-md-3">Order Placed</div>
+                                    <div class="col-md-3">Order Accepted</div>
+                                    <div class="col-md-3">Processing</div>
+                                    <div class="col-md-3">Delivered</div>
+                                  </div>
+                                  <div class="form-check mt-3">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                      Check if item order has been delivered
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                             </div>
                         </section>
 
@@ -174,12 +269,5 @@
 </script>
 
 <style scoped>
-.page-item.active .page-link{
-  background-color:#FFCF00 !important;
-  border:1px solid #FFCF00 !important;
-  color:white!important;
-}
-.page-link{
-  color:black !important;
-}
+  @import url('./Transaction.css');
 </style>
