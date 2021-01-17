@@ -141,7 +141,7 @@ const routes = [{
             },
             {
                 name: "transactionOverview",
-                path: "/transaction/overview/:id",
+                path: "/transaction/overview/",
                 component: TransactionComponent,
                 ...preventRoutes
             },

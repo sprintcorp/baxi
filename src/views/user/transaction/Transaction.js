@@ -5,6 +5,7 @@ export default {
     data() {
         return {
             transactions: [],
+            page:[],
             name: '',
             loading: false,
             outlet: '',
@@ -16,9 +17,7 @@ export default {
     },
     computed: {
         filerTransactions() {
-            // console.log(this.search)
-            return this.transactions.filter((transaction) => transaction.type.toLowerCase().includes(this.search.toLowerCase()) &&
-                transaction.orders[0].product.name.toLowerCase().includes(this.search.toLowerCase()) && (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
+            return this.transactions.filter((transaction) => (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
                     new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()))
         }
     },
@@ -29,9 +28,9 @@ export default {
         showProducts(transaction) {
             this.transaction_product = transaction;
         },
-        getOutletTransaction() {
+        getTransaction() {
             this.loading = true;
-            fetch(BASE_URL + '/my/outlets/' + this.$route.params.id + '/transactions', {
+            fetch(BASE_URL + '/my/retailer/transactions', {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
@@ -46,7 +45,44 @@ export default {
                         this.$router.push({ name: 'welcome' });
                     }
                     this.loading = false;
-                    this.transactions = res.data.transactions;
+                    this.transactions = res.data.data;
+                    this.page = res.data;
+                    console.log(this.transactions);
+                })
+                .catch(err => {
+                        console.log(err)
+                        this.loading = false;
+                        if (err.response.status == 401) {
+                            this.$swal("Session Expired");
+                            logout();
+                            this.$router.push({ name: 'welcome' });
+                        }
+                    }
+
+                );
+        },
+
+
+        getPageTransaction(page) {
+            this.transactions =[];
+            this.loading = true;
+            fetch(page, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.message === 'Unauthenticated.') {
+                        console.log(res);
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                    this.loading = false;
+                    this.transactions = res.data.data;
+                    this.page = res.data;
                     console.log(this.transactions);
                 })
                 .catch(err => {
@@ -64,7 +100,7 @@ export default {
     },
 
     mounted() {
-        this.getOutletTransaction();
+        this.getTransaction();
         this.name = getName();
         this.outlet = getOutlet();
         this.start_date = new Date("2015-08-21").getTime();

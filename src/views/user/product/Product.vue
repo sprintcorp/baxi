@@ -189,12 +189,12 @@
         <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
           <span class="login100-form-title p-b-33">Search with date range</span>
             <div class="row">
-                                      <div class="col-md-6">
-                                        <div class="input-group">
-                                          <span class="input-group-text" id="basic-addon3">From</span>
-                                          <input type="date" v-model="start_date" class="form-control" @change="showDate"/>
-                                        </div>
-                                      </div>
+              <div class="col-md-6">
+                <div class="input-group">
+                  <span class="input-group-text" id="basic-addon3">From</span>
+                    <input type="date" v-model="start_date" class="form-control" @change="showDate"/>
+                </div>
+              </div>
                                       <div class="col-md-6">
                                         <div class="input-group">
                                           <span class="input-group-text" id="basic-addon3">To</span>

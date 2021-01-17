@@ -21,8 +21,8 @@
                     <router-link :to="{name:'categoryOrder'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-calendar"></i> Order </router-link>
                 </li>
 
-                <li>
-                    <a class="nav-link font-weight-bold" href="#"><i class="fa fa-credit-card"></i>  Transaction</a>
+                <li :class="[this.$router.currentRoute.name == 'transactionOverview' ? 'nav-item active' : 'nav-item']">
+                    <router-link :to="{name:'transactionOverview'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-credit-card"></i>  Transaction</router-link>
                 </li>
                 <li :class="[this.$router.currentRoute.name == 'outletOverview' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'outletOverview',params:{ id:outlet}}" class="nav-link font-weight-bold" href="#"><i class="fa fa-building"></i> Outlet</router-link>

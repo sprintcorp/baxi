@@ -92,7 +92,7 @@
                                 </div>
                                 <div class="row p-5 d-flex justify-content-center">
                                     <button type="button" class="btn btn-warning mr-3" v-if="quantity_value > 0 && !error" @click="submitToCart(quantity_value,product)" style="border-radius:20px"><i class="fa fa-shopping-cart"></i> ADD TO CART</button>
-                                    <button type="button" class="btn btn-light" style="border-radius:20px;color:red" data-dismiss="modal">CANCEL</button>                                    
+                                    <button type="button" class="btn btn-light" style="border-radius:20px;color:red" data-dismiss="modal">CLOSE</button>                                    
                                 </div>
                                 </div>
                             </div>
