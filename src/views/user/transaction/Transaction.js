@@ -14,6 +14,11 @@ export default {
             start_date: '',
             end_date: '',
             transaction_tab:true,
+            total:0,
+            delivery:0,
+            status:'w-0',
+            progress:'progress-bar',
+            color:'bg-warning'
         }
     },
     computed: {
@@ -28,10 +33,28 @@ export default {
         },
         changeTab() {
             console.log(this.transaction_tab)
-            this.transaction_tab = !this.transaction_tab;
+            this.transaction_tab = true;
         },
-        showProducts(transaction) {
+        showTransaction(transaction) {
+            this.transaction_tab = false;
             this.transaction_product = transaction;
+
+            let sum = this.transaction_product.orders.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
+            this.delivery = this.transaction_product.orders.map(o => parseFloat(o.delivery)).reduce((a, c) => { return a + c });
+            this.total = sum + this.delivery;
+            if(this.transaction_product.orders[0].status == 0){
+                this.status = 'w-25'
+            }
+            if(this.transaction_product.orders[0].status == 1){
+                this.status = 'w-50'
+            }
+            if(this.transaction_product.orders[0].status == 2){
+                this.status = 'w-75'
+            }
+            if(this.transaction_product.orders[0].status == 3){
+                this.status = 'w-100'
+            }
+            console.log(transaction);
         },
         getTransaction() {
             this.loading = true;

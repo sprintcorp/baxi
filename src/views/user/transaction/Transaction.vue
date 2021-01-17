@@ -6,7 +6,7 @@
                     <div class="row">
                          
 
-                            <div class="row mt-5">
+                            <!-- <div class="row mt-5">
                               <nav>
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                   <button @click="changeTab()" class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">
@@ -18,7 +18,7 @@
                                   
                                 </div>
                               </nav>
-                            </div>
+                            </div> -->
                         
 
                         <section class="panel-content">
@@ -48,7 +48,7 @@
                                         <th>Date Ordered</th>
                                         <th>Date Delivered</th>
                                         <th>Amount</th>
-                                        <!-- <th>Numbers</th> -->
+                                        <th>View</th>
                                       </tr>
                                       </thead>
                                       <tbody>
@@ -62,9 +62,9 @@
                                         <td>{{transaction.created_at  }}</td>
                                         <td></td>
                                         <td></td>
-                                        <!-- <td>
-                                          <button data-toggle="modal" data-target="#order" type="button" @click="showProducts(product)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
-                                        </td> -->
+                                        <td>
+                                          <button data-toggle="modal" data-target="#order" type="button" @click="showTransaction(transaction)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
+                                        </td>
                                       </tr>
                                       </tbody>
                                     
@@ -113,6 +113,15 @@
                             </div>
 
                             <div class="col-md-12" v-if="!transaction_tab">
+                              <div class="row mt- mb-3">
+                              <nav>
+                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                  <button @click="changeTab()" class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">
+                                   <i class="fa fa-arrow-left fs-20"></i>
+                                  </button>                                  
+                                </div>
+                              </nav>
+                            </div>
                               <div class="row  top-section">
                                 <div class="col-md-12 p-3">
                                   Transaction tracker
@@ -136,17 +145,17 @@
                                 
                                 <div class="col-md-2">
                                   <div class=""> Order Number: </div>
-                                  <div class=""> WEII986JUT </div>
+                                  <div class=""> {{transaction_product.order_group_id}} </div>
                                 </div>
                                 
                                 <div class="col-md-2">
                                   <div class=""> Date Placed: </div>
-                                  <div class=""> 17-01-2021 </div>
+                                  <div class=""> {{transaction_product.orders[0].transaction_date}} </div>
                                 </div>
                                 
                                 <div class="col-md-2">
                                   <div class=""> Payment mode: </div>
-                                  <div class=""> POS </div>
+                                  <div class=""> {{transaction_product.type}} </div>
                                 </div>
 
                               </div>
@@ -160,33 +169,34 @@
                                         <th scope="col">#</th>
                                         <th scope="col">Items</th>
                                         <th scope="col">Price</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Total</th>
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>200</td>
+                                      <tr v-for="(product,index) in transaction_product.orders" :key="index">
+                                        <th scope="row">{{index+1}}</th>
+                                        <td>{{product.product.name}}</td>
+                                        <td>{{product.amount/product.qty}}</td>
+                                        <td>{{product.qty}}</td>
+                                        <td>{{product.amount}}</td>
                                       </tr>
+                                                                   
                                       <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>300</td>
-                                      </tr>
-                                      <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>400</td>
-                                      </tr>                                     
-                                      <tr>
-                                        <th scope="row"></th>
                                         <td>Delivery</td>
-                                        <td>900</td>
+                                        <th scope="row"></th>
+                                        <th scope="row"></th>
+                                        <th scope="row"></th>
+                                        
+                                        <td>{{delivery}}</td>
                                       </tr>
                                       <tr>
-                                        <th scope="row"></th>
                                         <td>Total</td>
-                                        <td class="font-weight-bold">1800</td>
+                                        <th scope="row"></th>
+                                        <th scope="row"></th>
+                                        <th scope="row"></th>
+                                        
+                                        <td class="font-weight-bold">{{total}}</td>
                                       </tr>
                                     </tbody>
                                   </table>
@@ -201,10 +211,10 @@
                                   </div>
                                   <!-- <div class="row"> -->
                                     <div class="progress">
-                                      <div class="progress-bar bg-warning w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                      <div :class="[progress, color, status]" role="progressbar" aria-valuenow="status" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                   <!-- </div> -->
-                                  <div class="row mt-5">
+                                  <div class="row mt-5 ml-5">
                                     <div class="col-md-3">Order Placed</div>
                                     <div class="col-md-3">Order Accepted</div>
                                     <div class="col-md-3">Processing</div>

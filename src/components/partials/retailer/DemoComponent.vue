@@ -128,6 +128,12 @@ import {logout,getOutlet} from '../../../config';
                 total:''
             }
         },
+         computed:{
+            getCartItem(){
+                // return "hello"
+               return JSON.parse(window.localStorage.getItem("retailer_order"));
+            }
+        },
        
         methods: {
             logout() {
@@ -150,8 +156,9 @@ import {logout,getOutlet} from '../../../config';
         removeFromCart(cart_order,index){
             const filteredItems = cart_order.slice(0, index).concat(cart_order.slice(index + 1, cart_order.length))
             window.localStorage.setItem("retailer_order", JSON.stringify(filteredItems));
-            this.getCart();
+            
             this.sumProduct();
+            this.getCart();
             console.log(filteredItems)
         }
         },
