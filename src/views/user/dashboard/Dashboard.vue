@@ -53,7 +53,7 @@
                             <div class="row" v-if="!cat">
                                 <div class="col-md-3 d-flex justify-content-center" v-for="(product,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
-                                    <div class="card p-2" style="width: 18rem;height:18rem">
+                                    <div class="card p-2" style="width: 16rem;height:18rem">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                         <div class="text-center mt-1"><img :src="product.public_image_url" class="rounded-circle" alt="" width="70" height="70"/></div>
                                         <div class="card-body text-center">
