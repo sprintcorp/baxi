@@ -1,6 +1,6 @@
 // import { mapGetters } from "vuex";
 // import { GET_BUSINESS } from "../../../store/action";
-import { getName, getToken, logout } from '../../../config'
+import { getName, getToken, logout,getPermissions } from '../../../config'
 import { BASE_URL } from '../../../env'
 export default {
     name: "DashboardComponent",
@@ -24,7 +24,8 @@ export default {
             product:'',
             quantity_value:0,
             error:false,
-            cart:[]
+            cart:[],
+            permission:false
         }
     },
     computed: {
@@ -237,6 +238,15 @@ export default {
             }else{
                 this.show_cat = false;
             }
+        },
+        checkPermission(){
+            const found = getPermissions().some(permission => permission.action == 'sell products');
+            if (found){
+                this.permission = true
+              }
+        },
+        warning(){
+            this.$swal("You are not permitted to execute this action");
         }
 
     },
@@ -246,6 +256,7 @@ export default {
             this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"));
             this.getCart();
         }
+        this.checkPermission();
         this.checkColumn();
         this.getUserBusiness();
         this.getProductCategories();

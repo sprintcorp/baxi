@@ -61,7 +61,8 @@
                                            <p class="fs-13"> {{product.qty}} Quantity</p>
                                            <p class="fs-13"> &#8358; {{ product.amount }}</p>
                                         </div>
-                                        <button class="btn btn-warning btn-block" @click="addToCart(product,index)" data-toggle="modal" data-target="#cart">Sell</button>
+                                        <button v-if="permission" class="btn btn-warning btn-block" @click="addToCart(product,index)" data-toggle="modal" data-target="#cart">Sell</button>
+                                        <button v-if="!permission" class="btn btn-warning btn-block" @click="warning()">Sell</button>
                                     </div>
                                     <!-- </router-link> -->
                                 </div>

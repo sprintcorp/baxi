@@ -1,5 +1,5 @@
 import { LOGIN_USER } from "../../../store/action";
-import { getToken, getRole } from '../../../config';
+import { getToken, getRole,savePermission } from '../../../config';
 
 export default {
     name: "WelcomeComponent",
@@ -10,6 +10,7 @@ export default {
             loginStatus: null,
             message: null,
             login: false,
+            permission:[],
             credentials: {
                 username: null,
                 password: null,
@@ -39,6 +40,16 @@ export default {
                 };
                 this.$store.dispatch(LOGIN_USER, payload).then(
                     (data) => {
+                        const permissions = data.data.user.roles[0].permissions;
+                        console.log(permissions)
+                        permissions.forEach((data) => {
+                            this.permission.push({
+                                action: data.name,
+                                
+    
+                            });
+                        });
+                        savePermission(this.permission);
                         this.message = data.message;
                         this.login = false;
                         this.loading = false;

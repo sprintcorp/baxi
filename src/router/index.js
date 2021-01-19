@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import { getToken } from "../config";
+import { getToken,getPermissions } from "../config";
 
 //Public page
 import WelcomeComponent from "../views/public/welcome/WelcomeComponent.vue";
@@ -131,7 +131,8 @@ const routes = [{
                 name: "vendorProduct",
                 path: "/vendor/product/:id",
                 component: VendorProductComponent,
-                ...preventRoutes
+                ...preventRoutes,
+                meta: { authorize: 'order products' } 
             },
             {
                 name: "outletOverview",
@@ -149,7 +150,8 @@ const routes = [{
                 name: "productOverview",
                 path: "/retailer/products/",
                 component: ProductComponent,
-                ...preventRoutes
+                ...preventRoutes,
+                meta: { authorize: 'view products' } 
             },
             {
                 name: "outletOrder",
@@ -183,5 +185,27 @@ const router = new VueRouter({
     mode: "history",
     routes,
 });
+router.beforeEach((to, from, next) => {
+    // redirect to login page if not logged in and trying to access a restricted page
+    const authorize  = to.meta;
+    const userPermission = getPermissions();
+
+  console.log(userPermission);
+
+        // check if route is restricted by role
+        if (authorize.authorize) {
+            const found = userPermission.some(permission => permission.action === authorize.authorize);
+            if (found){
+                next();
+              }else{
+                next(router.back())
+              }
+            console.log(authorize.authorize)
+            // next();
+        }
+    
+
+    next();
+})
 
 export default router;

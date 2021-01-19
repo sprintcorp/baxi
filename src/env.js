@@ -5,3 +5,4 @@ export const NAME = 'name';
 export const ID = 'id';
 export const OUTLET = 'retailer_business';
 export const ROLE = 'role';
+export const PERMISSION = 'permission';

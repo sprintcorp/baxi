@@ -1,4 +1,4 @@
-import { BASE_URL, AUTH_TOKEN, NAME, ID, OUTLET, ROLE } from "./env";
+import { BASE_URL, AUTH_TOKEN, NAME, ID, OUTLET, ROLE,PERMISSION } from "./env";
 
 export const saveToken = (token) => {
     window.localStorage.setItem(AUTH_TOKEN, token);
@@ -9,10 +9,13 @@ export const saveUser = (user) => {
     window.localStorage.setItem(NAME, user.businesses[0].name);
     window.localStorage.setItem(ID, user.id);
     window.localStorage.setItem(ROLE, user.roles[0].name);
+    // window.localStorage.setItem(PERMISSION, JSON.stringify(user.roles[0].permissions));
     console.log(user.roles[0].name)
 };
 
-
+export const savePermission = (data) =>{
+    window.localStorage.setItem(PERMISSION, JSON.stringify(data));
+}
 
 export const saveUserData = (data) => {
     console.log(data.data);
@@ -46,6 +49,10 @@ export const getToken = () => {
     return window.localStorage.getItem(AUTH_TOKEN);
 };
 
+export const getPermissions = () => {
+    return JSON.parse(window.localStorage.getItem(PERMISSION));
+};
+
 export const getName = () => {
     // if (hasToken(getToken())) {
     return window.localStorage.getItem(NAME);
@@ -65,9 +72,14 @@ export const removeToken = () => {
     return window.localStorage.removeItem(AUTH_TOKEN);
 };
 
+
 export const removeUser = () => {
     window.localStorage.removeItem(NAME);
     window.localStorage.removeItem(ID);
+    window.localStorage.removeItem("retailer_business");
+    // window.localStorage.removeItem("retailer_reta");
+    window.localStorage.removeItem(ROLE);
+    window.localStorage.removeItem(PERMISSION);
 };
 
 export const logout = () => {
