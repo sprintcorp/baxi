@@ -1,6 +1,6 @@
 // import { mapGetters } from "vuex";
 // import { GET_BUSINESS } from "../../../store/action";
-import { getName, getToken, logout,getPermissions } from '../../../config'
+import { getName, getToken, logout,getPermissions,checkUserPermission } from '../../../config'
 import { BASE_URL } from '../../../env'
 export default {
     name: "DashboardComponent",
@@ -25,7 +25,8 @@ export default {
             quantity_value:0,
             error:false,
             cart:[],
-            permission:false
+            permission:false,
+            business_id:'',
         }
     },
     computed: {
@@ -83,7 +84,7 @@ export default {
         },
         getResponse() {
             this.results = [];
-            if(this.type == 'product'){
+            if(this.type == 'product'){                
                 this.getProducts();
                 this.checkColumn();
             }
@@ -158,7 +159,7 @@ export default {
         getProducts() {
             this.loading = true;
             this.cat = false
-            fetch(BASE_URL + '/my/business/' + window.localStorage.getItem("retailer_business") +
+            fetch(BASE_URL + '/my/business/' + this.business_id +
                     '/products', {
                         headers: {
                             'Content-Type': 'application/json',
@@ -247,6 +248,13 @@ export default {
         },
         warning(){
             this.$swal("You are not permitted to execute this action");
+        },
+        userPermission(){
+            if(checkUserPermission('order products') == false){
+                this.business_id = 4
+            }else{
+                this.business_id = window.localStorage.getItem("retailer_business");
+            }
         }
 
     },
@@ -256,6 +264,7 @@ export default {
             this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"));
             this.getCart();
         }
+        this.userPermission();
         this.checkPermission();
         this.checkColumn();
         this.getUserBusiness();
@@ -263,5 +272,6 @@ export default {
         this.username = getName();
         this.start_date = new Date("2015-08-21").getTime();
         this.end_date = new Date().getTime();
+        
     }
 }

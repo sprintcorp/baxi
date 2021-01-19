@@ -1,5 +1,5 @@
 import { LOGIN_USER } from "../../../store/action";
-import { getToken, getRole,savePermission } from '../../../config';
+import { getToken,savePermission } from '../../../config';
 
 export default {
     name: "WelcomeComponent",
@@ -27,12 +27,12 @@ export default {
             this.loading = true;
             if (getToken()) {
                 this.loading = false;
-                if (getRole() == "Retailer") {
+                // if (getRole() == "Retailer") {
                     this.$router.push({ name: 'dashboard' });
-                }
-                if (getRole() == "Distributor") {
-                    this.$router.push({ name: 'distributorDashboard' });
-                }
+                // }
+                // if (getRole() == "Distributor") {
+                //     this.$router.push({ name: 'distributorDashboard' });
+                // }
             } else {
                 const payload = {
                     'user_id': this.credentials.username,
@@ -53,12 +53,12 @@ export default {
                         this.message = data.message;
                         this.login = false;
                         this.loading = false;
-                        if (data.data.user.roles[0].name == "Retailer") {
+                        // if (data.data.user.roles[0].name == "Retailer") {
                             this.$router.push({ name: 'dashboard' });
-                        }
-                        if (data.data.user.roles[0].name == "Distributor") {
-                            this.$router.push({ name: 'distributorDashboard' });
-                        }
+                        // }
+                        // if (data.data.user.roles[0].name == "Distributor") {
+                        //     this.$router.push({ name: 'distributorDashboard' });
+                        // }
                     }
                 ).catch((error) => {
                     this.loading = false

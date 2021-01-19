@@ -79,12 +79,12 @@
                                 Loading...
                                                     
                             </div>
-                            <div class="card" v-if="!filerResult.length && !loading">
+                            <div class="card" v-if="!filerResult.length && !loading && search.length > 0">
                                 <div class="card-body text-center">
                                     There are no response with your search words at the moment
                                 </div>
                             </div>
-                            <div class="card" v-if="!results.length && !loading">
+                            <div class="card" v-if="!results.length && !loading && search.length < 1">
                                 <div class="card-body text-center">
                                     There are no products at the moment
                                 </div>

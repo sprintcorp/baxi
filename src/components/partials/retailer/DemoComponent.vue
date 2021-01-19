@@ -17,24 +17,24 @@
                 <li :class="[this.$router.currentRoute.name == 'productOverview' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'productOverview'}"  class="nav-link font-weight-bold" href="#"><i class="fa fa-cube"></i> Product</router-link>
                 </li>
-                <li :class="[this.$router.currentRoute.name == 'categoryOrder' ? 'nav-item active' : 'nav-item']">
+                <li v-if="order_products" :class="[this.$router.currentRoute.name == 'categoryOrder' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'categoryOrder'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-calendar"></i> Order </router-link>
                 </li>
 
                 <li :class="[this.$router.currentRoute.name == 'transactionOverview' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'transactionOverview'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-credit-card"></i>  Transaction</router-link>
                 </li>
-                <li :class="[this.$router.currentRoute.name == 'outletOverview' ? 'nav-item active' : 'nav-item']">
+                <li v-if="order_products" :class="[this.$router.currentRoute.name == 'outletOverview' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'outletOverview',params:{ id:outlet}}" class="nav-link font-weight-bold" href="#"><i class="fa fa-building"></i> Outlet</router-link>
                 </li>
 
                 </ul>
-                <form class="form-inline search-form my-2 my-lg-0" v-if="(this.$router.currentRoute.name != 'categoryOrder')">
+                <form  class="form-inline search-form my-2 my-lg-0" v-if="(this.$router.currentRoute.name != 'categoryOrder')">
                     <input type="text" v-model="search" placeholder="Search Products" style="background-color:white;width:255%;border-radius:20px"/>
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
                 <div class="vl"></div>
-                <button class="mr-2" data-toggle="modal" data-target="#cartModal"><i class="fa fa-shopping-cart fs-25" style="color:#ffc107"></i></button>
+                <button class="mr-2" v-if="order_products" data-toggle="modal" data-target="#cartModal"><i class="fa fa-shopping-cart fs-25" style="color:#ffc107"></i></button>
                 <div class="">
                     <div class="icon-badge-container">
                         <i class="far fa-bell icon-badge-icon" style="color:#ffc107"></i>
@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import {logout,getOutlet} from '../../../config';
+import {logout,getOutlet,checkUserPermission} from '../../../config';
     // import MainMenuComponent from "./MainMenuComponent";
     
     export default {
@@ -125,7 +125,8 @@ import {logout,getOutlet} from '../../../config';
                 outlet:'',
                 show:false,
                 cart_order:[],
-                total:''
+                total:'',
+                order_products:''
             }
         },
          computed:{
@@ -147,22 +148,23 @@ import {logout,getOutlet} from '../../../config';
                     this.total = sum;
                 }
             },
-        getCart(){
-            if (JSON.parse(window.localStorage.getItem("retailer_order"))) {
-                this.cart_order = JSON.parse(window.localStorage.getItem("retailer_order"));
-                this.sumProduct()
+            getCart(){
+                if (JSON.parse(window.localStorage.getItem("retailer_order"))) {
+                    this.cart_order = JSON.parse(window.localStorage.getItem("retailer_order"));
+                    this.sumProduct()
+                }
+            },
+            removeFromCart(cart_order,index){
+                const filteredItems = cart_order.slice(0, index).concat(cart_order.slice(index + 1, cart_order.length))
+                window.localStorage.setItem("retailer_order", JSON.stringify(filteredItems));
+                
+                this.sumProduct();
+                this.getCart();
+                console.log(filteredItems)
             }
         },
-        removeFromCart(cart_order,index){
-            const filteredItems = cart_order.slice(0, index).concat(cart_order.slice(index + 1, cart_order.length))
-            window.localStorage.setItem("retailer_order", JSON.stringify(filteredItems));
-            
-            this.sumProduct();
-            this.getCart();
-            console.log(filteredItems)
-        }
-        },
          mounted(){
+             this.order_products = checkUserPermission('order products')
             this.getCart();
             this.outlet = getOutlet();
             

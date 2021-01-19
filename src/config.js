@@ -5,8 +5,11 @@ export const saveToken = (token) => {
 };
 
 export const saveUser = (user) => {
-
-    window.localStorage.setItem(NAME, user.businesses[0].name);
+    if(user.roles[0].name == 'Retailer'){
+        window.localStorage.setItem(NAME, user.businesses[0].name);
+    }else{
+        window.localStorage.setItem(NAME, user.buid); 
+    }
     window.localStorage.setItem(ID, user.id);
     window.localStorage.setItem(ROLE, user.roles[0].name);
     // window.localStorage.setItem(PERMISSION, JSON.stringify(user.roles[0].permissions));
@@ -52,6 +55,15 @@ export const getToken = () => {
 export const getPermissions = () => {
     return JSON.parse(window.localStorage.getItem(PERMISSION));
 };
+
+export const checkUserPermission = (data)=>{
+    const found = getPermissions().some(permission => permission.action == data);
+        if (found){
+            return true
+        }else{
+            return false
+        }
+}
 
 export const getName = () => {
     // if (hasToken(getToken())) {

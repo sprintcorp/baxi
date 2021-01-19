@@ -1,4 +1,4 @@
-import { getName, logout, getToken, getOutlet } from '../../../config'
+import { getName, logout, getToken, getOutlet,checkUserPermission } from '../../../config'
 import { BASE_URL } from '../../../env'
 // import { CREATE_ORDER, CREATE_PRODUCT } from "../../../store/action";
 export default {
@@ -33,7 +33,8 @@ export default {
                 },
             },
             retailer_orders: [],
-            product_orders: []
+            product_orders: [],
+            create_product:'',
         }
     },
     computed: {
@@ -268,6 +269,7 @@ export default {
     },
 
     mounted() {
+        this.create_product = checkUserPermission('create products')
         this.name = getName();
         this.getProducts();
         this.getCategories();
