@@ -87,7 +87,7 @@ export default {
                             quantity: data.product.qty,
                             size: data.product.size,
                             image: data.product.public_image_url,
-                            qty: data.qty,
+                            qty: data.product.qty_in_pack,
                             sku: data.product.sku,
                             date:data.created_at
                             // customer: {

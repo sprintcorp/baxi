@@ -7,6 +7,7 @@ export const saveToken = (token) => {
 export const saveUser = (user) => {
     if(user.roles[0].name == 'Retailer'){
         window.localStorage.setItem(NAME, user.buid);
+        window.localStorage.setItem("retailer_business", user.business_id);
     }else{
         window.localStorage.setItem(NAME, user.buid); 
         window.localStorage.setItem(CASHIER_OUTLET,user.outlet_id)

@@ -188,6 +188,8 @@ import {logout,getOutlet,checkUserPermission} from '../../../config';
         margin-right: 20px;
         height: 30px;
         list-style: none;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 20px;
     }
     .icon-badge-group .icon-badge-container {
   display: inline-block;

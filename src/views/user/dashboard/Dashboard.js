@@ -96,40 +96,6 @@ export default {
         goToProduct(){            
             this.$router.push({ name: 'productOverview' });
         },
-        getUserBusiness() {
-            this.loading = true;
-            fetch(BASE_URL + '/my/businesses', {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': getToken()
-                    }
-                })
-                .then(res => res.json())
-                .then(res => {
-                    if (res.message === 'Unauthenticated.') {
-                        console.log(res);
-                        logout();
-                        this.$router.push({ name: 'welcome' });
-                    }
-                    this.loading = false;
-                    this.businesses = res.data.my_own_businesses;
-                    window.localStorage.setItem("retailer_business", this.businesses[0].id);
-
-                })
-                .catch((err) => {
-                        console.log("error log " +
-                            err)
-                        this.loading = false;
-                        if (err.response.status == 401) {
-                            this.$swal("Session Expired");
-                            logout();
-                            this.$router.push({ name: 'welcome' });
-                        }
-                    }
-
-                );
-        },
         showProducts(transaction) {
             this.transaction_product = transaction;
         },
@@ -267,7 +233,6 @@ export default {
         this.userPermission();
         this.checkPermission();
         this.checkColumn();
-        this.getUserBusiness();
         this.getProductCategories();
         this.username = getName();
         this.start_date = new Date("2015-08-21").getTime();

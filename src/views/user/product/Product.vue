@@ -61,9 +61,9 @@
                                         <th>Products</th>
                                         <th>Products ID</th>
                                         <th>Category</th>
-                                        <th>Status</th>
-                                        <th>Date Ordered</th>
-                                        <th>Date Delivered</th>
+                                        <th>Size</th>
+                                        <th>Quantity</th>
+                                        <th>Date Ordered</th>                                        
                                         <th>Amount</th>
                                         <!-- <th>Numbers</th> -->
                                       </tr>
@@ -75,9 +75,9 @@
                                         <td>{{ product.name }}</td>
                                         <td>{{ product.sku }}</td>
                                         <td></td>
-                                        <td></td>
+                                        <td>{{product.size}}</td>
+                                        <td>{{ product.qty}}</td>
                                         <td>{{product.date  }}</td>
-                                        <td>{{  }}</td>
                                         <td>{{ product.amount }}</td>
                                         <!-- <td>
                                           <button data-toggle="modal" data-target="#order" type="button" @click="showProducts(product)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>

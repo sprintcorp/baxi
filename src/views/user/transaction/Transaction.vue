@@ -43,10 +43,10 @@
                                         <th>S/N</th>
                                         <th>Transfer ref</th>
                                         <th>Type</th>
-                                        <th>Category</th>
-                                        <th>Status</th>
-                                        <th>Date Ordered</th>
-                                        <th>Date Delivered</th>
+                                        <!-- <th>Category</th>
+                                        <th>Status</th> -->
+                                        <th>Date</th>
+                                        <th>No of Items</th>
                                         <th>Amount</th>
                                         <th>View</th>
                                       </tr>
@@ -57,11 +57,11 @@
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ transaction.order_group_id }}</td>
                                         <td>{{ transaction.type }}</td>
-                                        <td></td>
-                                        <td></td>
+                                        <!-- <td></td>
+                                        <td></td> -->
                                         <td>{{transaction.created_at  }}</td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{transaction.orders.length}}</td>
+                                        <td>{{transaction.amount}}</td>
                                         <td>
                                           <button data-toggle="modal" data-target="#order" type="button" @click="showTransaction(transaction)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
                                         </td>

@@ -36,7 +36,7 @@
           <div class="row">
             <div :class="[!show_cat ?  'col-md-12' : 'col-md-9']">
                         <div class="col-md-12" v-if="results.length && !loading">
-                            <div class="row" v-if="cat">
+                            <div class="row" v-if="cat" style="background-color:#d6d6d6">
                                 <div class="col-md-3" v-for="(category,index) in filerResult" :key="index">
                                     <router-link :to="{name:'categoryVendor',params: { id: category.id }}">
                                     <div class="card p-2" style="height:10rem">
@@ -50,7 +50,7 @@
                                 </div>
                             </div>
 
-                            <div class="row" v-if="!cat">
+                            <div class="row" v-if="!cat" style="background-color:#d6d6d6">
                                 <div class="col-md-3" v-for="(product,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
                                     <div class="card p-2" style="height:18rem">
