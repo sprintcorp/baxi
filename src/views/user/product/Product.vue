@@ -154,8 +154,16 @@
             <div class="form-row mb-4">
               <div class="col">
                 <select class="form-control" v-model="product.category_id">
-                  <!-- <option value="" selected>Select product category</option> -->
+                  <option value="" selected>Select product category</option>
                   <option v-for="(category,index) in categories" :key="index"  :value="category.id">{{ category.name  }}</option>                  
+                </select>
+              </div>
+            </div>
+            <div class="form-row mb-4">
+              <div class="col">
+                <select class="form-control" v-model="product.outlet">
+                  <option value="" selected>Select business outlet</option>
+                  <option v-for="(outlet,index) in outlets" :key="index"  :value="outlet.id">{{ outlet.name  }}</option>                  
                 </select>
               </div>
             </div>

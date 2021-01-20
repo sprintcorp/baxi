@@ -27,7 +27,7 @@
            </div>
 
          </div>
-         <div class="col-md-7">
+         <div class="col-md-7" style="height:100vh">
             <div class="right-side-image">
              
               
@@ -87,8 +87,10 @@
 .right-side-image {
   background-image: url(/images/background.png);
   width: 100%;
-  height:100%;
+  height:100vh;
+  background-size: cover;
   background-repeat: no-repeat;
+  /* zoom:1 */
 }
 .container-fluid{
   margin-right: -60px !important;

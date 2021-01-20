@@ -54,7 +54,7 @@
                                       <tbody>
 
                                       <tr v-for="(transaction,index) in filerTransactions" :key="index">
-                                        <td>{{ index+1 }}</td>
+                                        <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ transaction.order_group_id }}</td>
                                         <td>{{ transaction.type }}</td>
                                         <td></td>

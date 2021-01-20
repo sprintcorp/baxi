@@ -6,3 +6,5 @@ export const ID = 'id';
 export const OUTLET = 'retailer_business';
 export const ROLE = 'role';
 export const PERMISSION = 'permission';
+export const CASHIER_BUSINESS = 'cahier_business';
+export const CASHIER_OUTLET = 'cahier_outlet';

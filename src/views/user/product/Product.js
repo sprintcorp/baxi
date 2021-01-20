@@ -1,5 +1,5 @@
 import { getName, logout, getToken, getOutlet,checkUserPermission } from '../../../config'
-import { BASE_URL } from '../../../env'
+import { BASE_URL,CASHIER_BUSINESS } from '../../../env'
 // import { CREATE_ORDER, CREATE_PRODUCT } from "../../../store/action";
 export default {
     name: "ProductComponent",
@@ -35,6 +35,8 @@ export default {
             retailer_orders: [],
             product_orders: [],
             create_product:'',
+            business_id:'',
+            outlets:[]
         }
     },
     computed: {
@@ -58,7 +60,7 @@ export default {
 
         getProducts() {
             this.loading = true;
-            fetch(BASE_URL + '/my/business/' + window.localStorage.getItem("retailer_business") +
+            fetch(BASE_URL + '/my/business/' + this.business_id +
                     '/products', {
                         headers: {
                             'Content-Type': 'application/json',
@@ -155,7 +157,7 @@ export default {
             };
             console.log(payload);
 
-            fetch(BASE_URL + '/my/outlet/' + this.$route.params.id + '/products/new', {
+            fetch(BASE_URL + '/my/outlet/' + this.product.outlet + '/products/new', {
                     method: 'POST',
                     body: JSON.stringify(payload),
                     headers: {
@@ -265,11 +267,55 @@ export default {
             window.localStorage.setItem('customer_email', this.cart.customer.email);
             window.localStorage.setItem('customer_phone', this.cart.customer.phone);
             // this.getProducts();
+        },
+        getBusinessOutlets() {
+            // this.loading = true;
+            fetch(BASE_URL + '/my/businesses/' + this.business_id + '/outlets ', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.message === 'Unauthenticated.') {
+                        console.log(res);
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                    this.loading = false;
+                    this.outlets = res.data;
+                    
+                    
+                    console.log(this.outlets);
+                })
+                .catch((err) => {
+
+                        this.loading = false;
+                        if (err.response.status == 401) {
+                            this.$swal("Session Expired");
+                            logout();
+                            this.$router.push({ name: 'welcome' });
+                        }
+                    }
+
+                );
+        },
+        userPermission(){
+            if(checkUserPermission('order products') == false){
+                this.business_id = window.localStorage.getItem(CASHIER_BUSINESS);
+            }else{
+                this.business_id = window.localStorage.getItem("retailer_business");
+            }
         }
     },
+    
 
     mounted() {
-        this.create_product = checkUserPermission('create products')
+        this.userPermission();
+        this.create_product = checkUserPermission('create products');
+        // this.business_id = window.localStorage.getItem("retailer_business");
         this.name = getName();
         this.getProducts();
         this.getCategories();
@@ -278,6 +324,7 @@ export default {
         this.end_date = new Date().getTime();
         if (JSON.parse(window.localStorage.getItem("orders"))) {
             this.product_orders = JSON.parse(window.localStorage.getItem("orders"));
-        }
+        }        
+        this.getBusinessOutlets();
     }, 
 }

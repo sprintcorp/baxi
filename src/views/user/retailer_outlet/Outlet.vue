@@ -5,30 +5,29 @@
         <div class="heading-sec">
           <div class="row">
             <div class="col-md-9" style="border-right:2px solid black">
-              <div class="row mt-5">
+              <div class="row mt-2">
                 <div class="col-md-6 column">
                   <div class="heading-profile">
-                    <h2>
+                    <!-- <h2>
                       Welcome back, <span>{{ name }}!</span
                       > 
-                    </h2>
+                    </h2> -->
                   </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-6 d-flxe justify-content-end p-5">
                   
-                  <div class="d-flex justify-content-end">
-                    <button  class="btns shadow white-skin sml-btn sml-radius text-black mr-2 p-2"  style="border-radius:25px;border:2px solid black">
-                      <i class="fa fa-microchip"></i> Restock Level
-                    </button>
-                    <button  class="btns shadow yellow-skin sml-btn sml-radius text-black p-2" @click="goToProduct()"  style="border-radius:25px">
-                      <i class="fa fa-plus-circle"></i> Add Product 
-                    </button>
+                  <div class="input-group">
+                    <span class="input-group-text">Select Outlet</span>
+                    <select v-model='selected_outlet' @change="getOutletInformation()" class="form-control">
+                      <!-- <option>Select outlet</option> -->
+                      <option v-for="(outlet,index) in outlets" :key="index" :value="outlet.id">{{outlet.name}}</option>
+                    </select>
                   </div>
                 </div>
               </div>
 
-              <div class="row mt-5">
+              <div class="row">
               <div class="col-md-12">
                 <div class="row">
 
@@ -64,7 +63,7 @@
                     
                   </div>
                   <div class="d-flex justify-content-end">
-                    <div class="font-weight-bold" style="color:blue">8875578</div>
+                    <div class="font-weight-bold" style="color:blue">&#8358; {{total_transaction}}</div>
                   </div>
                   
                     <div class="progress-bar bg-warning" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
@@ -85,7 +84,7 @@
             </div>
           <div class="mt-3 border-2">
             <div class="row mt-2 mr-1">
-              <div class="col-md-3">
+              <div class="col-md-6">
                           <download-csv
                               class="btn btn-info"
                               :data="filerTransactions"
@@ -111,10 +110,10 @@
                           </div>
                           </div>
                         </div>
-                            <div class="col-md-3">
+                            <!-- <div class="col-md-3">
                                   <input type="text" v-model="search" placeholder="Search Here..." class="form-control" style="background-color:white;"/>
                                  
-                            </div>
+                            </div> -->
             </div>
 
             <div class="row mt-2 mr-1">

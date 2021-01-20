@@ -1,7 +1,7 @@
 // import { mapGetters } from "vuex";
 // import { GET_BUSINESS } from "../../../store/action";
 import { getName, getToken, logout,getPermissions,checkUserPermission } from '../../../config'
-import { BASE_URL } from '../../../env'
+import { BASE_URL,CASHIER_BUSINESS } from '../../../env'
 export default {
     name: "DashboardComponent",
     data() {
@@ -184,7 +184,7 @@ export default {
                             amount: parseInt(data.product.recommended_price),
                             quantity: data.product.qty,
                             size: data.product.size,
-                            public_image_url: data.product.public_image_url,
+                            public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
                             qty: data.qty,
                             sku: data.product.sku,
                             date:data.created_at
@@ -251,7 +251,7 @@ export default {
         },
         userPermission(){
             if(checkUserPermission('order products') == false){
-                this.business_id = 4
+                this.business_id = window.localStorage.getItem(CASHIER_BUSINESS);
             }else{
                 this.business_id = window.localStorage.getItem("retailer_business");
             }

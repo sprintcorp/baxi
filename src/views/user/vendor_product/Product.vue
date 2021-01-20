@@ -5,7 +5,7 @@
                <div class="col-md-8" style="border-right:2px solid black;">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="font-weight-bold h4">Vendors</div>
+                            <div class="font-weight-bold h4">{{this.$route.query.vendor}}</div>
                             <div class="p">Please pick a product you would like.</div>
                         </div>
                         <div class="col-md-6 d-flex justify-content-end">
@@ -17,7 +17,7 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-4">
-                            <button class="btn btn-warning" style="border-radius:20px"><i class="fa fa-calendar"></i> Order History</button>
+                           <router-link :to="{name:'transactionOverview'}"> <button class="btn btn-warning" style="border-radius:20px"><i class="fa fa-calendar"></i> Order History</button></router-link>
                         </div>
 
                         <!-- <div class="col-md-7 d-flex justify-content-end">
@@ -73,10 +73,8 @@
                                         <div class="fs-15 mt-1 text-center">&#8358; {{ product.amount }}</div>
                                         <div class="fs-15 mt-1 text-center">{{ product.qty }} Quantity</div>
                                         <div class="fs-15 mt-3 mb-1 text-center">Select Quantity</div>
-                                        <div class="row">
-                                            <div class="col-md-2 fs-20"></div>
-                                            <div class="col-md-1 fs-20"></div>
-                                            <div class="col-md-3">
+                                        <div class="row d-flex justify-content-center">
+                                            <div class="col-md-2">
                                                 <button class="btn btn-danger" @click="decrease(product.qty)"><i class="fa fa-minus"></i></button>
                                             </div>
                                             <div class="col-md-2"><input type="text" :value="quantity_value" style="width:50px" @change="changes()"></div>

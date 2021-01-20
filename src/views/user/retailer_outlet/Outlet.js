@@ -15,12 +15,14 @@ export default {
             start_date: '',
             end_date: '',
             transaction_product: [],
+            outlets:[],
+            selected_outlet:'',
+            total_transaction:0
         }
     },
     computed: {
         filerTransactions() {
-            return this.transactions.filter((transaction) => transaction.type.toLowerCase().includes(this.search.toLowerCase()) ||
-                transaction.orders[0].product.name.toLowerCase().includes(this.search.toLowerCase()) || new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
+            return this.transactions.filter((transaction) => new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
                 new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime())
         }
     },
@@ -68,9 +70,9 @@ export default {
         showProducts(transaction) {
             this.transaction_product = transaction;
         },
-        getOutletTransaction() {
+        getBusinessOutlets() {
             this.loading = true;
-            fetch(BASE_URL + '/my/retailer/groupTransactions', {
+            fetch(BASE_URL + '/my/businesses/' + this.$route.params.id + '/outlets ', {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
@@ -85,8 +87,48 @@ export default {
                         this.$router.push({ name: 'welcome' });
                     }
                     this.loading = false;
-                    this.transactions = res.data.data;
+                    this.outlets = res.data;
+                    this.getOutletTransaction(this.outlets[0].id)
+                    this.selected_outlet = this.outlets[0].id;
+                    
+                    console.log(this.outlets);
+                })
+                .catch((err) => {
+
+                        this.loading = false;
+                        if (err.response.status == 401) {
+                            this.$swal("Session Expired");
+                            logout();
+                            this.$router.push({ name: 'welcome' });
+                        }
+                    }
+
+                );
+        },
+        getOutletTransaction(id) {
+            // alert(id)
+            this.total_transaction = 0;
+            this.loading = true;
+            fetch(BASE_URL + '/my/outlets/' + id + '/transactions', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.message === 'Unauthenticated.') {
+                        console.log(res);
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                    this.loading = false;
+                    this.transactions = res.data.transactions;
                     console.log(this.transactions);
+                    let sum = this.transactions.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
+                    console.log(sum);
+                    this.total_transaction = sum;
                 })
                 .catch(err => {
                         console.log(err)
@@ -99,16 +141,22 @@ export default {
                     }
 
                 );
+        },
+        getOutletInformation(){
+            this.getOutletTransaction(this.selected_outlet)
         }
 
     },
 
     mounted() {
+        
+        this.getBusinessOutlets();
         this.getUserBusiness();
         this.getOutletTransaction();
         this.name = getName();
         console.log(this.$router.currentRoute.name);
         this.start_date = new Date("2015-08-21").getTime();
         this.end_date = new Date().getTime();
+        
     }
 }

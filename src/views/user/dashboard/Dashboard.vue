@@ -4,7 +4,7 @@
       <div class="container-fluid p-2" style="background-color: white;min-height:80vh">
         <div class="heading-sec">
           <div class="row p-5">
-            <div class="col-md-12 ml-5" style="">   
+            <div class="col-md-12" style="">   
                   <div class="heading-profile">
                     <h2 class="text-black">
                       Welcome back, <span>{{ username }}!</span> 
@@ -14,11 +14,11 @@
           </div>
 
           <div class="row">
-            <div class="col-md-12 d-flex justify-content-start">
-             <form class="form-inline search-form my-2 my-lg-0" style="width:90%">
-                    <input type="text" v-model="search" placeholder="Type to search for a product" style="background-color:white;width:97%;border-radius:20px"/>
+            <div class="col-md-12 d-flex justify-content-center">
+             <!-- <form class="form-inline search-form my-2 my-lg-0" style="width:90%"> -->
+                    <input type="text" v-model="search" placeholder="Type to search for a product" class="inp" style="background-color:white;width:91%;"/>
                     <button type="submit"><i class="fa fa-search"></i></button>
-              </form>
+              <!-- </form> -->
             </div>
           </div>
 
@@ -37,9 +37,9 @@
             <div :class="[!show_cat ?  'col-md-12' : 'col-md-9']">
                         <div class="col-md-12" v-if="results.length && !loading">
                             <div class="row" v-if="cat">
-                                <div class="col-md-3 d-flex justify-content-center" v-for="(category,index) in filerResult" :key="index">
+                                <div class="col-md-3" v-for="(category,index) in filerResult" :key="index">
                                     <router-link :to="{name:'categoryVendor',params: { id: category.id }}">
-                                    <div class="card p-2" style="width: 15rem;height:10rem">
+                                    <div class="card p-2" style="height:10rem">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                         <div class="text-center mt-3"><img :src="category.public_image_url" class="rounded-circle" alt="" width="70" height="70"/></div>
                                         <div class="card-body text-center">
@@ -51,9 +51,9 @@
                             </div>
 
                             <div class="row" v-if="!cat">
-                                <div class="col-md-3 d-flex justify-content-center" v-for="(product,index) in filerResult" :key="index">
+                                <div class="col-md-3" v-for="(product,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
-                                    <div class="card p-2" style="width: 16rem;height:18rem">
+                                    <div class="card p-2" style="height:18rem">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                         <div class="text-center mt-1"><img :src="product.public_image_url" class="rounded-circle" alt="" width="70" height="70"/></div>
                                         <div class="card-body text-center">
@@ -113,10 +113,8 @@
                                         <div class="fs-15 mt-1 text-center">&#8358; {{ product.amount }}</div>
                                         <div class="fs-15 mt-1 text-center">{{ product.qty }} Quantity</div>
                                         <div class="fs-15 mt-3 mb-1 text-center">Select Quantity</div>
-                                        <div class="row">
-                                            <div class="col-md-2 fs-20"></div>
-                                            <div class="col-md-1 fs-20"></div>
-                                            <div class="col-md-3">
+                                        <div class="row d-flex justify-content-center">
+                                            <div class="col-md-2">
                                                 <button class="btn btn-danger" @click="decrease(product.qty)"><i class="fa fa-minus"></i></button>
                                             </div>
                                             <div class="col-md-2"><input type="text" :value="quantity_value" style="width:50px" @change="changes()"></div>
@@ -291,4 +289,16 @@ th{
 td{
   font-size: 13px;
 }
+.inp {
+    border:none;
+    border-bottom: 1px solid #1890ff;
+    padding: 5px 10px;
+    outline: none;
+ }
+
+[placeholder]:focus::-webkit-input-placeholder {
+    transition: text-indent 0.4s 0.4s ease; 
+    text-indent: -100%;
+    opacity: 1;
+ }
 </style>
