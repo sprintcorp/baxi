@@ -27,6 +27,9 @@ export default {
             cart:[],
             permission:false,
             business_id:'',
+            selected_outlet:'',
+            outlets:'',
+            change_outlet:true,
         }
     },
     computed: {
@@ -218,9 +221,111 @@ export default {
         userPermission(){
             if(checkUserPermission('order products') == false){
                 this.business_id = window.localStorage.getItem(CASHIER_BUSINESS);
+                this.change_outlet = false;
             }else{
                 this.business_id = window.localStorage.getItem("retailer_business");
+                this.getBusinessOutlets();
             }
+        },
+        getBusinessOutlets() {
+            this.loading = true;
+            fetch(BASE_URL + '/my/businesses/' + this.business_id + '/outlets ', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.message === 'Unauthenticated.') {
+                        console.log(res);
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                    this.loading = false;
+                    this.outlets = res.data;
+                    // this.getOutletTransaction(this.outlets[0].id)
+                    window.localStorage.setItem("retailer_outlet", JSON.stringify(this.outlets[0].id));
+                    this.selected_outlet = window.localStorage.getItem("retailer_outlet");
+                    
+                    console.log(this.outlets);
+                })
+                .catch((err) => {
+
+                        this.loading = false;
+                        if (err.response.status == 401) {
+                            this.$swal("Session Expired");
+                            logout();
+                            this.$router.push({ name: 'welcome' });
+                        }
+                    }
+
+                );
+        },
+        getCategoryProduct(category_id){
+            // alert(category_id);
+            this.results = [];
+            this.loading = true;
+            this.cat = false
+            fetch(BASE_URL + '/my/products?category_id='+category_id, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'Authorization': getToken()
+                        }
+                    })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.message === 'Unauthenticated.') {
+                        this.$swal("Session Expired");
+                        console.log(res);
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                    console.log(res.data.data);
+                    this.loading = false;
+                    this.products = res.data.data;
+                    this.products.forEach((data) => {
+                        this.results.push({
+                            product_id: data.id,
+                            name: data.name,
+                            amount: parseInt(data.recommended_price),
+                            quantity: data.qty_in_pack,
+                            size: data.size,
+                            public_image_url: data.public_image_url?data.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
+                            qty: data.qty_in_pack,
+                            sku: data.sku,
+                            date:data.created_at
+                            // customer: {
+                            //     name: this.cart.customer.name,
+                            //     email: this.cart.customer.email,
+                            //     phone: this.cart.customer.phone
+                            // }
+
+                        });
+                    });
+                    console.log(this.results);
+                })
+                .catch(err => {
+                        console.log(err)
+                        this.loading = false;
+                        if (err.response.status == 401) {
+                            this.$swal("Session Expired");
+                            logout();
+                            this.$router.push({ name: 'welcome' });
+                        }
+                    }
+
+                );
+        },
+        goBack(){
+            this.results = [];
+            this.getProductCategories();
+        },
+        changeOutlet(){
+            window.localStorage.setItem("retailer_outlet", JSON.stringify(this.selected_outlet));
+            this.selected_outlet = window.localStorage.getItem("retailer_outlet");
         }
 
     },

@@ -4,12 +4,21 @@
       <div class="container-fluid p-2" style="background-color: white;min-height:80vh">
         <div class="heading-sec">
           <div class="row p-5">
-            <div class="col-md-12" style="">   
+            <div class="col-md-8" style="">   
                   <div class="heading-profile">
                     <h2 class="text-black">
-                      Welcome back, <span>{{ username }}!</span> 
+                      Welcome back, <span class="text-black">{{ username }}!</span> 
                     </h2>
                   </div>             
+            </div>
+            <div class="col-md-4" style="" v-if="change_outlet">   
+                  <div class="input-group">
+                    <span class="input-group-text bg-warning" >Select Outlet</span>
+                    <select v-model='selected_outlet' @change="changeOutlet()" class="form-control">
+                      <!-- <option>Select outlet</option> -->
+                      <option v-for="(outlet,index) in outlets" :key="index" :value="outlet.id">{{outlet.name}}</option>
+                    </select>
+                  </div>            
             </div>
           </div>
 
@@ -23,7 +32,7 @@
           </div>
 
           <div class="row p-5">
-            <div class="col-md-9 col-sm-2"><i class="fa fa-arrow-left fs-20"></i></div>
+            <div class="col-md-9 col-sm-2" @click="goBack()"><i class="fa fa-arrow-left fs-20"></i></div>
             <!-- <div class="col-md-1 col-sm-2" style="margin-right:-30px"><i class="fa fa-shopping-cart fs-20"></i></div> -->
             <div class="col-md-3 col-sm-3 d-flex justify-content-end">
               <select class="form-control" @change="getResponse()" v-model="type" aria-label="Default select example">
@@ -36,21 +45,21 @@
           <div class="row">
             <div :class="[!show_cat ?  'col-md-12' : 'col-md-9']">
                         <div class="col-md-12" v-if="results.length && !loading">
-                            <div class="row" v-if="cat" style="background-color:#d6d6d6">
+                            <div class="row p-3" v-if="cat" style="background-color:#d6d6d6">
                                 <div class="col-md-3" v-for="(category,index) in filerResult" :key="index">
-                                    <router-link :to="{name:'categoryVendor',params: { id: category.id }}">
-                                    <div class="card p-2" style="height:10rem">
+                                    <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
+                                    <div class="card p-2" style="height:10rem" @click="getCategoryProduct(category.id)">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                         <div class="text-center mt-3"><img :src="category.public_image_url" class="rounded-circle" alt="" width="70" height="70"/></div>
                                         <div class="card-body text-center">
                                            <p class="fs-13"> {{category.name}}</p>
                                         </div>
                                     </div>
-                                    </router-link>
+                                    <!-- </router-link> -->
                                 </div>
                             </div>
 
-                            <div class="row" v-if="!cat" style="background-color:#d6d6d6">
+                            <div class="row p-3" v-if="!cat" style="background-color:#d6d6d6">
                                 <div class="col-md-3" v-for="(product,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
                                     <div class="card p-2" style="height:18rem">
