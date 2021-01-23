@@ -1,6 +1,6 @@
 // import { mapGetters } from "vuex";
 // import { GET_BUSINESS } from "../../../store/action";
-import { getName, getToken, logout,getPermissions,checkUserPermission } from '../../../config'
+import { getName, getToken, logout,getPermissions,checkUserPermission,getId } from '../../../config'
 import { BASE_URL,CASHIER_BUSINESS } from '../../../env'
 export default {
     name: "DashboardComponent",
@@ -10,7 +10,7 @@ export default {
             businesses: [],
             username: '',
             loading: false,
-            type: 'category',
+            type: 'product',
             search: '',
             start_date: '',
             end_date: '',
@@ -30,6 +30,10 @@ export default {
             selected_outlet:'',
             outlets:'',
             change_outlet:true,
+            url:'',
+            totat_product:0,
+            saved_orders:'',
+            saving:false
         }
     },
     computed: {
@@ -70,14 +74,25 @@ export default {
             }
         },
         submitToCart(value,product){
-            product.quantity = value
-            product.price = value * product.amount
+            // product.quantity = value
+            product.qty = value
+            product.price = value * product.sell_price 
+            product.int_amount = product.amount
+            product.amount = product.price.toString()
+            product.customer.name = 'web'
+            product.retailer_id = getId()
+            if(checkUserPermission('order products') == true){
+            product.outlet_id = window.localStorage.getItem("retailer_outlet");
+            }else{
+            product.outlet_id = window.localStorage.getItem("cahier_outlet");
+            }
             if (JSON.parse(window.localStorage.getItem("retailer_cashier_order"))) {
                 this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
             }
             // product.qty = value;
             this.pushToArray(this.cart, product);
             window.localStorage.setItem("retailer_cashier_order", JSON.stringify(this.cart));
+            this.cart = [];
             this.quantity_value = 0;
             // this.getProduct()
             this.getCart();
@@ -126,58 +141,119 @@ export default {
         },
 
         getProducts() {
-            this.loading = true;
-            this.cat = false
-            fetch(BASE_URL + '/my/business/' + this.business_id +
-                    '/products', {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json',
-                            'Authorization': getToken()
-                        }
-                    })
-                .then(res => res.json())
-                .then(res => {
-                    if (res.message === 'Unauthenticated.') {
-                        this.$swal("Session Expired");
-                        console.log(res);
-                        logout();
-                        this.$router.push({ name: 'welcome' });
-                    }
-                    this.loading = false;
-                    this.products = res.data;
-                    this.products.forEach((data) => {
-                        this.results.push({
-                            product_id: data.product.id,
-                            name: data.product.name,
-                            amount: parseInt(data.product.recommended_price),
-                            quantity: data.product.qty,
-                            size: data.product.size,
-                            public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
-                            qty: data.qty,
-                            sku: data.product.sku,
-                            date:data.created_at
-                            // customer: {
-                            //     name: this.cart.customer.name,
-                            //     email: this.cart.customer.email,
-                            //     phone: this.cart.customer.phone
-                            // }
 
-                        });
-                    });
-                    console.log(this.local_product);
-                })
-                .catch(err => {
-                        console.log(err)
-                        this.loading = false;
-                        if (err.response.status == 401) {
+            if(checkUserPermission('order products') == false){
+                this.selected_outlet = window.localStorage.getItem("cahier_outlet");
+                this.results = [];
+                this.loading = true;
+                this.cat = false
+                fetch(BASE_URL + '/my/outlet/'+this.selected_outlet+'/products', {
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                                'Authorization': getToken()
+                            }
+                        })
+                    .then(res => res.json())
+                    .then(res => {
+                        if (res.message === 'Unauthenticated.') {
                             this.$swal("Session Expired");
+                            console.log(res);
                             logout();
                             this.$router.push({ name: 'welcome' });
                         }
-                    }
+                        console.log(res.data.data);
+                        this.loading = false;
+                        this.getCart();
+                        this.products = res.data;
+                        this.products.forEach((data) => {
+                            this.results.push({
+                                product_id: data.product.id,
+                                name: data.product.name,
+                                amount: parseInt(data.product.recommended_price),
+                                sell_price: parseInt(data.product.recommended_price),
+                                quantity: data.qty,
+                                size: data.product.size,
+                                public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
+                                qty: data.qty,
+                                sku: data.product.sku,
+                                date:data.product.created_at,
+                                customer: {
+                                    name: 'web',
+                                }
 
-                );
+                            });
+                        });
+                        console.log(this.results);
+                    })
+                    .catch(err => {
+                            console.log(err)
+                            this.loading = false;
+                            if (err.response.status == 401) {
+                                this.$swal("Session Expired");
+                                logout();
+                                this.$router.push({ name: 'welcome' });
+                            }
+                        }
+
+                    );
+                
+            }else{
+
+                this.results = [];
+                this.loading = true;
+                this.cat = false
+                fetch(BASE_URL + '/my/outlet/'+window.localStorage.getItem("retailer_outlet")+'/products', {
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                                'Authorization': getToken()
+                            }
+                        })
+                    .then(res => res.json())
+                    .then(res => {
+                        if (res.message === 'Unauthenticated.') {
+                            this.$swal("Session Expired");
+                            console.log(res);
+                            logout();
+                            this.$router.push({ name: 'welcome' });
+                        }
+                        this.loading = false;
+                        this.products = res.data;
+                        this.getCart();
+                        console.log(this.products);
+                        this.products.forEach((data) => {
+                            this.results.push({
+                                product_id: data.product.id,
+                                name: data.product.name,
+                                amount: parseInt(data.product.recommended_price),
+                                sell_price: parseInt(data.product.recommended_price),
+                                quantity: data.qty,
+                                size: data.product.size,
+                                public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
+                                qty: data.qty,
+                                sku: data.product.sku,
+                                date:data.product.created_at,
+                                customer: {
+                                    name: 'web',
+                                }
+
+                            });
+                        });
+                        console.log(this.local_product);
+                    })
+                    .catch(err => {
+                            console.log(err)
+                            this.loading = false;
+                            if (err.response.status == 401) {
+                                this.$swal("Session Expired");
+                                logout();
+                                this.$router.push({ name: 'welcome' });
+                            }
+                        }
+
+                    );
+            }
         },
 
 
@@ -185,7 +261,9 @@ export default {
             if (JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length) {
                 this.cart_order = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
                 let sum = this.cart_order.map(o => parseFloat(o.price)).reduce((a, c) => { return a + c });
+                let sum_product = this.cart_order.map(o => parseFloat(o.qty)).reduce((a, c) => { return a + c });
                 this.total = sum;
+                this.total_product = sum_product;
             }
         },
         getCart(){
@@ -215,8 +293,8 @@ export default {
                 this.permission = true
               }
         },
-        warning(){
-            this.$swal("You are not permitted to execute this action");
+        warning(message){
+            this.$swal(message);
         },
         userPermission(){
             if(checkUserPermission('order products') == false){
@@ -246,7 +324,7 @@ export default {
                     this.loading = false;
                     this.outlets = res.data;
                     // this.getOutletTransaction(this.outlets[0].id)
-                    window.localStorage.setItem("retailer_outlet", JSON.stringify(this.outlets[0].id));
+                    // window.localStorage.setItem("retailer_outlet", JSON.stringify(this.outlets[0].id));
                     this.selected_outlet = window.localStorage.getItem("retailer_outlet");
                     
                     console.log(this.outlets);
@@ -265,59 +343,117 @@ export default {
         },
         getCategoryProduct(category_id){
             // alert(category_id);
-            this.results = [];
-            this.loading = true;
-            this.cat = false
-            fetch(BASE_URL + '/my/products?category_id='+category_id, {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json',
-                            'Authorization': getToken()
-                        }
-                    })
-                .then(res => res.json())
-                .then(res => {
-                    if (res.message === 'Unauthenticated.') {
-                        this.$swal("Session Expired");
-                        console.log(res);
-                        logout();
-                        this.$router.push({ name: 'welcome' });
-                    }
-                    console.log(res.data.data);
-                    this.loading = false;
-                    this.products = res.data.data;
-                    this.products.forEach((data) => {
-                        this.results.push({
-                            product_id: data.id,
-                            name: data.name,
-                            amount: parseInt(data.recommended_price),
-                            quantity: data.qty_in_pack,
-                            size: data.size,
-                            public_image_url: data.public_image_url?data.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
-                            qty: data.qty_in_pack,
-                            sku: data.sku,
-                            date:data.created_at
-                            // customer: {
-                            //     name: this.cart.customer.name,
-                            //     email: this.cart.customer.email,
-                            //     phone: this.cart.customer.phone
-                            // }
-
-                        });
-                    });
-                    console.log(this.results);
-                })
-                .catch(err => {
-                        console.log(err)
-                        this.loading = false;
-                        if (err.response.status == 401) {
+            if(checkUserPermission('order products') == false){
+                this.selected_outlet = window.localStorage.getItem("cahier_outlet");
+                this.results = [];
+                this.loading = true;
+                this.cat = false
+                fetch(BASE_URL + '/my/outlet/'+this.selected_outlet+'/products', {
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                                'Authorization': getToken()
+                            }
+                        })
+                    .then(res => res.json())
+                    .then(res => {
+                        if (res.message === 'Unauthenticated.') {
                             this.$swal("Session Expired");
+                            console.log(res);
                             logout();
                             this.$router.push({ name: 'welcome' });
                         }
-                    }
+                        console.log(res.data.data);
+                        this.loading = false;
+                        this.products = res.data;
+                        this.products.forEach((data) => {
+                            this.results.push({
+                                product_id: data.product.id,
+                                name: data.product.name,
+                                amount: parseInt(data.product.recommended_price),
+                                sell_price: parseInt(data.product.recommended_price),
+                                quantity: data.qty,
+                                size: data.product.size,
+                                public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
+                                qty: data.qty,
+                                sku: data.product.sku,
+                                date:data.product.created_at,
+                                customer: {
+                                    name: 'web',
+                                }
 
-                );
+                            });
+                        });
+                        console.log(this.results);
+                    })
+                    .catch(err => {
+                            console.log(err)
+                            this.loading = false;
+                            if (err.response.status == 401) {
+                                this.$swal("Session Expired");
+                                logout();
+                                this.$router.push({ name: 'welcome' });
+                            }
+                        }
+
+                    );
+                
+            }else{
+                
+                this.results = [];
+                this.loading = true;
+                this.cat = false
+                fetch(BASE_URL + '/my/products?category_id='+category_id+'&outlet_id='+this.selected_outlet, {
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                                'Authorization': getToken()
+                            }
+                        })
+                    .then(res => res.json())
+                    .then(res => {
+                        if (res.message === 'Unauthenticated.') {
+                            this.$swal("Session Expired");
+                            console.log(res);
+                            logout();
+                            this.$router.push({ name: 'welcome' });
+                        }
+                        console.log(res.data.data);
+                        this.loading = false;
+                        this.products = res.data.data;
+                        this.products.forEach((data) => {
+                            this.results.push({
+                                product_id: data.product.id,
+                                name: data.product.name,
+                                amount: parseInt(data.product.recommended_price),
+                                sell_price: parseInt(data.product.recommended_price),
+                                quantity: data.qty,
+                                size: data.product.size,
+                                public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
+                                qty: data.qty,
+                                sku: data.product.sku,
+                                date:data.product.created_at,
+                                customer: {
+                                    name: 'web',
+                                }
+
+                            });
+                        });
+                        console.log(this.results);
+                    })
+                    .catch(err => {
+                            console.log(err)
+                            this.loading = false;
+                            if (err.response.status == 401) {
+                                this.$swal("Session Expired");
+                                logout();
+                                this.$router.push({ name: 'welcome' });
+                            }
+                        }
+
+                    );
+            }
+            
         },
         goBack(){
             this.results = [];
@@ -326,7 +462,51 @@ export default {
         changeOutlet(){
             window.localStorage.setItem("retailer_outlet", JSON.stringify(this.selected_outlet));
             this.selected_outlet = window.localStorage.getItem("retailer_outlet");
-        }
+            this.getProducts();
+        },
+        saveOrder() {
+            this.saving = true;
+            // if(checkUserPermission('order products') == true){
+                this.saved_orders = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
+            // }else{
+            //     this.saved_orders = JSON.parse(window.localStorage.getItem("cashier_order"))
+            // }
+            const payload = {
+                "orders": this.saved_orders                
+            }
+        
+            console.log(payload);
+
+
+            fetch(BASE_URL + '/my/retailer/orders', {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    this.saving = false;
+                    this.$swal(res.message);
+                    window.localStorage.removeItem("retailer_cashier_order");
+                    this.show_cat = false;
+                    this.getProducts();
+                })
+                .catch(err => {
+                    this.saving = false;
+                    this.$swal(err.response.data.message);
+                    this.getProducts();
+                    console.log(err)
+                    if (err.response.status == 401) {
+                        this.$swal("Session Expired");
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                });
+        },
 
     },
 
@@ -338,7 +518,7 @@ export default {
         this.userPermission();
         this.checkPermission();
         this.checkColumn();
-        this.getProductCategories();
+        this.getProducts();
         this.username = getName();
         this.start_date = new Date("2015-08-21").getTime();
         this.end_date = new Date().getTime();

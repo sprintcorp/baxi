@@ -13,7 +13,7 @@
             </div>
             <div class="col-md-4" style="" v-if="change_outlet">   
                   <div class="input-group">
-                    <span class="input-group-text bg-warning" >Select Outlet</span>
+                    <span class="input-group-text bg-white" style="border:1px solid white;color:black">Select Outlet</span>
                     <select v-model='selected_outlet' @change="changeOutlet()" class="form-control">
                       <!-- <option>Select outlet</option> -->
                       <option v-for="(outlet,index) in outlets" :key="index" :value="outlet.id">{{outlet.name}}</option>
@@ -60,18 +60,26 @@
                             </div>
 
                             <div class="row p-3" v-if="!cat" style="background-color:#d6d6d6">
-                                <div class="col-md-3" v-for="(product,index) in filerResult" :key="index">
+                                <div :class="[show_cat ? 'col-md-3' : 'col-md-2']" v-for="(product,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
-                                    <div class="card p-2" style="height:18rem">
+                                    <div class="card p-2" style="height:14rem">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
-                                        <div class="text-center mt-1"><img :src="product.public_image_url" class="rounded-circle" alt="" width="70" height="70"/></div>
-                                        <div class="card-body text-center">
-                                           <p class="fs-13"> {{product.name}}</p>
-                                           <p class="fs-13"> {{product.qty}} Quantity</p>
-                                           <p class="fs-13"> &#8358; {{ product.amount }}</p>
+                                       <div class="row pl-3"> <p class="fs-13"> {{product.name}}</p></div>
+                                        <div class="row" style="height:50%">
+                                          <div class="col-md-5">
+                                            <div class="text-center mt-1"><img :src="product.public_image_url" class="rounded-circle" alt="" width="70" height="70"/></div>
+                                          </div>
+                                        <div class="col-md-7">  
+                                        <!-- <div class="card-body"> -->
+                                           <!-- <p class="fs-13"> {{product.name}}</p> -->
+                                           <p class="fs-13"> {{product.quantity}} Quantity</p>
+                                           <p class="fs-13"> &#8358; {{ product.sell_price }}</p>
+                                        <!-- </div> -->
                                         </div>
-                                        <button v-if="permission" class="btn btn-warning btn-block" @click="addToCart(product,index)" data-toggle="modal" data-target="#cart">Sell</button>
-                                        <button v-if="!permission" class="btn btn-warning btn-block" @click="warning()">Sell</button>
+                                        </div>
+                                        <button v-if="permission && product.quantity > 0" class="btn btn-warning btn-block" @click="addToCart(product,index)" data-toggle="modal" data-target="#cart">Sell</button>
+                                        <button v-if="!permission" class="btn btn-warning btn-block" @click="warning('You are not permitted to execute this action')">Sell</button>
+                                        <button v-if="permission && product.quantity < 1" class="btn btn-warning btn-block" @click="warning('The following item(s) are now out-of-stock. Click the restock button to continue.')">Sell</button>
                                     </div>
                                     <!-- </router-link> -->
                                 </div>
@@ -80,6 +88,12 @@
                         </div>
 
                         <div class="row col-md-12">
+                          <div class="overlay" v-if="saving">
+                                <div style="text-align:center;position: absolute;left: 40%;top: 40%;color:white;font-size:40px">
+                                    <span class="spinner-border spinner-border-sm fs-100" role="status" aria-hidden="true"></span>
+                                    Processing Order...
+                                </div>
+                            </div>
                             <div v-if="!results.length && loading" style="text-align:center;position: absolute;left: 50%;top: 50%;">                  
                                 <div class="spinner-grow mt-5" style="width: 3rem; height: 3rem;" role="status">
                                     <span class="sr-only">Loading...</span>
@@ -119,16 +133,16 @@
                                      <div class="row card border-0">
                                         <div class="text-center"><img :src="product.public_image_url" width="100" height="100"/></div>
                                         <div class="fs-15 mt-2 text-center">{{product.name}}</div>
-                                        <div class="fs-15 mt-1 text-center">&#8358; {{ product.amount }}</div>
-                                        <div class="fs-15 mt-1 text-center">{{ product.qty }} Quantity</div>
+                                        <div class="fs-15 mt-1 text-center">&#8358; {{ product.sell_price }}</div>
+                                        <div class="fs-15 mt-1 text-center">{{ product.quantity }} Quantity</div>
                                         <div class="fs-15 mt-3 mb-1 text-center">Select Quantity</div>
                                         <div class="row d-flex justify-content-center">
                                             <div class="col-md-2">
-                                                <button class="btn btn-danger" @click="decrease(product.qty)"><i class="fa fa-minus"></i></button>
+                                                <button class="btn btn-danger" @click="decrease(product.quantity)"><i class="fa fa-minus"></i></button>
                                             </div>
                                             <div class="col-md-2"><input type="text" :value="quantity_value" style="width:50px" @change="changes()"></div>
                                             
-                                            <div class="col-md-2"><button class="btn btn-success" @click="increase(product.qty)"><i class="fa fa-plus"></i></button></div>
+                                            <div class="col-md-2"><button class="btn btn-success" @click="increase(product.quantity)"><i class="fa fa-plus"></i></button></div>
                                         </div>
                                         <div class="fs-15 mt-3 mb-1 text-center" style="color:red" v-if="error">Selected quantity is more than available quantity</div>
                                     </div>
@@ -151,31 +165,35 @@
                   <table class="table table-dark">
                     <thead class="">
                         <tr>
-                        <th scope="col">Product Name</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Remove</th>
+                        <th scope="">Product</th>
+                        <th scope="">QTY</th>
+                        <th scope="">Unit(₦)</th>
+                        <th scope="">Price</th>
+                        <th scope="col-5">Remove</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="(product, i) in cart" :key='i'>
                            <td>{{product.name}}</td>
-                           <td>{{product.quantity}}</td>
+                           <td>{{product.qty}}</td>
+                           <td>₦{{product.price/product.qty}}</td>
                            <td>₦{{product.price}}</td>
                            <td><button @click="removeFromCart(cart,i)">
-                                                        <i class="fa fa-trash" style="color:white"></i>
-                                                    </button></td>
+                                <i class="fa fa-trash" style="color:white"></i>
+                            </button></td>
                          </tr>
                         <br><br><br><br><br><br><br><br><br><br>
                         <tr>
-                           <td>TAX</td>
                            <td></td>
                            <td></td>
-                           <td>₦300</td>
+                           <td>Products</td>
+                           <td>Items</td>
+                           <td>Amount</td>
                          </tr>
                         <tr>
                            <td>Total</td>
                            <td></td>
+                           <td>{{total_product}}</td>
                            <td>{{cart.length}}</td>
                            <td>₦{{total}}</td>
                          </tr>
@@ -246,7 +264,7 @@
                 </div>
           </div>
         </div>
-        <div class="col-md-4 pt-3">
+        <div class="col-md-4 pt-3 close" @click="saveOrder()" data-dismiss="modal">
           <div class="card mt-1 h-100">
              <div class="mx-auto mt-1">
                   <img :src="require('@/assets/images/img12.png')" class='rounded' alt="img"/>
@@ -275,7 +293,7 @@
         <p class="">Please give the customer the Account ID <br> below to make payments.
         </p>
          <button class="btn btn-outline-secondary rounded-pill">Account ID: RST12345</button> <br>
-         <a href="/CashierPayment" class="btn btn-warning rounded-pill mt-4">Continue</a>
+         <a href="" class="btn btn-warning rounded-pill mt-4">Continue</a>
       </div>
     </div>
   </div>
@@ -310,4 +328,19 @@ td{
     text-indent: -100%;
     opacity: 1;
  }
+ .overlay {
+	position: fixed;
+	display: block;
+	width: 100%;
+	height: 100%;
+	top: 10%;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0,0,0.5,0.5);
+	z-index: 2;
+	cursor: pointer;
+	text-align:center;
+  }
+
 </style>

@@ -25,12 +25,14 @@ import VendorComponent from "../views/user/vendor/Vendor.vue";
 import VendorProductComponent from "../views/user/vendor_product/Product.vue";
 import BusinessComponent from "../views/user/business/Business.vue";
 import OutletComponent from "../views/user/retailer_outlet/Outlet.vue";
+import OrderHistoryComponent from "../views/user/order_history/OrderHistory.vue";
 import TransactionComponent from "../views/user/transaction/Transaction.vue";
 import ProductComponent from "../views/user/product/Product.vue";
 import OrderComponent from "../views/user/order/Orders.vue";
 import RetailerOrderOverviewComponent from "../views/user/order_overview/Order.vue";
 import RetailerOrderComponent from "../views/user/place_order/PlaceOrder.vue";
 import RetailerProfileComponent from "../views/user/profile/Profile.vue";
+import RestockLevelComponent from "../views/user/restock_level/RestockLevel.vue";
 
 Vue.use(VueRouter);
 
@@ -135,6 +137,13 @@ const routes = [{
                 meta: { authorize: 'order products' } 
             },
             {
+                name: "restockLevel",
+                path: "/outlet/restock/level",
+                component: RestockLevelComponent,
+                ...preventRoutes,
+                // meta: { authorize: 'order products' } 
+            },
+            {
                 name: "outletOverview",
                 path: "/retailer/outlet/:id",
                 component: OutletComponent,
@@ -145,6 +154,13 @@ const routes = [{
                 path: "/transaction/overview/",
                 component: TransactionComponent,
                 ...preventRoutes
+            },
+            {
+                name: "productOrderOverview",
+                path: "/retailer/distributor/orders/",
+                component: OrderHistoryComponent,
+                ...preventRoutes,
+                meta: { authorize: 'order products' } 
             },
             {
                 name: "productOverview",

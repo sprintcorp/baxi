@@ -14,10 +14,10 @@
                 <li :class="[this.$router.currentRoute.name == 'dashboard' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'dashboard'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-home"></i> Dashboard</router-link>
                 </li>
-                <li :class="[this.$router.currentRoute.name == 'productOverview' ? 'nav-item active' : 'nav-item']">
+                <li :class="[this.$router.currentRoute.name == 'productOverview' || this.$router.currentRoute.name == 'restockLevel' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'productOverview'}"  class="nav-link font-weight-bold" href="#"><i class="fa fa-cube"></i> Product</router-link>
                 </li>
-                <li v-if="order_products" :class="[this.$router.currentRoute.name == 'categoryOrder' ? 'nav-item active' : 'nav-item']">
+                <li v-if="order_products" :class="[this.$router.currentRoute.name == 'categoryOrder' || this.$router.currentRoute.name == 'productOrderOverview' || this.$router.currentRoute.name == 'categoryVendor' || this.$router.currentRoute.name == 'vendorProduct'  ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'categoryOrder'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-calendar"></i> Order </router-link>
                 </li>
 
@@ -100,7 +100,7 @@
                                     Total : &#8358; {{total}}
                                 </div>
                                 <div class="col-sm-6 d-flex justify-content-end">
-                                    <button type="button" class="btn btn-warning pl-4 pr-4" style="border-radius:15px" data-dismiss="modal">Order</button>
+                                    <button type="button" class="btn btn-warning pl-4 pr-4" style="border-radius:15px" @click="saveOrder()">Order</button>
                                 </div>
                             </div>
                         <!-- </div> -->
@@ -113,7 +113,8 @@
 </template>
 
 <script>
-import {logout,getOutlet,checkUserPermission} from '../../../config';
+import {logout,getOutlet,checkUserPermission,getToken} from '../../../config';
+import {BASE_URL} from '../../../env'
     // import MainMenuComponent from "./MainMenuComponent";
     
     export default {
@@ -144,7 +145,7 @@ import {logout,getOutlet,checkUserPermission} from '../../../config';
             sumProduct() {
                 if (JSON.parse(window.localStorage.getItem("retailer_order")) && JSON.parse(window.localStorage.getItem("retailer_order")).length) {
                     this.cart_order = JSON.parse(window.localStorage.getItem("retailer_order"))
-                    let sum = this.cart_order.map(o => parseFloat(o.price)).reduce((a, c) => { return a + c });
+                    let sum = this.cart_order.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
                     this.total = sum;
                 }
             },
@@ -161,10 +162,43 @@ import {logout,getOutlet,checkUserPermission} from '../../../config';
                 this.sumProduct();
                 this.getCart();
                 console.log(filteredItems)
+            },
+            saveOrder() {
+            const payload = {
+                "orders": JSON.parse(window.localStorage.getItem("retailer_order"))
             }
+            console.log(payload);
+            fetch(BASE_URL + '/my/distributor/orders', {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    window.localStorage.removeItem("retailer_order");
+                    this.saving = false;
+                    this.$swal(res.message);
+                })
+                .catch(err => {
+
+                    this.$swal(err.response.data.message);
+                    this.saving = false;
+                    console.log(err)
+                    if (err.response.status == 401) {
+                        this.saving = false;
+                        this.$swal("Session Expired");
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                });
+        },
         },
          mounted(){
-             this.order_products = checkUserPermission('order products')
+            this.order_products = checkUserPermission('order products')
             this.getCart();
             this.outlet = getOutlet();
             

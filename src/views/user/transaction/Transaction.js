@@ -16,7 +16,7 @@ export default {
             transaction_tab:true,
             total:0,
             delivery:0,
-            status:'w-0',
+            status:'',
             progress:'progress-bar',
             color:'bg-warning'
         }
@@ -25,7 +25,10 @@ export default {
         filerTransactions() {
             return this.transactions.filter((transaction) => (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
                     new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()))
-        }
+        },
+        // amount(){
+        //     return this.transactions.orders.map(o => parseFloat(o.amount)).reduce((a, c) => { a + c })
+        // }
     },
     methods: {
         showDate() {
@@ -36,24 +39,19 @@ export default {
             this.transaction_tab = true;
         },
         showTransaction(transaction) {
-            this.transaction_tab = false;
+            // this.transaction_tab = false;
             this.transaction_product = transaction;
 
             let sum = this.transaction_product.orders.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
             this.delivery = this.transaction_product.orders.map(o => parseFloat(o.delivery)).reduce((a, c) => { return a + c });
             this.total = sum + this.delivery;
-            if(this.transaction_product.orders[0].status == 0){
-                this.status = 'w-25'
+            if(this.transaction_product.paid == 0){
+                this.status = 'Unpaid'
             }
-            if(this.transaction_product.orders[0].status == 1){
-                this.status = 'w-50'
+            if(this.transaction_product.paid == 1){
+                this.status = 'Paid'
             }
-            if(this.transaction_product.orders[0].status == 2){
-                this.status = 'w-75'
-            }
-            if(this.transaction_product.orders[0].status == 3){
-                this.status = 'w-100'
-            }
+            
             console.log(transaction);
         },
         getTransaction() {

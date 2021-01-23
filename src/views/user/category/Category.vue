@@ -16,7 +16,7 @@
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <button class="btn btn-warning" style="border-radius:20px"><i class="fa fa-calendar"></i> Order History</button>
+                        <router-link :to="{name:'productOrderOverview'}"><button class="btn btn-warning" style="border-radius:20px"><i class="fa fa-calendar"></i> Order History</button></router-link>
                     </div>
                     <div class="row">
                         <div class="col-md-12" v-if="categories.length && !loading">

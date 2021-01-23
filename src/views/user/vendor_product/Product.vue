@@ -17,7 +17,7 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-4">
-                           <router-link :to="{name:'transactionOverview'}"> <button class="btn btn-warning" style="border-radius:20px"><i class="fa fa-calendar"></i> Order History</button></router-link>
+                           <router-link :to="{name:'productOrderOverview'}"><button class="btn btn-warning" style="border-radius:20px"><i class="fa fa-calendar"></i> Order History</button></router-link>
                         </div>
 
                         <!-- <div class="col-md-7 d-flex justify-content-end">
@@ -35,9 +35,9 @@
                                         <div class="col-md-2 mt-2"><img :src="product.image" class="rounded-circle" alt="" width="70" height="70"/></div>
                                         <div class="col-md-5 mt-4">
                                             <p class="fs-15 font-weight-bold text-black"> {{product.name}}</p>
-                                            <p class="fs-10 font-weight-bold text-black" style="margin-top:-15px"> {{product.qty}} Products</p>
+                                            <p class="fs-10 font-weight-bold text-black" style="margin-top:-15px"> {{product.quantity}} Products</p>
                                         </div>
-                                        <div class="col-md-3 mt-4">&#8358; {{ product.amount }}</div>
+                                        <div class="col-md-3 mt-4">&#8358; {{ product.price }}</div>
                                         <div class="col-md-2">
                                             <div class="mt-4">
                                                 <button @click="addToCart(product,index)" data-toggle="modal" data-target="#cart">
@@ -62,7 +62,7 @@
                                     </div>
                                     <div class="row text-center">
                                         <div class="col-md-12">
-                                            <div class="fs-20 font-weight-bolder text-black">Add this item to cart?</div>                                        
+                                            <div class="fs-20 font-weight-bolder text-black">Add this item to order?</div>                                        
                                         </div>
                                     </div>
                                     
@@ -70,16 +70,16 @@
                                      <div class="row card border-0">
                                         <div class="text-center"><img :src="product.image" width="100" height="100"/></div>
                                         <div class="fs-15 mt-2 text-center">{{product.name}}</div>
-                                        <div class="fs-15 mt-1 text-center">&#8358; {{ product.amount }}</div>
-                                        <div class="fs-15 mt-1 text-center">{{ product.qty }} Quantity</div>
+                                        <div class="fs-15 mt-1 text-center">&#8358; {{product.price}}</div>
+                                        <div class="fs-15 mt-1 text-center">{{ product.quantity }} Quantity</div>
                                         <div class="fs-15 mt-3 mb-1 text-center">Select Quantity</div>
                                         <div class="row d-flex justify-content-center">
                                             <div class="col-md-2">
-                                                <button class="btn btn-danger" @click="decrease(product.qty)"><i class="fa fa-minus"></i></button>
+                                                <button class="btn btn-danger" @click="decrease(product.quantity)"><i class="fa fa-minus"></i></button>
                                             </div>
                                             <div class="col-md-2"><input type="text" :value="quantity_value" style="width:50px" @change="changes()"></div>
                                             
-                                            <div class="col-md-2"><button class="btn btn-success" @click="increase(product.qty)"><i class="fa fa-plus"></i></button></div>
+                                            <div class="col-md-2"><button class="btn btn-success" @click="increase(product.quantity)"><i class="fa fa-plus"></i></button></div>
                                         </div>
                                         <div class="fs-15 mt-3 mb-1 text-center" style="color:red" v-if="error">Selected quantity is more than available quantity</div>
                                     </div>
@@ -123,6 +123,12 @@
                         <!-- End Sidebar Cart -->
 
                         <div class="row col-md-12">
+                            <div class="overlay" v-if="saving">
+                                <div style="text-align:center;position: absolute;left: 40%;top: 40%;color:white;font-size:40px">
+                                    <span class="spinner-border spinner-border-sm fs-100" role="status" aria-hidden="true"></span>
+                                    Processing Order...
+                                </div>
+                            </div>
                             <div v-if="!vendor_products.length && loading" style="text-align:center;position: absolute;left: 50%;top: 50%;">                  
                                 <div class="spinner-grow mt-5" style="width: 3rem; height: 3rem;" role="status">
                                     <span class="sr-only">Loading...</span>
@@ -140,7 +146,7 @@
                     </div>
                 </div>
                 <!-- <div class="col-md-1"></div> -->
-                <div class="col-md-3 ml-4" style="">
+                <div class="col-md-3 ml-4" style="" v-if="!show_cart">
                     <div class="row">
                         <div class="font-weight-bold h4">Order Notifications</div>
                     </div>
@@ -164,6 +170,79 @@
                             <p class="fs-10">View Transaction Details</p>
                         </div>
                     </div>
+                </div>
+
+                <div class="col-md-3 ml-4" v-if="show_cart">
+                            <div class="row p-3" style="margin-top:-17px;background-color:#d8d4d4">
+                                <h5><i class="fa fa-shopping-cart"></i>  {{cart_order.length}} items in cart</h5>   
+                            </div>
+                            <div class="row" style="margin-top:-15px">
+                                <div style="margin-top:-15px" class="col-md-12 d-flex justify-content-center" v-for="(cart,index) in cart_order" :key="index">
+                                        <!-- <router-link :to="{name:'vendorProduct',params: { id: vendor.id }}"> -->
+                                        <div class="card p-2" style="width: 25rem;height:6.5rem;border-radius:0px">
+                                            <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
+                                            <div class="row g-0">
+                                            <div class="col-md-2 mt-2"><img :src="cart.image" class="rounded-circle" alt="" width="70" height="70"/></div>
+                                            <div class="col-md-5 mt-4 ml-1">
+                                                <p class="fs-15 font-weight-bold text-black"> {{cart.name}}</p>
+                                                <p class="fs-10 font-weight-bold text-black" style="margin-top:-20px"> {{cart.qty}} Products</p>
+                                            </div>
+                                            <div class="col-md-3 mt-4">&#8358; {{ cart.amount }}</div>
+                                            <div class="col-md-1">
+                                                <div class="mt-4">
+                                                    <button @click="removeFromCart(cart_order,index)">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <!-- </router-link> -->
+                                </div>
+                            </div>
+                            <div class="row align-items-end p-3">
+                                <div class="col-sm-6">
+                                    Total : &#8358; {{total}}
+                                </div>
+                                <div class="col-sm-6 d-flex justify-content-end">
+                                    <button type="button" data-toggle="modal" data-target="#type" class="btn btn-warning pl-4 pr-4" style="border-radius:15px">Order</button>
+                                </div>
+                            </div>
+
+
+                            <div class="modal fade" id="type" tabindex="-1" role="dialog" aria-labelledby="user" aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
+                                    <span class="login100-form-title p-b-33"></span>
+                                        <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon3">Delivery Type</span>
+                                                <select class="form-control" @change="showDate()" v-model="type" aria-label="Default select example">
+                                                    <option selected>Select Pickup Type</option>
+                                                    <option value="pickup">Pickup</option>
+                                                    <option value="delivery">Delivery</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                      <div class="col-md-12 mt-3" v-if="show_date">
+                                        <div class="input-group">
+                                          <span class="input-group-text" id="basic-addon3">Delivery Date</span>
+                                          <input type="date" v-model="date" class="form-control"/>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                      <button @click="saveOrder()" data-dismiss="modal" class="btn btn-warning btn-block">Save</button>
+                                    </div>
+         
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+
+
                 </div>
             </div> 
 

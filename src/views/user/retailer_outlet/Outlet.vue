@@ -82,6 +82,22 @@
                 </div> 
                 </div> 
             </div>
+            <TrendChart
+            :datasets="[
+              {
+                data: [10, 50, 20, 100, 40, 60, 80],
+                smooth: true,
+                fill: true
+              }
+            ]"
+            :grid="{
+              verticalLines: true,
+              horizontalLines: true
+            }"
+            
+            :min="0">
+          </TrendChart>
+
           <div class="mt-3 border-2">
             <div class="row mt-2 mr-1">
               <div class="col-md-6">

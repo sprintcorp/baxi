@@ -43,8 +43,8 @@
                                         <th>S/N</th>
                                         <th>Transfer ref</th>
                                         <th>Type</th>
-                                        <!-- <th>Category</th>
-                                        <th>Status</th> -->
+                                        <!-- <th>Category</th>-->
+                                        <th>Outlet</th> 
                                         <th>Date</th>
                                         <th>No of Items</th>
                                         <th>Amount</th>
@@ -57,8 +57,8 @@
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ transaction.order_group_id }}</td>
                                         <td>{{ transaction.type }}</td>
-                                        <!-- <td></td>
-                                        <td></td> -->
+                                        <!-- <td></td>-->
+                                        <td>{{transaction.outlet.name}}</td> 
                                         <td>{{transaction.created_at  }}</td>
                                         <td>{{transaction.orders.length}}</td>
                                         <td>{{transaction.amount}}</td>
@@ -112,58 +112,22 @@
                                 <!-- </div> -->
                             </div>
 
-                            <div class="col-md-12" v-if="!transaction_tab">
-                              <div class="row mt- mb-3">
-                              <nav>
-                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                  <button @click="changeTab()" class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">
-                                   <i class="fa fa-arrow-left fs-20"></i>
-                                  </button>                                  
-                                </div>
-                              </nav>
+                            
+
+
+
                             </div>
-                              <div class="row  top-section">
-                                <div class="col-md-12 p-3">
-                                  Transaction tracker
-                                </div>
-                              </div>
-                              
-                              <div class="row store-info pt-5 pl-3 mb-2">
-                                <div class="col-md-2" style="">
-                                  <div class=" pt-3 pb-1 pl-3 bg-white store-column"> <i class="fa fa-user fs-20 mr-2"></i> Canon Store </div>
-                                </div>
+                        </section>
 
-                                <div class="col-md-2">
-                                  <div class=""> Contact number: </div>
-                                  <div class=""> 08145058301 </div>
-                                </div>
-                                
-                                <div class="col-md-2">
-                                  <div class=""> Contact address: </div>
-                                  <div class=""> House 14 Aduba Est </div>
-                                </div>
-                                
-                                <div class="col-md-2">
-                                  <div class=""> Order Number: </div>
-                                  <div class=""> {{transaction_product.order_group_id}} </div>
-                                </div>
-                                
-                                <div class="col-md-2">
-                                  <div class=""> Date Placed: </div>
-                                  <div class=""> {{transaction_product.orders[0].transaction_date}} </div>
-                                </div>
-                                
-                                <div class="col-md-2">
-                                  <div class=""> Payment mode: </div>
-                                  <div class=""> {{transaction_product.type}} </div>
-                                </div>
-
-                              </div>
-
-                              <div class="row ml-3 p-5">
-                                <div class="col-md-4">
-                                  <h4>Order Details.</h4>
-                                  <table class="table caption-top">
+                      <div class="modal fade" id="order" tabindex="-1" aria-labelledby="order" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Transaction Information</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table caption-top">
                                     <thead>
                                       <tr>
                                         <th scope="col">#</th>
@@ -183,12 +147,12 @@
                                       </tr>
                                                                    
                                       <tr>
-                                        <td>Delivery</td>
+                                        <td>Status</td>
                                         <th scope="row"></th>
                                         <th scope="row"></th>
                                         <th scope="row"></th>
                                         
-                                        <td>{{delivery}}</td>
+                                        <td>{{status}}</td>
                                       </tr>
                                       <tr>
                                         <td>Total</td>
@@ -200,39 +164,14 @@
                                       </tr>
                                     </tbody>
                                   </table>
-                                </div>
-                                <div class="col-md-1"></div>
-                                <div class="col-md-7 mt-5">
-                                  <div class="row mt-5">
-                                    Delivery Date
-                                  </div>
-                                  <div class="row fs-50">
-                                    Arrives Jan 10
-                                  </div>
-                                  <!-- <div class="row"> -->
-                                    <div class="progress">
-                                      <div :class="[progress, color, status]" role="progressbar" aria-valuenow="status" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                  <!-- </div> -->
-                                  <div class="row mt-5 ml-5">
-                                    <div class="col-md-3">Order Placed</div>
-                                    <div class="col-md-3">Order Accepted</div>
-                                    <div class="col-md-3">Processing</div>
-                                    <div class="col-md-3">Delivered</div>
-                                  </div>
-                                  <div class="form-check mt-3">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                      Check if item order has been delivered
-                                    </label>
-                                  </div>
-                                </div>
-                              </div>
                             </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
                             </div>
-                        </section>
-
-
+                          </div>
+                        </div>
+                      </div>
 
 
   <div class="modal fade" id="search" tabindex="-1" role="dialog" aria-labelledby="user" aria-hidden="true">
