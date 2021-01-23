@@ -216,6 +216,7 @@ export default {
             // for(var pair of formData.entries()) {
             //     console.log(pair[0]+ ', '+ pair[1]); 
             // }
+            this.saving = true;
             fetch(BASE_URL + '/my/products/' + this.retailer_product.product_id, {
                 method: 'PUT',
                 body: JSON.stringify(this.retailer_product),
@@ -246,6 +247,7 @@ export default {
             });
         },
         updateProductQuantity(){
+            this.saving = true;
             const formData = new FormData();
             // formData.append('restock_level', this.retailer_product.restock_level);
             formData.append('qty', this.retailer_product.quantity);

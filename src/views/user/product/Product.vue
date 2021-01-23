@@ -65,7 +65,7 @@
                                         <th>Quantity</th>                                                                              
                                         <th>Amount</th>
                                         <th>Date</th> 
-                                        <th>Action</th> 
+                                        <th v-if="create_product">Action</th> 
                                         <!-- <th>Numbers</th> -->
                                       </tr>
                                       </thead>
@@ -80,7 +80,7 @@
                                         <td>{{ product.outlet_qty}}</td>                                        
                                         <td>{{ product.recommended_price }}</td>
                                         <td>{{product.date }}</td>
-                                        <td>
+                                        <td v-if="create_product">
                                           <button @click="editRetailerProduct(product)" data-toggle="modal" data-target="#editProduct"><i class="fa fa-edit"></i></button>
                                           <button @click="editRetailerProduct(product)" data-toggle="modal" data-target="#updateQuantity"><i class="fa fa-arrow-up"></i></button>
                                         </td>
@@ -96,7 +96,12 @@
                                    
 
                                 </div>
-
+                                <div class="overlay" v-if="saving">
+                                <div style="text-align:center;position: absolute;left: 40%;top: 40%;color:white;font-size:40px">
+                                    <span class="spinner-border spinner-border-sm fs-100" role="status" aria-hidden="true"></span>
+                                    Saving Product...
+                                </div>
+                            </div>
                                 <div class="mt-5" v-if="!local_product.length && loading" style="text-align:center">
                   
                                       <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
@@ -344,4 +349,19 @@
 </script>
 
 <style scoped>
+.overlay {
+	position: fixed;
+	display: block;
+	width: 100%;
+	height: 100%;
+	top: 10%;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0,0,0.5,0.5);
+	z-index: 2;
+	cursor: pointer;
+	text-align:center;
+  }
+
 </style>

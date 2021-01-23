@@ -11,6 +11,8 @@ export default {
                 restock_level: '',
                 product_id:''
             },
+            create_product:'',
+            saving:false,
         }
     },
     methods:{
@@ -18,7 +20,7 @@ export default {
             this.retailer_product = product;
         },
         updateProductQuantity(){
-          
+          this.saving = true;
             fetch(BASE_URL + '/my/outlet/' + window.localStorage.getItem("retailer_outlet") + '/product', {
                 method: 'PUT',
                 body: JSON.stringify(this.retailer_product),
@@ -92,5 +94,6 @@ export default {
     },
     mounted() {
         this.getRestockLevel()
+        this.create_product = checkUserPermission('create products');
     },
 }

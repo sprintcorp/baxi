@@ -13,7 +13,7 @@
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-md-4">
+                        <div class="col-md-4" v-if="create_product">
                            <router-link :to="{name:'productOrderOverview'}"><button class="btn btn-warning" style="border-radius:20px"><i class="fa fa-calendar"></i> Order History</button></router-link>
                         </div>
 
@@ -132,6 +132,12 @@
 
 
                         <div class="row col-md-12">
+                            <div class="overlay" v-if="saving">
+                                <div style="text-align:center;position: absolute;left: 40%;top: 40%;color:white;font-size:40px">
+                                    <span class="spinner-border spinner-border-sm fs-100" role="status" aria-hidden="true"></span>
+                                    Saving Product...
+                                </div>
+                            </div>
                             <div v-if="!vendor_products.length && loading" style="text-align:center;position: absolute;left: 50%;top: 50%;">                  
                                 <div class="spinner-grow mt-5" style="width: 3rem; height: 3rem;" role="status">
                                     <span class="sr-only">Loading...</span>
@@ -159,7 +165,20 @@
 
 
 <style scoped>
-
+.overlay {
+	position: fixed;
+	display: block;
+	width: 100%;
+	height: 100%;
+	top: 10%;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0,0,0.5,0.5);
+	z-index: 2;
+	cursor: pointer;
+	text-align:center;
+  }
 </style>
 
 <script src="./RestockLevel.js">
