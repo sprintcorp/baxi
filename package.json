@@ -9,6 +9,7 @@
     },
     "dependencies": {
         "apexcharts": "^3.23.1",
+        "bootstrap": "^4.6.0",
         "connect-history-api-fallback": "^1.6.0",
         "core-js": "^3.6.5",
         "express": "^4.17.1",
@@ -23,8 +24,7 @@
         "vue-toasted": "^1.1.28",
         "vue-trend-chart": "^0.15.3",
         "vuejs-datatable": "^2.0.0-alpha.7",
-        "vuex": "^3.6.0",
-        "bootstrap": "^4.5.3"
+        "vuex": "^3.6.0"
     },
     "devDependencies": {
         "@fortawesome/fontawesome-free": "^5.15.1",
@@ -32,7 +32,7 @@
         "@vue/cli-plugin-eslint": "~4.5.0",
         "@vue/cli-service": "~4.5.0",
         "axios": "^0.19",
-        "babel-eslint": "^10.1.0",        
+        "babel-eslint": "^10.1.0",
         "browser-sync": "^2.26.13",
         "browser-sync-webpack-plugin": "^2.0.1",
         "cross-env": "^7.0",
