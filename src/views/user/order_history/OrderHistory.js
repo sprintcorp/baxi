@@ -43,16 +43,16 @@ export default {
             // let sum = this.order_product.orders.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
             // this.delivery = this.order_product.orders.map(o => parseFloat(o.delivery)).reduce((a, c) => { return a + c });
             // this.total = sum + this.delivery;
-            if(this.order_product.status == 0){
+            if(this.order_product.seen == 0){
                 this.status = 'w-25'
             }
-            if(this.order_product.status == 1){
+            if(this.order_product.seen == 1){
                 this.status = 'w-50'
             }
-            if(this.order_product.status == 2){
+            if(this.order_product.seen == 2){
                 this.status = 'w-75'
             }
-            if(this.order_product.status == 3){
+            if(this.order_product.seen == 3){
                 this.status = 'w-100'
             }
             // console.log(transaction);

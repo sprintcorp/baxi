@@ -51,6 +51,7 @@ export default {
             });
         },
         getRestockLevel(){
+            this.vendor_products = [];
             if(checkUserPermission('order products') == true){
                 this.outlet = window.localStorage.getItem("retailer_outlet") 
             }else{

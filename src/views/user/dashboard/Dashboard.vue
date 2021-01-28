@@ -3,7 +3,8 @@
     <div>
       <div class="container-fluid p-2" style="background-color: white;min-height:80vh">
         <div class="heading-sec">
-          <div class="row p-5">
+          <!-- Retailer header -->
+          <div class="row p-5" v-if="change_outlet">
             <div class="col-md-8" style="">   
                   <div class="heading-profile">
                     <h2 class="text-black">
@@ -11,7 +12,7 @@
                     </h2>
                   </div>             
             </div>
-            <div class="col-md-4" style="" v-if="change_outlet">   
+            <div class="col-md-4" style="">   
                   <div class="input-group">
                     <span class="input-group-text bg-white" style="border:1px solid white;color:black">Select Outlet</span>
                     <select v-model='selected_outlet' @change="changeOutlet()" class="form-control">
@@ -21,8 +22,26 @@
                   </div>            
             </div>
           </div>
+          <!-- End of Retailer Header -->
 
-          <div class="row">
+
+          <!-- Cashier Header -->
+          <div class="row p-5" v-if="!change_outlet">
+            <div class="col-md-5" style="">   
+                  <div class="heading-profile">
+                    <h2 class="text-black">
+                      Welcome back, <span class="text-black">{{ username }}!</span> 
+                    </h2>
+                  </div>             
+            </div>
+            <div class="col-md-7 d-flex justify-content-end" style="">   
+                <input type="text" v-model="search" placeholder="Type to search for a product" class="inp" style="background-color:white;width:91%;"/>
+                <button type="submit"><i class="fa fa-search"></i></button>      
+            </div>
+          </div>
+          <!-- End of Cashier -->
+
+          <div class="row" v-if="change_outlet" style="margin-top:-30px">
             <div class="col-md-12 d-flex justify-content-center">
              <!-- <form class="form-inline search-form my-2 my-lg-0" style="width:90%"> -->
                     <input type="text" v-model="search" placeholder="Type to search for a product" class="inp" style="background-color:white;width:91%;"/>
@@ -31,7 +50,7 @@
             </div>
           </div>
 
-          <div class="row p-5">
+          <div class="row p-5" style="margin-top:-30px">
             <div class="col-md-9 col-sm-2" @click="goBack()"><i class="fa fa-arrow-left fs-20"></i></div>
             <!-- <div class="col-md-1 col-sm-2" style="margin-right:-30px"><i class="fa fa-shopping-cart fs-20"></i></div> -->
             <div class="col-md-3 col-sm-3 d-flex justify-content-end">
@@ -45,7 +64,7 @@
           <div class="row">
             <div :class="[!show_cat ?  'col-md-12' : 'col-md-9']">
                         <div class="col-md-12" v-if="results.length && !loading">
-                            <div class="row p-3" v-if="cat" style="background-color:#d6d6d6">
+                            <div class="row p-3" v-if="cat" style="background-color:#d6d6d6;margin-top:-20px">
                                 <div class="col-md-3" v-for="(category,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
                                     <div class="card p-2" style="height:10rem" @click="getCategoryProduct(category.id)">
@@ -59,10 +78,10 @@
                                 </div>
                             </div>
 
-                            <div class="row p-3" v-if="!cat" style="background-color:#d6d6d6">
+                            <div class="row p-3" v-if="!cat" style="background-color:#d6d6d6;margin-top:-20px">
                                 <div :class="[show_cat ? 'col-md-3' : 'col-md-2']" v-for="(product,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
-                                    <div class="card p-2" style="height:14rem">
+                                    <div class="card p-2" style="height:14rem;margin-top:20px">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                        <div class="row pl-3"> <p class="fs-13"> {{product.name}}</p></div>
                                         <div class="row" style="height:50%">

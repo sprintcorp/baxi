@@ -72,7 +72,7 @@
                                       <tbody>
 
                                       <tr v-for="(product,index) in filerProducts" :key="index">
-                                        <td>{{ index+1 }}</td>
+                                        <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ product.name }}</td>
                                         <td>{{ product.sku }}</td>
                                         <td>{{product.category != '' ? product.category :'No Category'}}</td>
@@ -91,6 +91,28 @@
                                       </tbody>
                                     
                                     </table>
+                                     <nav aria-label="Page navigation example">
+                                      <ul class="mb-5 pagination justify-content-center">
+                                        <li class="page-item mr-1">
+                                          <button @click="getPageProducts(page.first_page_url)" class="page-link">First</button>
+                                        </li>
+                                        <li class="page-item mr-1">
+                                          <button @click="getPageProducts(page.prev_page_url)" class="page-link">Previous</button>
+                                        </li>
+                                        <li class="page-item active mr-1" aria-current="page">
+                                          <span class="page-link">{{page.current_page}}</span>
+                                        </li>
+                                        <li class="page-item mr-1" aria-current="page">
+                                          <span class="page-link">of {{page.last_page > 1? page.last_page+ ' pages' : page.last_page+ ' page'}}</span>
+                                        </li>
+                                        <li class="page-item mr-1">
+                                          <button @click="getPageProducts(page.next_page_url)" class="page-link">Next</button>
+                                        </li>
+                                        <li class="page-item mr-1">
+                                          <button @click="getPageProducts(page.last_page_url)" class="page-link">Last</button>
+                                        </li>
+                                      </ul>
+                                    </nav>
               
                                   </div>
                                    
@@ -203,12 +225,12 @@
                                 <div class="col-md-12">
                                   <div class="row">
                                     <div class="col-md-6">
-                                      <label class="form-label">Quantity {{retailer_product.qty}}</label>
-                                      <input type="text" class="form-control" v-model="retailer_product.qty" aria-describedby="quantity">
+                                      <label class="form-label">Current Quantity</label>
+                                      <input type="text" class="form-control" v-model="retailer_product.qty" readonly aria-describedby="quantity">
                                     </div>
                                     <div class="col-md-6">
-                                      <label class="form-label">Restock Level</label>
-                                      <input type="text" class="form-control"  v-model="retailer_product.restock_level" aria-describedby="restock level">
+                                      <label class="form-label">Update Quantity</label>
+                                      <input type="text" class="form-control"  v-model="retailer_product.restock" aria-describedby="restock level">
                                     </div>
                                   </div>
                                   
@@ -225,84 +247,98 @@
                       </div>
 
 
-
-
-
-                        <!--Create Product -->
-                          <div class="modal fade" id="product" tabindex="-1" role="dialog" aria-labelledby="product" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                              <div class="modal-content">
-                                <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
-                                  <span class="login100-form-title p-b-33">Add a new product</span>
-                                  
-                                  <form class="login100-form validate-form">
-                                    <div class="form-row mb-4">
-                                      <div class="col">
-                                        <div class="input-group mb-2 mr-sm-2">
-                                          <input v-model="product.name" type="text" class="form-control" placeholder="A product name">
-                                        </div>
-                                      </div>
+                      <div class="modal fade" id="product" tabindex="-1" aria-labelledby="product" aria-hidden="true">
+                        <div class="modal-dialog modal-xl modal-dialog-centered">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+                              <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="row">
+                                <div class="col-md-9">
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <label class="form-label">Product name</label>
+                                      <input type="text" class="form-control" v-model="product.name" aria-describedby="product name">
                                     </div>
-                                    <div class="form-row mb-4">
-                                      <div class="col">
-                                        <div class="input-group mb-2 mr-sm-2">
-                                          <input v-model="product.barcode" type="text" class="form-control" placeholder="Generate a barcode">
-                                        </div>
-                                        
-                                      </div>
-                                    </div>
-                                    <div class="form-row mb-4">
-                                      <div class="col">
-                                        <div class="input-group mb-2 mr-sm-2">
-                                          <input v-model="product.recommended_price" type="number" class="form-control" placeholder="Selling Price">
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="form-row mb-4">
-                                      <div class="col">
-                                        <div class="input-group mb-2 mr-sm-2">
-                                          <input v-model="product.outlet_qty" type="number" class="form-control" placeholder="Outlet Quantity">
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="form-row mb-4">
-                                      <div class="col">
-                                        <select class="form-control" v-model="product.category_id">
+                                    <div class="col-md-6">
+                                      <label class="form-label">Product Category</label>
+                                      <select class="form-control" v-model="product.category_id">
                                           <option value="" selected>Select product category</option>
                                           <option v-for="(category,index) in categories" :key="index"  :value="category.id">{{ category.name  }}</option>                  
                                         </select>
-                                      </div>
                                     </div>
-                                    <div class="form-row mb-4">
-                                      <div class="col">
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <label class="form-label">Quantity</label>
+                                      <input type="text" class="form-control" v-model="product.outlet_qty" aria-describedby="quantity">
+                                    </div>
+                                    <div class="col-md-6">
+                                      <label class="form-label">Restock Level</label>
+                                      <input type="text" class="form-control"  v-model="product.restock_level" aria-describedby="restock level">
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <label class="form-label">Price</label>
+                                      <input type="text" class="form-control" v-model="product.recommended_price" aria-describedby="quantity">
+                                      <input type="hidden" class="form-control" v-model="retailer_product.product_id" aria-describedby="quantity">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                      <label class="form-label">Outlet</label>
                                         <select class="form-control" v-model="product.outlet">
-                                          <option value="" selected>Select business outlet</option>
-                                          <option v-for="(outlet,index) in outlets" :key="index"  :value="outlet.id">{{ outlet.name  }}</option>                  
+                                            <option value="" selected>Select business outlet</option>
+                                            <option v-for="(outlet,index) in outlets" :key="index"  :value="outlet.id">{{ outlet.name  }}</option>                  
                                         </select>
-                                      </div>
                                     </div>
-                                    <div class="form-row mb-4">
-                                      <div class="col">
-                                        <div class="input-group mb-2 mr-sm-2">
-                                          <input v-model="product.restock_level" type="number" class="form-control" placeholder="Restock Level">
-                                        </div>
-                                        
-                                      </div>
-                                    </div>
-                                    <p class="lead">
-                                      <button @click.prevent="createProduct()" class="btn btn-primary btn-lg float-right">Create
-                                        <!-- <i class="fa fa-save"></i> -->
-                                        <div class="spinner-grow text-light" role="status" v-if="saving">
-                                          <span class="visually-hidden"></span>
-                                        </div>
-                                      </button>
+                                    
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-12">
+                                      <label class="form-label">Barcode</label>
+                                        <input v-model="product.barcode" type="text" class="form-control">
+                                    </div>                                    
+                                  </div>
+                                  <!-- <div class="row">
+                                    <div class="col-md-12">
+                                      <label class="form-label">Barcode</label>
+                                        <ImageBarcodeReader
+                                            @decode="onDecode"
+                                            @error="onError"
+                                        ></ImageBarcodeReader>
+                                    </div>                                    
+                                  </div> -->
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="text-center" style="width:100%;height:90%">
+                                    <img :src="product.image" class="mb-2" style="width:100%"/>
+                                  </div>
+                                  <row md="12">
+                                      <input id="productUpload" ref="fileInputs" type="file" @change="fileChanges()" hidden>
                                       
-                                    </p>
-                                  </form>
+                                      <button class="btn btn-warning btn-block" @click="addFiles()">Select Image</button>
+                                      
+                                      
+                                  </row>
                                 </div>
                               </div>
                             </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              <button type="button" class="btn btn-primary" @click="createProduct()" data-dismiss="modal">Save</button>
+                            </div>
                           </div>
+                        </div>
+                      </div>
+
+
+
+
+
+                       
 
 
   <div class="modal fade" id="search" tabindex="-1" role="dialog" aria-labelledby="user" aria-hidden="true">

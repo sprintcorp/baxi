@@ -61,7 +61,7 @@
                                         <td>{{transaction.outlet.name}}</td> 
                                         <td>{{transaction.created_at  }}</td>
                                         <td>{{transaction.orders.length}}</td>
-                                        <td>{{transaction.amount}}</td>
+                                        <td>&#8358; {{transaction.amount}}</td>
                                         <td>
                                           <button data-toggle="modal" data-target="#order" type="button" @click="showTransaction(transaction)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
                                         </td>
@@ -143,7 +143,7 @@
                                         <td>{{product.product.name}}</td>
                                         <td>{{product.amount/product.qty}}</td>
                                         <td>{{product.qty}}</td>
-                                        <td>{{product.amount}}</td>
+                                        <td>&#8358; {{product.amount}}</td>
                                       </tr>
                                                                    
                                       <tr>

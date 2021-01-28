@@ -17,7 +17,24 @@ export default {
             transaction_product: [],
             outlets:[],
             selected_outlet:'',
-            total_transaction:0
+            total_transaction:0,
+            chartOptions: {
+                chart: {
+                  id: 'vuechart-example'
+                },
+                xaxis: {
+                  categories: ['Product one', 'product 2', 'product 3', 'product 5', 'product 4', 'product 6', 'product 7', 'product 9']
+                }
+              },
+              series: [{
+                name: 'series-1',
+                data: [30, 40, 35, 50, 49, 60, 70, 201]
+              }],
+              products:[],
+            
+
+
+
         }
     },
     computed: {

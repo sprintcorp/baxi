@@ -82,21 +82,9 @@
                 </div> 
                 </div> 
             </div>
-            <TrendChart
-            :datasets="[
-              {
-                data: [10, 50, 20, 100, 40, 60, 80],
-                smooth: true,
-                fill: true
-              }
-            ]"
-            :grid="{
-              verticalLines: true,
-              horizontalLines: true
-            }"
-            
-            :min="0">
-          </TrendChart>
+             <div>
+              <apexchart width="1000" height="300" type="bar" :options="chartOptions" :series="series"></apexchart>
+            </div>
 
           <div class="mt-3 border-2">
             <div class="row mt-2 mr-1">
@@ -132,9 +120,9 @@
                             </div> -->
             </div>
 
-            <div class="row mt-2 mr-1">
+            <div class="row mt-2">
 
-              <div class="col-md-12 col-sm-6">
+              <div class="col-md-12 d-flex justify-content-end">
                 <div class="table-responsive" v-if="transactions.length && !loading">
                   <table class="table table-striped">
                     <thead>
@@ -223,10 +211,7 @@
                     </tbody>
                   </table>
                         </div>
-                        <!-- <div class="modal-footer">
-                          <button type="button" class="btn btn-danger"><i class="fa fa-times-circle"></i></button>
-                          <button type="button" class="btn btn-success text-white" @click="acceptOrder(group_orders.group_id)">&nbsp; <i class="fa fa-check-circle"></i></button>
-                        </div> -->
+                        
                         </div>
                       </div>
             

@@ -55,7 +55,7 @@
                                       <tr v-for="(order,index) in filerTransactions" :key="index">
                                         <td>{{  index + 1 }}</td>
                                         <td>{{ order.group_id }}</td>
-                                        <td>{{order.status == 0?'Pending':order.status == 1?'Accepted':order.status == 2?'Processing':'Delivered'}}</td>                                      
+                                        <td>{{order.seen == 0?'Pending':order.status == 1?'Accepted':order.status == 2?'Processing':'Delivered'}}</td>                                      
                                         <td>{{order.amount }}</td>
                                         <!-- <td>{{order.business}}</td> -->
                                         <td>{{order.created_at}}</td>
@@ -182,10 +182,10 @@
                                   <div class="row mt-5 fs-25">
                                     Delivery Date
                                   </div>
-                                  <div class="row fs-50" v-if="order_product.status != 0">
+                                  <div class="row fs-50" v-if="order_product.seen != 0">
                                     Arrives Jan 10
                                   </div>
-                                  <div class="row fs-25" v-if="order_product.status == 0">
+                                  <div class="row fs-25" v-if="order_product.seen == 0">
                                     Date will be updated when order is accepted by merchant
                                   </div>
                                   <!-- <div class="row"> -->

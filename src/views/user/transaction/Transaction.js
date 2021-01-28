@@ -45,10 +45,13 @@ export default {
             let sum = this.transaction_product.orders.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
             this.delivery = this.transaction_product.orders.map(o => parseFloat(o.delivery)).reduce((a, c) => { return a + c });
             this.total = sum + this.delivery;
-            if(this.transaction_product.paid == 0){
+            if(this.transaction_product.paid == 0 && this.transaction_product.type != 'cash'){
                 this.status = 'Unpaid'
             }
             if(this.transaction_product.paid == 1){
+                this.status = 'Paid'
+            }
+            if(this.transaction_product.paid == 0 && this.transaction_product.type == 'cash'){
                 this.status = 'Paid'
             }
             

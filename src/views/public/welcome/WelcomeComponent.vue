@@ -22,7 +22,7 @@
 
            </div>
            <div class="form-group mb-5" style="text-align:center">
-             <button class="btn btn-warning btn-sm"><i class="fa fa-comments"></i> Chat with us</button>
+             <!-- <button class="btn btn-warning btn-sm"><i class="fa fa-comments"></i> Chat with us</button> -->
            </div>
            </div>
 

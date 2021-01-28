@@ -38,7 +38,7 @@ export default {
     },
     computed: {
         filerResult() {
-            return this.results.filter((result) => result.name.toLowerCase().includes(this.search.toLowerCase()))
+            return this.results.filter((result) => result.name.toLowerCase().includes(this.search.toLowerCase()) || result.sku.toLowerCase().includes(this.search.toLowerCase()))
         }
     },
     methods: {
@@ -165,7 +165,7 @@ export default {
                         console.log(res.data.data);
                         this.loading = false;
                         this.getCart();
-                        this.products = res.data;
+                        this.products = res.data.data;
                         this.products.forEach((data) => {
                             this.results.push({
                                 product_id: data.product.id,
@@ -219,7 +219,7 @@ export default {
                             this.$router.push({ name: 'welcome' });
                         }
                         this.loading = false;
-                        this.products = res.data;
+                        this.products = res.data.data;
                         this.getCart();
                         console.log(this.products);
                         this.products.forEach((data) => {
@@ -240,7 +240,7 @@ export default {
 
                             });
                         });
-                        console.log(this.local_product);
+                        console.log(this.products);
                     })
                     .catch(err => {
                             console.log(err)
@@ -267,7 +267,7 @@ export default {
             }
         },
         getCart(){
-            if (JSON.parse(window.localStorage.getItem("retailer_cashier_order"))) {
+            if (JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length > 0) {
                 this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"));
                 this.sumProduct()
                 this.show_cat = true;
@@ -490,9 +490,11 @@ export default {
                 .then(res => res.json())
                 .then(res => {
                     this.saving = false;
-                    this.$swal(res.message);
-                    window.localStorage.removeItem("retailer_cashier_order");
+                    console.log(res)
+                    this.$swal("Payment Successful");
                     this.show_cat = false;
+                    window.localStorage.removeItem("retailer_cashier_order");
+                    
                     this.getProducts();
                 })
                 .catch(err => {
@@ -511,7 +513,7 @@ export default {
     },
 
     mounted() {
-        if (JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length) {
+        if (JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length > 0) {
             this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"));
             this.getCart();
         }
