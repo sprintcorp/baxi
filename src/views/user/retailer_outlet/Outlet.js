@@ -7,6 +7,7 @@ export default {
     data() {
         return {
             user: null,
+            saving:false,
             businesses: [],
             name: '',
             loading: false,
@@ -18,23 +19,39 @@ export default {
             outlets:[],
             selected_outlet:'',
             total_transaction:0,
-            chartOptions: {
+            outlet_transactions:[],
+            total_quantity:0,
+            series: [{
+                data: []
+              }],
+              chartOptions: {
                 chart: {
-                  id: 'vuechart-example'
+                  type: 'bar',
+                  height: 350,
+                },
+                plotOptions: {
+                  bar: {
+                    horizontal: false,
+                  },
+                  fill: {
+                    colors: ['#000']
+                  }
+                },
+                dataLabels: {
+                  enabled: true
                 },
                 xaxis: {
-                  categories: ['Product one', 'product 2', 'product 3', 'product 5', 'product 4', 'product 6', 'product 7', 'product 9']
+                  categories: [],
                 }
               },
-              series: [{
-                name: 'series-1',
-                data: [30, 40, 35, 50, 49, 60, 70, 201]
-              }],
-              products:[],
-            
-
-
-
+            products:[],
+            chart:false,
+            users:[],       
+            payload: {
+                name:"",
+                full_address:"",
+                cashier:""
+            }   
         }
     },
     computed: {
@@ -62,7 +79,7 @@ export default {
                 .then(res => res.json())
                 .then(res => {
                     if (res.message === 'Unauthenticated.') {
-                        console.log(res);
+                        // console.log(res);
                         logout();
                         this.$router.push({ name: 'welcome' });
                     }
@@ -81,7 +98,6 @@ export default {
                             this.$router.push({ name: 'welcome' });
                         }
                     }
-
                 );
         },
         showProducts(transaction) {
@@ -107,8 +123,9 @@ export default {
                     this.outlets = res.data;
                     this.getOutletTransaction(this.outlets[0].id)
                     this.selected_outlet = this.outlets[0].id;
+                    this.getTransaction(this.outlets[0].id);
                     
-                    console.log(this.outlets);
+                    // console.log(this.outlets);
                 })
                 .catch((err) => {
 
@@ -142,10 +159,39 @@ export default {
                     }
                     this.loading = false;
                     this.transactions = res.data.transactions;
-                    console.log(this.transactions);
+                    // console.log(this.transactions);
                     let sum = this.transactions.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
-                    console.log(sum);
+                    // console.log(sum);
                     this.total_transaction = sum;
+                })
+                .catch(err => {
+                        console.log(err)
+                        this.loading = false;
+                        
+                    }
+
+                );
+        },
+        getSecondaryUsers(){
+            this.loading = true;
+            fetch(BASE_URL + '/user/'+window.localStorage.getItem('name') +'/secondary-users', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.message === 'Unauthenticated.') {
+                        console.log(res);
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                    this.loading = false;
+                    this.users = res.data.data;
+                    
+                    
                 })
                 .catch(err => {
                         console.log(err)
@@ -159,19 +205,130 @@ export default {
 
                 );
         },
-        getOutletInformation(){
-            this.getOutletTransaction(this.selected_outlet)
+        createOutlet(){
+            this.saving = true;
+              fetch(BASE_URL + '/my/outlets/new', {
+                  method: 'POST',
+                  body: JSON.stringify(this.payload),
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'Accept': 'application/json',
+                      'Authorization': getToken()
+                  }
+              })
+              .then(res => res.json())
+              .then(res => {
+                  this.saving = false;
+                  this.$swal(res.message);
+                  
+              })
+              .catch(err => {
+  
+                  this.$swal(err.response.data.message);
+                  this.saving = false;
+                  console.log(err)
+                  if (err.response.status == 401) {
+                      this.saving = false;
+                      this.$swal("Session Expired");
+                      logout();
+                      this.$router.push({ name: 'welcome' });
+                  }
+              });
+          },
+        getTransaction(id){
+            this.loading = true;
+            this.outlet_transactions = [];
+            fetch(BASE_URL + '/my/retailer/orders?outlet_id='+id, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.message === 'Unauthenticated.') {
+                        console.log(res);
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                    this.loading = false;
+                    res.data.forEach((data)=>{
+                        this.outlet_transactions.push({
+                            product:data.product.name,
+                            quantity:data.qty
+                        })
+                    })
+                    this.sumArray(this.outlet_transactions);
+                    
+                })
+                .catch(err => {
+                        console.log(err)
+                        this.loading = false;
+                        if (err.response.status == 401) {
+                            this.$swal("Session Expired");
+                            logout();
+                            this.$router.push({ name: 'welcome' });
+                        }
+                    }
+
+                );
+        },
+        sumArray(objArr){
+            console.log(objArr)
+            this.chartOptions.xaxis.categories = [];
+            this.series[0].data = [];
+            let counts = objArr.reduce((prev, curr) => {
+                let count = prev.get(curr.product) || 0;
+                prev.set(curr.product, curr.quantity + count);
+                return prev;
+              }, new Map());
+              
+              // then, map your counts object back to an array
+              let reducedObjArr = [...counts].map(([product,quantity]) => {
+                return {product,quantity}
+              })
+
+              const products = reducedObjArr.map(function(obj){
+                return obj.product
+            })
+            const quantity = reducedObjArr.map(function(obj){
+                return obj.quantity
+            })
+            console.log(products);
+            console.log(quantity);
+            const total = quantity.reduce((a, b) => a + b, 0);
+            this.total_quantity = total;
+            products.forEach((data) => {
+                this.chartOptions.xaxis.categories.push(data);
+            })
+
+            quantity.forEach((data) => {
+                this.series[0].data.push(data);
+            })
+            this.chart = true;
+              
+                console.log(this.chartOptions.xaxis.categories);
+                // console.log(reducedObjArr2);
+                console.log(this.series.data);
+                
+        },
+        getOutletInformation(){ 
+            this.chartOptions.xaxis.categories = [];
+            this.series[0].data = [];
+            this.getTransaction(this.selected_outlet);           
+            this.getOutletTransaction(this.selected_outlet);
+            
         }
 
     },
 
-    mounted() {
-        
+    mounted() {        
         this.getBusinessOutlets();
         this.getUserBusiness();
         this.getOutletTransaction();
         this.name = getName();
-        console.log(this.$router.currentRoute.name);
+        this.getSecondaryUsers();
         this.start_date = new Date("2015-08-21").getTime();
         this.end_date = new Date().getTime();
         

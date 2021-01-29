@@ -12,16 +12,29 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import '@fortawesome/fontawesome-free/js/all.js';
 import TrendChart from "vue-trend-chart";
 // import ApexCharts from 'apexcharts';
-import VueApexCharts from 'vue-apexcharts'
+import VueApexCharts from 'vue-apexcharts';
+import VueHtmlToPaper from 'vue-html-to-paper';
 
 // import Popper from 'popper.js';
 // import $ from 'jquery';
 
 // Vue.use($)
 // Vue.use(Popper)
+const options = {
+    name: '_blank',
+    specs: [
+      'fullscreen=yes',
+      'titlebar=yes',
+      'scrollbars=yes'
+    ],
+    styles: [
+      'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
+      'https://unpkg.com/kidlat-css/css/kidlat.css'
+    ]
+  }
 
 Vue.use(VueApexCharts)
-
+Vue.use(VueHtmlToPaper, options);
 Vue.component('apexchart', VueApexCharts)
 Vue.use(TrendChart);
 Vue.use(Toasted)

@@ -18,7 +18,7 @@ export default {
             delivery:0,
             status:'',
             progress:'progress-bar',
-            color:'bg-warning'
+            color:'bg-warning',
         }
     },
     computed: {
@@ -90,6 +90,10 @@ export default {
                 );
         },
 
+        printReceipt(product){
+            console.log(product)
+            this.$htmlToPaper('printMe');
+        },
 
         getPageTransaction(page) {
             this.transactions =[];

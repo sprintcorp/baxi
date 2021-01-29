@@ -30,7 +30,7 @@
 
                 </ul>
                 <form  class="form-inline search-form my-2 my-lg-0" v-if="(this.$router.currentRoute.name != 'categoryOrder')">
-                    <input type="text" v-model="search" placeholder="Search Products" style="background-color:white;width:255%;border-radius:20px"/>
+                    <input type="text" placeholder="Search Products" style="background-color:white;width:255%;border-radius:20px"/>
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
                 <div class="vl"></div>

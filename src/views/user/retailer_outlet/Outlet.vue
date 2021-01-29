@@ -1,37 +1,32 @@
 <template>
   <!-- <RetailerLayoutComponent> -->
     <div>
-      <div class="main-content style2" style="background-color: white;min-height:80vh">
+      <div class="container-fluid" style="background-color: white;min-height:80vh">
         <div class="heading-sec">
-          <div class="row">
+          <div class="row" v-if="!saving">
             <div class="col-md-9" style="border-right:2px solid black">
-              <div class="row mt-2">
-                <div class="col-md-6 column">
-                  <div class="heading-profile">
-                    <!-- <h2>
-                      Welcome back, <span>{{ name }}!</span
-                      > 
-                    </h2> -->
-                  </div>
-                </div>
-
-                <div class="col-md-6 d-flxe justify-content-end p-5">
-                  
-                  <div class="input-group">
+              <div class="row">
+                <div class="col-md-4 mt-5">
+                    <div class="input-group">
                     <span class="input-group-text">Select Outlet</span>
                     <select v-model='selected_outlet' @change="getOutletInformation()" class="form-control">
                       <!-- <option>Select outlet</option> -->
                       <option v-for="(outlet,index) in outlets" :key="index" :value="outlet.id">{{outlet.name}}</option>
                     </select>
                   </div>
+                 
+                </div>
+
+                <div class="col-md-8 d-flex justify-content-end p-5">
+                  <button class="btn btn-rounded btn-warning" type="button" data-toggle="modal" data-target="#outlet"><i class="fa fa-plus"></i> Create Outlet</button>                  
                 </div>
               </div>
 
-              <div class="row">
+              <div class="row" style="margin-top:-30px">
               <div class="col-md-12">
                 <div class="row">
 
-                <div class="col-md-2 card p-3" style="height:110px;border-radius:10px">
+                <!-- <div class="col-md-2 card p-3" style="height:110px;border-radius:10px">
                   <div class="d-flex justify-content-end">
                     <div class="row"><p>Total Sales</p></div> 
                     
@@ -43,21 +38,21 @@
                     <div class="progress-bar bg-success" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                   
 
-                </div>  
+                </div>   -->
 
-                <div class="col-md-2 card p-3" style="height:110px;border-radius:10px">
+                <div class="col-md-3 card p-3" style="height:110px;border-radius:10px">
                   <div class="d-flex justify-content-end">
                     <div class="row"><p>Total Products Sold</p></div>
                     
                   </div>
                   <div class="d-flex justify-content-end">
-                    <div class="font-weight-bold" style="color:blue">78896689</div>
+                    <div class="font-weight-bold" style="color:blue">{{total_quantity}}</div>
                   </div>
                   
                     <div class="progress-bar bg-info" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>  
 
-                <div class="col-md-2 card p-3" style="height:110px;border-radius:10px">
+                <div class="col-md-3 card p-3" style="height:110px;border-radius:10px">
                   <div class="d-flex justify-content-end">
                     <div class="row"><p>Total Transaction</p></div>
                     
@@ -69,7 +64,7 @@
                     <div class="progress-bar bg-warning" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>  
 
-                <div class="col-md-2 card p-3" style="height:110px;border-radius:10px">
+                <div class="col-md-3 card p-3" style="height:110px;border-radius:10px">
                   <div class="d-flex justify-content-end">
                     <div class="row"><p>Total New Orders</p></div>
                     
@@ -82,22 +77,17 @@
                 </div> 
                 </div> 
             </div>
-             <div>
-              <apexchart width="1000" height="300" type="bar" :options="chartOptions" :series="series"></apexchart>
+            <!-- {{series[0].data}}
+            {{chartOptions}} -->
+             <div class="row mt-3" v-if="chart">
+               <div class="col-md-12 d-flex justify-content-center">
+                <apexchart width="1000" height="300" type="bar" :options="chartOptions" :series="series"></apexchart>
+              </div>
             </div>
 
-          <div class="mt-3 border-2">
+            <div class="mt-3 border-2">
             <div class="row mt-2 mr-1">
-              <div class="col-md-6">
-                          <download-csv
-                              class="btn btn-info"
-                              :data="filerTransactions"
-                              name="transaction.csv">
-
-                              Download Excel <i class="fa fa-file"></i>
-
-                            </download-csv>
-                        </div>
+              
                         <div class="col-md-6">
                           <div class="row">
                           <div class="col-md-6">
@@ -113,6 +103,16 @@
                             </div>
                           </div>
                           </div>
+                        </div>
+                        <div class="col-md-6 d-flex justify-content-end">
+                          <download-csv
+                              class="btn btn-info"
+                              :data="filerTransactions"
+                              name="transaction.csv">
+
+                              Download Excel <i class="fa fa-file"></i>
+
+                            </download-csv>
                         </div>
                             <!-- <div class="col-md-3">
                                   <input type="text" v-model="search" placeholder="Search Here..." class="form-control" style="background-color:white;"/>
@@ -161,7 +161,7 @@
 
              <div v-if="!transactions.length && loading" class="col-md-12 col-sm-6" style="text-align:center">
                   
-                  <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                  <div class="spinner-border" style="width: 3rem; height: 3rem;">
                     <span class="sr-only">Loading...</span>
                   </div><br>
                   Loading...
@@ -275,8 +275,52 @@
                 </div>
                </div>
              </div>
-          </div>    
 
+
+
+             <div class="modal fade" id="outlet" tabindex="-1" aria-labelledby="outletModal" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="outletModal">Create Outlet</h5>
+                      <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Name</label>
+                        <input type="text" class="form-control" placeholder="" v-model="payload.name">
+                      </div>
+                      <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Address</label>
+                        <input type="text" class="form-control" placeholder="" v-model="payload.full_address">
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Users</label>
+                        <select class="form-control" v-model="payload.cashier">
+                          <option disabled>Select users</option>
+                          <option v-for="(user,index) in users" :key="index" :value="user.user_name">{{user.user_name}}</option>
+                        </select>
+                      </div>
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary" @click="createOutlet()">Save</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div> 
+        </div>
+        <div class="row col-md-12">
+                            <div class="overlay" v-if="saving">
+                                <div style="text-align:center;position: absolute;left: 40%;top: 40%;color:white;font-size:40px">
+                                    <span class="spinner-border spinner-border-sm fs-100" role="status" aria-hidden="true"></span>
+                                    Saving Outlet...
+                                </div>
+                            </div>
         </div>
 
         <!-- All Businesses -->
@@ -296,4 +340,18 @@ th{
 td{
   font-size: 13px;
 }
+.overlay {
+	position: fixed;
+	display: block;
+	width: 100%;
+	height: 100%;
+	top: 10%;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0,0,0.5,0.5);
+	z-index: 2;
+	cursor: pointer;
+	text-align:center;
+  }
 </style>

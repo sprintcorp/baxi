@@ -302,15 +302,7 @@
                                         <input v-model="product.barcode" type="text" class="form-control">
                                     </div>                                    
                                   </div>
-                                  <!-- <div class="row">
-                                    <div class="col-md-12">
-                                      <label class="form-label">Barcode</label>
-                                        <ImageBarcodeReader
-                                            @decode="onDecode"
-                                            @error="onError"
-                                        ></ImageBarcodeReader>
-                                    </div>                                    
-                                  </div> -->
+                                  
                                 </div>
                                 <div class="col-md-3">
                                   <div class="text-center" style="width:100%;height:90%">

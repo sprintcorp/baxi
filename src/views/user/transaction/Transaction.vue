@@ -167,10 +167,51 @@
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                              <button type="button" class="btn btn-primary" @click="printReceipt(transaction_product.orders)">Print</button>
                             </div>
                           </div>
                         </div>
+                      </div>
+
+
+                      <div class="modal fade" tabindex="-1" ria-hidden="true" id="printMe">
+                        <table class="table caption-top">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Items</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Total</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr v-for="(product,index) in transaction_product.orders" :key="index">
+                                        <th scope="row">{{index+1}}</th>
+                                        <td>{{product.product.name}}</td>
+                                        <td>{{product.amount/product.qty}}</td>
+                                        <td>{{product.qty}}</td>
+                                        <td>&#8358; {{product.amount}}</td>
+                                      </tr>
+                                                                   
+                                      <tr>
+                                        <td>Status</td>
+                                        <th scope="row"></th>
+                                        <th scope="row"></th>
+                                        <th scope="row"></th>
+                                        
+                                        <td>{{status}}</td>
+                                      </tr>
+                                      <tr>
+                                        <td>Total</td>
+                                        <th scope="row"></th>
+                                        <th scope="row"></th>
+                                        <th scope="row"></th>
+                                        
+                                        <td class="font-weight-bold">{{total}}</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
                       </div>
 
 
