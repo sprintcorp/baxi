@@ -346,6 +346,9 @@ export default {
             //     console.log(pair[0]+ ', '+ pair[1]); 
             // }
             this.saving = true;
+            if(this.retailer_product.image.includes('https://')){
+                delete this.retailer_product.image;
+            }
             fetch(BASE_URL + '/my/products/' + this.retailer_product.product_id, {
                 method: 'PUT',
                 body: JSON.stringify(this.retailer_product),

@@ -24,6 +24,7 @@
         "vue-toast-notification": "^0.6.0",
         "vue-toasted": "^1.1.28",
         "vue-trend-chart": "^0.15.3",
+        "vue2-daterange-picker": "^0.6.3",
         "vuejs-datatable": "^2.0.0-alpha.7",
         "vuex": "^3.6.0"
     },
