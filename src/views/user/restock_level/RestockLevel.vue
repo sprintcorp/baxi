@@ -13,9 +13,9 @@
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-md-4" v-if="create_product">
+                        <!-- <div class="col-md-4" v-if="create_product">
                            <router-link :to="{name:'productOrderOverview'}"><button class="btn btn-warning" style="border-radius:20px"><i class="fa fa-calendar"></i> Order History</button></router-link>
-                        </div>
+                        </div> -->
 
                         <!-- <div class="col-md-7 d-flex justify-content-end">
                             <button @click="getCart()" class="btn btn-warning" style="border-radius:20px" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-shopping-cart"></i> Cart</button>

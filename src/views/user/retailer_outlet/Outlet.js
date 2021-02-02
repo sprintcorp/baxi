@@ -21,6 +21,7 @@ export default {
             total_transaction:0,
             outlet_transactions:[],
             total_quantity:0,
+            restock_level:[],
             series: [{
                 data: []
               }],
@@ -32,13 +33,16 @@ export default {
                 plotOptions: {
                   bar: {
                     horizontal: false,
-                  },
-                  fill: {
-                    colors: ['#000']
                   }
                 },
+                fill: {
+                    colors: ['#ffc107']
+                  },
                 dataLabels: {
-                  enabled: true
+                  enabled: true,
+                  style: {
+                    colors: ['#fff']
+                  }
                 },
                 xaxis: {
                   categories: [],
@@ -46,12 +50,14 @@ export default {
               },
             products:[],
             chart:false,
+            chart_data:false,
             users:[],       
             payload: {
                 name:"",
                 full_address:"",
                 cashier:""
-            }   
+            },
+            top_selling:[],
         }
     },
     computed: {
@@ -124,6 +130,8 @@ export default {
                     this.getOutletTransaction(this.outlets[0].id)
                     this.selected_outlet = this.outlets[0].id;
                     this.getTransaction(this.outlets[0].id);
+                    this.getTopSellingProduct(this.outlets[0].id);
+                    this.getRestockLevel(this.outlets[0].id);
                     
                     // console.log(this.outlets);
                 })
@@ -237,6 +245,7 @@ export default {
           },
         getTransaction(id){
             this.loading = true;
+            this.chart = false;
             this.outlet_transactions = [];
             fetch(BASE_URL + '/my/retailer/orders?outlet_id='+id, {
                     headers: {
@@ -274,8 +283,64 @@ export default {
 
                 );
         },
+        getTopSellingProduct(id){
+            fetch(BASE_URL + '/my/businesses/stat/top-selling?outlet_id='+id, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': getToken()
+                }
+            })
+            .then(res => res.json())
+            .then(res => {
+                if (res.message === 'Unauthenticated.') {
+                    console.log(res);
+                    logout();
+                    this.$router.push({ name: 'welcome' });
+                }
+                this.loading = false;
+                // res.data.transactions.slice(Math.max(res.data.transactions.length - 5, 0))
+                this.top_selling = res.data.top_selling.slice(Math.max(res.data.top_selling.length -5,0));
+                
+            })
+            .catch(err => {
+                    console.log(err)
+                    this.loading = false;
+                    if (err.response.status == 401) {
+                        this.$swal("Session Expired");
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                }
+
+            );
+        },
+        getRestockLevel(id){
+            
+            fetch(BASE_URL + '/my/outlet/' +
+            id+ '/products/restock-level', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.message === 'Unauthenticated.') {
+                        console.log(res);
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                   this.restock_level = res.data;
+                })
+                .catch(err => console.log(err));
+        },
         sumArray(objArr){
-            console.log(objArr)
+            console.log(objArr.length)
+            if(objArr.length > 0){
+                this.chart_data = true
+            }
             this.chartOptions.xaxis.categories = [];
             this.series[0].data = [];
             let counts = objArr.reduce((prev, curr) => {
@@ -314,9 +379,12 @@ export default {
                 
         },
         getOutletInformation(){ 
+            this.outlet_transactions = [];
             this.chartOptions.xaxis.categories = [];
             this.series[0].data = [];
             this.getTransaction(this.selected_outlet);           
+            this.getTopSellingProduct(this.selected_outlet);           
+            this.getRestockLevel(this.selected_outlet);           
             this.getOutletTransaction(this.selected_outlet);
             
         }
@@ -329,6 +397,7 @@ export default {
         this.getOutletTransaction();
         this.name = getName();
         this.getSecondaryUsers();
+        // this.getTopSellingProduct();
         this.start_date = new Date("2015-08-21").getTime();
         this.end_date = new Date().getTime();
         

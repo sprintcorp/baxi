@@ -26,64 +26,77 @@
               <div class="col-md-12">
                 <div class="row">
 
-                <!-- <div class="col-md-2 card p-3" style="height:110px;border-radius:10px">
-                  <div class="d-flex justify-content-end">
-                    <div class="row"><p>Total Sales</p></div> 
+                <div class="col-md-3">
+                  <div class="card p-3" style="width:14rem;height:110px;border-radius:10px">
+                    <div class="d-flex justify-content-end">
+                      <div class="row"><p>Total Products Sold</p></div>                    
+                    </div>
+                    <div class="d-flex justify-content-end">
+                      <div class="font-weight-bold" style="color:blue">{{total_quantity}}</div>
+                    </div>
                     
+                      <div class="progress-bar bg-info" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>  
-                  <div class="d-flex justify-content-end">
-                    <div class="font-weight-bold" style="color:blue">22290867</div>
-                  </div>
-                  
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                  
-
-                </div>   -->
-
-                <div class="col-md-3 card p-3" style="height:110px;border-radius:10px">
-                  <div class="d-flex justify-content-end">
-                    <div class="row"><p>Total Products Sold</p></div>
-                    
-                  </div>
-                  <div class="d-flex justify-content-end">
-                    <div class="font-weight-bold" style="color:blue">{{total_quantity}}</div>
-                  </div>
-                  
-                    <div class="progress-bar bg-info" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>  
 
-                <div class="col-md-3 card p-3" style="height:110px;border-radius:10px">
-                  <div class="d-flex justify-content-end">
-                    <div class="row"><p>Total Transaction</p></div>
+                <div class="col-md-3">
+                  <div class="card p-3" style="width:14rem;height:110px;border-radius:10px">
+                    <div class="d-flex justify-content-end">
+                      <div class="row"><p>Total Transaction</p></div>                    
+                    </div>
+                    <div class="d-flex justify-content-end">
+                      <div class="font-weight-bold" style="color:blue">&#8358; {{total_transaction}}</div>
+                    </div>
                     
-                  </div>
-                  <div class="d-flex justify-content-end">
-                    <div class="font-weight-bold" style="color:blue">&#8358; {{total_transaction}}</div>
-                  </div>
-                  
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                      <div class="progress-bar bg-warning" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>  
                 </div>  
 
-                <div class="col-md-3 card p-3" style="height:110px;border-radius:10px">
-                  <div class="d-flex justify-content-end">
-                    <div class="row"><p>Total New Orders</p></div>
+                <div class="col-md-3">
+                  <div class="card p-3" style="width:14rem;height:110px;border-radius:10px">
+                    <div class="d-flex justify-content-end">
+                      <div class="row"><p>Restock Level</p></div>
+                      
+                    </div>
+                    <div class="d-flex justify-content-end">
+                      <div class="font-weight-bold" style="color:blue">{{restock_level.length}}</div>
+                    </div>
                     
+                      <div class="progress-bar bg-danger" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
-                  <div class="d-flex justify-content-end">
-                    <div class="font-weight-bold" style="color:blue">09876690</div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="card p-3" style="width:14rem;height:110px;border-radius:10px">
+                    <div class="d-flex justify-content-end">
+                      <div class="row"><p>Total Transaction</p></div>
+                      
+                    </div>
+                    <div class="d-flex justify-content-end">
+                      <div class="font-weight-bold" style="color:blue">{{transactions.length}}</div>
+                    </div>
+                    
+                      <div class="progress-bar bg-success" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
-                  
-                    <div class="progress-bar bg-danger" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                </div> 
+                </div>
+
                 </div> 
             </div>
             <!-- {{series[0].data}}
             {{chartOptions}} -->
-             <div class="row mt-3" v-if="chart">
-               <div class="col-md-12 d-flex justify-content-center">
-                <apexchart width="1000" height="300" type="bar" :options="chartOptions" :series="series"></apexchart>
-              </div>
+             <div class="row mt-3 d-flex justify-content-center" v-if="outlet_transactions.length > 0">
+                <div class="col-md-12">
+                  <apexchart width="1000" height="300" type="bar" :options="chartOptions" :series="series"></apexchart>
+                </div>
             </div>
+             <!-- <div class="row mt-3 d-flex justify-content-center" v-if="outlet_transactions.length < 1">
+                <div class="col-md-12">
+                  No chart available For this outlet
+                </div>
+            </div> -->
+
+
+    
 
             <div class="mt-3 border-2">
             <div class="row mt-2 mr-1">
@@ -227,7 +240,7 @@
               </div>
             </div>
 
-             <div class="col-md-3 mt-5" style="">
+             <div class="col-md-3 mt-4" style="">
                <div class="ml-5">
                 <div class="row">
                     <div class="heading-profile">
@@ -236,17 +249,17 @@
                       </h4>
                     </div>
                 </div>
-                <div class="row p-1" style="border:1px solid grey;border-radius:10px;width:270px">
+                <div class="row p-1" style="border:1px solid grey;border-radius:0px;width:270px">
                   <div class="col-md-12">
                     <div class="row">
                       <div class="col-md-7"><p>PRODUCTS SOLD</p></div>
-                      <div class="col-md-1">|</div>
-                      <div class="col-md-3"><p>10099883</p></div>
+                      <!-- <div class="col-md-1">|</div> -->
+                      <div class="col-md-3"><p>{{total_quantity}}</p></div>
                     </div>
                     <hr>
                     <div class="row">
                       <div class="col-md-7"><p>PRODUCTS LEFT</p></div>
-                      <div class="col-md-1">|</div>
+                      <!-- <div class="col-md-1">|</div> -->
                       <div class="col-md-3"><p>10099883</p></div>
                     </div>
                   </div>                  
@@ -258,20 +271,24 @@
                       </h4>
                     </div>
                 </div>
-                <div class="row p-1" style="border:1px solid grey;border-radius:10px;width:270px">
-                  <div class="col-md-12">
-                    <div class="row">
-                      <div class="col-md-6"><img src="/images/baxi.png" alt="" width="100" height="100"></div>
+                <div class="row p-1" style="border:1px solid grey;border-radius:0px;width:270px">
+                  <div class="col-md-12" v-if="top_selling.length > 0">
+                    <div class="row mb-3" v-for="(product,index) in top_selling" :key="index">
+                      <div class="col-md-6"><img :src="product.product.public_image_url" alt="" width="100" height="100"></div>
                       <div class="col-md-6">
-                        <div><p>Product name</p></div>
-                        <div><p>Product id</p></div>
-                        <div><p>Amount Sold</p></div>
-                        <div><p>Amount Left</p></div>
+                        <div><p>{{product.product.name}}</p></div>
+                        <!-- <div><p>Product id</p></div> -->
+                        <div><p> Sold : {{product.count}}</p></div>
+                        <!-- <div><p>Amount Left</p></div> -->
                       </div>
-                    </div>
-                    <hr>
-                    
-                  </div>                  
+                      <!-- <hr> -->
+                    </div>  
+                  </div>
+
+                  <div class="col-md-12" v-if="top_selling.length < 1">
+                    No top selling product at the moment
+                  </div>  
+                                  
                 </div>
                </div>
              </div>

@@ -164,7 +164,7 @@
                                         <th scope="row"></th>
                                         <th scope="row"></th>
                                         
-                                        <td>{{}}</td>
+                                        <td>{{delivery}}</td>
                                       </tr>
                                       <tr>
                                         <td>Total</td>
@@ -172,7 +172,7 @@
                                         <th scope="row"></th>
                                         <th scope="row"></th>
                                         
-                                        <td class="font-weight-bold">{{order_product.amount}}</td>
+                                        <td class="font-weight-bold">{{parseFloat(order_product.amount) + delivery}}</td>
                                       </tr>
                                     </tbody>
                                   </table>
@@ -200,7 +200,7 @@
                                     <div class="col-md-3">Delivered</div>
                                   </div>
                                   <div class="form-check mt-3">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <input class="form-check-input" type="checkbox" value="" @change="updateStatus()">
                                     <label class="form-check-label" for="flexCheckDefault">
                                       Check if item order has been delivered
                                     </label>

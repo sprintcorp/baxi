@@ -78,7 +78,7 @@
                                 </div>
                             </div>
 
-                            <div class="row p-3" v-if="!cat" style="background-color:#d6d6d6;margin-top:-20px">
+                            <div class="row p-3" v-if="!cat && !distributor" style="background-color:#d6d6d6;margin-top:-20px">
                                 <div :class="[show_cat ? 'col-md-3' : 'col-md-2']" v-for="(product,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
                                     <div class="card p-2" style="height:14rem;margin-top:20px">
@@ -99,6 +99,32 @@
                                         <button v-if="permission && product.quantity > 0" class="btn btn-warning btn-block" @click="addToCart(product,index)" data-toggle="modal" data-target="#cart">Sell</button>
                                         <button v-if="!permission" class="btn btn-warning btn-block" @click="warning('You are not permitted to execute this action')">Sell</button>
                                         <button v-if="permission && product.quantity < 1" class="btn btn-warning btn-block" @click="warning('The following item(s) are now out-of-stock. Click the restock button to continue.')">Sell</button>
+                                    </div>
+                                    <!-- </router-link> -->
+                                </div>
+                            </div>
+
+
+
+                            <div class="row p-3" v-if="!cat && distributor" style="background-color:#d6d6d6;margin-top:-20px">
+                                <div :class="[show_cat ? 'col-md-3' : 'col-md-2']" v-for="(product,index) in filerResult" :key="index">
+                                    <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
+                                    <div class="card p-2" style="height:14rem;margin-top:10px">
+                                        <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
+                                       <div class="row d-flex justify-content-center"> <p class="fs-13"> {{product.name}}</p></div>
+                                        <div class="row" style="height:50%">
+                                          <div class="col-md-12">
+                                            <div class="text-center"><img :src="product.public_image_url" class="rounded-circle" alt="" width="100" height="100"/></div>
+                                          </div>
+                                        <div class="col-md-12 text-center">  
+                                        <!-- <div class="card-body"> -->
+                                           <!-- <p class="fs-13"> {{product.name}}</p> -->
+                                           <p class="fs-13"> {{product.quantity}} Quantity</p>
+                                           <p class="fs-13"> &#8358; {{ product.sell_price }}</p>
+                                        <!-- </div> -->
+                                        </div>
+                                        </div>
+                                       
                                     </div>
                                     <!-- </router-link> -->
                                 </div>
@@ -171,7 +197,7 @@
                                     
                                 </div>
                                 <div class="row p-5 d-flex justify-content-center">
-                                    <button type="button" class="btn btn-warning mr-3" v-if="quantity_value > 0 && !error" @click="submitToCart(quantity_value,product)" style="border-radius:20px"><i class="fa fa-shopping-cart"></i> ADD TO CART</button>
+                                    <button type="button" class="btn btn-warning mr-3" v-if="quantity_value > 0 && !error" @click="submitToCart(quantity_value,product)" style="border-radius:20px" data-dismiss="modal"><i class="fa fa-shopping-cart"></i> ADD TO CART</button>
                                     <button type="button" class="btn btn-light" style="border-radius:20px;color:red" data-dismiss="modal">CLOSE</button>                                    
                                 </div>
                                 </div>
@@ -209,6 +235,13 @@
                            <td>Items</td>
                            <td>Amount</td>
                          </tr>
+                         <tr>
+                           <td>VAT</td>
+                           <td></td>
+                           <td></td>
+                           <td></td>
+                           <td>{{total_with_vat}}</td>
+                         </tr>
                         <tr>
                            <td>Total</td>
                            <td></td>
@@ -221,7 +254,7 @@
                     </table>
                     <div class="row d-flex">
                     <div class="align-self-center mx-auto" style="margin-bottom:-20px">
-                       <button class="btn btn-warning rounded-pill text-dark px-5 py-2" data-toggle="modal" data-target="#modeofpaymentModal">Pick a payment method</button>
+                       <button class="btn btn-warning rounded-pill text-dark px-5 py-2" data-toggle="modal" data-target="#modeofpaymentModal">Proceed to payment</button>
                     </div>
                     </div>
                 </div>

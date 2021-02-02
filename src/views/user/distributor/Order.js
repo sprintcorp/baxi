@@ -16,58 +16,40 @@ export default {
             order_tab:true,
             total:0,
             delivery:0,
-            status:'w-25',
+            // status:'w-25',
             progress:'progress-bar',
-            color:'bg-warning'
+            color:'bg-warning',
+            stats:0,
+            applied_fees:[],
+            order_groups:[],
+            product_id:[],
+            comment:'',
+            other_info:'',
+            saving:false,
+            status:0,
         }
     },
     computed: {
         filerTransactions() {
             return this.orders.filter((transaction) => (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
-                    new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()))
+                    new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()) && transaction.status == this.stats)
         }
     },
     methods: {
-        showDate() {
-            console.log(this.start_date.toString());
+        addRow(){
+            this.applied_fees.push({
+                name:"",
+                amount:""
+            });
         },
-        changeTab() {
-            console.log(this.order_tab)
-            this.order_tab = true;
-        },
-        showOrder(order) {
-            this.order_tab = false;
-            this.order_product = order;
-            console.log(order)
-
-            // let sum = this.order_product.orders.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
-            this.delivery = order.applied_fees.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
-            // this.total = sum + this.delivery;
-            if(this.order_product.status == 0){
-                this.status = 'w-25'
-            }
-            // if(this.order_product.status == -1){
-            //     this.status = 'w-0'
-            // }
-            else if(this.order_product.status == 1){
-                this.status = 'w-50'
-            }
-            else if(this.order_product.status == 2){
-                this.status = 'w-75'
-            }
-            else if(this.order_product.status == 3){
-                this.status = 'w-100'
-            }
-            else{
-                this.status = 'w-0'   
-            }
-            // console.log(transaction);
-        },
-        updateStatus(){
-            // alert('hello')
+        confirmOrder(id){
             this.saving = true;
             const payload = {
-                "status":4,
+                "status":id,
+                "applied_fees":this.applied_fees,
+                "order_groups":this.order_groups,
+                "comment":this.comment,
+                "other_info":this.other_info
             }
             console.log(payload)
 
@@ -100,9 +82,54 @@ export default {
                 }
             });
         },
+        showDate() {
+            console.log(this.start_date.toString());
+        },
+        changeTab() {
+            console.log(this.order_tab)
+            this.order_tab = true;
+        },
+        showOrder(order) {
+            this.status = order.status
+            
+            this.order_product = order;
+            console.log(order)
+            order.orders.forEach((data)=>{
+                this.product_id.push({
+                    id:data.product.id
+                })
+            })
+            const product = this.sumArray(this.product_id)
+            
+            this.order_groups.push({
+                id:order.order_group_id,
+                selected_product_ids:product
+            })
+            console.log(this.order_groups)
+            
+        },
+        sumArray(objArr){
+            console.log(objArr.length)
+
+            let counts = objArr.reduce((prev, curr) => {
+                let count = prev.get(curr.id) || 0;
+                prev.set(curr.id + count);
+                return prev;
+              }, new Map());
+              
+              // then, map your counts object back to an array
+              let reducedObjArr = [...counts].map(([id]) => {
+                return {id}
+              })
+
+              const id = reducedObjArr.map(function(obj){
+                return obj.id
+            })
+            return id
+        },
         getOrders() {
             this.loading = true;
-            fetch(BASE_URL + '/my/retailer/products/orders', {
+            fetch(BASE_URL + '/my/distributor/groupTransactions', {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
@@ -116,7 +143,7 @@ export default {
                         logout();
                         this.$router.push({ name: 'welcome' });
                     }
-                    this.orders = res.data;
+                    this.orders = res.data.data;
                     this.loading = false;
                     
                     this.page = res.data;

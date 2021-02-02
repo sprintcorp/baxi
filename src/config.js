@@ -21,7 +21,12 @@ export const saveUser = (user) => {
 };
 
 export const savePermission = (data) =>{
+    if(data.length > 0){
     window.localStorage.setItem(PERMISSION, JSON.stringify(data));
+    }else{
+        const permission = [{action:"distributor"},{action:"view products"}]
+        window.localStorage.setItem(PERMISSION, JSON.stringify(permission));  
+    }
 }
 
 export const saveUserData = (data) => {

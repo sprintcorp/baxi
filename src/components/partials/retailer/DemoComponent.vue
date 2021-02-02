@@ -27,6 +27,9 @@
                 <li v-if="order_products" :class="[this.$router.currentRoute.name == 'outletOverview' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'outletOverview',params:{ id:outlet}}" class="nav-link font-weight-bold" href="#"><i class="fa fa-building"></i> Outlet</router-link>
                 </li>
+                <li v-if="distributor" :class="[this.$router.currentRoute.name == 'distributorOrders' ? 'nav-item active' : 'nav-item']">
+                    <router-link :to="{name:'distributorOrders'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-calendar"></i> Order</router-link>
+                </li>
 
                 </ul>
                 <form  class="form-inline search-form my-2 my-lg-0" v-if="(this.$router.currentRoute.name != 'categoryOrder')">
@@ -127,7 +130,8 @@ import {BASE_URL} from '../../../env'
                 show:false,
                 cart_order:[],
                 total:'',
-                order_products:''
+                order_products:'',
+                distributor:''
             }
         },
          computed:{
@@ -199,6 +203,7 @@ import {BASE_URL} from '../../../env'
         },
          mounted(){
             this.order_products = checkUserPermission('order products')
+            this.distributor = checkUserPermission('distributor')
             this.getCart();
             this.outlet = getOutlet();
             

@@ -33,7 +33,7 @@
                               </div>
                             </div>
                         </div>
-
+                  <!-- {{local_product}} -->
                         <section class="panel-content">
                             <div class="row">
                             <div class="col-md-12">
@@ -65,7 +65,7 @@
                                         <th>Quantity</th>                                                                              
                                         <th>Amount</th>
                                         <th>Date</th> 
-                                        <th v-if="create_product">Action</th> 
+                                        <th v-if="create_product || distributor">Action</th> 
                                         <!-- <th>Numbers</th> -->
                                       </tr>
                                       </thead>
@@ -80,13 +80,10 @@
                                         <td>{{ product.outlet_qty}}</td>                                        
                                         <td>{{ product.recommended_price }}</td>
                                         <td>{{product.date }}</td>
-                                        <td v-if="create_product">
-                                          <button @click="editRetailerProduct(product)" data-toggle="modal" data-target="#editProduct"><i class="fa fa-edit"></i></button>
+                                        <td v-if="create_product || distributor">
+                                          <button v-if="create_product" @click="editRetailerProduct(product)" data-toggle="modal" data-target="#editProduct"><i class="fa fa-edit"></i></button>
                                           <button @click="editRetailerProduct(product)" data-toggle="modal" data-target="#updateQuantity"><i class="fa fa-arrow-up"></i></button>
                                         </td>
-                                        <!-- <td>
-                                          <button data-toggle="modal" data-target="#order" type="button" @click="showProducts(product)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
-                                        </td> -->
                                       </tr>
                                       </tbody>
                                     
@@ -231,6 +228,14 @@
                                     <div class="col-md-6">
                                       <label class="form-label">Update Quantity</label>
                                       <input type="text" class="form-control"  v-model="retailer_product.restock" aria-describedby="restock level">
+                                    </div>
+                                    <div class="col-md-12" v-if="distributor">
+                                      <label class="form-label">Type</label>
+                                      <select v-model="retailer_product.type" class="form-control">
+                                        <option selected disabled>Select type</option>
+                                        <option value="pack">Pack</option>
+                                        <option value="unit">Unit</option>
+                                      </select>
                                     </div>
                                   </div>
                                   

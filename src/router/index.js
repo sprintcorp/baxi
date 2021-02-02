@@ -29,6 +29,7 @@ import OrderHistoryComponent from "../views/user/order_history/OrderHistory.vue"
 import TransactionComponent from "../views/user/transaction/Transaction.vue";
 import ProductComponent from "../views/user/product/Product.vue";
 import OrderComponent from "../views/user/order/Orders.vue";
+import DistributorOrdersComponent from "../views/user/distributor/Order.vue";
 import RetailerOrderOverviewComponent from "../views/user/order_overview/Order.vue";
 import RetailerOrderComponent from "../views/user/place_order/PlaceOrder.vue";
 import RetailerProfileComponent from "../views/user/profile/Profile.vue";
@@ -161,6 +162,13 @@ const routes = [{
                 component: OrderHistoryComponent,
                 ...preventRoutes,
                 meta: { authorize: 'order products' } 
+            },
+            {
+                name: "distributorOrders",
+                path: "/distributor/orders/",
+                component: DistributorOrdersComponent,
+                ...preventRoutes,
+                meta: { authorize: 'distributor' } 
             },
             {
                 name: "productOverview",

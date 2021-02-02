@@ -36,7 +36,7 @@
                                   </div>
                                 </div>
                                   <div class="row">
-                                  <div class="table-responsive mt-5" v-if="transactions.length && !loading">
+                                  <div class="table-responsive mt-5" v-if="transactions.length && !loading && !distributor">
                                     <table class="table table-striped">
                                       <thead>
                                       <tr>
@@ -59,6 +59,63 @@
                                         <td>{{ transaction.type }}</td>
                                         <!-- <td></td>-->
                                         <td>{{transaction.outlet.name}}</td> 
+                                        <td>{{transaction.created_at  }}</td>
+                                        <td>{{transaction.orders.length}}</td>
+                                        <td>&#8358; {{transaction.amount}}</td>
+                                        <td>
+                                          <button data-toggle="modal" data-target="#order" type="button" @click="showTransaction(transaction)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
+                                        </td>
+                                      </tr>
+                                      </tbody>
+                                    
+                                    </table>
+                                    <nav aria-label="Page navigation example">
+                                      <ul class="mb-5 pagination justify-content-center">
+                                        <li class="page-item mr-1">
+                                          <button @click="getPageTransaction(page.first_page_url)" class="page-link">First</button>
+                                        </li>
+                                        <li class="page-item mr-1">
+                                          <button @click="getPageTransaction(page.prev_page_url)" class="page-link">Previous</button>
+                                        </li>
+                                        <li class="page-item active mr-1" aria-current="page">
+                                          <span class="page-link">{{page.current_page}}</span>
+                                        </li>
+                                        <li class="page-item mr-1" aria-current="page">
+                                          <span class="page-link">of {{page.last_page > 1? page.last_page+ ' pages' : page.last_page+ ' page'}}</span>
+                                        </li>
+                                        <li class="page-item mr-1">
+                                          <button @click="getPageTransaction(page.next_page_url)" class="page-link">Next</button>
+                                        </li>
+                                        <li class="page-item mr-1">
+                                          <button @click="getPageTransaction(page.last_page_url)" class="page-link">Last</button>
+                                        </li>
+                                      </ul>
+                                    </nav>
+                                  </div>
+
+
+                                  <div class="table-responsive mt-5" v-if="transactions.length && !loading && distributor">
+                                    <table class="table table-striped">
+                                      <thead>
+                                      <tr>
+                                        <th>S/N</th>
+                                        <th>Transfer ref</th>
+                                        <th>Type</th>
+                                        <!-- <th>Category</th>-->
+                                        <!-- <th>Outlet</th>  -->
+                                        <th>Date</th>
+                                        <th>No of Items</th>
+                                        <th>Amount</th>
+                                        <th>View</th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+
+                                      <tr v-for="(transaction,index) in distributorTransactions" :key="index">
+                                        <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
+                                        <td>{{ transaction.order_group_id }}</td>
+                                        <td>{{ transaction.delivery_type }}</td>
+                                        <!-- <td>{{transaction.outlet.name}}</td>  -->
                                         <td>{{transaction.created_at  }}</td>
                                         <td>{{transaction.orders.length}}</td>
                                         <td>&#8358; {{transaction.amount}}</td>
@@ -134,6 +191,7 @@
                                         <th scope="col">Items</th>
                                         <th scope="col">Price</th>
                                         <th scope="col">Quantity</th>
+                                        
                                         <th scope="col">Total</th>
                                       </tr>
                                     </thead>
@@ -145,29 +203,13 @@
                                         <td>{{product.qty}}</td>
                                         <td>&#8358; {{product.amount}}</td>
                                       </tr>
-                                                                   
-                                      <tr>
-                                        <td>Status</td>
-                                        <th scope="row"></th>
-                                        <th scope="row"></th>
-                                        <th scope="row"></th>
-                                        
-                                        <td>{{status}}</td>
-                                      </tr>
-                                      <tr>
-                                        <td>Total</td>
-                                        <th scope="row"></th>
-                                        <th scope="row"></th>
-                                        <th scope="row"></th>
-                                        
-                                        <td class="font-weight-bold">{{total}}</td>
-                                      </tr>
+                                             
                                     </tbody>
                                   </table>
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                              <button type="button" class="btn btn-primary" @click="printReceipt(transaction_product.orders)">Print</button>
+                              <!-- <button type="button" class="btn btn-primary" @click="printReceipt(transaction_product.orders)">Print</button> -->
                             </div>
                           </div>
                         </div>
@@ -180,19 +222,12 @@
                                       <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Items</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Price</th>                                        
+                                        <th scope="col">Delivery date</th>
                                         <th scope="col">Total</th>
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      <tr v-for="(product,index) in transaction_product.orders" :key="index">
-                                        <th scope="row">{{index+1}}</th>
-                                        <td>{{product.product.name}}</td>
-                                        <td>{{product.amount/product.qty}}</td>
-                                        <td>{{product.qty}}</td>
-                                        <td>&#8358; {{product.amount}}</td>
-                                      </tr>
                                                                    
                                       <tr>
                                         <td>Status</td>

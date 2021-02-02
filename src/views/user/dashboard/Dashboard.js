@@ -21,6 +21,7 @@ export default {
             cart_order:[],
             show_cat:false,
             total:0,
+            total_with_val:0,
             product:'',
             quantity_value:0,
             error:false,
@@ -33,7 +34,8 @@ export default {
             url:'',
             totat_product:0,
             saved_orders:'',
-            saving:false
+            saving:false,
+            distributor:false
         }
     },
     computed: {
@@ -142,7 +144,8 @@ export default {
 
         getProducts() {
 
-            if(checkUserPermission('order products') == false){
+            console.log(checkUserPermission("distributor"))
+            if(checkUserPermission('order products') == false && checkUserPermission('distributor') == false){
                 this.selected_outlet = window.localStorage.getItem("cahier_outlet");
                 this.results = [];
                 this.loading = true;
@@ -198,7 +201,8 @@ export default {
 
                     );
                 
-            }else{
+            }
+            if(checkUserPermission('order products') == true && checkUserPermission('distributor') == false){
 
                 this.results = [];
                 this.loading = true;
@@ -254,6 +258,59 @@ export default {
 
                     );
             }
+
+            if(checkUserPermission('distributor') == true){
+                this.distributor = true;
+                this.cat = false;
+                fetch(BASE_URL + '/my/distributor/products', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+            .then(res => res.json())
+            .then(res => {
+                if (res.message === 'Unauthenticated.') {
+                    this.$swal("Session Expired");
+                    console.log(res);
+                    logout();
+                    this.$router.push({ name: 'welcome' });
+                }
+                this.loading = false;
+                this.products = res.data.data;
+                this.products.forEach((data) => {
+                    this.results.push({
+                        product_id: data.product.id,
+                        name: data.product.name,
+                        amount: parseInt(data.product.recommended_price),
+                        sell_price: parseInt(data.product.recommended_price),
+                        quantity: data.qty,
+                        size: data.product.size,
+                        public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
+                        qty: data.qty,
+                        sku: data.product.sku,
+                        date:data.product.created_at,
+                        customer: {
+                            name: 'web',
+                        }
+
+                    });
+                });
+                console.log(this.results);
+            })
+            .catch(err => {
+                    console.log(err)
+                    this.loading = false;
+                    if (err.response.status == 401) {
+                        this.$swal("Session Expired");
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                }
+
+            );
+            }
         },
 
 
@@ -262,6 +319,8 @@ export default {
                 this.cart_order = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
                 let sum = this.cart_order.map(o => parseFloat(o.price)).reduce((a, c) => { return a + c });
                 let sum_product = this.cart_order.map(o => parseFloat(o.qty)).reduce((a, c) => { return a + c });
+                
+                this.total_with_vat = sum * 7.5 /100;
                 this.total = sum;
                 this.total_product = sum_product;
             }

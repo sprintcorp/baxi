@@ -1,5 +1,5 @@
 import { LOGIN_USER } from "../../../store/action";
-import { getToken,savePermission } from '../../../config';
+import { savePermission } from '../../../config';
 
 export default {
     name: "WelcomeComponent",
@@ -25,15 +25,15 @@ export default {
         },
         switchToIMS() {
             this.loading = true;
-            if (getToken()) {
-                this.loading = false;
-                // if (getRole() == "Retailer") {
-                    this.$router.push({ name: 'dashboard' });
-                // }
-                // if (getRole() == "Distributor") {
-                //     this.$router.push({ name: 'distributorDashboard' });
-                // }
-            } else {
+            // if (getToken()) {
+            //     this.loading = false;
+            //     // if (getRole() == "Retailer") {
+            //         this.$router.push({ name: 'dashboard' });
+            //     // }
+            //     // if (getRole() == "Distributor") {
+            //     //     this.$router.push({ name: 'distributorDashboard' });
+            //     // }
+            // } else {
                 const payload = {
                     'user_id': this.credentials.username,
                     'password': this.credentials.password
@@ -45,8 +45,6 @@ export default {
                         permissions.forEach((data) => {
                             this.permission.push({
                                 action: data.name,
-                                
-    
                             });
                         });
                         savePermission(this.permission);
@@ -64,7 +62,7 @@ export default {
                     this.loading = false
                     this.$swal(error.response.data.message);
                 })
-            }
+            // }
         }
     },
 }
