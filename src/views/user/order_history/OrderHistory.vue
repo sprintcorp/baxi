@@ -55,8 +55,8 @@
                                       <tr v-for="(order,index) in filerTransactions" :key="index">
                                         <td>{{  index + 1 }}</td>
                                         <td>{{ order.group_id }}</td>
-                                        <td>{{order.seen == 0?'Pending':order.status == 1?'Accepted':order.status == 2?'Processing':'Delivered'}}</td>                                      
-                                        <td>{{order.amount }}</td>
+                                        <td>{{order.status == 0?'Pending':order.status == 1?'Accepted':order.status == 2?'Processing':order.status == 3?'Delivered':'Rejected'}}</td>                                      
+                                        <td>{{numberWithCommas(order.amount) }}</td>
                                         <!-- <td>{{order.business}}</td> -->
                                         <td>{{order.created_at}}</td>
                                         <td>
@@ -153,7 +153,7 @@
                                       <tr>
                                         <th scope="row">{{1}}</th>
                                         <td>{{order_product.product.name}}</td>
-                                        <td>{{order_product.product.recommended_price}}</td>
+                                        <td>{{numberWithCommas(order_product.product.recommended_price)}}</td>
                                         <td>{{order_product.qty}}</td>
                                         <td>{{order_product.amount}}</td>
                                       </tr>
@@ -164,7 +164,7 @@
                                         <th scope="row"></th>
                                         <th scope="row"></th>
                                         
-                                        <td>{{delivery}}</td>
+                                        <td>{{numberWithCommas(delivery)}}</td>
                                       </tr>
                                       <tr>
                                         <td>Total</td>
@@ -172,7 +172,7 @@
                                         <th scope="row"></th>
                                         <th scope="row"></th>
                                         
-                                        <td class="font-weight-bold">{{parseFloat(order_product.amount) + delivery}}</td>
+                                        <td class="font-weight-bold">{{numberWithCommas(parseFloat(order_product.amount) + delivery)}}</td>
                                       </tr>
                                     </tbody>
                                   </table>
@@ -189,15 +189,19 @@
                                     Date will be updated when order is accepted by merchant
                                   </div>
                                   <!-- <div class="row"> -->
+                                    <!-- {{order_product.status}} {{order_product.seen}} -->
                                     <div class="progress">
                                       <div :class="[progress, color, status]" role="progressbar" aria-valuenow="status" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                   <!-- </div> -->
-                                  <div class="row mt-5 ml-5">
-                                    <div class="col-md-3">Order Placed</div>
+                                  <div class="row mt-5 ml-5" v-if="!hide">
+                                    <div class="col-md-3">Pending</div>
                                     <div class="col-md-3">Order Accepted</div>
                                     <div class="col-md-3">Processing</div>
                                     <div class="col-md-3">Delivered</div>
+                                  </div>
+                                  <div class="row mt-5 ml-5" v-if="hide">
+                                    <div class="col-md-12 d-flex justify-content-center">Order Rejected</div>
                                   </div>
                                   <div class="form-check mt-3">
                                     <input class="form-check-input" type="checkbox" value="" @change="updateStatus()">

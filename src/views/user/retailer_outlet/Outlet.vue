@@ -27,7 +27,7 @@
                 <div class="row">
 
                 <div class="col-md-3">
-                  <div class="card p-3" style="width:14rem;height:110px;border-radius:10px">
+                  <div class="card p-3" style="width:13rem;height:110px;border-radius:10px">
                     <div class="d-flex justify-content-end">
                       <div class="row"><p>Total Products Sold</p></div>                    
                     </div>
@@ -40,12 +40,12 @@
                 </div>  
 
                 <div class="col-md-3">
-                  <div class="card p-3" style="width:14rem;height:110px;border-radius:10px">
+                  <div class="card p-3" style="width:13rem;height:110px;border-radius:10px">
                     <div class="d-flex justify-content-end">
                       <div class="row"><p>Total Transaction</p></div>                    
                     </div>
                     <div class="d-flex justify-content-end">
-                      <div class="font-weight-bold" style="color:blue">&#8358; {{total_transaction}}</div>
+                      <div class="font-weight-bold" style="color:blue">&#8358; {{numberWithCommas(total_transaction)}}</div>
                     </div>
                     
                       <div class="progress-bar bg-warning" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
@@ -53,7 +53,7 @@
                 </div>  
 
                 <div class="col-md-3">
-                  <div class="card p-3" style="width:14rem;height:110px;border-radius:10px">
+                  <div class="card p-3" style="width:13rem;height:110px;border-radius:10px">
                     <div class="d-flex justify-content-end">
                       <div class="row"><p>Restock Level</p></div>
                       
@@ -67,7 +67,7 @@
                 </div>
 
                 <div class="col-md-3">
-                  <div class="card p-3" style="width:14rem;height:110px;border-radius:10px">
+                  <div class="card p-3" style="width:13rem;height:110px;border-radius:10px">
                     <div class="d-flex justify-content-end">
                       <div class="row"><p>Total Transaction</p></div>
                       
@@ -216,7 +216,7 @@
                         <td>{{ product.customer.phone }}</td>
                         <td>{{ product.customer.email }}</td>
                         <td>{{ product.product.name }}</td>
-                        <td>{{ product.amount }}</td>
+                        <td>{{ numberWithCommas(product.amount) }}</td>
                         <td>{{ product.qty }}</td>
                         <td>{{ product.created_at }}</td>
                       </tr>

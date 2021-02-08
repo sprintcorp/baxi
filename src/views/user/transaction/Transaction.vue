@@ -118,7 +118,7 @@
                                         <!-- <td>{{transaction.outlet.name}}</td>  -->
                                         <td>{{transaction.created_at  }}</td>
                                         <td>{{transaction.orders.length}}</td>
-                                        <td>&#8358; {{transaction.amount}}</td>
+                                        <td>&#8358; {{numberWithCommas(transaction.amount)}}</td>
                                         <td>
                                           <button data-toggle="modal" data-target="#order" type="button" @click="showTransaction(transaction)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
                                         </td>

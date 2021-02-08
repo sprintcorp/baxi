@@ -44,6 +44,10 @@ export default {
         }
     },
     methods: {
+        numberWithCommas(x) {
+            const num = parseFloat(x)
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        },
         addToCart(product,index){
             this.product = product;
             this.key = index

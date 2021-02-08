@@ -91,7 +91,11 @@ export default {
                     this.loading = false;
                 })
                 .catch(err => console.log(err));
-        }
+        },
+        numberWithCommas(x) {
+            const num = parseFloat(x)
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        },
     },
     mounted() {
         this.getRestockLevel()

@@ -53,7 +53,9 @@ export default {
                 })
                 .catch(err => console.log(err));
         },
-        
+        numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        },
         getOutletTransaction() {
             this.loading = true;
             fetch(BASE_URL + '/my/outlets/' + this.$route.params.id + '/transactions', {

@@ -78,7 +78,7 @@
                                         <td>{{product.category != '' ? product.category :'No Category'}}</td>
                                         <td>{{product.size}}</td>
                                         <td>{{ product.outlet_qty}}</td>                                        
-                                        <td>{{ product.recommended_price }}</td>
+                                        <td>{{ numberWithCommas(product.recommended_price) }}</td>
                                         <td>{{product.date }}</td>
                                         <td v-if="create_product || distributor">
                                           <button v-if="create_product" @click="editRetailerProduct(product)" data-toggle="modal" data-target="#editProduct"><i class="fa fa-edit"></i></button>

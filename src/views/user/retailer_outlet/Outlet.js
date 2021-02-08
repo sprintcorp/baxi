@@ -109,6 +109,9 @@ export default {
         showProducts(transaction) {
             this.transaction_product = transaction;
         },
+        numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        },
         getBusinessOutlets() {
             this.loading = true;
             fetch(BASE_URL + '/my/businesses/' + this.$route.params.id + '/outlets ', {
@@ -388,7 +391,7 @@ export default {
             this.getOutletTransaction(this.selected_outlet);
             
         }
-
+        
     },
 
     mounted() {        

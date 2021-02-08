@@ -92,7 +92,7 @@
                                         <!-- <div class="card-body"> -->
                                            <!-- <p class="fs-13"> {{product.name}}</p> -->
                                            <p class="fs-13"> {{product.quantity}} Quantity</p>
-                                           <p class="fs-13"> &#8358; {{ product.sell_price }}</p>
+                                           <p class="fs-13"> &#8358; {{ numberWithCommas(product.sell_price) }}</p>
                                         <!-- </div> -->
                                         </div>
                                         </div>
@@ -120,7 +120,7 @@
                                         <!-- <div class="card-body"> -->
                                            <!-- <p class="fs-13"> {{product.name}}</p> -->
                                            <p class="fs-13"> {{product.quantity}} Quantity</p>
-                                           <p class="fs-13"> &#8358; {{ product.sell_price }}</p>
+                                           <p class="fs-13"> &#8358; {{ numberWithCommas(product.sell_price) }}</p>
                                         <!-- </div> -->
                                         </div>
                                         </div>
@@ -178,7 +178,7 @@
                                      <div class="row card border-0">
                                         <div class="text-center"><img :src="product.public_image_url" width="100" height="100"/></div>
                                         <div class="fs-15 mt-2 text-center">{{product.name}}</div>
-                                        <div class="fs-15 mt-1 text-center">&#8358; {{ product.sell_price }}</div>
+                                        <div class="fs-15 mt-1 text-center">&#8358; {{ numberWithCommas(product.sell_price) }}</div>
                                         <div class="fs-15 mt-1 text-center">{{ product.quantity }} Quantity</div>
                                         <div class="fs-15 mt-3 mb-1 text-center">Select Quantity</div>
                                         <div class="row d-flex justify-content-center">
@@ -221,8 +221,8 @@
                         <tr v-for="(product, i) in cart" :key='i'>
                            <td>{{product.name}}</td>
                            <td>{{product.qty}}</td>
-                           <td>₦{{product.price/product.qty}}</td>
-                           <td>₦{{product.price}}</td>
+                           <td>₦{{numberWithCommas(product.price/product.qty)}}</td>
+                           <td>₦{{numberWithCommas(product.price)}}</td>
                            <td><button @click="removeFromCart(cart,i)">
                                 <i class="fa fa-trash" style="color:white"></i>
                             </button></td>
@@ -247,7 +247,7 @@
                            <td></td>
                            <td>{{total_product}}</td>
                            <td>{{cart.length}}</td>
-                           <td>₦{{total}}</td>
+                           <td>₦{{numberWithCommas(total)}}</td>
                          </tr>
                          
                     </tbody>

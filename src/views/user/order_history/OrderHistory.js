@@ -1,3 +1,4 @@
+
 import { getName, logout, getToken, getOutlet } from '../../../config'
 import { BASE_URL } from '../../../env'
 export default {
@@ -16,9 +17,10 @@ export default {
             order_tab:true,
             total:0,
             delivery:0,
-            status:'w-25',
-            progress:'progress-bar',
-            color:'bg-warning'
+            status:'w-0',
+            progress:'progress-bar progress-bar-striped progress-bar-animated',
+            color:'bg-warning',
+            hide:false
         }
     },
     computed: {
@@ -28,12 +30,18 @@ export default {
         }
     },
     methods: {
+        numberWithCommas(x) {
+            const num = parseFloat(x)
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        },
         showDate() {
             console.log(this.start_date.toString());
         },
         changeTab() {
             console.log(this.order_tab)
+            this.order_product = [];
             this.order_tab = true;
+            
         },
         showOrder(order) {
             this.order_tab = false;
@@ -43,23 +51,27 @@ export default {
             // let sum = this.order_product.orders.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
             this.delivery = order.applied_fees.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
             // this.total = sum + this.delivery;
-            if(this.order_product.status == 0){
-                this.status = 'w-25'
+            if(this.order_product.status === 0){
+                this.status = 'w-0'
+                this.color = 'bg-danger'    
             }
-            // if(this.order_product.status == -1){
-            //     this.status = 'w-0'
-            // }
-            else if(this.order_product.status == 1){
-                this.status = 'w-50'
+            else if(this.order_product.status === 1){
+                this.status = 'w-50';
+                this.color = 'bg-info'
+                console.log(this.order_product.status)
+
             }
-            else if(this.order_product.status == 2){
+            else if(this.order_product.status === 2){
                 this.status = 'w-75'
+                this.color = 'bg-info'
             }
-            else if(this.order_product.status == 3){
+            else if(this.order_product.status === 3){
                 this.status = 'w-100'
+                this.color = 'bg-success'
             }
             else{
-                this.status = 'w-0'   
+                this.status = 'w-0'
+                 
             }
             // console.log(transaction);
         },

@@ -82,6 +82,10 @@ export default {
                 }
             });
         },
+        numberWithCommas(x) {
+            const num = parseFloat(x)
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        },
         showDate() {
             console.log(this.start_date.toString());
         },

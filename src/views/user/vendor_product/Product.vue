@@ -70,7 +70,7 @@
                                      <div class="row card border-0">
                                         <div class="text-center"><img :src="product.image" width="100" height="100"/></div>
                                         <div class="fs-15 mt-2 text-center">{{product.name}}</div>
-                                        <div class="fs-15 mt-1 text-center">&#8358; {{product.price}}</div>
+                                        <div class="fs-15 mt-1 text-center">&#8358; {{numberWithCommas(product.price)}}</div>
                                         <div class="fs-15 mt-1 text-center">{{ product.quantity }} Quantity</div>
                                         <div class="fs-15 mt-3 mb-1 text-center">Select Quantity</div>
                                         <div class="row d-flex justify-content-center">
