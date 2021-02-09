@@ -19,6 +19,12 @@ export default {
             date:'',
             show_date:false,
             saving:false,
+            search:''
+        }
+    },
+    computed: {
+        filerResult() {
+            return this.vendor_products.filter((result) => result.name.toLowerCase().includes(this.search.toLowerCase()))
         }
     },
     methods:{
@@ -175,11 +181,11 @@ export default {
                             product_id: data.id,
                             business_id: parseInt(window.localStorage.getItem("business_id")),
                             name: data.name,
-                            price: parseInt(data.recommended_price),
-                            quantity: data.stock_quantity,
+                            price: parseInt(data.business_product.pack_price),
+                            quantity: data.business_product.qty,
                             size: data.size,
                             image:data.public_image_url,
-                            qty: data.stock_quantity,
+                            qty: data.business_product.qty,
                             retailer_id: getId(),
                         });
                     });

@@ -14,7 +14,7 @@ import TrendChart from "vue-trend-chart";
 // import ApexCharts from 'apexcharts';
 import VueApexCharts from 'vue-apexcharts';
 import VueHtmlToPaper from 'vue-html-to-paper';
-
+import Select2 from 'v-select2-component';
 // import Popper from 'popper.js';
 // import $ from 'jquery';
 
@@ -41,7 +41,7 @@ Vue.use(Toasted)
 Vue.component('downloadCsv', JsonCSV)
 Vue.use(VueSweetalert2);
 Vue.config.productionTip = false
-
+Vue.component('Select2', Select2);
 new Vue({
     router,
     store,

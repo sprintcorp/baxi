@@ -16,7 +16,21 @@
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <router-link :to="{name:'productOrderOverview'}"><button class="btn btn-warning" style="border-radius:20px"><i class="fa fa-calendar"></i> Order History</button></router-link>
+                        <div class="col-md-4">
+                            <router-link :to="{name:'productOrderOverview'}"><button class="btn btn-warning" style="border-radius:20px"><i class="fa fa-calendar"></i> Order History</button></router-link>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" @change="getLGA()" v-model="selected_state">
+                                <option selected disabled>Select State</option>
+                                <option v-for="(state,index) in states" :key="index" :value="state.name">{{state.name}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" v-model="selected_lga">
+                                <option selected disabled>Select LGA</option>
+                                <option value="" v-for="(name,index) in lga" :key="index">{{name.name}}</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12" v-if="vendors.length && !loading">

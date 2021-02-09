@@ -168,7 +168,7 @@ const routes = [{
                 path: "/distributor/orders/",
                 component: DistributorOrdersComponent,
                 ...preventRoutes,
-                meta: { authorize: 'distributor' } 
+                meta: { authorize: 'order products' } 
             },
             {
                 name: "productOverview",

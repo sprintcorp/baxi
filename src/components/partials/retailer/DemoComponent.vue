@@ -17,14 +17,14 @@
                 <li :class="[this.$router.currentRoute.name == 'productOverview' || this.$router.currentRoute.name == 'restockLevel' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'productOverview'}"  class="nav-link font-weight-bold" href="#"><i class="fa fa-cube"></i> Product</router-link>
                 </li>
-                <li v-if="order_products" :class="[this.$router.currentRoute.name == 'categoryOrder' || this.$router.currentRoute.name == 'productOrderOverview' || this.$router.currentRoute.name == 'categoryVendor' || this.$router.currentRoute.name == 'vendorProduct'  ? 'nav-item active' : 'nav-item']">
+                <li v-if="order_products && !distributor" :class="[this.$router.currentRoute.name == 'categoryOrder' || this.$router.currentRoute.name == 'productOrderOverview' || this.$router.currentRoute.name == 'categoryVendor' || this.$router.currentRoute.name == 'vendorProduct'  ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'categoryOrder'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-calendar"></i> Order </router-link>
                 </li>
 
                 <li :class="[this.$router.currentRoute.name == 'transactionOverview' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'transactionOverview'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-credit-card"></i>  Transaction</router-link>
                 </li>
-                <li v-if="order_products" :class="[this.$router.currentRoute.name == 'outletOverview' ? 'nav-item active' : 'nav-item']">
+                <li v-if="order_products && !distributor" :class="[this.$router.currentRoute.name == 'outletOverview' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'outletOverview',params:{ id:outlet}}" class="nav-link font-weight-bold" href="#"><i class="fa fa-building"></i> Outlet</router-link>
                 </li>
                 <li v-if="distributor" :class="[this.$router.currentRoute.name == 'distributorOrders' ? 'nav-item active' : 'nav-item']">
@@ -116,7 +116,7 @@
 </template>
 
 <script>
-import {logout,getOutlet,checkUserPermission,getToken} from '../../../config';
+import {logout,getOutlet,checkUserPermission,getToken,getRole} from '../../../config';
 import {BASE_URL} from '../../../env'
     // import MainMenuComponent from "./MainMenuComponent";
     
@@ -131,7 +131,7 @@ import {BASE_URL} from '../../../env'
                 cart_order:[],
                 total:'',
                 order_products:'',
-                distributor:''
+                distributor:false,
             }
         },
          computed:{
@@ -203,7 +203,10 @@ import {BASE_URL} from '../../../env'
         },
          mounted(){
             this.order_products = checkUserPermission('order products')
-            this.distributor = checkUserPermission('distributor')
+            if(getRole() == 'Distributor'){
+                // alert('hhhh')
+                this.distributor = true
+            }
             this.getCart();
             this.outlet = getOutlet();
             

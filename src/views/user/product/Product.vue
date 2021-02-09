@@ -78,7 +78,7 @@
                                         <td>{{product.category != '' ? product.category :'No Category'}}</td>
                                         <td>{{product.size}}</td>
                                         <td>{{ product.outlet_qty}}</td>                                        
-                                        <td>{{ numberWithCommas(product.recommended_price) }}</td>
+                                        <td>₦{{ numberWithCommas(product.recommended_price) }}</td>
                                         <td>{{product.date }}</td>
                                         <td v-if="create_product || distributor">
                                           <button v-if="create_product" @click="editRetailerProduct(product)" data-toggle="modal" data-target="#editProduct"><i class="fa fa-edit"></i></button>
@@ -265,7 +265,16 @@
                                   <div class="row">
                                     <div class="col-md-6">
                                       <label class="form-label">Product name</label>
-                                      <input type="text" class="form-control" v-model="product.name" aria-describedby="product name">
+                                      <!-- <Select2 v-model="myValue" class="form-control" style="width:200px" :options="system_products" :settings="{ settingOption: value, settingOption: value }"
+                                    @change="myChangeEvent($event)" @select="mySelectEvent($event)"/> -->
+                                    <Dropdown
+                                        :options="list_products"
+                                        v-on:selected="myChangeEvent($event)"
+                                        :disabled="false"
+                                        :maxItem="10"
+                                        placeholder="Search for products">
+                                    </Dropdown>
+                                      <!-- <input type="text" class="form-control" v-model="product.name" aria-describedby="product name"> -->
                                     </div>
                                     <div class="col-md-6">
                                       <label class="form-label">Product Category</label>
@@ -278,35 +287,46 @@
                                   <div class="row">
                                     <div class="col-md-6">
                                       <label class="form-label">Quantity</label>
-                                      <input type="text" class="form-control" v-model="product.outlet_qty" aria-describedby="quantity">
+                                      <input type="text" class="form-control" v-model="product.pack_qty" aria-describedby="quantity">
                                     </div>
                                     <div class="col-md-6">
-                                      <label class="form-label">Restock Level</label>
-                                      <input type="text" class="form-control"  v-model="product.restock_level" aria-describedby="restock level">
+                                      <label class="form-label">Minimum Order Qty</label>
+                                      <input type="text" class="form-control"  v-model="product.minimum_order_quantity" aria-describedby="restock level">
                                     </div>
                                   </div>
                                   <div class="row">
                                     <div class="col-md-6">
                                       <label class="form-label">Price</label>
-                                      <input type="text" class="form-control" v-model="product.recommended_price" aria-describedby="quantity">
+                                      <input type="text" class="form-control" v-model="product.pack_price" aria-describedby="quantity">
                                       <input type="hidden" class="form-control" v-model="retailer_product.product_id" aria-describedby="quantity">
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" v-if="!distributor">
                                       <label class="form-label">Outlet</label>
                                         <select class="form-control" v-model="product.outlet">
                                             <option value="" selected>Select business outlet</option>
                                             <option v-for="(outlet,index) in outlets" :key="index"  :value="outlet.id">{{ outlet.name  }}</option>                  
                                         </select>
                                     </div>
+                                    <div class="col-md-6" v-if="distributor">
+                                        <label class="form-label">Barcode</label>
+                                        <input v-model="product.barcode" type="text" class="form-control">
+                                    </div>
                                     
                                   </div>
-                                  <div class="row">
+                                  <!-- <div class="row">
+                                  <div class="col-md-5">
+                                    <Select2 v-model="myValue" class="form-control" :options="myOptions" :settings="{ settingOption: value, settingOption: value }"
+                                    @change="myChangeEvent($event)" @select="mySelectEvent($event)" />
+                                  </div>
+                                  </div> -->
+                                  <div class="row" v-if="!distributor">
                                     <div class="col-md-12">
                                       <label class="form-label">Barcode</label>
                                         <input v-model="product.barcode" type="text" class="form-control">
                                     </div>                                    
                                   </div>
+                                  
                                   
                                 </div>
                                 <div class="col-md-3">
@@ -396,5 +416,17 @@
 	cursor: pointer;
 	text-align:center;
   }
+  .dropdown .dropdown-input {
+    background: #fff;
+    cursor: pointer;
+    border: 1px solid #e7ecf5;
+    border-radius: 3px;
+    color: #333;
+    display: block;
+    font-size: .8em;
+    padding: 6px;
+    min-width: 400px;
+    max-width: 400px;
+}
 
 </style>

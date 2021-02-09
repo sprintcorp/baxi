@@ -86,7 +86,7 @@
             {{chartOptions}} -->
              <div class="row mt-3 d-flex justify-content-center" v-if="outlet_transactions.length > 0">
                 <div class="col-md-12">
-                  <apexchart width="1000" height="300" type="bar" :options="chartOptions" :series="series"></apexchart>
+                  <apexchart width="900" height="300" type="bar" :options="chartOptions" :series="series"></apexchart>
                 </div>
             </div>
              <!-- <div class="row mt-3 d-flex justify-content-center" v-if="outlet_transactions.length < 1">

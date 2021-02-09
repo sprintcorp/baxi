@@ -27,17 +27,18 @@
                     <div class="row">
                         <div class="col-md-12" v-if="vendor_products.length && !loading">
                             <div class="row mr-2">
-                                <div class="col-md-6 d-flex justify-content-center" v-for="(product,index) in vendor_products" :key="index">
+                                <div class="col-md-6 d-flex justify-content-center" v-for="(product,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'vendorProduct',params: { id: vendor.id }}"> -->
-                                    <div class="card p-2" style="width: 25rem;height:6.5rem;border-radius:0px">
+                                    <div class="card p-2" style="width: 25rem;height:8rem;border-radius:0px">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                         <div class="row g-0">
-                                        <div class="col-md-2 mt-2"><img :src="product.image" class="rounded-circle" alt="" width="70" height="70"/></div>
-                                        <div class="col-md-5 mt-4">
-                                            <p class="fs-15 font-weight-bold text-black"> {{product.name}}</p>
+                                        <div class="col-md-2 mt-2 mr-2"><img :src="product.image" class="rounded-circle" alt="" width="70" height="70"/></div>
+                                        <div class="col-md-7">
+                                            <p class="fs-12 font-weight-bold text-black"> {{product.name}}</p>
+                                            <p class="fs-12 font-weight-bold text-black"> &#8358; {{ product.price }}</p>
                                             <p class="fs-10 font-weight-bold text-black" style="margin-top:-15px"> {{product.quantity}} Products</p>
                                         </div>
-                                        <div class="col-md-3 mt-4">&#8358; {{ product.price }}</div>
+                                        <!-- <div class="col-md-3 mt-4"></div> -->
                                         <div class="col-md-2">
                                             <div class="mt-4">
                                                 <button @click="addToCart(product,index)" data-toggle="modal" data-target="#cart">
