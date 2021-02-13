@@ -81,7 +81,7 @@
                             <div class="row p-3" v-if="!cat && !distributor" style="background-color:#d6d6d6;margin-top:-20px">
                                 <div :class="[show_cat ? 'col-md-3' : 'col-md-2']" v-for="(product,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
-                                    <div class="card p-1" style="height:15rem;margin-top:20px">
+                                    <div class="card p-1" style="height:15rem;margin-top:20px;width:13rem">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                       <div class="card-body">
                                        <div class="row" style="height:33%"> <p class="fs-13"> {{product.name}}</p></div>
@@ -111,7 +111,7 @@
                             <div class="row p-3" v-if="!cat && distributor" style="background-color:#d6d6d6;margin-top:-20px">
                                 <div :class="[show_cat ? 'col-md-3' : 'col-md-2']" v-for="(product,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
-                                    <div class="card p-2" style="height:14rem;margin-top:10px">
+                                    <div class="card p-2" style="height:14rem;margin-top:10px;width:13rem">
                                         <div class="card-body">
                                           <div class="row d-flex justify-content-center"> <p class="fs-13"> {{product.name}}</p></div>
                                             <div class="row" style="height:50%">
