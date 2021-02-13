@@ -115,7 +115,7 @@
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
                                     <div class="card p-2" style="height:14rem;margin-top:10px;width:13rem">
                                         <div class="card-body">
-                                          <div class="row d-flex justify-content-center"> <p class="fs-13"> {{product.name}}</p></div>
+                                          <div class="row d-flex justify-content-center"> <p class="fs-13"> {{product.name.lenght > 20 ? product.name.substr(0, 20) : product.name.substr(0, 20)+"..."}}</p></div>
                                             <div class="row" style="height:50%">
                                               <div class="col-md-12">
                                                 <div class="text-center"><img :src="product.public_image_url" class="rounded-circle" alt="" width="100" height="100"/></div>
