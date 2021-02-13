@@ -80,13 +80,13 @@
                                 </div>
                             </div>
 
-                            <div class="row pr-3" v-if="!cat && !distributor" style="background-color:#d6d6d6;margin-top:-20px">
+                            <div class="row pr-3 pb-3" v-if="!cat && !distributor" style="background-color:#d6d6d6;margin-top:-20px">
                                 <div :class="[show_cat ? 'col-md-3' : 'col-md-2']" v-for="(product,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
-                                    <div class="card p-1" style="height:15rem;margin-top:20px;width:13rem">
+                                    <div class="card p-1" style="height:15rem;margin-top:20px;width:12rem">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                       <div class="card-body">
-                                       <div class="row" style="height:33%"> <p class="fs-13"> {{product.name}}</p></div>
+                                       <div class="row" style="height:33%"> <p class="fs-13"> {{product.name.lenght > 20 ? product.name.substr(0, 20) : product.name.substr(0, 20)+"..."}}</p></div>
                                         <div class="row" style="height:50%">
                                           <div class="col-md-4">
                                             <div class="text-center mt-1"><img :src="product.public_image_url" class="rounded-circle" alt="" width="70" height="70"/></div>
