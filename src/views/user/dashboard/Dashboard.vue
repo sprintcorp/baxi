@@ -298,28 +298,6 @@
                 </div>
           </div>
         </div>
-        <div class="col-md-4 ">
-          <div class="card mt-1 h-100">
-                <div class="mx-auto mt-1">
-                  <img :src="require('@/assets/images/img10.png')" class='rounded' alt="img"/>
-              </div>
-                <div class="card-body text-center">
-                    USSD
-                </div>
-          </div>
-        </div>
-        <div class="col-md-4 pt-3">
-          <div class="card mt-1 h-100">
-                <div class="mx-auto mt-1">
-                  <img :src="require('@/assets/images/img11.png')" class='rounded' alt="img"/>
-              </div>
-                <div class="card-body text-center">
-                   <!-- <a href="#exampleModalCenter" class="nav-link text-dark"> -->
-                    Bank Transfer
-                    <!-- </a>  -->
-                </div>
-          </div>
-        </div>
         <div class="col-md-4 pt-3 close" @click="saveOrder()" data-dismiss="modal">
           <div class="card mt-1 h-100">
              <div class="mx-auto mt-1">

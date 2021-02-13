@@ -215,7 +215,10 @@
                                       </div>
                                     </div>
                                     <div class="row mt-3">
-                                      <button @click="saveOrder()" data-dismiss="modal" class="btn btn-warning btn-block">Save</button>
+                                        <div class="col-md-12 d-flex justify-content-end" >
+                                            <button data-dismiss="modal" class="btn btn-danger mr-2">Close</button>
+                                            <button @click="saveOrder()" data-dismiss="modal" class="btn btn-warning">Save</button>
+                                      </div>
                                     </div>
          
                                     </div>
