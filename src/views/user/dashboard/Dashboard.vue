@@ -80,7 +80,7 @@
                                 </div>
                             </div>
 
-                            <div class="row p-3" v-if="!cat && !distributor" style="background-color:#d6d6d6;margin-top:-20px">
+                            <div class="row pr-3" v-if="!cat && !distributor" style="background-color:#d6d6d6;margin-top:-20px">
                                 <div :class="[show_cat ? 'col-md-3' : 'col-md-2']" v-for="(product,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
                                     <div class="card p-1" style="height:15rem;margin-top:20px;width:13rem">
@@ -110,7 +110,7 @@
 
 
 
-                            <div class="row p-3" v-if="!cat && distributor" style="background-color:#d6d6d6;margin-top:-20px">
+                            <div class="row pr-3" v-if="!cat && distributor" style="background-color:#d6d6d6;margin-top:-20px">
                                 <div :class="[show_cat ? 'col-md-3' : 'col-md-2']" v-for="(product,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
                                     <div class="card p-2" style="height:14rem;margin-top:10px;width:13rem">
