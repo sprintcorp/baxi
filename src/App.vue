@@ -14,6 +14,11 @@ export default {
 <style>
 a{
   text-decoration: none !important;
+  font-family: 'Rubik', sans-serif;
+}
+li,h4{
+
+  font-family: 'Rubik', sans-serif;
 }
 body{
   background: white
@@ -22,7 +27,7 @@ body{
 border-radius: 10px;
 }
 
-
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap');
 @import url("../public/css/style.css");
 @import url("../public/css/sidebar.css");
 /* @import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");

@@ -37,20 +37,27 @@
                         <section class="panel-content">
                             <div class="row">
                             <div class="col-md-12">
-                                <div class="row border-2 mt-3">
-                                  <div class="col-md-4 mt-2 font-weight-bold"> Product</div>
-                                  <div class="col-md-4">
-                                    <button data-toggle="modal" data-target="#search" class="btns shadow btn-light btn-sm sml-radius text-black p-2" style="border-radius:30px">
-                                      <i class="fa fa-search"></i> Filter by transaction: From last 30 days
-                                    </button>
+                                <div class="row mt-3 top-table p-3">
+                                  <div class="col-md-2 mt-2 font-weight-bold fs-20"> Product</div>
+
+                                  <div class="col-md-5 d-flex justify-content-center">
+                                    <button type="button" class="btn rounded btn-success mr-1" style="border-radius:45px !important;">Total Stock Value: ₦2,234,331</button>
+                                    <button type="button" class="btn rounded" style="border-radius:45px !important;background-color:#372B96;color:white">Total Inventory Items: 300</button>
                                   </div>
-                                  <div class="col-md-4 d-flex justify-content-end">
+
+                                  <div class="col-md-5 d-flex justify-content-center">
+                                    <button data-toggle="modal" data-target="#search" class="btn shadow mr-1 btn-light btn-sm sml-radius text-black p-2" style="border-radius:30px;width:120px">
+                                      <img src="../../../assets/icon/noun_filter_3070438.png" alt="img"/>  Date Filter <i class="fa fa-angle-down"></i>
+                                    </button>
+
                                     <router-link :to="{name:'restockLevel'}"><button  class="btns shadow white-skin btn-sm sml-radius text-black  mr-2 p-2"  style="border-radius:25px;border:2px solid black">
                                       <i class="fa fa-microchip"></i> Restock Level
                                     </button></router-link>
-                                    <button v-if="create_product" data-toggle="modal" data-target="#product" class="btns shadow yellow-skin btn-sm sml-radius text-black p-2" style="border-radius:30px"><i class="fa fa-plus-circle"></i> Add Product
+
+                                    <button data-toggle="modal" data-target="#product" class="btns shadow yellow-skin btn-sm sml-radius text-black p-2" style="border-radius:30px"><i class="fa fa-plus-circle"></i> Add Product
                                     </button>
                                   </div>
+
                                 </div>
                                   <div class="row">
                                   <div class="table-responsive mt-5" v-if="local_product.length && !loading">
@@ -155,20 +162,21 @@
                                   <div class="row">
                                     <div class="col-md-6">
                                       <label class="form-label">Product name</label>
-                                      <input type="text" class="form-control" v-model="retailer_product.name" aria-describedby="product name">
+                                      <input type="text" class="form-control" v-model="retailer_product.name" aria-describedby="product name" readonly>
                                     </div>
                                     <div class="col-md-6">
                                       <label class="form-label">Product Category</label>
-                                      <select class="form-control" v-model="retailer_product.category_id">
-                                          <!-- <option value="" selected>{{retailer_product.category}}</option> -->
+                                      <select class="form-control" v-if="distributor" v-model="retailer_product.category_id">
+                                         
                                           <option v-for="(category,index) in categories" :key="index"  :value="category.id">{{ category.name  }}</option>                  
                                         </select>
+                                        <input type="text" class="form-control" v-if="!distributor" v-model="retailer_product.category" aria-describedby="product category" readonly>
                                     </div>
                                   </div>
                                   <div class="row">
                                     <div class="col-md-6">
                                       <label class="form-label">Quantity</label>
-                                      <input type="text" class="form-control" v-model="retailer_product.qty" aria-describedby="quantity">
+                                      <input type="text" class="form-control" v-model="retailer_product.qty" aria-describedby="quantity" readonly>
                                     </div>
                                     <div class="col-md-6">
                                       <label class="form-label">Restock Level</label>
@@ -178,7 +186,7 @@
                                   <div class="row">
                                     <div class="col-md-6">
                                       <label class="form-label">Price</label>
-                                      <input type="text" class="form-control" v-model="retailer_product.recommended_price" aria-describedby="quantity">
+                                      <input type="text" class="form-control"  v-model="retailer_product.price" aria-describedby="quantity">
                                       <input type="hidden" class="form-control" v-model="retailer_product.product_id" aria-describedby="quantity">
                                     </div>
                                     
@@ -191,7 +199,7 @@
                                   <row md="12">
                                       <input id="fileUpload" ref="fileInput" type="file" @change="fileChange()" hidden>
                                       
-                                      <button class="btn btn-warning btn-block" @click="chooseFiles()">Select Image</button>
+                                      <!-- <button class="btn btn-warning btn-block" @click="chooseFiles()">Select Image</button> -->
                                       
                                       
                                   </row>
@@ -271,7 +279,8 @@
                                         :options="list_products"
                                         v-on:selected="myChangeEvent($event)"
                                         :disabled="false"
-                                        :maxItem="10"
+                                        :maxItem="100"
+                                        
                                         placeholder="Search for products">
                                     </Dropdown>
                                       <!-- <input type="text" class="form-control" v-model="product.name" aria-describedby="product name"> -->
@@ -402,31 +411,5 @@
 </script>
 
 <style scoped>
-.overlay {
-	position: fixed;
-	display: block;
-	width: 100%;
-	height: 100%;
-	top: 10%;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background-color: rgba(0,0,0.5,0.5);
-	z-index: 999;
-	cursor: pointer;
-	text-align:center;
-  }
-  .dropdown .dropdown-input {
-    background: #fff;
-    cursor: pointer;
-    border: 1px solid #e7ecf5;
-    border-radius: 3px;
-    color: #333;
-    display: block;
-    font-size: .8em;
-    padding: 6px;
-    min-width: 400px;
-    max-width: 400px;
-}
-
+  @import url("./Product.css");
 </style>

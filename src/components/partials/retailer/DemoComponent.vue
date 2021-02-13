@@ -32,10 +32,11 @@
                 </li>
 
                 </ul>
-                <form  class="form-inline search-form my-2 my-lg-0" v-if="(this.$router.currentRoute.name != 'categoryOrder')">
+                <!-- <form  class="form-inline search-form my-2 my-lg-0" v-if="(this.$router.currentRoute.name != 'categoryOrder')">
                     <input type="text" placeholder="Search Products" style="background-color:white;width:255%;border-radius:20px"/>
                     <button type="submit"><i class="fa fa-search"></i></button>
-                </form>
+                </form> -->
+                <div style="height:20%" v-if="!distributor">Outlet : {{name}} <br>Balance : ₦ 20,000</div>
                 <div class="vl"></div>
                 <button class="mr-2" v-if="order_products" data-toggle="modal" data-target="#cartModal"><i class="fa fa-shopping-cart fs-25" style="color:#ffc107"></i></button>
                 <div class="">
@@ -60,58 +61,7 @@
             </div>
         </nav>
 
-        <!-- Cart -->
-            <div class="modal left fade" id="cartModal" tabindex="" role="dialog" aria-labelledby="cartModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Cart</h5>
-                            <button type="button" @click="getCart()" class="btn-close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row p-3" style="margin-top:-17px;background-color:#d8d4d4">
-                                <h5><i class="fa fa-shopping-cart"></i>  {{cart_order.length}} items in cart</h5>   
-                            </div>
-                            <div class="row" style="margin-top:-15px">
-                                <div style="margin-top:-15px" class="col-md-12 d-flex justify-content-center" v-for="(product,index) in cart_order" :key="index">
-                                        <!-- <router-link :to="{name:'vendorProduct',params: { id: vendor.id }}"> -->
-                                        <div class="card p-2" style="width: 25rem;height:6.5rem;border-radius:0px">
-                                            <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
-                                            <div class="row g-0">
-                                            <div class="col-md-2 mt-2"><img :src="product.image" class="rounded-circle" alt="" width="70" height="70"/></div>
-                                            <div class="col-md-5 mt-4">
-                                                <p class="fs-15 font-weight-bold text-black"> {{product.name}}</p>
-                                                <p class="fs-10 font-weight-bold text-black" style="margin-top:-15px"> {{product.quantity}} Products</p>
-                                            </div>
-                                            <div class="col-md-3 mt-4">&#8358; {{ product.amount }}</div>
-                                            <div class="col-md-2">
-                                                <div class="mt-4">
-                                                    <button @click="removeFromCart(cart_order,index)">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div>
-                                        <!-- </router-link> -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- <div class="modal-footer"> -->
-                            <div class="row align-items-end p-3">
-                                <div class="col-sm-6">
-                                    Total : &#8358; {{total}}
-                                </div>
-                                <div class="col-sm-6 d-flex justify-content-end">
-                                    <button type="button" class="btn btn-warning pl-4 pr-4" style="border-radius:15px" @click="saveOrder()">Order</button>
-                                </div>
-                            </div>
-                        <!-- </div> -->
-                    </div>
-                </div>
-            </div>
 
-        <!-- End Cart -->
     </div>
 </template>
 
@@ -127,6 +77,7 @@ import {BASE_URL} from '../../../env'
             return{
                 route:'',
                 outlet:'',
+                name:'',
                 show:false,
                 cart_order:[],
                 total:'',
@@ -203,9 +154,12 @@ import {BASE_URL} from '../../../env'
         },
          mounted(){
             this.order_products = checkUserPermission('order products')
+            
             if(getRole() == 'Distributor'){
                 // alert('hhhh')
                 this.distributor = true
+            }else{
+                this.name = JSON.parse(window.localStorage.getItem('outlet_name'))
             }
             this.getCart();
             this.outlet = getOutlet();

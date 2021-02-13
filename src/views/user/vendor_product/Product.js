@@ -1,5 +1,5 @@
 import { BASE_URL } from '../../../env'
-import { getToken, logout,getId,checkUserPermission } from '../../../config'
+import { getToken, logout,checkUserPermission } from '../../../config'
 export default {
     name:"VendorComponent",
     data(){
@@ -48,7 +48,7 @@ export default {
 
             // products.quantity = value
             products.qty = value
-            products.business_id = parseInt(window.localStorage.getItem("retailer_business"))
+            // products.business_id = parseInt(window.localStorage.getItem("retailer_business"))
             products.outlet_id = parseInt(window.localStorage.getItem("retailer_outlet"))
             products.amount = value * products.price
             if (JSON.parse(window.localStorage.getItem("retailer_order"))) {
@@ -179,14 +179,15 @@ export default {
                     res.data.data.forEach((data) => {
                         this.vendor_products.push({
                             product_id: data.id,
-                            business_id: parseInt(window.localStorage.getItem("business_id")),
+                            business_id: data.business_product.business_id,
                             name: data.name,
                             price: parseInt(data.business_product.pack_price),
+                            pack: data.business_product.pack_label,
+                            minimum_order: data.business_product.minimum_order_qty,
                             quantity: data.business_product.qty,
                             size: data.size,
                             image:data.public_image_url,
                             qty: data.business_product.qty,
-                            retailer_id: getId(),
                         });
                     });
                     console.log(this.local_product);

@@ -25,6 +25,7 @@ export default {
             product: {
                 barcode: '',
                 recommended_price: '',
+                price: '',
                 outlet_qty: '',
                 category_id: '',
                 restock_level: '',
@@ -36,7 +37,8 @@ export default {
                 pack_qty:'',
                 id:'',
                 unit_price:"100",
-                unit_qty:10
+                unit_qty:10,
+                product_id:''
             },
             cart: {
                 customer: {
@@ -52,7 +54,7 @@ export default {
             outlets:[],
             retailer_product:{
                 barcode: '',
-                recommended_price: '',
+                price: '',
                 outlet_qty: '',
                 category_id: '',
                 restock_level: '',
@@ -75,7 +77,8 @@ export default {
             distributor:false,
             system_products:[],
             list_products:[],
-            selected_procuct:''
+            selected_procuct:'',
+            url:''
             
         }
     },
@@ -242,6 +245,7 @@ export default {
                                 product_id: data.product.id,
                                 name: data.product.name,
                                 recommended_price: parseInt(data.product.recommended_price),
+                                price: parseInt(data.product.recommended_price),
                                 quantity: data.qty,
                                 outlet_qty: data.qty,
                                 category: data.product.categories[0] ?data.product.categories[0].name:'No Category',
@@ -251,7 +255,7 @@ export default {
                                 image: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
                                 qty: data.qty,
                                 sku: data.product.sku,
-                                restock_level: data.product.restock_level,
+                                restock_level: data.restock_level,
                                 date:data.product.created_at
 
                             });
@@ -406,7 +410,8 @@ export default {
                             this.local_product.push({
                                 product_id: data.product.id,
                                 name: data.product.name,
-                                recommended_price: parseInt(data.product.recommended_price),
+                                recommended_price: parseInt(data.price),
+                                price: parseInt(data.price),
                                 quantity: data.qty,
                                 outlet_qty: data.qty,
                                 category: data.product.categories[0] ?data.product.categories[0].name:'No Category',
@@ -416,7 +421,7 @@ export default {
                                 image: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
                                 qty: data.qty,
                                 sku: data.product.sku,
-                                restock_level: data.product.restock_level,
+                                restock_level: data.restock_level,
                                 date:data.product.created_at
 
                             });
@@ -526,23 +531,16 @@ export default {
             this.retailer_product = product;
         },
         updateProduct(){
-            // const formData = new FormData();
-            // formData.append('image', this.retailer_product.public_image_url)
-            // formData.append('name', this.retailer_product.name);
-            // formData.append('catergory_id', this.retailer_product.catergory_id);
-            // formData.append('restock_level', this.retailer_product.restock_level);
-            // formData.append('qty', this.retailer_product.quantity);
-            // formData.append('recommended_price', this.retailer_product.recommended_price);
-            console.log(this.retailer_product)
-            // formData.append('product_id', this.retailer_product.product_id);
-            // for(var pair of formData.entries()) {
-            //     console.log(pair[0]+ ', '+ pair[1]); 
-            // }
             this.saving = true;
+            if(getRole() == 'Distributor'){
+                this.page = '/my/products/' + this.retailer_product.product_id
+            }else{
+                this.page = '/my/outlet/'+window.localStorage.getItem("retailer_outlet")+'/product/' + this.retailer_product.product_id
+            }
             if(this.retailer_product.image.includes('https://')){
                 delete this.retailer_product.image;
             }
-            fetch(BASE_URL + '/my/products/' + this.retailer_product.product_id, {
+            fetch(BASE_URL + this.page, {
                 method: 'PUT',
                 body: JSON.stringify(this.retailer_product),
                 headers: {
@@ -570,6 +568,7 @@ export default {
                     this.$router.push({ name: 'welcome' });
                 }
             });
+
         },
         updateProductQuantity(){
                 if(!this.distributor){
@@ -689,7 +688,15 @@ export default {
             console.log(payload);
             // toString(this.product.unit_price);
             // fetch(BASE_URL + '/my/outlet/' + this.product.outlet + '/products/new', {
-            fetch(BASE_URL + '/my/distributor/product/'+this.product.id+'/add', {
+                if(this.distributor){
+                    this.url = '/my/distributor/product/'+this.product.id+'/add';
+                }else{
+                    this.url = '/my/outlet/'+window.localStorage.getItem("retailer_outlet")+'/products/new';
+                    delete this.product.sku;
+                    // this.product.name;
+                    this.product.product_id = this.product.id;
+                }
+            fetch(BASE_URL +this.url, {
                     method: 'POST',
                     body: JSON.stringify(this.product),
                     headers: {

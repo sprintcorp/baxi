@@ -32,7 +32,11 @@ export default {
     computed: {
         filerTransactions() {
             return this.orders.filter((transaction) => (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
-                    new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()) && transaction.status == this.stats)
+                    new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()))
+        },
+        filerTransaction() {
+            return this.orders.filter((transaction) => (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
+                    new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()) && transaction.status == this.stats )
         }
     },
     methods: {
@@ -166,40 +170,39 @@ export default {
         },
 
 
-        // getPageTransaction(page) {
-        //     this.transactions =[];
-        //     this.loading = true;
-        //     fetch(page, {
-        //             headers: {
-        //                 'Content-Type': 'application/json',
-        //                 'Accept': 'application/json',
-        //                 'Authorization': getToken()
-        //             }
-        //         })
-        //         .then(res => res.json())
-        //         .then(res => {
-        //             if (res.message === 'Unauthenticated.') {
-        //                 console.log(res);
-        //                 logout();
-        //                 this.$router.push({ name: 'welcome' });
-        //             }
-        //             this.loading = false;
-        //             this.transactions = res.data;
-        //             this.page = res.data;
-        //             console.log(this.transactions);
-        //         })
-        //         .catch(err => {
-        //                 console.log(err)
-        //                 this.loading = false;
-        //                 if (err.response.status == 401) {
-        //                     this.$swal("Session Expired");
-        //                     logout();
-        //                     this.$router.push({ name: 'welcome' });
-        //                 }
-        //             }
-
-        //         );
-        // }
+        getPageOrder(page) {
+            this.loading = true;
+            fetch(page, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.message === 'Unauthenticated.') {
+                        console.log(res);
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                    this.orders = res.data.data;
+                    this.loading = false;
+                    
+                    this.page = res.data;
+                    console.log(this.orders);
+                })
+                .catch(err => {
+                        console.log(err)
+                        this.loading = false;
+                        if (err.response.status == 401) {
+                            this.$swal("Session Expired");
+                            logout();
+                            this.$router.push({ name: 'welcome' });
+                        }
+                    }
+                );
+        }
     },
 
     mounted() {

@@ -31,7 +31,7 @@
                                   </div>
                                   <div class="col-md-4 d-flex justify-content-end">
                                     <button data-toggle="modal" data-target="#search" class="btns shadow btn-light btn-sm sml-radius text-black p-2" style="border-radius:30px">
-                                      <i class="fa fa-search"></i> Filter by transaction: From last 30 days
+                                      <img src="../../../assets/icon/noun_filter_3070438.png" alt="img"/> Filter by transaction: From last 30 days
                                     </button>
                                   </div>
                                 </div>

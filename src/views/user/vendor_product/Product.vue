@@ -35,7 +35,7 @@
                                         <div class="col-md-2 mt-2 mr-2"><img :src="product.image" class="rounded-circle" alt="" width="70" height="70"/></div>
                                         <div class="col-md-7">
                                             <p class="fs-12 font-weight-bold text-black"> {{product.name}}</p>
-                                            <p class="fs-12 font-weight-bold text-black"> &#8358; {{ product.price }}</p>
+                                            <p class="fs-12 font-weight-bold text-black"> &#8358; {{ numberWithCommas(product.price) }}</p>
                                             <p class="fs-10 font-weight-bold text-black" style="margin-top:-15px"> {{product.quantity}} Products</p>
                                         </div>
                                         <!-- <div class="col-md-3 mt-4"></div> -->
@@ -69,59 +69,39 @@
                                     
                                 <div class="modal-body" style="margin-top:-30px">
                                      <div class="row card border-0">
+                                         
                                         <div class="text-center"><img :src="product.image" width="100" height="100"/></div>
                                         <div class="fs-15 mt-2 text-center">{{product.name}}</div>
                                         <div class="fs-15 mt-1 text-center">&#8358; {{numberWithCommas(product.price)}}</div>
                                         <div class="fs-15 mt-1 text-center">{{ product.quantity }} Quantity</div>
+                                        <div class="fs-15 mt-1 text-center">N:B Minimum Order {{ product.minimum_order }}</div>
                                         <div class="fs-15 mt-3 mb-1 text-center">Select Quantity</div>
-                                        <div class="row d-flex justify-content-center">
-                                            <div class="col-md-2">
-                                                <button class="btn btn-danger" @click="decrease(product.quantity)"><i class="fa fa-minus"></i></button>
+                                        <div class="row">
+                                             <div class="col-md-12 d-flex justify-content-end">
+                                                <div class="input-group rm">
+                                                    <input type="button" @click="decrease(product.quantity)" value="-" class="button-minus" data-field="quantity">
+                                                    <input type="number" step="1" max=""  :value="quantity_value" name="quantity" @change="changes()" class="quantity-field">
+                                                    <input type="button" @click="increase(product.quantity)" value="+" class="button-plus" data-field="quantity">
+                                                </div>
                                             </div>
-                                            <div class="col-md-2"><input type="text" :value="quantity_value" style="width:50px" @change="changes()"></div>
-                                            
-                                            <div class="col-md-2"><button class="btn btn-success" @click="increase(product.quantity)"><i class="fa fa-plus"></i></button></div>
                                         </div>
-                                        <div class="fs-15 mt-3 mb-1 text-center" style="color:red" v-if="error">Selected quantity is more than available quantity</div>
-                                    </div>
+                                        </div>
                                     
 
                                    
                                     
                                 </div>
-                                <div class="row p-5 d-flex justify-content-center">
-                                    <button type="button" class="btn btn-warning mr-3" v-if="quantity_value > 0 && !error" @click="submitToCart(quantity_value,product)" style="border-radius:20px"><i class="fa fa-shopping-cart"></i> ADD TO CART</button>
+                                <div class="row p-5 d-flex justify-content-center" style="margin-bottom:-20px">
+                                    <button type="button" class="btn btn-warning mr-3" v-if="quantity_value > 0 && !error && product.minimum_order <= quantity_value" @click="submitToCart(quantity_value,product)" style="border-radius:20px"><i class="fa fa-shopping-cart"></i> ADD TO CART</button>
                                     <button type="button" class="btn btn-light" style="border-radius:20px;color:red" data-dismiss="modal">CLOSE</button>                                    
                                 </div>
+                                 <div class="fs-15 mt-3 mb-1 text-center" style="color:red" v-if="error">Selected quantity is more than available quantity</div>
+                                        <div class="fs-15 mt-3 mb-1 text-center" style="color:red" v-if="product.minimum_order > quantity_value && quantity_value > 0">Selected quantity is less than minimum order pack</div>
+                                   
                                 </div>
                             </div>
                         </div>
-                        <!-- End of Add Cart -->
-
-                        <!-- Sidebar Cart -->
-                            <!-- <div class="modal left fade" id="exampleModal" tabindex="" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Cart</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="nav flex-sm-column flex-row">
-                                                <a class="nav-item nav-link active" href="#">Home</a>
-                                                <a href="#" class="nav-item nav-link">Link</a>
-                                                <a href="#" class="nav-item nav-link">Link</a>
-                                                <a href="#" class="nav-item nav-link">Link</a>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-
-                        <!-- End Sidebar Cart -->
+                   
 
                         <div class="row col-md-12">
                             <div class="overlay" v-if="saving">
@@ -173,22 +153,22 @@
                     </div>
                 </div>
 
-                <div class="col-md-3 ml-4" v-if="show_cart">
+                <div class="col-md-3 ml-2" style="" v-if="show_cart">
                             <div class="row p-3" style="margin-top:-17px;background-color:#d8d4d4">
                                 <h5><i class="fa fa-shopping-cart"></i>  {{cart_order.length}} items in cart</h5>   
                             </div>
                             <div class="row" style="margin-top:-15px">
                                 <div style="margin-top:-15px" class="col-md-12 d-flex justify-content-center" v-for="(cart,index) in cart_order" :key="index">
                                         <!-- <router-link :to="{name:'vendorProduct',params: { id: vendor.id }}"> -->
-                                        <div class="card p-2" style="width: 25rem;height:6.5rem;border-radius:0px">
+                                        <div class="card p-2" style="width:350rem;height:6.5rem;border-radius:0px">
                                             <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                             <div class="row g-0">
                                             <div class="col-md-2 mt-2"><img :src="cart.image" class="rounded-circle" alt="" width="70" height="70"/></div>
-                                            <div class="col-md-5 mt-4 ml-1">
-                                                <p class="fs-15 font-weight-bold text-black"> {{cart.name}}</p>
-                                                <p class="fs-10 font-weight-bold text-black" style="margin-top:-20px"> {{cart.qty}} Products</p>
+                                            <div class="col-md-5 mt-2 ml-1">
+                                                <p class="fs-10 font-weight-bold text-black"> {{cart.name}}</p>
+                                                <p class="fs-10 font-weight-bold text-black" style="margin-top:-20px"> Quantity {{cart.qty}}</p>
                                             </div>
-                                            <div class="col-md-3 mt-4">&#8358; {{ cart.amount }}</div>
+                                            <div class="col-md-3 mt-4 fs-10">&#8358;{{ numberWithCommas(cart.amount) }}</div>
                                             <div class="col-md-1">
                                                 <div class="mt-4">
                                                     <button @click="removeFromCart(cart_order,index)">
@@ -202,10 +182,10 @@
                                 </div>
                             </div>
                             <div class="row align-items-end p-3">
-                                <div class="col-sm-6">
-                                    Total : &#8358; {{total}}
+                                <div class="col-sm-8">
+                                    Total : &#8358; {{numberWithCommas(total)}}
                                 </div>
-                                <div class="col-sm-6 d-flex justify-content-end">
+                                <div class="col-sm-4 d-flex justify-content-end">
                                     <button type="button" data-toggle="modal" data-target="#type" class="btn btn-warning pl-4 pr-4" style="border-radius:15px">Order</button>
                                 </div>
                             </div>

@@ -18,65 +18,97 @@
                 </div>
 
                 <div class="col-md-8 d-flex justify-content-end p-5">
+                  <div class="mr-2">
+                    <select class="form-control">
+                      <option value="1">Today</option>
+                      <option value="7">Weekly</option>
+                      <option value="30">Monthly</option>
+                    </select>
+                  </div>
                   <button class="btn btn-rounded btn-warning" type="button" data-toggle="modal" data-target="#outlet"><i class="fa fa-plus"></i> Create Outlet</button>                  
                 </div>
               </div>
 
-              <div class="row" style="margin-top:-30px">
-              <div class="col-md-12">
+              <!-- <div class="row" style="margin-top:-30px"> -->
+              <div class="col-md-12" >
                 <div class="row">
 
-                <div class="col-md-3">
-                  <div class="card p-3" style="width:13rem;height:110px;border-radius:10px">
-                    <div class="d-flex justify-content-end">
-                      <div class="row"><p>Total Products Sold</p></div>                    
-                    </div>
-                    <div class="d-flex justify-content-end">
-                      <div class="font-weight-bold" style="color:blue">{{total_quantity}}</div>
-                    </div>
-                    
-                      <div class="progress-bar bg-info" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>  
-                </div>  
+                 
 
-                <div class="col-md-3">
-                  <div class="card p-3" style="width:13rem;height:110px;border-radius:10px">
-                    <div class="d-flex justify-content-end">
-                      <div class="row"><p>Total Transaction</p></div>                    
+                <div class="col-md-3" style="margin-right:0px">
+                  <div class="card" style="width: 13rem;">
+                    <div class="card-body">
+                      <!-- <div class="row"> -->
+                        <p class="mb-2 text-muted d-flex justify-content-end">Total product sold</p>    
+                        <div class="row"> 
+                        <div class="col-md-4">
+                          <img :src="require('@/assets/icon/icons8-packaging-48.png')" class='rounded' alt="img"/>                          
+                        </div>
+                        <div class="col-md-8">
+                          <h3 class="d-flex justify-content-end">{{total_quantity}}</h3>
+                        </div>
+                        </div>
+                        <div class="progress-bar bg-info" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                      <!-- </div> -->
                     </div>
-                    <div class="d-flex justify-content-end">
-                      <div class="font-weight-bold" style="color:blue">&#8358; {{numberWithCommas(total_transaction)}}</div>
-                    </div>
-                    
-                      <div class="progress-bar bg-warning" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>  
-                </div>  
-
-                <div class="col-md-3">
-                  <div class="card p-3" style="width:13rem;height:110px;border-radius:10px">
-                    <div class="d-flex justify-content-end">
-                      <div class="row"><p>Restock Level</p></div>
-                      
-                    </div>
-                    <div class="d-flex justify-content-end">
-                      <div class="font-weight-bold" style="color:blue">{{restock_level.length}}</div>
-                    </div>
-                    
-                      <div class="progress-bar bg-danger" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                 </div>
-
-                <div class="col-md-3">
-                  <div class="card p-3" style="width:13rem;height:110px;border-radius:10px">
-                    <div class="d-flex justify-content-end">
-                      <div class="row"><p>Total Transaction</p></div>
-                      
+                
+                <div class="col-md-3" style="margin-right:0px">
+                  <div class="card" style="width: 13rem;">
+                    <div class="card-body">
+                      <!-- <div class="row"> -->
+                        <p class="mb-2 text-muted d-flex justify-content-end">Transaction Amount</p>   
+                        <div class="row"> 
+                        <div class="col-md-4">
+                          <img :src="require('@/assets/icon/icons8-split-transaction-48.png')" class='rounded' alt="img"/>                          
+                        </div>
+                        <div class="col-md-8">
+                          <h3 class="d-flex justify-content-end">&#8358; {{numberWithCommas(total_transaction)}}</h3>
+                        </div>
+                        </div>                            
+                        
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                      <!-- </div> -->
                     </div>
-                    <div class="d-flex justify-content-end">
-                      <div class="font-weight-bold" style="color:blue">{{transactions.length}}</div>
+                  </div>
+                </div>
+                
+                <div class="col-md-3" style="margin-right:0px">
+                  <div class="card" style="width: 13rem;">
+                    <div class="card-body">
+                      <!-- <div class="row"> -->
+                        <p class="mb-2 text-muted d-flex justify-content-end">Restock Level</p> 
+                        <div class="row"> 
+                        <div class="col-md-4">
+                          <img :src="require('@/assets/icon/icons8-windows-defragmenter-48.png')" class='rounded' alt="img"/>                          
+                        </div>
+                        <div class="col-md-8">
+                          <h3 class="d-flex justify-content-end">{{restock_level.length}}</h3>
+                        </div>
+                        </div>                               
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                      <!-- </div> -->
                     </div>
-                    
-                      <div class="progress-bar bg-success" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+                
+                <div class="col-md-3" style="margin-right:0px">
+                  <div class="card" style="width: 13rem;">
+                    <div class="card-body">
+                      <!-- <div class="row"> -->
+                        <p class="mb-2 text-muted d-flex justify-content-end">Total Transaction</p>                               
+                        <div class="row"> 
+                        <div class="col-md-4">
+                          <img :src="require('@/assets/icon/icons8-ledger-48.png')" class='rounded' alt="img"/>                          
+                        </div>
+                        <div class="col-md-8">
+                          <h3 class="d-flex justify-content-end">{{transactions.length}}</h3>
+                        </div>
+                        </div> 
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                      <!-- </div> -->
+                    </div>
                   </div>
                 </div>
 
@@ -85,7 +117,7 @@
             <!-- {{series[0].data}}
             {{chartOptions}} -->
              <div class="row mt-3 d-flex justify-content-center" v-if="outlet_transactions.length > 0">
-                <div class="col-md-12">
+                <div class="">
                   <apexchart width="900" height="300" type="bar" :options="chartOptions" :series="series"></apexchart>
                 </div>
             </div>
@@ -98,10 +130,9 @@
 
     
 
-            <div class="mt-3 border-2">
-            <div class="row mt-2 mr-1">
-              
-                        <div class="col-md-6">
+            <div class="mt-3">
+              <div class="row mt-2">              
+                        <!-- <div class="col-md-6">
                           <div class="row">
                           <div class="col-md-6">
                             <div class="input-group">
@@ -116,8 +147,10 @@
                             </div>
                           </div>
                           </div>
-                        </div>
-                        <div class="col-md-6 d-flex justify-content-end">
+                        </div> -->
+                        <!-- <div class="col-md-12 d-flex justify-content-end"> -->
+                          <div class="col-md-12 d-flex justify-content-end" >
+                <!-- <div class="row"> -->
                           <download-csv
                               class="btn btn-info"
                               :data="filerTransactions"
@@ -126,17 +159,15 @@
                               Download Excel <i class="fa fa-file"></i>
 
                             </download-csv>
-                        </div>
-                            <!-- <div class="col-md-3">
-                                  <input type="text" v-model="search" placeholder="Search Here..." class="form-control" style="background-color:white;"/>
-                                 
-                            </div> -->
-            </div>
+                <!-- </div> -->
+                          </div>
+                        <!-- </div> -->
+              </div>
 
             <div class="row mt-2">
 
-              <div class="col-md-12 d-flex justify-content-end">
-                <div class="table-responsive" v-if="transactions.length && !loading">
+              <div class="col-md-12 d-flex justify-content-end" >
+                <div class="table-responsive">
                   <table class="table table-striped">
                     <thead>
                     <tr>
@@ -151,11 +182,11 @@
                       <!-- <th>Numbers</th> -->
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody  v-if="transactions.length && !loading">
 
                     <tr v-for="(transaction,index) in filerTransactions" :key="index">
                       <td>{{ index+1 }}</td>
-                      <td>{{ transaction.trans_ref }}</td>
+                      <td>{{ transaction.order_group_id }}</td>
                       <td>&#8358; {{ transaction.amount }}</td>
                       <td>{{ transaction.type }}</td>
                       <td>{{ transaction.orders.length == 1 ? transaction.orders.length + " Item" : transaction.orders.length+" Items" }}</td>
@@ -237,7 +268,7 @@
             </div>
                 
               
-              </div>
+              <!-- </div> -->
             </div>
 
              <div class="col-md-3 mt-4" style="">

@@ -1,6 +1,6 @@
 // import { mapGetters } from "vuex";
 // import { GET_BUSINESS } from "../../../store/action";
-import { getName, getToken, logout,getPermissions,checkUserPermission,getId } from '../../../config'
+import { getName, getToken, logout,getPermissions,checkUserPermission,getId,getRole } from '../../../config'
 import { BASE_URL,CASHIER_BUSINESS } from '../../../env'
 export default {
     name: "DashboardComponent",
@@ -147,9 +147,7 @@ export default {
         },
 
         getProducts() {
-
-            console.log(checkUserPermission("distributor"))
-            if(checkUserPermission('order products') == false && checkUserPermission('distributor') == false){
+            if(checkUserPermission('order products') == false && getRole() !== 'Distributor'){
                 this.selected_outlet = window.localStorage.getItem("cahier_outlet");
                 this.results = [];
                 this.loading = true;
@@ -177,8 +175,8 @@ export default {
                             this.results.push({
                                 product_id: data.product.id,
                                 name: data.product.name,
-                                amount: parseInt(data.product.recommended_price),
-                                sell_price: parseInt(data.product.recommended_price),
+                                amount: parseInt(data.price),
+                                sell_price: parseInt(data.price),
                                 quantity: data.qty,
                                 size: data.product.size,
                                 public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
@@ -206,7 +204,7 @@ export default {
                     );
                 
             }
-            if(checkUserPermission('order products') == true && checkUserPermission('distributor') == false){
+            if(checkUserPermission('order products') == true && getRole() !== 'Distributor'){
 
                 this.results = [];
                 this.loading = true;
@@ -234,8 +232,8 @@ export default {
                             this.results.push({
                                 product_id: data.product.id,
                                 name: data.product.name,
-                                amount: parseInt(data.product.recommended_price),
-                                sell_price: parseInt(data.product.recommended_price),
+                                amount: parseInt(data.price),
+                                sell_price: parseInt(data.price),
                                 quantity: data.qty,
                                 size: data.product.size,
                                 public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
@@ -263,7 +261,7 @@ export default {
                     );
             }
 
-            if(checkUserPermission('distributor') == true){
+            if(getRole() == 'Distributor'){
                 this.distributor = true;
                 this.cat = false;
                 fetch(BASE_URL + '/my/distributor/products', {
@@ -387,7 +385,7 @@ export default {
                     this.loading = false;
                     this.outlets = res.data;
                     // this.getOutletTransaction(this.outlets[0].id)
-                    // window.localStorage.setItem("retailer_outlet", JSON.stringify(this.outlets[0].id));
+                    window.localStorage.setItem("outlet_name", JSON.stringify(this.outlets[0].name));
                     this.selected_outlet = window.localStorage.getItem("retailer_outlet");
                     
                     console.log(this.outlets);
@@ -522,9 +520,10 @@ export default {
             this.results = [];
             this.getProductCategories();
         },
-        changeOutlet(){
+        changeOutlet(event){
             window.localStorage.setItem("retailer_outlet", JSON.stringify(this.selected_outlet));
             this.selected_outlet = window.localStorage.getItem("retailer_outlet");
+            console.log(event.target.name)
             this.getProducts();
         },
         saveOrder() {

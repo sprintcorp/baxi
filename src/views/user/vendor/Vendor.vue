@@ -21,14 +21,14 @@
                         </div>
                         <div class="col-md-4">
                             <select class="form-control" @change="getLGA()" v-model="selected_state">
-                                <option selected disabled>Select State</option>
+                                <option selected>Select State</option>
                                 <option v-for="(state,index) in states" :key="index" :value="state.name">{{state.name}}</option>
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <select class="form-control" v-model="selected_lga">
-                                <option selected disabled>Select LGA</option>
-                                <option value="" v-for="(name,index) in lga" :key="index">{{name.name}}</option>
+                            <select class="form-control" @change="getLGAVendor()" v-model="selected_lga">
+                                <option selected>Select LGA</option>
+                                <option :value="name.id" v-for="(name,index) in lga" :key="index">{{name.name}}</option>
                             </select>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                                     <div class="card p-2" style="width: 25rem;height:6.5rem;border-radius:10px">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                         <div class="row">
-                                        <div class="col-md-3 mt-2"><img src="/images/baxi.png" class="rounded-circle" alt="" width="70" height="70"/></div>
+                                        <div class="col-md-3 mt-2"><img :src="require('@/assets/images/icons8-customer-48.png')" class="rounded-circle" alt="" width="70" height="70"/></div>
                                             <div class="col-md-8 mt-4">
                                             <p class="fs-15 font-weight-bold text-black"> {{vendor.name}}</p>
                                             </div>
@@ -63,7 +63,7 @@
                             </div>
                             <div class="card" v-if="!vendors.length && !loading">
                                 <div class="card-body text-center">
-                                    There are no vendors at the moment for this category
+                                    There are no vendors at the moment for this category in this state
                                 </div>
                             </div>
                         </div>

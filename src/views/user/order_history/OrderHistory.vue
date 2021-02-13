@@ -1,7 +1,7 @@
 <template>
     <!-- <RetailerLayoutComponent> -->
         <div>
-            <div class="container-fluid" style="">
+            <div class="container" style="">
                 <div class="heading-sec">
                     <div class="row">
                          

@@ -38,12 +38,18 @@ export default {
             console.log(this.start_date.toString());
         },
         changeTab() {
+            // this.loading = true;
+            // this.getOrders();
+            // this.loading = false;
             console.log(this.order_tab)
             this.order_product = [];
+            this.order_product.status = [];
             this.order_tab = true;
             
         },
         showOrder(order) {
+            this.order_product = [];
+            this.order_product.status = [];
             this.order_tab = false;
             this.order_product = order;
             console.log(order)
@@ -51,21 +57,21 @@ export default {
             // let sum = this.order_product.orders.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
             this.delivery = order.applied_fees.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
             // this.total = sum + this.delivery;
-            if(this.order_product.status === 0){
+            if(order.status == 0){
                 this.status = 'w-0'
                 this.color = 'bg-danger'    
             }
-            else if(this.order_product.status === 1){
+            else if(order.status == 1){
                 this.status = 'w-50';
                 this.color = 'bg-info'
-                console.log(this.order_product.status)
+                console.log(order.status)
 
             }
-            else if(this.order_product.status === 2){
+            else if(order.status == 2){
                 this.status = 'w-75'
                 this.color = 'bg-info'
             }
-            else if(this.order_product.status === 3){
+            else if(order.status == 3){
                 this.status = 'w-100'
                 this.color = 'bg-success'
             }

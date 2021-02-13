@@ -61,13 +61,39 @@ export default {
             .then(res => {
                 this.lga = res.data[0].lgas
                 console.log(res.data);
+                // this. getLGAVendor();
             })
             .catch(err => console.log(err));
+        },
+        getLGAVendor(){
+            this.loading = true
+            this.local_product = [];
+            // this.loading = true
+            fetch(BASE_URL + '/my/category/' + this.$route.params.id + '/businesses?state_id='+this.lga[0].id+'&lga_id='+this.selected_lga, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.message === 'Unauthenticated.') {
+                        console.log(res);
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                    this.vendors = res.data
+                    this.loading = false;
+                    console.log(res.data);
+                })
+                .catch(err => console.log(err));
         }
     },
     mounted() {
+        this.getState();
         this.getVendors();
         window.localStorage.setItem('vendor_category_id', this.$route.params.id);
-        this.getState();
+        
     },
 }

@@ -23,11 +23,11 @@
                             <div class="row">
                                 <div class="col-md-3 d-flex justify-content-center" v-for="(category,index) in categories" :key="index">
                                     <router-link :to="{name:'categoryVendor',params: { id: category.id }}">
-                                    <div class="card p-2" style="width: 13rem;height:10rem">
+                                    <div class="card p-2" style="width: 12rem;height:10rem;margin-right:3px;background-color:#ffc107;border:0px">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                         <div class="text-center mt-3"><img :src="category.public_image_url" class="rounded-circle" alt="" width="70" height="70"/></div>
                                         <div class="card-body text-center">
-                                           <p class="fs-13"> {{category.name}}</p>
+                                           <p class="fs-13 text-white"> {{category.name}}</p>
                                         </div>
                                     </div>
                                     </router-link>

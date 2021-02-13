@@ -15,7 +15,7 @@
             <div class="col-md-4" style="">   
                   <div class="input-group">
                     <span class="input-group-text bg-white" style="border:1px solid white;color:black">Select Outlet</span>
-                    <select v-model='selected_outlet' @change="changeOutlet()" class="form-control">
+                    <select v-model='selected_outlet' @change="changeOutlet($event)" class="form-control">
                       <!-- <option>Select outlet</option> -->
                       <option v-for="(outlet,index) in outlets" :key="index" :value="outlet.id">{{outlet.name}}</option>
                     </select>
@@ -55,8 +55,8 @@
             <!-- <div class="col-md-1 col-sm-2" style="margin-right:-30px"><i class="fa fa-shopping-cart fs-20"></i></div> -->
             <div class="col-md-3 col-sm-3 d-flex justify-content-end">
               <select class="form-control" @change="getResponse()" v-model="type" aria-label="Default select example">
-                <option value="product">View Product</option>
-                <option value="category">View Category</option>
+                <option value="product">View Products</option>
+                <option value="category">View Categories</option>
               </select>
             </div>
           </div>
@@ -64,14 +64,14 @@
           <div class="row">
             <div :class="[!show_cat ?  'col-md-12' : 'col-md-9']">
                         <div class="col-md-12" v-if="results.length && !loading">
-                            <div class="row p-3" v-if="cat" style="background-color:#d6d6d6;margin-top:-20px">
+                            <div class="row p-3" v-if="cat" style="background-color:#dee2e645;margin-top:-20px">
                                 <div class="col-md-3" v-for="(category,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
-                                    <div class="card p-2" style="height:10rem" @click="getCategoryProduct(category.id)">
+                                    <div class="card p-2" style="height:10rem;background-color:#ffc107;border:0px" @click="getCategoryProduct(category.id)">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                         <div class="text-center mt-3"><img :src="category.public_image_url" class="rounded-circle" alt="" width="70" height="70"/></div>
                                         <div class="card-body text-center">
-                                           <p class="fs-13"> {{category.name}}</p>
+                                           <p class="fs-15 text-white"> {{category.name}}</p>
                                         </div>
                                     </div>
                                     <!-- </router-link> -->
@@ -81,24 +81,26 @@
                             <div class="row p-3" v-if="!cat && !distributor" style="background-color:#d6d6d6;margin-top:-20px">
                                 <div :class="[show_cat ? 'col-md-3' : 'col-md-2']" v-for="(product,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
-                                    <div class="card p-2" style="height:14rem;margin-top:20px">
+                                    <div class="card p-1" style="height:15rem;margin-top:20px">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
-                                       <div class="row pl-3"> <p class="fs-13"> {{product.name}}</p></div>
+                                      <div class="card-body">
+                                       <div class="row" style="height:33%"> <p class="fs-13"> {{product.name}}</p></div>
                                         <div class="row" style="height:50%">
-                                          <div class="col-md-5">
+                                          <div class="col-md-4">
                                             <div class="text-center mt-1"><img :src="product.public_image_url" class="rounded-circle" alt="" width="70" height="70"/></div>
                                           </div>
-                                        <div class="col-md-7">  
+                                        <div class="col-md-7 ml-2">  
                                         <!-- <div class="card-body"> -->
                                            <!-- <p class="fs-13"> {{product.name}}</p> -->
-                                           <p class="fs-13"> {{product.quantity}} Quantity</p>
-                                           <p class="fs-13"> &#8358; {{ numberWithCommas(product.sell_price) }}</p>
+                                           <p class="fs-13"> {{product.quantity}} units left</p>
+                                           <h5 class="fs-15"> &#8358; {{ numberWithCommas(product.sell_price) }}</h5>
                                         <!-- </div> -->
                                         </div>
                                         </div>
                                         <button v-if="permission && product.quantity > 0" class="btn btn-warning btn-block" @click="addToCart(product,index)" data-toggle="modal" data-target="#cart">Sell</button>
                                         <button v-if="!permission" class="btn btn-warning btn-block" @click="warning('You are not permitted to execute this action')">Sell</button>
                                         <button v-if="permission && product.quantity < 1" class="btn btn-warning btn-block" @click="warning('The following item(s) are now out-of-stock. Click the restock button to continue.')">Sell</button>
+                                    </div>
                                     </div>
                                     <!-- </router-link> -->
                                 </div>
@@ -110,21 +112,21 @@
                                 <div :class="[show_cat ? 'col-md-3' : 'col-md-2']" v-for="(product,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
                                     <div class="card p-2" style="height:14rem;margin-top:10px">
-                                        <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
-                                       <div class="row d-flex justify-content-center"> <p class="fs-13"> {{product.name}}</p></div>
-                                        <div class="row" style="height:50%">
-                                          <div class="col-md-12">
-                                            <div class="text-center"><img :src="product.public_image_url" class="rounded-circle" alt="" width="100" height="100"/></div>
-                                          </div>
-                                        <div class="col-md-12 text-center">  
-                                        <!-- <div class="card-body"> -->
-                                           <!-- <p class="fs-13"> {{product.name}}</p> -->
-                                           <p class="fs-13"> {{product.quantity}} Quantity</p>
-                                           <p class="fs-13"> &#8358; {{ numberWithCommas(product.sell_price) }}</p>
-                                        <!-- </div> -->
+                                        <div class="card-body">
+                                          <div class="row d-flex justify-content-center"> <p class="fs-13"> {{product.name}}</p></div>
+                                            <div class="row" style="height:50%">
+                                              <div class="col-md-12">
+                                                <div class="text-center"><img :src="product.public_image_url" class="rounded-circle" alt="" width="100" height="100"/></div>
+                                              </div>
+                                            <div class="col-md-12 text-center">  
+                                            <!-- <div class="card-body"> -->
+                                              <!-- <p class="fs-13"> {{product.name}}</p> -->
+                                              <p class="fs-13"> {{product.quantity}} | &#8358; {{ numberWithCommas(product.sell_price) }}</p>
+                                              <p class="fs-13"> </p>
+                                            <!-- </div> -->
+                                            </div>
+                                            </div>
                                         </div>
-                                        </div>
-                                       
                                     </div>
                                     <!-- </router-link> -->
                                 </div>
@@ -181,13 +183,14 @@
                                         <div class="fs-15 mt-1 text-center">&#8358; {{ numberWithCommas(product.sell_price) }}</div>
                                         <div class="fs-15 mt-1 text-center">{{ product.quantity }} Quantity</div>
                                         <div class="fs-15 mt-3 mb-1 text-center">Select Quantity</div>
-                                        <div class="row d-flex justify-content-center">
-                                            <div class="col-md-2">
-                                                <button class="btn btn-danger" @click="decrease(product.quantity)"><i class="fa fa-minus"></i></button>
+                                        <div class="row">
+                                            <div class="col-md-12 d-flex justify-content-end">
+                                                <div class="input-group rm">
+                                                    <input type="button" @click="decrease(product.quantity)" value="-" class="button-minus" data-field="quantity">
+                                                    <input type="number" step="1" max=""  :value="quantity_value" name="quantity" @change="changes()" class="quantity-field">
+                                                    <input type="button" @click="increase(product.quantity)" value="+" class="button-plus" data-field="quantity">
+                                                </div>
                                             </div>
-                                            <div class="col-md-2"><input type="text" :value="quantity_value" style="width:50px" @change="changes()"></div>
-                                            
-                                            <div class="col-md-2"><button class="btn btn-success" @click="increase(product.quantity)"><i class="fa fa-plus"></i></button></div>
                                         </div>
                                         <div class="fs-15 mt-3 mb-1 text-center" style="color:red" v-if="error">Selected quantity is more than available quantity</div>
                                     </div>
@@ -363,37 +366,5 @@
 </script>
 
 <style scoped>
-th{
-  font-size: 12px;
-}
-td{
-  font-size: 13px;
-}
-.inp {
-    border:none;
-    border-bottom: 1px solid #1890ff;
-    padding: 5px 10px;
-    outline: none;
- }
-
-[placeholder]:focus::-webkit-input-placeholder {
-    transition: text-indent 0.4s 0.4s ease; 
-    text-indent: -100%;
-    opacity: 1;
- }
- .overlay {
-	position: fixed;
-	display: block;
-	width: 100%;
-	height: 100%;
-	top: 10%;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background-color: rgba(0,0,0.5,0.5);
-	z-index: 2;
-	cursor: pointer;
-	text-align:center;
-  }
-
+  @import url("./Dashboard.css");
 </style>
