@@ -71,8 +71,8 @@
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                         <div class="card-body">
                                         <div class="text-center mt-3"><img :src="category.public_image_url" class="rounded-circle" alt="" width="70" height="70"/></div>
-                                        <div class="card-body text-center">
-                                           <p class="fs-13 text-white"> {{category.name}}</p>
+                                        <div class="text-center">
+                                           <p class="fs-14 text-white"> {{category.name}}</p>
                                         </div>
                                         </div>
                                     </div>
