@@ -183,7 +183,7 @@
                                     Delivery Date
                                   </div>
                                   <div class="row fs-50" v-if="order_product.seen != 0">
-                                    Arrives Jan 10
+                                    Arrives Feb 19
                                   </div>
                                   <div class="row fs-25" v-if="order_product.seen == 0">
                                     Date will be updated when order is accepted by merchant
