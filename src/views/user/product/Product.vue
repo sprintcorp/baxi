@@ -41,10 +41,10 @@
                                   <div class="col-md-2 mt-2 font-weight-bold fs-20"> Product</div>
 
                                   <div class="col-md-5 d-flex justify-content-start">
-                                    <div>
-                                      <button type="button" class="btn rounded btn-success mr-1" style="border-radius:45px !important;height:43px !important">Stock Value: ₦2,234,331</button>
-                                      <button type="button" class="btn rounded" style="border-radius:45px !important;background-color:#372B96;color:white;height:43px !important">Inventory Items: 300</button>
-                                    </div>
+                                    <!-- <div> -->
+                                      <button type="button" class="btn rounded btn-success mr-1" style="border-radius:45px !important;height:43px !important;width:230px">Stock Value: ₦2,234,331</button>
+                                      <button type="button" class="btn rounded" style="border-radius:45px !important;background-color:#372B96;color:white;height:43px !important;width:190px">Inventory Items: 300</button>
+                                    <!-- </div> -->
                                   </div>
 
                                   <div class="col-md-5 d-flex justify-content-center">
