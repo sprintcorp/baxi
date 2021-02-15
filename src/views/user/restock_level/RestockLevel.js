@@ -75,13 +75,13 @@ export default {
                     }
                     res.data.forEach((data) => {
                         this.vendor_products.push({
-                            product_id: data.product.id,
+                            product_id: data.outlet_product.id,
                             business_id: parseInt(window.localStorage.getItem("business_id")),
-                            name: data.product.name,
-                            restock_level: data.product.restock_level,
-                            size: data.product.size,
-                            sku: data.product.sku,
-                            image:data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
+                            name: data.outlet_product.name,
+                            restock_level: data.outlet_product.restock_level,
+                            size: data.outlet_product.size,
+                            sku: data.outlet_product.sku,
+                            image:data.outlet_product.product.public_image_url?data.outlet_product.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
                             qty: data.outlet_qty,
                             quantity: data.outlet_qty,
                             retailer_id: getId(),
