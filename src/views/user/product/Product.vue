@@ -41,12 +41,12 @@
                                   <div class="col-md-2 mt-2 font-weight-bold fs-20"> Product</div>
 
                                   <div class="col-md-5 d-flex justify-content-center">
-                                    <button type="button" class="btn rounded btn-success mr-1" style="border-radius:45px !important;height:40px !important">Total Stock Value: ₦2,234,331</button>
-                                    <button type="button" class="btn rounded" style="border-radius:45px !important;background-color:#372B96;color:white;height:40px !important">Total Inventory Items: 300</button>
+                                    <button type="button" class="btn rounded btn-success mr-1" style="border-radius:45px !important;height:43px !important">Stock Value: ₦2,234,331</button>
+                                    <button type="button" class="btn rounded" style="border-radius:45px !important;background-color:#372B96;color:white;height:43px !important">Inventory Items: 300</button>
                                   </div>
 
                                   <div class="col-md-5 d-flex justify-content-center">
-                                    <button data-toggle="modal" data-target="#search" class="btn shadow mr-1 btn-light btn-sm sml-radius text-black p-2" style="border-radius:30px;width:120px;height:40px !important">
+                                    <button data-toggle="modal" data-target="#search" class="btn shadow mr-1 btn-light btn-sm sml-radius text-black p-2" style="border-radius:30px;width:125px;height:40px !important">
                                       <img src="../../../assets/icon/noun_filter_3070438.png" alt="img"/>  Date Filter <i class="fa fa-angle-down"></i>
                                     </button>
 
