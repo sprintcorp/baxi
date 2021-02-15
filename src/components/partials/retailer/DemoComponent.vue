@@ -38,7 +38,7 @@
                 </form> -->
                 <div style="height:20%" v-if="!distributor">Outlet : {{name}} <br>Balance : ₦ 20,000</div>
                 <div class="vl"></div>
-                <button class="mr-2" v-if="order_products" data-toggle="modal" data-target="#cartModal"><i class="fa fa-shopping-cart fs-25" style="color:#ffc107"></i></button>
+                <!-- <button class="mr-2" v-if="order_products" data-toggle="modal" data-target="#cartModal"><i class="fa fa-shopping-cart fs-25" style="color:#ffc107"></i></button> -->
                 <div class="">
                     <div class="icon-badge-container">
                         <i class="far fa-bell icon-badge-icon" style="color:#ffc107"></i>
@@ -48,10 +48,11 @@
                 <!-- <div class="mr-3 ml-3">
                     <img src="/images/baxi.png" class="rounded-circle border" alt="" width="45" height="45">
                 </div> -->
+                
                 <div class="mr-4 ml-3 mb-3">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <img src="/images/baxi.png" class="rounded-circle border" alt="" width="45" height="45"></a>
+                    <img :src="image" class="rounded-circle border" alt="" width="45" height="45"></a>
                     <ul class="dropdown-menu" style="">
                     <li><a title="" @click="logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
                     <li></li>
@@ -83,6 +84,7 @@ import {BASE_URL} from '../../../env'
                 total:'',
                 order_products:'',
                 distributor:false,
+                image:''
             }
         },
          computed:{
@@ -154,7 +156,7 @@ import {BASE_URL} from '../../../env'
         },
          mounted(){
             this.order_products = checkUserPermission('order products')
-            
+            this.image =  window.localStorage.getItem('image');
             if(getRole() == 'Distributor'){
                 // alert('hhhh')
                 this.distributor = true
@@ -163,6 +165,7 @@ import {BASE_URL} from '../../../env'
             }
             this.getCart();
             this.outlet = getOutlet();
+            
             
         },
         

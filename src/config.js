@@ -16,6 +16,7 @@ export const saveUser = (user) => {
     }
     window.localStorage.setItem(ID, user.id);
     window.localStorage.setItem(ROLE, user.roles[0].name);
+    window.localStorage.setItem("image", user.public_image_url);
     // window.localStorage.setItem(PERMISSION, JSON.stringify(user.roles[0].permissions));
     console.log(user.roles[0].name)
 };
