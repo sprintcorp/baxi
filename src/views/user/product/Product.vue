@@ -46,8 +46,8 @@
                                   </div>
 
                                   <div class="col-md-5 d-flex justify-content-center">
-                                    <button data-toggle="modal" data-target="#search" class="btn shadow mr-1 btn-light btn-sm sml-radius text-black p-2" style="border-radius:30px;width:125px;height:40px !important">
-                                      <img src="../../../assets/icon/noun_filter_3070438.png" alt="img"/>  Date Filter <i class="fa fa-angle-down"></i>
+                                    <button data-toggle="modal" data-target="#search" class="btn shadow mr-1 btn-light btn-sm sml-radius text-black p-2" style="border-radius:30px;width:120px;height:40px !important">
+                                      <img src="../../../assets/icon/noun_filter_3070438.png" alt="img"/>  Date Filter
                                     </button>
 
                                     <router-link :to="{name:'restockLevel'}"><button  class="btns shadow white-skin btn-sm sml-radius text-black  mr-2 p-2"  style="border-radius:25px;border:2px solid black">
