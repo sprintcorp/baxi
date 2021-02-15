@@ -96,8 +96,27 @@ import {BASE_URL} from '../../../env'
        
         methods: {
             logout() {
-                logout();
+                // alert(getToken())
+                fetch(BASE_URL + '/user/logout', {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res.data)
+                     logout();
                 this.$router.push({ name: 'welcome' });
+                })
+                .catch(err => {
+                    console.log(err)
+                    if (err.response.status == 401) {
+                        this.saving = false;
+                        this.$swal("Session Expired");
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                });               
             },
             sumProduct() {
                 if (JSON.parse(window.localStorage.getItem("retailer_order")) && JSON.parse(window.localStorage.getItem("retailer_order")).length) {
@@ -120,30 +139,18 @@ import {BASE_URL} from '../../../env'
                 this.getCart();
                 console.log(filteredItems)
             },
-            saveOrder() {
-            const payload = {
-                "orders": JSON.parse(window.localStorage.getItem("retailer_order"))
-            }
-            console.log(payload);
-            fetch(BASE_URL + '/my/distributor/orders', {
-                    method: 'POST',
-                    body: JSON.stringify(payload),
-                    headers: {
+            getBalance() {
+            
+            fetch(BASE_URL + '/user/wallet-balance', {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
                         'Authorization': getToken()
-                    }
-                })
+                    })
                 .then(res => res.json())
                 .then(res => {
-                    window.localStorage.removeItem("retailer_order");
-                    this.saving = false;
-                    this.$swal(res.message);
+                    console.log(res.data)
                 })
                 .catch(err => {
-
-                    this.$swal(err.response.data.message);
-                    this.saving = false;
                     console.log(err)
                     if (err.response.status == 401) {
                         this.saving = false;
@@ -163,7 +170,7 @@ import {BASE_URL} from '../../../env'
             }else{
                 this.name = JSON.parse(window.localStorage.getItem('outlet_name'))
             }
-            this.getCart();
+            this.getBalance();
             this.outlet = getOutlet();
             
             
