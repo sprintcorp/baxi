@@ -45,7 +45,7 @@
                           <img :src="require('@/assets/icon/icons8-packaging-48.png')" class='rounded' alt="img"/>                          
                         </div>
                         <div class="col-md-8">
-                          <h3 class="d-flex justify-content-end">{{total_quantity}}</h3>
+                          <h5 class="d-flex justify-content-end">{{total_quantity}}</h5>
                         </div>
                         </div>
                         <div class="progress-bar bg-info" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
@@ -64,7 +64,7 @@
                           <img :src="require('@/assets/icon/icons8-split-transaction-48.png')" class='rounded' alt="img"/>                          
                         </div>
                         <div class="col-md-8">
-                          <h3 class="d-flex justify-content-end">&#8358; {{numberWithCommas(total_transaction)}}</h3>
+                          <h5 class="d-flex justify-content-end">&#8358; {{numberWithCommas(total_transaction)}}</h5>
                         </div>
                         </div>                            
                         
@@ -84,7 +84,7 @@
                           <img :src="require('@/assets/icon/icons8-windows-defragmenter-48.png')" class='rounded' alt="img"/>                          
                         </div>
                         <div class="col-md-8">
-                          <h3 class="d-flex justify-content-end">{{restock_level.length}}</h3>
+                          <h5 class="d-flex justify-content-end">{{restock_level.length}}</h5>
                         </div>
                         </div>                               
                         <div class="progress-bar bg-danger" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
@@ -103,7 +103,7 @@
                           <img :src="require('@/assets/icon/icons8-ledger-48.png')" class='rounded' alt="img"/>                          
                         </div>
                         <div class="col-md-8">
-                          <h3 class="d-flex justify-content-end">{{transactions.length}}</h3>
+                          <h5 class="d-flex justify-content-end">{{transactions.length}}</h5>
                         </div>
                         </div> 
                         <div class="progress-bar bg-success" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
