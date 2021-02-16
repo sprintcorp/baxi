@@ -19,7 +19,9 @@ export default {
             date:'',
             show_date:false,
             saving:false,
-            search:''
+            search:'',
+            notification:'',
+            wallet:''
         }
     },
     computed: {
@@ -120,6 +122,7 @@ export default {
             console.log(filteredItems)
         },
         saveOrder() {
+            
             this.saving = true;
         const payload = {
             "orders": JSON.parse(window.localStorage.getItem("retailer_order")),
@@ -195,8 +198,30 @@ export default {
                 })
                 .catch(err => console.log(err));
         },
+        getNotification(){
+            this.loading = true
+            fetch(BASE_URL + '/my/notifications', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.message === 'Unauthenticated.') {
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                    this.notification = res.data.data
+                    this.loading = false;
+                })
+                .catch(err => console.log(err));
+        }
     },
     mounted() {
+        this.wallet =  window.localStorage.getItem('wallet-balance');
+        this.getNotification();
         this.getVendorProducts();
         this.order_products = checkUserPermission('order products')
         this.getCart();

@@ -13,6 +13,7 @@
                             <input type="text" v-model="search" placeholder="Search Products" style="background-color:white;width:90% !important;border-radius:20px"/>
                             <button type="submit"><i class="fa fa-search"></i></button>
                         </form>
+                            <!-- <SearchComponent :search="search"></SearchComponent> -->
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -58,8 +59,8 @@
                     <div class="row">
                         <div class="font-weight-bold h4">Order Notifications</div>
                     </div>
-                    <div class="mt-3 mb-3">Today <i class="fa fa-angle-down"></i></div>
-                    <div class="row border-bottom mt-1" v-for="(i,n) in 3" :key="n">
+                    <div class="mt-3 mb-3" v-if="notification.length">Today <i class="fa fa-angle-down"></i></div>
+                    <div class="row border-bottom mt-1" v-for="(i,n) in notification" :key="n">
                         <div class="col-md-2">
                             <img src="/images/baxi.png" class="rounded-circle border" alt="" width="45" height="45">
                         </div>
@@ -68,14 +69,10 @@
                             <p class="fs-10">View Transaction Details</p>
                         </div>
                     </div>
-                    <div class="mt-3 mb-3">This Week <i class="fa fa-angle-down"></i></div>
-                    <div class="row border-bottom mt-1" v-for="(i,n) in 3" :key="n">
-                        <div class="col-md-2">
-                            <img src="/images/baxi.png" class="rounded-circle border" alt="" width="45" height="45">
-                        </div>
-                        <div class="col-md-6 mt-2">
-                            <h6>Request Accepted</h6>
-                            <p class="fs-10">View Transaction Details</p>
+                    <div class="row border-bottom mt-1" v-if="!notification.length">
+                        
+                        <div class="col-md-12 mt-2">
+                           No Notification at the moment
                         </div>
                     </div>
                 </div>

@@ -551,11 +551,14 @@ export default {
                 })
                 .then(res => res.json())
                 .then(res => {
+                    window.localStorage.setItem("retailer_cashier_order",[]);
+                    window.localStorage.removeItem("retailer_cashier_order");
                     this.saving = false;
                     console.log(res)
                     this.$swal("Payment Successful");
                     this.show_cat = false;
-                    window.localStorage.removeItem("retailer_cashier_order");
+                    this.cart_order = [];
+                    
                     
                     this.getProducts();
                 })
@@ -571,6 +574,29 @@ export default {
                     }
                 });
         },
+        getBalance() {
+            
+            fetch(BASE_URL + '/user/wallet-balance', {
+                        headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                                'Authorization': getToken()
+                        }
+                    })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                    if (err.response.status == 401) {
+                        this.saving = false;
+                        this.$swal("Session Expired");
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                });
+        },
 
     },
 
@@ -579,6 +605,7 @@ export default {
             this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"));
             this.getCart();
         }
+        this.getBalance();
         this.userPermission();
         this.checkPermission();
         this.checkColumn();

@@ -86,18 +86,21 @@
                                     <div class="card p-1" style="height:15rem;margin-top:20px;width:12rem">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                       <div class="card-body">
-                                       <div class="row" style="height:33%"> <p class="fs-13"> {{product.name.lenght > 20 ? product.name.substr(0, 20) : product.name.substr(0, 20)+"..."}}</p></div>
-                                        <div class="row" style="height:50%">
-                                          <div class="col-md-4">
+                                       <div class="row d-flex justify-content-center" style="height:33%"> <p class="fs-13"> {{product.name.length > 25 ? product.name.substr(0, 25)+'...' : product.name}}</p></div>
+                                        <div class="row" style="height:50%;margin-top:-30px">
+                                          <div class="col-md-12">
                                             <div class="text-center mt-1"><img :src="product.public_image_url" class="rounded-circle" alt="" width="70" height="70"/></div>
-                                          </div>
-                                        <div class="col-md-7 ml-2">  
-                                        <!-- <div class="card-body"> -->
-                                           <!-- <p class="fs-13"> {{product.name}}</p> -->
-                                           <p class="fs-13"> {{product.quantity}} units left</p>
-                                           <h5 class="fs-15"> &#8358; {{ numberWithCommas(product.sell_price) }}</h5>
-                                        <!-- </div> -->
+                                          </div>                                        
                                         </div>
+                                        <div class="row" style="margin-top:-20px"> 
+                                          <div class="col-md-12 d-flex justify-content-center"> 
+                                           <p class="fs-13"> {{product.quantity}} units left</p>
+                                          </div>
+                                        </div>
+                                        <div class="row" style="margin-top:-20px">  
+                                          <div class="col-md-12 d-flex justify-content-center">
+                                           <h5 class="fs-15"> &#8358; {{ numberWithCommas(product.sell_price) }}</h5>
+                                          </div>
                                         </div>
                                         <button v-if="permission && product.quantity > 0" class="btn btn-warning btn-block" @click="addToCart(product,index)" data-toggle="modal" data-target="#cart">Sell</button>
                                         <button v-if="!permission" class="btn btn-warning btn-block" @click="warning('You are not permitted to execute this action')">Sell</button>
@@ -183,7 +186,7 @@
                                         <div class="text-center"><img :src="product.public_image_url" width="100" height="100"/></div>
                                         <div class="fs-15 mt-2 text-center">{{product.name}}</div>
                                         <div class="fs-15 mt-1 text-center">&#8358; {{ numberWithCommas(product.sell_price) }}</div>
-                                        <div class="fs-15 mt-1 text-center">{{ product.quantity }} Quantity</div>
+                                        <div class="fs-15 mt-1 text-center">{{ product.quantity }} Units Left</div>
                                         <div class="fs-15 mt-3 mb-1 text-center">Select Quantity</div>
                                         <div class="row">
                                             <div class="col-md-12 d-flex justify-content-end">

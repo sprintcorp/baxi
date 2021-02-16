@@ -26,8 +26,8 @@
                             <div class="col-md-12" v-if="transaction_tab">
                                 <div class="row border-2 mt-1">
                                   <div class="col-md-4 mt-2 font-weight-bold"> Transaction</div>
-                                  <div class="col-md-4">
-                                    
+                                  <div class="col-md-4 d-flex justify-content-end">
+                                     <input type="text" v-model="search" placeholder="Search for transaction type" class="inp" style="background-color:white;width:91%;"/>
                                   </div>
                                   <div class="col-md-4 d-flex justify-content-end">
                                     <button data-toggle="modal" data-target="#search" class="btns shadow btn-light btn-sm sml-radius text-black p-2" style="border-radius:30px">
@@ -188,8 +188,11 @@
                                     <thead>
                                       <tr>
                                         <th scope="col">#</th>
+                                        <th scope="col"></th>
                                         <th scope="col">Items</th>
                                         <th scope="col">Price</th>
+                                        <th scope="col">Size</th>
+                                        <th scope="col">SKU</th>
                                         <th scope="col">Quantity</th>
                                         
                                         <th scope="col">Total</th>
@@ -198,8 +201,11 @@
                                     <tbody>
                                       <tr v-for="(product,index) in transaction_product.orders" :key="index">
                                         <th scope="row">{{index+1}}</th>
+                                        <th scope="row"><img :src="product.product.public_image_url" width="50"/></th>
                                         <td>{{product.product.name}}</td>
                                         <td>{{product.amount/product.qty}}</td>
+                                        <td>{{product.product.size?product.product.size:''}}</td>
+                                        <td>{{product.product.sku?product.product.sku:''}}</td>
                                         <td>{{product.qty}}</td>
                                         <td>&#8358; {{product.amount}}</td>
                                       </tr>

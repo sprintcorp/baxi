@@ -36,13 +36,13 @@
                     <input type="text" placeholder="Search Products" style="background-color:white;width:255%;border-radius:20px"/>
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form> -->
-                <div style="height:20%" v-if="!distributor">Outlet : {{name}} <br>Balance : ₦ 20,000</div>
+                <div style="height:20%" v-if="!distributor">Outlet : {{name}} <br>Balance : ₦ {{numberWithCommas(wallet)}}</div>
                 <div class="vl"></div>
                 <!-- <button class="mr-2" v-if="order_products" data-toggle="modal" data-target="#cartModal"><i class="fa fa-shopping-cart fs-25" style="color:#ffc107"></i></button> -->
                 <div class="">
                     <div class="icon-badge-container">
                         <i class="far fa-bell icon-badge-icon" style="color:#ffc107"></i>
-                        <div class="icon-badge">6</div>
+                        <div class="icon-badge">{{notification.length}}</div>
                     </div>
                 </div>
                 <!-- <div class="mr-3 ml-3">
@@ -84,7 +84,9 @@ import {BASE_URL} from '../../../env'
                 total:'',
                 order_products:'',
                 distributor:false,
-                image:''
+                image:'',
+                notification:'',
+                wallet:''
             }
         },
          computed:{
@@ -95,28 +97,34 @@ import {BASE_URL} from '../../../env'
         },
        
         methods: {
+            numberWithCommas(x) {
+            const num = parseFloat(x)
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        },
             logout() {
+                logout();
+                    this.$router.push({ name: 'welcome' });
                 // alert(getToken())
-                fetch(BASE_URL + '/user/logout', {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': getToken()
-                    })
-                .then(res => res.json())
-                .then(res => {
-                    console.log(res.data)
-                     logout();
-                this.$router.push({ name: 'welcome' });
-                })
-                .catch(err => {
-                    console.log(err)
-                    if (err.response.status == 401) {
-                        this.saving = false;
-                        this.$swal("Session Expired");
-                        logout();
-                        this.$router.push({ name: 'welcome' });
-                    }
-                });               
+                // fetch(BASE_URL + '/user/logout', {
+                //         'Content-Type': 'application/json',
+                //         'Accept': 'application/json',
+                //         'Authorization': getToken()
+                //     })
+                // .then(res => res.json())
+                // .then(res => {
+                //     console.log(res.data)
+                //      logout();
+                //     this.$router.push({ name: 'welcome' });
+                // })
+                // .catch(err => {
+                //     console.log(err)
+                //     if (err.response.status == 401) {
+                //         this.saving = false;
+                //         this.$swal("Session Expired");
+                //         logout();
+                //         this.$router.push({ name: 'welcome' });
+                //     }
+                // });               
             },
             sumProduct() {
                 if (JSON.parse(window.localStorage.getItem("retailer_order")) && JSON.parse(window.localStorage.getItem("retailer_order")).length) {
@@ -140,15 +148,16 @@ import {BASE_URL} from '../../../env'
                 console.log(filteredItems)
             },
             getBalance() {
-            
             fetch(BASE_URL + '/user/wallet-balance', {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': getToken()
+                        headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                                'Authorization': getToken()
+                        }
                     })
                 .then(res => res.json())
                 .then(res => {
-                    console.log(res.data)
+                    window.localStorage.setItem("wallet-balance",res.data.available_balance)
                 })
                 .catch(err => {
                     console.log(err)
@@ -160,10 +169,32 @@ import {BASE_URL} from '../../../env'
                     }
                 });
         },
+        getNotification(){
+            this.loading = true
+            fetch(BASE_URL + '/my/notifications', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.message === 'Unauthenticated.') {
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                    this.notification = res.data.data
+                    this.loading = false;
+                })
+                .catch(err => console.log(err));
+        }
         },
          mounted(){
+             this.getNotification();
             this.order_products = checkUserPermission('order products')
             this.image =  window.localStorage.getItem('image');
+            this.wallet =  window.localStorage.getItem('wallet-balance');
             if(getRole() == 'Distributor'){
                 // alert('hhhh')
                 this.distributor = true

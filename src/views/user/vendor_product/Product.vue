@@ -74,6 +74,7 @@
                                         <div class="fs-15 mt-2 text-center">{{product.name}}</div>
                                         <div class="fs-15 mt-1 text-center">&#8358; {{numberWithCommas(product.price)}}</div>
                                         <div class="fs-15 mt-1 text-center">{{ product.quantity }} Quantity</div>
+                                        <div class="fs-15 mt-1 text-center">{{ product.size }} </div>
                                         <div class="fs-15 mt-1 text-center">N:B Minimum Order {{ product.minimum_order }}</div>
                                         <div class="fs-15 mt-3 mb-1 text-center">Select Quantity</div>
                                         <div class="row">
@@ -131,8 +132,8 @@
                     <div class="row">
                         <div class="font-weight-bold h4">Order Notifications</div>
                     </div>
-                    <div class="mt-3 mb-3">Today <i class="fa fa-angle-down"></i></div>
-                    <div class="row border-bottom mt-1" v-for="(i,n) in 3" :key="n">
+                    <div class="mt-3 mb-3" v-if="notification.length">Today </div>
+                    <div class="row border-bottom mt-1" v-for="(i,n) in notification" :key="n">
                         <div class="col-md-2">
                             <img src="/images/baxi.png" class="rounded-circle border" alt="" width="45" height="45">
                         </div>
@@ -141,14 +142,10 @@
                             <p class="fs-10">View Transaction Details</p>
                         </div>
                     </div>
-                    <div class="mt-3 mb-3">This Week <i class="fa fa-angle-down"></i></div>
-                    <div class="row border-bottom mt-1" v-for="(i,n) in 3" :key="n">
-                        <div class="col-md-2">
-                            <img src="/images/baxi.png" class="rounded-circle border" alt="" width="45" height="45">
-                        </div>
-                        <div class="col-md-6 mt-2">
-                            <h6>Request Accepted</h6>
-                            <p class="fs-10">View Transaction Details</p>
+                    <div class="row border-bottom mt-1" v-if="!notification.length">
+                        
+                        <div class="col-md-12 mt-2">
+                           No Notification at the moment
                         </div>
                     </div>
                 </div>
@@ -185,9 +182,13 @@
                                 <div class="col-sm-8">
                                     Total : &#8358; {{numberWithCommas(total)}}
                                 </div>
-                                <div class="col-sm-4 d-flex justify-content-end">
+                                <div class="col-sm-4 d-flex justify-content-end" v-if="wallet >= total">
                                     <button type="button" data-toggle="modal" data-target="#type" class="btn btn-warning pl-4 pr-4" style="border-radius:15px">Order</button>
                                 </div>
+                                
+                            </div>
+                            <div class="row align-items-end p-3" v-if="total > wallet">
+                                    <span style="border-radius:15px;color:red;font-style:bold">Available balance is less than order</span>
                             </div>
 
 

@@ -12,8 +12,8 @@ export default {
             login: false,
             permission:[],
             credentials: {
-                username: null,
-                password: null,
+                username: '',
+                password: '',
             },
         };
     },

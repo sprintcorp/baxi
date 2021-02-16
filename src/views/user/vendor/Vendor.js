@@ -9,7 +9,8 @@ export default {
             states:[],
             lga:[],
             selected_state:'Select State',
-            selected_lga:'Select LGA'
+            selected_lga:'Select LGA',
+            notification:''
         }
     },
     methods:{
@@ -88,11 +89,32 @@ export default {
                     console.log(res.data);
                 })
                 .catch(err => console.log(err));
+        },
+        getNotification(){
+            this.loading = true
+            fetch(BASE_URL + '/my/notifications', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.message === 'Unauthenticated.') {
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                    this.notification = res.data.data
+                    this.loading = false;
+                })
+                .catch(err => console.log(err));
         }
     },
     mounted() {
         this.getState();
         this.getVendors();
+        this.getNotification();
         window.localStorage.setItem('vendor_category_id', this.$route.params.id);
         
     },
