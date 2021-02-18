@@ -24,6 +24,8 @@ export default {
             saving:false,
             order_groups:[],
             product_id:[],
+            days:["Sun","Mon","Tue","Wed","Thurs","Fri","Sat"],
+            months:['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
         }
     },
     computed: {
@@ -185,6 +187,10 @@ export default {
                         }
                     }
                 );
+        },
+        getDate(date){
+            const res = new Date(date);
+            return res.getDate() +' '+this.days[res.getDay()] +' '+this.months[res.getMonth()]+' '+ res.getFullYear();
         },
         getPageOrders(page) {
             this.loading = true;

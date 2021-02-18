@@ -216,8 +216,8 @@
                                     </tbody>
                                   </table>
                                 </div>
-                                <div class="col-md-1"></div>
-                                <div class="col-md-7 mt-1">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-6 mt-1">
                                   <div class="row mt-5 fs-25" v-if="order_product.delivery_type.toLowerCase() == 'delivery' && order_product.status != 4">
                                     Delivery Date
                                   </div>
@@ -225,7 +225,7 @@
                                     Delivered
                                   </div>
                                   <div class="row fs-50" v-if="order_product.delivery_type.toLowerCase() == 'delivery'">
-                                    {{new Date(order_product.delivery_date)}}
+                                    {{getDate(order_product.delivery_date)}}
                                   </div>
                                   <div class="row fs-50" v-if="order_product.delivery_type.toLowerCase() == 'pickup' && order_product.status != 4 && order_product.status != 5 && order_product.status > 0">
                                     Pickup
