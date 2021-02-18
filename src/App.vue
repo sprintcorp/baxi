@@ -27,6 +27,9 @@ body{
 .round-item{
 border-radius: 10px;
 }
+.close-modal{
+  border-radius:20px;color:red;position:absolute;right:0px;top:5px;z-index: 99999;
+}
 
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap');
 @import url("../public/css/style.css");

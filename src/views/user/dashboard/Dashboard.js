@@ -555,7 +555,7 @@ export default {
                     window.localStorage.removeItem("retailer_cashier_order");
                     this.saving = false;
                     console.log(res)
-                    this.$swal("Payment Successful");
+                    this.$swal("Payment Successful",'success');
                     this.show_cat = false;
                     this.cart_order = [];
                     

@@ -176,7 +176,7 @@
                                     <div class="card rounded-circle text-center p-3" style="width:6rem;height:6rem;margin-top:-50px;background-color:#ffc107;border:0px">
                                         <i class="fa fa-shopping-cart" style="font-size:50px"></i>
                                     </div>
-                                    <button type="button" class="btn btn-light" style="border-radius:20px;color:red;position:absolute;right:0" data-dismiss="modal">X</button>                                    
+                                    <button type="button" class="close-modal" data-dismiss="modal"><img :src="require('@/assets/icon/noun_cancel_2014884.png')" class='rounded' alt="img"/></button>                                    
                                     <div class="row text-center">
                                         <div class="col-md-12">
                                             <div class="fs-20 font-weight-bolder text-black">Add this item to cart?</div>                                        
@@ -187,7 +187,7 @@
                                      <div class="row card border-0">
                                         <div class="text-center"><img :src="product.public_image_url" width="200" height="200"/></div>
                                         <div class="fs-15 mt-2 h3 text-center">{{product.name}} ({{product.size}})</div>
-                                        <div class="fs-15 mt-1 h4 text-center">&#8358; {{ numberWithCommas(product.sell_price) }}</div>
+                                        <div class="fs-15 mt-1 h4 text-center">&#8358; {{ numberWithCommas(product.sell_price) }}.00</div>
                                         <small class="fs-13 mt-1 text-center">{{ product.quantity }} Units Left</small>
                                         <div class="fs-15 mt-3 mb-1 text-center">Select Quantity</div>
                                         <div class="row">
@@ -215,7 +215,7 @@
                         </div>
                         <!-- End of Add Cart -->
 
-            <div class="col-md-3" v-if="show_cat" style="min-height:50vh">
+            <div class="col-md-3" v-if="show_cat" style="margin-top:-20px;min-height:20vh;overflow:hidden">
               <div class="bg-dark" style="width:100%">
                   <table class="table table-dark">
                     <thead class="">
@@ -224,40 +224,40 @@
                         <th scope="">QTY</th>
                         <th scope="">Unit(₦)</th>
                         <th scope="">Price</th>
-                        <th scope="col-5">Remove</th>
+                        <th scope=""></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="(product, i) in cart" :key='i'>
                            <td>{{product.name}}</td>
                            <td>{{product.qty}}</td>
-                           <td>₦{{numberWithCommas(product.price/product.qty)}}</td>
-                           <td>₦{{numberWithCommas(product.price)}}</td>
+                           <td>₦{{numberWithCommas(product.price/product.qty)}}.00</td>
+                           <td>₦{{numberWithCommas(product.price)}}.00</td>
                            <td><button @click="removeFromCart(cart,i)">
                                 <i class="fa fa-trash" style="color:white"></i>
                             </button></td>
                          </tr>
-                        <br><br><br><br><br><br><br><br><br><br>
+                        <br>
                         <tr>
                            <td></td>
-                           <td></td>
+                           <!-- <td></td> -->
+                           <td>Units</td>
                            <td>Products</td>
-                           <td>Items</td>
                            <td>Amount</td>
                          </tr>
                          <tr>
                            <td>VAT</td>
+                           <!-- <td></td> -->
                            <td></td>
                            <td></td>
-                           <td></td>
-                           <td>{{total_with_vat}}</td>
+                           <td>₦{{total_with_vat}}.00</td>
                          </tr>
                         <tr>
                            <td>Total</td>
-                           <td></td>
+                           <!-- <td></td> -->
                            <td>{{total_product}}</td>
                            <td>{{cart.length}}</td>
-                           <td>₦{{numberWithCommas(total)}}</td>
+                           <td>₦{{numberWithCommas(total)}}.00</td>
                          </tr>
                          
                     </tbody>
@@ -283,34 +283,34 @@
       </div>
       
       <div class="modal-body row">
-        <div class="col-md-4 ">
+        <div class="col-md-6">
           <div class="card mt-1 h-100">
               <div class="mx-auto mt-1">
                   <img :src="require('@/assets/images/img8.png')" class='rounded' alt="img"/>
               </div>
                 <div class="card-body text-center">
-                   <a href="#" class="nav-link text-dark" data-toggle="modal" data-target="#optionModal" data-dismiss="modal">
+                   <div class="h5 nav-link text-dark" data-toggle="modal" data-target="#optionModal" data-dismiss="modal">
                      Wallet to Wallet
-                     </a> 
+                     </div> 
                 </div>
           </div>
         </div>
-        <div class="col-md-4 ">
+        <!-- <div class="col-md-4 ">
           <div class="card mt-1 h-100">
                <div class="mx-auto mt-1">
                 <img :src="require('@/assets/images/img9.png')" class='rounded' alt="img"/>
               </div>
-                <div class="card-body text-center">
+                <div class="h5 card-body text-center">
                     POS
                 </div>
           </div>
-        </div>
-        <div class="col-md-4 pt-3 close" @click="saveOrder()" data-dismiss="modal">
+        </div> -->
+        <div class="col-md-6 close" @click="saveOrder()" data-dismiss="modal">
           <div class="card mt-1 h-100">
              <div class="mx-auto mt-1">
                   <img :src="require('@/assets/images/img12.png')" class='rounded' alt="img"/>
               </div>
-                <div class="card-body text-center">
+                <div class="h5 card-body text-center">
                     Cash
                 </div>
           </div>
