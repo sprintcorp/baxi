@@ -20,7 +20,10 @@ export default {
             status:'w-0',
             progress:'progress-bar progress-bar-striped progress-bar-animated',
             color:'bg-warning',
-            hide:false
+            hide:false,
+            saving:false,
+            order_groups:[],
+            product_id:[],
         }
     },
     computed: {
@@ -47,12 +50,44 @@ export default {
             this.order_tab = true;
             
         },
+        sumArray(objArr){
+            console.log(objArr.length)
+
+            let counts = objArr.reduce((prev, curr) => {
+                let count = prev.get(curr.id) || 0;
+                prev.set(curr.id + count);
+                return prev;
+              }, new Map());
+              
+              // then, map your counts object back to an array
+              let reducedObjArr = [...counts].map(([id]) => {
+                return {id}
+              })
+
+              const id = reducedObjArr.map(function(obj){
+                return obj.id
+            })
+            return id
+        },
         showOrder(order) {
             this.order_product = [];
             this.order_product.status = [];
             this.order_tab = false;
             this.order_product = order;
             console.log(order)
+
+            order.orders.forEach((data)=>{
+                this.product_id.push({
+                    id:data.group_id
+                })
+            })
+            const product = this.sumArray(this.product_id)
+            // console.log(product)
+            this.order_groups.push({
+                id:order.order_group_id,
+                selected_product_ids:product
+            })
+            console.log(this.order_groups);
 
             // let sum = this.order_product.orders.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
             this.delivery = order.applied_fees.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
@@ -61,24 +96,24 @@ export default {
                 this.status = 'w-0'
                 this.color = 'bg-danger'    
             }
-            else if(order.status == 1){
+            if(order.status == 1){
                 this.status = 'w-50';
                 this.color = 'bg-info'
                 console.log(order.status)
 
             }
-            else if(order.status == 2){
+            if(order.status == 2){
                 this.status = 'w-75'
                 this.color = 'bg-info'
             }
-            else if(order.status == 3){
+            if(order.status == 3){
                 this.status = 'w-100'
                 this.color = 'bg-success'
             }
-            else{
-                this.status = 'w-0'
+            // else{
+            //     this.status = 'w-0'
                  
-            }
+            // }
             // console.log(transaction);
         },
         updateStatus(){
@@ -120,7 +155,7 @@ export default {
         },
         getOrders() {
             this.loading = true;
-            fetch(BASE_URL + '/my/retailer/products/orders', {
+            fetch(BASE_URL + '/my/distributor/groupTransactions', {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
@@ -134,7 +169,7 @@ export default {
                         logout();
                         this.$router.push({ name: 'welcome' });
                     }
-                    this.orders = res.data;
+                    this.orders = res.data.data;
                     this.loading = false;
                     
                     this.page = res.data;
@@ -151,7 +186,42 @@ export default {
                     }
                 );
         },
+        orderAction(action){
+            this.saving = true;
+            const payload = {
+                "status":action,
+                "order_group_ids":this.order_groups[0].selected_product_ids,
+            }
+            console.log(payload)
 
+            fetch(BASE_URL + '/my/distributor/orders/status', {
+                method: 'PUT',
+                body: JSON.stringify(payload),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': getToken()
+                }
+            })
+            .then(res => res.json())
+            .then(res => {
+                this.saving = false;
+                console.log(res)
+                this.$swal(res.message);                
+                this.getOrders();
+            })
+            .catch(err => {
+                this.saving = false;
+                console.log(err)
+                this.$swal(err.response.data.message);
+                this.getOrders();
+                if (err.response.status == 401) {
+                    this.$swal("Session Expired");
+                    logout();
+                    this.$router.push({ name: 'welcome' });
+                }
+            });
+        },
 
         // getPageTransaction(page) {
         //     this.transactions =[];

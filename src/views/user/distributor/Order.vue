@@ -7,10 +7,10 @@
                         <h4>Order Dashboard</h4>
                       </div>
                     <div class="row">
-                      <div class="col-md-9">
+                      <div class="col-md-12">
                         <div class="row">
                           <div class="col-md-3" style="margin-right:0px">
-                            <div class="card" style="width: 13rem;">
+                            <div class="card" style="width: 16rem;">
                               <div class="card-body">
                                 <p class="card-subtitle mb-2 text-muted">Total orders received</p>
                                 
@@ -20,7 +20,7 @@
                             </div>
                           </div>
                           <div class="col-md-3" style="margin-right:0px">
-                            <div class="card" style="width: 13rem;">
+                            <div class="card" style="width: 16rem;">
                               <div class="card-body">
                                 <p class="card-subtitle mb-2 text-muted">Total orders declined</p>
                                 
@@ -30,7 +30,7 @@
                             </div>
                           </div>
                           <div class="col-md-3" style="margin-right:0px">
-                            <div class="card" style="width: 13rem;">
+                            <div class="card" style="width: 16rem;">
                               <div class="card-body">
                                 <p class="card-subtitle mb-2 text-muted">Total orders delivered</p>
                                 
@@ -40,7 +40,7 @@
                             </div>
                           </div>
                           <div class="col-md-3" style="margin-right:0px">
-                            <div class="card" style="width: 14rem;">
+                            <div class="card" style="width: 16rem;">
                               <div class="card-body">
                                 <p class="card-subtitle mb-2 text-muted">Total orders processing</p>
                                 
@@ -94,7 +94,7 @@
                                         <tr v-for="(order,index) in filerTransactions" :key="index">
                                           <td>{{  index + 1 }}</td>
                                           <td>{{ order.order_group_id }}</td>
-                                          <td>{{order.status == 0?'Pending':order.status == 1?'Accepted':order.status == 2?'Processing':'Delivered'}}</td>                                      
+                                          <td>{{order.status == 0?'Pending':order.status == 1?'Accepted':order.status == 2?'Processing':order.status == 3?'Fulfilled':order.status == 4 ?'Delivered':order.status == 5?'Cancelled':'Declined'}}</td>                                      
                                           <td>&#8358; {{numberWithCommas(order.amount) }}</td>
                                           <td>{{order.orders.length }}</td>
                                           <td>{{order.retailer.buid}}</td>
@@ -161,7 +161,7 @@
                             </div>
                           </section>
                         </div>
-                         <div class="col-md-3" style="">
+                         <!-- <div class="col-md-3" style="">
                               <div class="row d-flex justify-content-end">
                                   <div class="font-weight-bold h4">Order Notifications</div>
                               </div>
@@ -185,14 +185,16 @@
                                       <p class="fs-10">View Transaction Details</p>
                                   </div>
                               </div>
-                          </div>
+                          </div> -->
 
                         <div class="modal fade" id="order" data-bs-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-lg">
                                 <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="staticBackdropLabel">{{order_product.retailer ? order_product.retailer.buid:''}}</h5>
-                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="table-responsive mt-5">
@@ -226,14 +228,17 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer" v-if="status == 0">
-                                    <button type="button" class="btn btn-danger">Decline</button>
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-dismiss="modal" data-target="#reject">Decline</button>
                                     <button type="button" class="btn btn-success" data-toggle="modal" data-dismiss="modal" data-target="#accept">Accept</button>
                                 </div>
                                 <div class="modal-footer" v-if="status == 1">
-                                    <button type="button" class="btn btn-success" data-toggle="modal" data-dismiss="modal" @click="confirmOrder(2)">Process Order</button>
+                                    <button type="button" class="btn btn-success">Retailer is yet to respond to order</button>
                                 </div>
                                 <div class="modal-footer" v-if="status == 2">
-                                    <button type="button" class="btn btn-success" data-toggle="modal" data-dismiss="modal" @click="confirmOrder(3)">Delivered</button>
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-dismiss="modal" @click="confirmOrder(3)">Fulfilled</button>
+                                </div>
+                                <div class="modal-footer" v-if="status == 3">
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-dismiss="modal" @click="confirmOrder(4)">Delivered</button>
                                 </div>
                                 </div>
                             </div>
@@ -246,13 +251,16 @@
                                 <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title text-center" id="staticBackdropLabel">Accept {{order_product.retailer ? order_product.retailer.buid:''}} Order</h5>
-                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="row d-flex justify-content-end mr-1">
+                                    <!-- <div class="row d-flex justify-content-end mr-1">
                                         <button class="btn btn-warning" @click="addRow">Add Charges</button>
-                                    </div>
-                                    <div class="row" v-for="(applied_fee,index) in applied_fees" :key="index">
+                                    </div> -->
+                                    <!-- <div class="row" v-for="(applied_fee,index) in applied_fees" :key="index"> -->
+                                    <div class="row">
                                         <div class="col-md-6">
                                             <label class="form-label">Name</label>
                                             <input type="text" class="form-control" v-model="applied_fee.name" aria-describedby="quantity">
@@ -274,6 +282,45 @@
                                 <div class="modal-footer">
                                     <!-- <button type="button" class="btn btn-danger">Decline</button> -->
                                     <button type="button" class="btn btn-warning" @click="confirmOrder(1)" data-dismiss="modal">Save</button>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="modal fade" id="reject" data-bs-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-center" id="staticBackdropLabel">Reject {{order_product.retailer ? order_product.retailer.buid:''}} Order</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                     <!-- <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Name</label>
+                                            <input type="text" class="form-control" v-model="applied_fee.name" aria-describedby="quantity">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Amount</label>
+                                            <input type="text" class="form-control"  v-model="applied_fee.amount" aria-describedby="restock level">
+                                        </div>
+                                    </div> -->
+                                    <div class="mb-3">
+                                        <label class="form-label">Comment (optional)</label>
+                                        <textarea class="form-control" v-model="comment" rows="3"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Other information (optional)</label>
+                                        <textarea class="form-control" v-model="other_info" rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <!-- <button type="button" class="btn btn-danger">Decline</button> -->
+                                    <button type="button" class="btn btn-warning" @click="confirmOrder(-1)" data-dismiss="modal">Save</button>
                                 </div>
                                 </div>
                             </div>

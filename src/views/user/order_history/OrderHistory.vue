@@ -44,8 +44,8 @@
                                         <th>Order ref</th>
                                         <th>Status</th>
                                         <th>Amount</th>                                        
-                                        <!-- <th>Distributor</th> -->
-                                        <!-- <th>Amount</th> -->
+                                        <th>Distributor</th>
+                                        <th>Items</th>
                                         <th>Date</th>
                                         <th>View</th>
                                       </tr>
@@ -54,10 +54,11 @@
 
                                       <tr v-for="(order,index) in filerTransactions" :key="index">
                                         <td>{{  index + 1 }}</td>
-                                        <td>{{ order.group_id }}</td>
-                                        <td>{{order.status == 0?'Pending':order.status == 1?'Accepted':order.status == 2?'Processing':order.status == 3?'Delivered':'Rejected'}}</td>                                      
+                                        <td>{{ order.order_group_id }}</td>
+                                        <td>{{order.status == 0?'Pending':order.status == 1?'Accepted':order.status == 2?'Processing':order.status == 3?'Fulfilled':order.status == 4 ?'Delivered':order.status == 5?'Cancelled':'Declined'}}</td>                                      
                                         <td>{{numberWithCommas(order.amount) }}</td>
-                                        <!-- <td>{{order.business}}</td> -->
+                                        <td>{{order.business.name}}</td>
+                                        <td>{{order.orders.length}}</td>
                                         <td>{{order.created_at}}</td>
                                         <td>
                                           <button data-toggle="modal" data-target="#order" type="button" @click="showOrder(order)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
@@ -72,6 +73,13 @@
 
                                 </div>
 
+                              <!-- <div class="row col-md-12"> -->
+                                <div class="overlay" v-if="saving">
+                                    <div style="text-align:center;position: absolute;left: 40%;top: 40%;color:white;font-size:40px">
+                                        <span class="spinner-border spinner-border-sm fs-100" role="status" aria-hidden="true"></span>
+                                        Updating Order...
+                                    </div>
+                                </div>
                                 <div class="mt-5" v-if="!orders.length && loading" style="text-align:center">
                   
                                       <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
@@ -85,7 +93,7 @@
                                     There are no orders made at the moment
                                   </div>
                                 </div>
-                                <!-- </div> -->
+                              <!-- </div> -->
                             </div>
 
                             <div class="col-md-12" v-if="!order_tab">
@@ -121,7 +129,7 @@
                                 
                                 <div class="col-md-2">
                                   <div class=""> Order Number: </div>
-                                  <div class=""> {{order_product.group_id}} </div>
+                                  <div class=""> {{order_product.order_group_id}} </div>
                                 </div>
                                 
                                 <div class="col-md-2">
@@ -150,12 +158,12 @@
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      <tr>
-                                        <th scope="row">{{1}}</th>
-                                        <td>{{order_product.product.name}}</td>
-                                        <td>{{numberWithCommas(order_product.product.recommended_price)}}</td>
-                                        <td>{{order_product.qty}}</td>
-                                        <td>{{order_product.amount}}</td>
+                                      <tr v-for="(order,index) in order_product.orders" :key="index">
+                                        <th scope="row">{{index + 1}}</th>
+                                        <td>{{order.product.name}}</td>
+                                        <td>{{order.amount/order.qty}}</td>
+                                        <td>{{order.qty}}</td>
+                                        <td>{{numberWithCommas(order.amount)}}</td>
                                       </tr>
                                                                    
                                       <tr v-if="order_product.status != 0">
@@ -174,36 +182,51 @@
                                         
                                         <td class="font-weight-bold">{{numberWithCommas(parseFloat(order_product.amount) + delivery)}}</td>
                                       </tr>
+                                      <tr v-if="order_product.status == 1">
+                                        <td></td>
+                                        <th scope="row"></th>
+                                        
+                                        <th scope="row"><button type="submit" class="btn btn-danger" @click="orderAction(-1)">Reject</button></th>
+                                        <th scope="row"><button type="submit" class="btn btn-success" @click="orderAction(2)">Accept</button></th>
+                                        <th scope="row"></th>
+                                        
+                                      </tr>
                                     </tbody>
                                   </table>
                                 </div>
                                 <div class="col-md-1"></div>
                                 <div class="col-md-7 mt-1">
-                                  <div class="row mt-5 fs-25">
+                                  <div class="row mt-5 fs-25" v-if="order_product.delivery_type.toLowerCase() == 'delivery'">
                                     Delivery Date
                                   </div>
-                                  <div class="row fs-50" v-if="order_product.seen != 0">
-                                    Arrives Feb 19
+                                  <div class="row fs-50" v-if="order_product.delivery_type.toLowerCase() == 'delivery'">
+                                    {{order_product.delivery_date}}
                                   </div>
-                                  <div class="row fs-25" v-if="order_product.seen == 0">
-                                    Date will be updated when order is accepted by merchant
+                                  <div class="row fs-50" v-if="order_product.delivery_type.toLowerCase() == 'pickup'">
+                                    Pickup
                                   </div>
                                   <!-- <div class="row"> -->
                                     <!-- {{order_product.status}} {{order_product.seen}} -->
+                                    <!-- {{order_product.status}}
+                                    {{status}} -->
                                     <div class="progress">
-                                      <div :class="[progress, color, status]" role="progressbar" aria-valuenow="status" aria-valuemin="0" aria-valuemax="100"></div>
+                                      <div v-if="order_product.status == 1" class="progress-bar progress-bar-striped progress-bar-animated bg-info w-50" role="progressbar" aria-valuenow="status" aria-valuemin="0" aria-valuemax="100"></div>
+                                      <div v-if="order_product.status == 4" class="progress-bar progress-bar-striped progress-bar-animated bg-success w-100" role="progressbar" aria-valuenow="status" aria-valuemin="0" aria-valuemax="100"></div>
+                                      <div v-if="order_product.status == 0" class="progress-bar progress-bar-striped progress-bar-animated bg-warning w-25" role="progressbar" aria-valuenow="status" aria-valuemin="0" aria-valuemax="100"></div>
+                                      <div v-if="order_product.status < 0" class="progress-bar progress-bar-striped progress-bar-animated bg-danger w-100" role="progressbar" aria-valuenow="status" aria-valuemin="0" aria-valuemax="100"></div>
+                                      <div v-if="order_product.status == 2 || order_product.status == 3" class="progress-bar progress-bar-striped progress-bar-animated bg-info w-75" role="progressbar" aria-valuenow="status" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                   <!-- </div> -->
-                                  <div class="row mt-5 ml-5" v-if="!hide">
+                                  <div class="row mt-5 ml-5" v-if="order_product.status >= 0">
                                     <div class="col-md-3">Pending</div>
                                     <div class="col-md-3">Order Accepted</div>
-                                    <div class="col-md-3">Processing</div>
+                                    <div class="col-md-3">{{order_product.status == 3 ?'Fulfilled':'Processing'}}</div>
                                     <div class="col-md-3">Delivered</div>
                                   </div>
-                                  <div class="row mt-5 ml-5" v-if="hide">
+                                  <div class="row mt-5 ml-5" v-if="order_product.status < 0">
                                     <div class="col-md-12 d-flex justify-content-center">Order Rejected</div>
                                   </div>
-                                  <div class="form-check mt-3">
+                                  <div class="form-check mt-3" v-if="order_product.status == 3">
                                     <input class="form-check-input" type="checkbox" value="" @change="updateStatus()">
                                     <label class="form-check-label" for="flexCheckDefault">
                                       Check if item order has been delivered

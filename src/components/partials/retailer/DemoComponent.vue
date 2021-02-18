@@ -11,23 +11,23 @@
 
             <div class="collapse navbar-collapse bg-white" style="z-index:10" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mt-3">
-                <li :class="[this.$router.currentRoute.name == 'dashboard' ? 'nav-item active' : 'nav-item']">
+                <li :class="[this.$router.currentRoute.name === 'dashboard' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'dashboard'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-home"></i> Dashboard</router-link>
                 </li>
-                <li :class="[this.$router.currentRoute.name == 'productOverview' || this.$router.currentRoute.name == 'restockLevel' ? 'nav-item active' : 'nav-item']">
+                <li :class="[this.$router.currentRoute.name === 'productOverview' || this.$router.currentRoute.name === 'restockLevel' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'productOverview'}"  class="nav-link font-weight-bold" href="#"><i class="fa fa-cube"></i> Product</router-link>
                 </li>
-                <li v-if="order_products && !distributor" :class="[this.$router.currentRoute.name == 'categoryOrder' || this.$router.currentRoute.name == 'productOrderOverview' || this.$router.currentRoute.name == 'categoryVendor' || this.$router.currentRoute.name == 'vendorProduct'  ? 'nav-item active' : 'nav-item']">
+                <li v-if="order_products && !distributor" :class="[this.$router.currentRoute.name === 'categoryOrder' || this.$router.currentRoute.name === 'productOrderOverview' || this.$router.currentRoute.name == 'categoryVendor' || this.$router.currentRoute.name == 'vendorProduct'  ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'categoryOrder'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-calendar"></i> Order </router-link>
                 </li>
 
-                <li :class="[this.$router.currentRoute.name == 'transactionOverview' ? 'nav-item active' : 'nav-item']">
+                <li :class="[this.$router.currentRoute.name === 'transactionOverview' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'transactionOverview'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-credit-card"></i>  Transaction</router-link>
                 </li>
-                <li v-if="order_products && !distributor" :class="[this.$router.currentRoute.name == 'outletOverview' ? 'nav-item active' : 'nav-item']">
+                <li v-if="order_products && !distributor" :class="[this.$router.currentRoute.name === 'outletOverview' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'outletOverview',params:{ id:outlet}}" class="nav-link font-weight-bold" href="#"><i class="fa fa-building"></i> Outlet</router-link>
                 </li>
-                <li v-if="distributor" :class="[this.$router.currentRoute.name == 'distributorOrders' ? 'nav-item active' : 'nav-item']">
+                <li v-if="distributor" :class="[this.$router.currentRoute.name === 'distributorOrders' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'distributorOrders'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-calendar"></i> Order</router-link>
                 </li>
 
@@ -42,7 +42,7 @@
                 <div class="">
                     <div class="icon-badge-container">
                         <i class="far fa-bell icon-badge-icon" style="color:#ffc107"></i>
-                        <div class="icon-badge">{{notification.length}}</div>
+                        <div class="icon-badge" style="width:7px;height:7px"></div>
                     </div>
                 </div>
                 <!-- <div class="mr-3 ml-3">
@@ -171,7 +171,7 @@ import {BASE_URL} from '../../../env'
         },
         getNotification(){
             this.loading = true
-            fetch(BASE_URL + '/my/notifications', {
+            fetch(BASE_URL + '/user/notifications/unread', {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
@@ -191,6 +191,7 @@ import {BASE_URL} from '../../../env'
         }
         },
          mounted(){
+             console.log(this.$router.currentRoute.name)
              this.getNotification();
             this.order_products = checkUserPermission('order products')
             this.image =  window.localStorage.getItem('image');

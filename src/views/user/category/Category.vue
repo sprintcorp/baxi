@@ -59,14 +59,30 @@
                     <div class="row">
                         <div class="font-weight-bold h4">Order Notifications</div>
                     </div>
-                    <div class="mt-3 mb-3" v-if="notification.length">Today <i class="fa fa-angle-down"></i></div>
-                    <div class="row border-bottom mt-1" v-for="(i,n) in notification" :key="n">
+                    <div class="mt-3 mb-3" v-if="notification.length"> Today <i class="fa fa-angle-down"></i></div>
+                    <!-- <div class="row border-bottom mt-1" v-for="(i,n) in notification" :key="n">
                         <div class="col-md-2">
                             <img src="/images/baxi.png" class="rounded-circle border" alt="" width="45" height="45">
                         </div>
                         <div class="col-md-6 mt-2">
                             <h6>Request Accepted</h6>
                             <p class="fs-10">View Transaction Details</p>
+                        </div>
+                    </div> -->
+                    <div class="accordion" id="accordionExample">
+                        <div class=""  v-for="(res,n) in notification" :key="n">
+                            <div class="row" :id="'headingTwo'+n" @click="updateNotification(res.id)">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" :data-target="'#collapseTwo'+n" aria-expanded="false" aria-controls="collapseTwo">
+                                <img src="/images/baxi.png" class="rounded-circle border" alt="" width="45" height="45"> View Notification 
+                                </button>
+                            </h2>
+                            </div>
+                            <div :id="'collapseTwo'+n" class="collapse" :aria-labelledby="'headingTwo'+n" data-parent="#accordionExample">
+                            <div class="card-body">
+                                {{res.data.title}}
+                            </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row border-bottom mt-1" v-if="!notification.length">

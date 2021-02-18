@@ -20,7 +20,10 @@ export default {
             progress:'progress-bar',
             color:'bg-warning',
             stats:0,
-            applied_fees:[],
+            applied_fee:{
+                name:'',
+                amount:''
+            },
             order_groups:[],
             product_id:[],
             comment:'',
@@ -40,17 +43,17 @@ export default {
         }
     },
     methods: {
-        addRow(){
-            this.applied_fees.push({
-                name:"",
-                amount:""
-            });
-        },
+        // addRow(){
+        //     this.applied_fee.push({
+        //         name:"",
+        //         amount:""
+        //     });
+        // },
         confirmOrder(id){
             this.saving = true;
             const payload = {
                 "status":id,
-                "applied_fees":this.applied_fees,
+                "applied_fees":this.applied_fee,
                 "order_groups":this.order_groups,
                 "comment":this.comment,
                 "other_info":this.other_info
@@ -69,8 +72,8 @@ export default {
             .then(res => res.json())
             .then(res => {
                 this.saving = false;
-                console.log(res)
-                this.$swal("Order Accepted");
+                console.log(res.response)
+                this.$swal("Order Successfully Updated");
                 
                 this.getOrders();
             })
