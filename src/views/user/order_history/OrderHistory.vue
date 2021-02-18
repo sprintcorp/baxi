@@ -53,7 +53,7 @@
                                       <tbody>
 
                                       <tr v-for="(order,index) in filerTransactions" :key="index">
-                                        <td>{{  index + 1 }}</td>
+                                        <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ order.order_group_id }}</td>
                                         <td>{{order.status == 0?'Pending':order.status == 1?'Accepted':order.status == 2?'Processing':order.status == 3?'Fulfilled':order.status == 4 ?'Delivered':order.status == 5?'Cancelled':'Declined'}}</td>                                      
                                         <td>{{numberWithCommas(order.amount) }}</td>
@@ -67,6 +67,28 @@
                                       </tbody>
                                     
                                     </table>
+                                    <nav aria-label="Page navigation example">
+                                      <ul class="mb-5 pagination justify-content-center">
+                                        <li class="page-item mr-1">
+                                          <button @click="getPageOrders(page.first_page_url)" class="page-link">First</button>
+                                        </li>
+                                        <li class="page-item mr-1">
+                                          <button @click="getPageOrders(page.prev_page_url)" class="page-link">Previous</button>
+                                        </li>
+                                        <li class="page-item active mr-1" aria-current="page">
+                                          <span class="page-link">{{page.current_page}}</span>
+                                        </li>
+                                        <li class="page-item mr-1" aria-current="page">
+                                          <span class="page-link">of {{page.last_page > 1? page.last_page+ ' pages' : page.last_page+ ' page'}}</span>
+                                        </li>
+                                        <li class="page-item mr-1">
+                                          <button @click="getPageOrders(page.next_page_url)" class="page-link">Next</button>
+                                        </li>
+                                        <li class="page-item mr-1">
+                                          <button @click="getPageOrders(page.last_page_url)" class="page-link">Last</button>
+                                        </li>
+                                      </ul>
+                                    </nav>
                                     
                                   </div>
                                    
@@ -144,7 +166,7 @@
 
                               </div>
 
-                              <div class="row ml-3 p-5">
+                              <div class="row p-5">
                                 <div class="col-md-4">
                                   <h4>Order Details.</h4>
                                   <table class="table caption-top">
@@ -196,14 +218,20 @@
                                 </div>
                                 <div class="col-md-1"></div>
                                 <div class="col-md-7 mt-1">
-                                  <div class="row mt-5 fs-25" v-if="order_product.delivery_type.toLowerCase() == 'delivery'">
+                                  <div class="row mt-5 fs-25" v-if="order_product.delivery_type.toLowerCase() == 'delivery' && order_product.status != 4">
                                     Delivery Date
                                   </div>
-                                  <div class="row fs-50" v-if="order_product.delivery_type.toLowerCase() == 'delivery'">
-                                    {{order_product.delivery_date}}
+                                  <div class="row mt-5 fs-25" v-if="order_product.status == 4">
+                                    Delivered
                                   </div>
-                                  <div class="row fs-50" v-if="order_product.delivery_type.toLowerCase() == 'pickup'">
+                                  <div class="row fs-50" v-if="order_product.delivery_type.toLowerCase() == 'delivery'">
+                                    {{new Date(order_product.delivery_date)}}
+                                  </div>
+                                  <div class="row fs-50" v-if="order_product.delivery_type.toLowerCase() == 'pickup' && order_product.status != 4 && order_product.status > 0">
                                     Pickup
+                                  </div>
+                                  <div class="row fs-50" v-if="order_product.status < 0">
+                                    Order Rejected
                                   </div>
                                   <!-- <div class="row"> -->
                                     <!-- {{order_product.status}} {{order_product.seen}} -->
@@ -223,9 +251,9 @@
                                     <div class="col-md-3">{{order_product.status == 3 ?'Fulfilled':'Processing'}}</div>
                                     <div class="col-md-3">Delivered</div>
                                   </div>
-                                  <div class="row mt-5 ml-5" v-if="order_product.status < 0">
+                                  <!-- <div class="row mt-5 ml-5" v-if="order_product.status < 0">
                                     <div class="col-md-12 d-flex justify-content-center">Order Rejected</div>
-                                  </div>
+                                  </div> -->
                                   <div class="form-check mt-3" v-if="order_product.status == 3">
                                     <input class="form-check-input" type="checkbox" value="" @change="updateStatus()">
                                     <label class="form-check-label" for="flexCheckDefault">

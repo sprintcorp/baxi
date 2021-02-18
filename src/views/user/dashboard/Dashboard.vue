@@ -87,7 +87,7 @@
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                       <div class="card-body">
                                        <div class="row d-flex justify-content-center" style="height:33%"> <p class="fs-13"> {{product.name.length > 25 ? product.name.substr(0, 25)+'...' : product.name}}</p></div>
-                                        <div class="row" style="height:50%;margin-top:-30px">
+                                        <div class="row" style="height:50%;margin-top:-10px">
                                           <div class="col-md-12">
                                             <div class="text-center mt-1"><img :src="product.public_image_url" class="rounded-circle" alt="" width="70" height="70"/></div>
                                           </div>                                        

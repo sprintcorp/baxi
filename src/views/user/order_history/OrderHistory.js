@@ -186,6 +186,39 @@ export default {
                     }
                 );
         },
+        getPageOrders(page) {
+            this.loading = true;
+            fetch(page, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.message === 'Unauthenticated.') {
+                        console.log(res);
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                    this.orders = res.data.data;
+                    this.loading = false;
+                    
+                    this.page = res.data;
+                    console.log(this.orders);
+                })
+                .catch(err => {
+                        console.log(err)
+                        this.loading = false;
+                        if (err.response.status == 401) {
+                            this.$swal("Session Expired");
+                            logout();
+                            this.$router.push({ name: 'welcome' });
+                        }
+                    }
+                );
+        },
         orderAction(action){
             this.saving = true;
             const payload = {
