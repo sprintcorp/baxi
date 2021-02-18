@@ -92,7 +92,7 @@
                                             <div class="text-center mt-1"><img :src="product.public_image_url" class="rounded-circle" alt="" width="70" height="70"/></div>
                                           </div>                                        
                                         </div>
-                                        <div class="row" style="margin-top:-20px"> 
+                                        <div class="row" style="margin-top:-5px"> 
                                           <div class="col-md-12 d-flex justify-content-center"> 
                                            <p class="fs-13"> {{product.quantity}} units left</p>
                                           </div>
