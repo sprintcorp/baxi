@@ -74,6 +74,7 @@ export default {
             this.product = product;
             this.key = index
             console.log(this.key)
+            this.quantity_value = product.minimum_order;
             // alert("hello")
         },
         increase(qty){
@@ -122,7 +123,7 @@ export default {
             console.log(filteredItems)
         },
         saveOrder() {
-            
+
             this.saving = true;
         const payload = {
             "orders": JSON.parse(window.localStorage.getItem("retailer_order")),
@@ -184,13 +185,15 @@ export default {
                             product_id: data.id,
                             business_id: data.business_product.business_id,
                             name: data.name,
-                            price: parseInt(data.business_product.pack_price),
+                            price: parseFloat(data.business_product.pack_price),
                             pack: data.business_product.pack_label,
                             minimum_order: data.business_product.minimum_order_qty,
                             quantity: data.business_product.qty,
                             size: data.size,
                             image:data.public_image_url,
                             qty: data.business_product.qty,
+                            pack_label:data.business_product.pack_label,
+                            pack_qty:data.business_product.pack_qty,
                         });
                     });
                     console.log(this.local_product);

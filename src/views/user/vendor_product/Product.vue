@@ -35,8 +35,8 @@
                                         <div class="col-md-2 mt-2 mr-2"><img :src="product.image" class="rounded-circle" alt="" width="70" height="70"/></div>
                                         <div class="col-md-7">
                                             <p class="fs-12 font-weight-bold text-black"> {{product.name}}</p>
-                                            <p class="fs-12 font-weight-bold text-black"> &#8358; {{ numberWithCommas(product.price) }}</p>
-                                            <p class="fs-10 font-weight-bold text-black" style="margin-top:-15px"> {{product.quantity}} Products</p>
+                                            <p class="fs-12 font-weight-bold text-black"> &#8358; {{ numberWithCommas(product.price) }}.00</p>
+                                            <!-- <p class="fs-10 font-weight-bold text-black" style="margin-top:-15px"> {{product.quantity}} Products</p> -->
                                         </div>
                                         <!-- <div class="col-md-3 mt-4"></div> -->
                                         <div class="col-md-2">
@@ -57,10 +57,12 @@
                         <!-- Add Cart -->
                         <div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="product" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
+                                
                                 <div class="modal-content">
                                     <div class="card rounded-circle text-center p-3" style="width:6rem;height:6rem;margin-top:-50px;background-color:#ffc107;border:0px">
                                         <i class="fa fa-shopping-cart" style="font-size:50px"></i>
                                     </div>
+                                    <button type="button" class="btn btn-light" style="border-radius:20px;color:red;position:absolute;right:0" data-dismiss="modal">X</button>                                    
                                     <div class="row text-center">
                                         <div class="col-md-12">
                                             <div class="fs-20 font-weight-bolder text-black">Add this item to order?</div>                                        
@@ -71,18 +73,20 @@
                                      <div class="row card border-0">
                                          
                                         <div class="text-center"><img :src="product.image" width="100" height="100"/></div>
-                                        <div class="fs-15 mt-2 text-center">{{product.name}}</div>
-                                        <div class="fs-15 mt-1 text-center">&#8358; {{numberWithCommas(product.price)}}</div>
-                                        <div class="fs-15 mt-1 text-center">{{ product.quantity }} Quantity</div>
-                                        <div class="fs-15 mt-1 text-center">{{ product.size }} </div>
-                                        <div class="fs-15 mt-1 text-center">N:B Minimum Order {{ product.minimum_order }}</div>
-                                        <div class="fs-15 mt-3 mb-1 text-center">Select Quantity</div>
+                                        <div class="fs-15 mt-2 text-center" v-if="product.size">{{product.name}} - {{product.size}}</div>
+                                        <div class="fs-15 mt-2 text-center" v-if="!product.size">{{product.name}}</div>
+                                        <div class="fs-15 mt-1 text-center">&#8358; {{numberWithCommas(product.price)}}.00</div>
+                                        <!-- <div class="fs-15 mt-1 text-center">{{ product.quantity }} Quantity</div> -->
+                                        <!-- <div class="fs-15 mt-1 text-center">{{ product.size }} </div> -->
+                                        <!-- <div class="fs-15 mt-1 text-center">N:B Minimum Order {{ product.minimum_order }}</div> -->
+                                        <div class="fs-15 mt-3 mb-1 text-center">Select Quantity (Packs)</div>
                                         <div class="row">
                                              <div class="col-md-12 d-flex justify-content-end">
                                                 <div class="input-group rm">
                                                     <input type="button" @click="decrease(product.quantity)" value="-" class="button-minus" data-field="quantity">
-                                                    <input type="number" step="1" max=""  :value="quantity_value" name="quantity" @change="changes()" class="quantity-field">
+                                                    <input type="number" step="1" :max="product.quantity" :min="product.minimum_order" :value="quantity_value" name="quantity" @change="changes()" class="quantity-field">
                                                     <input type="button" @click="increase(product.quantity)" value="+" class="button-plus" data-field="quantity">
+                                                    <h6 style="margin-top:12px;font-size:14px">{{product.pack_label}}s</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -94,7 +98,7 @@
                                 </div>
                                 <div class="row p-5 d-flex justify-content-center" style="margin-bottom:-20px">
                                     <button type="button" class="btn btn-warning mr-3" v-if="quantity_value > 0 && !error && product.minimum_order <= quantity_value" @click="submitToCart(quantity_value,product)" style="border-radius:20px"><i class="fa fa-shopping-cart"></i> ADD TO CART</button>
-                                    <button type="button" class="btn btn-light" style="border-radius:20px;color:red" data-dismiss="modal">CLOSE</button>                                    
+                                    
                                 </div>
                                  <div class="fs-15 mt-3 mb-1 text-center" style="color:red" v-if="error">Selected quantity is more than available quantity</div>
                                         <div class="fs-15 mt-3 mb-1 text-center" style="color:red" v-if="product.minimum_order > quantity_value && quantity_value > 0">Selected quantity is less than minimum order pack</div>
