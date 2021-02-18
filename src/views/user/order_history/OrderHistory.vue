@@ -227,11 +227,14 @@
                                   <div class="row fs-50" v-if="order_product.delivery_type.toLowerCase() == 'delivery'">
                                     {{new Date(order_product.delivery_date)}}
                                   </div>
-                                  <div class="row fs-50" v-if="order_product.delivery_type.toLowerCase() == 'pickup' && order_product.status != 4 && order_product.status > 0">
+                                  <div class="row fs-50" v-if="order_product.delivery_type.toLowerCase() == 'pickup' && order_product.status != 4 && order_product.status != 5 && order_product.status > 0">
                                     Pickup
                                   </div>
                                   <div class="row fs-50" v-if="order_product.status < 0">
                                     Order Rejected
+                                  </div>
+                                  <div class="row fs-50" v-if="order_product.status == 5">
+                                    Order Canceled
                                   </div>
                                   <!-- <div class="row"> -->
                                     <!-- {{order_product.status}} {{order_product.seen}} -->
@@ -241,11 +244,11 @@
                                       <div v-if="order_product.status == 1" class="progress-bar progress-bar-striped progress-bar-animated bg-info w-50" role="progressbar" aria-valuenow="status" aria-valuemin="0" aria-valuemax="100"></div>
                                       <div v-if="order_product.status == 4" class="progress-bar progress-bar-striped progress-bar-animated bg-success w-100" role="progressbar" aria-valuenow="status" aria-valuemin="0" aria-valuemax="100"></div>
                                       <div v-if="order_product.status == 0" class="progress-bar progress-bar-striped progress-bar-animated bg-warning w-25" role="progressbar" aria-valuenow="status" aria-valuemin="0" aria-valuemax="100"></div>
-                                      <div v-if="order_product.status < 0" class="progress-bar progress-bar-striped progress-bar-animated bg-danger w-100" role="progressbar" aria-valuenow="status" aria-valuemin="0" aria-valuemax="100"></div>
+                                      <div v-if="order_product.status < 0 || order_product.status == 5" class="progress-bar progress-bar-striped progress-bar-animated bg-danger w-100" role="progressbar" aria-valuenow="status" aria-valuemin="0" aria-valuemax="100"></div>
                                       <div v-if="order_product.status == 2 || order_product.status == 3" class="progress-bar progress-bar-striped progress-bar-animated bg-info w-75" role="progressbar" aria-valuenow="status" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                   <!-- </div> -->
-                                  <div class="row mt-5 ml-5" v-if="order_product.status >= 0">
+                                  <div class="row mt-5 ml-5" v-if="order_product.status >= 0 && order_product.status < 5">
                                     <div class="col-md-3">Pending</div>
                                     <div class="col-md-3">Order Accepted</div>
                                     <div class="col-md-3">{{order_product.status == 3 ?'Fulfilled':'Processing'}}</div>
