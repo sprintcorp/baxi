@@ -252,7 +252,7 @@ export default {
             .catch(err => {
                 this.saving = false;
                 console.log(err)
-                this.$swal(err.response.data.message);
+                this.$swal(err.message[0]);
                 this.getOrders();
                 if (err.response.status == 401) {
                     this.$swal("Session Expired");

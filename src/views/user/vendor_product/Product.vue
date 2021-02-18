@@ -79,14 +79,15 @@
                                         <!-- <div class="fs-15 mt-1 text-center">{{ product.quantity }} Quantity</div> -->
                                         <!-- <div class="fs-15 mt-1 text-center">{{ product.size }} </div> -->
                                         <!-- <div class="fs-15 mt-1 text-center">N:B Minimum Order {{ product.minimum_order }}</div> -->
-                                        <div class="fs-15 mt-3 mb-1 text-center">Select Quantity (Packs)</div>
+                                        <div class="fs-15 mt-3 text-center">Select Quantity (Packs)</div>
+                                        <div class="fs-15 text-center"><small>{{product.pack_qty}} unit/pack</small></div>
                                         <div class="row">
                                              <div class="col-md-12 d-flex justify-content-end">
                                                 <div class="input-group rm">
                                                     <input type="button" @click="decrease(product.quantity)" value="-" class="button-minus" data-field="quantity">
                                                     <input type="number" step="1" :max="product.quantity" :min="product.minimum_order" :value="quantity_value" name="quantity" @change="changes()" class="quantity-field">
                                                     <input type="button" @click="increase(product.quantity)" value="+" class="button-plus" data-field="quantity">
-                                                    <h6 style="margin-top:12px;font-size:14px">{{product.pack_label}}s</h6>
+                                                    <!-- <h6 style="margin-top:12px;font-size:14px">{{product.pack_label}}s</h6> -->
                                                 </div>
                                             </div>
                                         </div>

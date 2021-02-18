@@ -40,7 +40,7 @@
                                     <div class="card p-2" style="width: 25rem;height:6.5rem;border-radius:10px">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                         <div class="row">
-                                        <div class="col-md-3 mt-2"><img :src="require('@/assets/images/icons8-customer-48.png')" class="rounded-circle" alt="" width="70" height="70"/></div>
+                                        <div class="col-md-3 mt-2"><img :src="vendor.owner.public_image_url?vendor.owner.public_image_url:'@/assets/images/icons8-customer-48.png'" class="rounded-circle" alt="" width="70" height="70"/></div>
                                             <div class="col-md-8 mt-4">
                                             <p class="fs-15 font-weight-bold text-black"> {{vendor.name}}</p>
                                             </div>

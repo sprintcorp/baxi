@@ -258,7 +258,7 @@
                                     <div class="col-md-12 d-flex justify-content-center">Order Rejected</div>
                                   </div> -->
                                   <div class="form-check mt-3" v-if="order_product.status == 3">
-                                    <input class="form-check-input" type="checkbox" value="" @change="updateStatus()">
+                                    <input class="form-check-input" type="checkbox" value=""  @change="orderAction(4)">
                                     <label class="form-check-label" for="flexCheckDefault">
                                       Check if item order has been delivered
                                     </label>

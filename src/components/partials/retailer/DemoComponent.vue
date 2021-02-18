@@ -36,7 +36,7 @@
                     <input type="text" placeholder="Search Products" style="background-color:white;width:255%;border-radius:20px"/>
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form> -->
-                <div style="height:20%" v-if="!distributor">Outlet : {{name}} <br>Balance : ₦ {{numberWithCommas(wallet)}}</div>
+                <div style="height:20%" v-if="!distributor">Outlet : <b>{{name}}</b> <br>Balance : <b>₦ {{numberWithCommas(wallet)}}</b></div>
                 <div class="vl"></div>
                 <!-- <button class="mr-2" v-if="order_products" data-toggle="modal" data-target="#cartModal"><i class="fa fa-shopping-cart fs-25" style="color:#ffc107"></i></button> -->
                 <div class="">
@@ -49,7 +49,7 @@
                     <img src="/images/baxi.png" class="rounded-circle border" alt="" width="45" height="45">
                 </div> -->
                 
-                <div class="mr-4 ml-3 mb-3">
+                <div class="mr-4 ml-3 mb-1">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <img :src="image" class="rounded-circle border" alt="" width="45" height="45"></a>
@@ -219,14 +219,14 @@ import {BASE_URL} from '../../../env'
         
     }
     a{
-        font-family: 'Times New Roman', Times, serif;
+        font-family: 'Rubik', Times, serif;
         font-size: 15px;
     }
     li{
         margin-right: 20px;
         height: 30px;
         list-style: none;
-        font-family: 'Times New Roman', Times, serif;
+        font-family: 'Rubik', Times, serif;
         font-size: 20px;
     }
     .icon-badge-group .icon-badge-container {
@@ -261,7 +261,7 @@ import {BASE_URL} from '../../../env'
   left: 17px;
 }
 .vl {
-  border-left: 2px solid black;
+  border-left: 2px solid #ccc;
   height: 60px;
   left: 50%;
   margin-left: 10px;

@@ -30,7 +30,7 @@ export default {
                 category_id: '',
                 restock_level: '',
                 name: '',
-                image:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',                
+                image:'@/assets/icon/qr-code.png',                
                 outlet: '',
                 minimum_order_quantity:'',
                 pack_price:'',

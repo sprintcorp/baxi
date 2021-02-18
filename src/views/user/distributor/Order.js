@@ -20,10 +20,7 @@ export default {
             progress:'progress-bar',
             color:'bg-warning',
             stats:0,
-            applied_fee:{
-                name:'',
-                amount:''
-            },
+            applied_fees:[],
             order_groups:[],
             product_id:[],
             comment:'',
@@ -43,12 +40,12 @@ export default {
         }
     },
     methods: {
-        // addRow(){
-        //     this.applied_fee.push({
-        //         name:"",
-        //         amount:""
-        //     });
-        // },
+        addRow(){
+            this.applied_fees.push({
+                name:"",
+                amount:""
+            });
+        },
         confirmOrder(id){
             this.saving = true;
             const payload = {

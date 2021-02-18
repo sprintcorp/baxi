@@ -14,7 +14,7 @@
                               <div class="card-body">
                                 <p class="card-subtitle mb-2 text-muted">Total orders received</p>
                                 
-                                <h3 class="">8,776,341</h3>
+                                <h3 class="">33</h3>
                                 <div class="progress-bar bg-warning" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
                             </div>
@@ -24,7 +24,7 @@
                               <div class="card-body">
                                 <p class="card-subtitle mb-2 text-muted">Total orders declined</p>
                                 
-                                <h3>4,920</h3>
+                                <h3>4</h3>
                                 <div class="progress-bar bg-danger" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
                             </div>
@@ -34,7 +34,7 @@
                               <div class="card-body">
                                 <p class="card-subtitle mb-2 text-muted">Total orders delivered</p>
                                 
-                                <h3>1,098</h3>
+                                <h3>6</h3>
                                 <div class="progress-bar bg-success" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
                             </div>
@@ -44,7 +44,7 @@
                               <div class="card-body">
                                 <p class="card-subtitle mb-2 text-muted">Total orders processing</p>
                                 
-                                <h3>8,776</h3>
+                                <h3>2</h3>
                                 <div class="progress-bar bg-info" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
                             </div>
@@ -238,7 +238,7 @@
                                     <button type="button" class="btn btn-success" data-toggle="modal" data-dismiss="modal" @click="confirmOrder(3)">Fulfilled</button>
                                 </div>
                                 <div class="modal-footer" v-if="status == 3">
-                                    <button type="button" class="btn btn-success" data-toggle="modal" data-dismiss="modal" @click="confirmOrder(4)">Delivered</button>
+                                    <button type="button" class="btn btn-success">Awaiting Retailer Confirmation</button>
                                 </div>
                                 </div>
                             </div>
@@ -256,11 +256,11 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <!-- <div class="row d-flex justify-content-end mr-1">
+                                    <div class="row d-flex justify-content-end mr-1">
                                         <button class="btn btn-warning" @click="addRow">Add Charges</button>
-                                    </div> -->
-                                    <!-- <div class="row" v-for="(applied_fee,index) in applied_fees" :key="index"> -->
-                                    <div class="row">
+                                    </div>
+                                    <div class="row" v-for="(applied_fee,index) in applied_fees" :key="index">
+                                    <!-- <div class="row"> -->
                                         <div class="col-md-6">
                                             <label class="form-label">Name</label>
                                             <input type="text" class="form-control" v-model="applied_fee.name" aria-describedby="quantity">

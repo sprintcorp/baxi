@@ -86,20 +86,21 @@
                                     <div class="card p-1" style="height:15rem;margin-top:20px;width:12rem">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                       <div class="card-body">
-                                       <div class="row d-flex justify-content-center" style="height:33%"> <p class="fs-13"> {{product.name.length > 20 ? product.name.substr(0, 20)+'...' : product.name}}</p></div>
-                                        <div class="row" style="height:50%;margin-top:-10px">
+                                       <div class="row d-flex justify-content-center" style=""> <h6 class="fs-13" style="font-weight:bold !important"> {{product.name.length > 20 ? product.name.substr(0, 20)+'...' : product.name}}</h6></div>
+                                       <div class="row d-flex justify-content-center" style="height:25%"> <h6 class="fs-10" style="font-weight:bold !important"> {{product.size}}</h6></div>
+                                        <div class="row" style="height:50%;margin-top:-30px">
                                           <div class="col-md-12">
                                             <div class="text-center mt-1"><img :src="product.public_image_url" class="rounded-circle" alt="" width="70" height="70"/></div>
                                           </div>                                        
                                         </div>
-                                        <div class="row" style="margin-top:-5px"> 
+                                        <div class="row" style="margin-top:-15px"> 
                                           <div class="col-md-12 d-flex justify-content-center"> 
                                            <p class="fs-13"> {{product.quantity}} units left</p>
                                           </div>
                                         </div>
                                         <div class="row" style="margin-top:-20px">  
                                           <div class="col-md-12 d-flex justify-content-center">
-                                           <h5 class="fs-15"> &#8358; {{ numberWithCommas(product.sell_price) }}</h5>
+                                           <h5 class="fs-15"> &#8358; {{ numberWithCommas(product.sell_price) }}.00</h5>
                                           </div>
                                         </div>
                                         <button v-if="permission && product.quantity > 0" class="btn btn-warning btn-block" @click="addToCart(product,index)" data-toggle="modal" data-target="#cart">Sell</button>
@@ -175,18 +176,19 @@
                                     <div class="card rounded-circle text-center p-3" style="width:6rem;height:6rem;margin-top:-50px;background-color:#ffc107;border:0px">
                                         <i class="fa fa-shopping-cart" style="font-size:50px"></i>
                                     </div>
+                                    <button type="button" class="btn btn-light" style="border-radius:20px;color:red;position:absolute;right:0" data-dismiss="modal">X</button>                                    
                                     <div class="row text-center">
                                         <div class="col-md-12">
                                             <div class="fs-20 font-weight-bolder text-black">Add this item to cart?</div>                                        
                                         </div>
                                     </div>
                                     
-                                <div class="modal-body" style="margin-top:-30px">
+                                <div class="modal-body" style="margin-top:-65px">
                                      <div class="row card border-0">
-                                        <div class="text-center"><img :src="product.public_image_url" width="100" height="100"/></div>
-                                        <div class="fs-15 mt-2 text-center">{{product.name}}</div>
-                                        <div class="fs-15 mt-1 text-center">&#8358; {{ numberWithCommas(product.sell_price) }}</div>
-                                        <div class="fs-15 mt-1 text-center">{{ product.quantity }} Units Left</div>
+                                        <div class="text-center"><img :src="product.public_image_url" width="200" height="200"/></div>
+                                        <div class="fs-15 mt-2 h3 text-center">{{product.name}} ({{product.size}})</div>
+                                        <div class="fs-15 mt-1 h4 text-center">&#8358; {{ numberWithCommas(product.sell_price) }}</div>
+                                        <small class="fs-13 mt-1 text-center">{{ product.quantity }} Units Left</small>
                                         <div class="fs-15 mt-3 mb-1 text-center">Select Quantity</div>
                                         <div class="row">
                                             <div class="col-md-12 d-flex justify-content-end">
@@ -206,7 +208,7 @@
                                 </div>
                                 <div class="row p-5 d-flex justify-content-center">
                                     <button type="button" class="btn btn-warning mr-3" v-if="quantity_value > 0 && !error" @click="submitToCart(quantity_value,product)" style="border-radius:20px" data-dismiss="modal"><i class="fa fa-shopping-cart"></i> ADD TO CART</button>
-                                    <button type="button" class="btn btn-light" style="border-radius:20px;color:red" data-dismiss="modal">CLOSE</button>                                    
+                                    <!-- <button type="button" class="btn btn-light" style="border-radius:20px;color:red" data-dismiss="modal">CLOSE</button>                                     -->
                                 </div>
                                 </div>
                             </div>

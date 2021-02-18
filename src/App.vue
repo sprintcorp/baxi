@@ -14,14 +14,15 @@ export default {
 <style>
 a{
   text-decoration: none !important;
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Rubik', sans-serif !important;
 }
 li,h4{
 
   font-family: 'Rubik', sans-serif;
 }
 body{
-  background: white
+  background: white;
+  font-family: 'Rubik', sans-serif !important;
 }
 .round-item{
 border-radius: 10px;

@@ -9,9 +9,21 @@
                             <div class="p">Please pick a category of products you would want to make an order</div>
                         </div>
                         <div class="col-md-6 d-flex justify-content-end">
-                        <form class="form-inline search-form my-2 my-lg-0" style="width:100%">
+                        <!-- <form class="form-inline search-form my-2 my-lg-0" style="width:100%">
                             <input type="text" v-model="search" placeholder="Search Products" style="background-color:white;width:90% !important;border-radius:20px"/>
                             <button type="submit"><i class="fa fa-search"></i></button>
+                        </form> -->
+                        <form class="form-inline search-form my-2 my-lg-0" style="width:100%">
+                            <Dropdown
+                                :options="list_products"
+                                @selected="myChangeEvent($event)"
+                                :disabled="false"
+                                :maxItem="100"
+                                :width="190"
+                                :height="40"
+                                placeholder="Search for products">
+                            </Dropdown>
+                                    <button type="submit"><i class="fa fa-search"></i></button>
                         </form>
                             <!-- <SearchComponent :search="search"></SearchComponent> -->
                         </div>
@@ -19,7 +31,8 @@
                     <div class="row mt-3">
                         <router-link :to="{name:'productOrderOverview'}"><button class="btn btn-warning" style="border-radius:20px"><i class="fa fa-calendar"></i> Order History</button></router-link>
                     </div>
-                    <div class="row">
+                    <div class="row"  v-if="!show_business">
+                        <!-- {{show_business}} -->
                         <div class="col-md-12" v-if="categories.length && !loading">
                             <div class="row">
                                 <div class="col-md-3 d-flex justify-content-center" v-for="(category,index) in categories" :key="index">
@@ -33,8 +46,25 @@
                                     </div>
                                     </router-link>
                                 </div>
-                            </div>
+                            </div>                           
 
+                        </div>
+                        <div class="col-md-12" v-if="businesses.length && !loading">                            
+                                <div class="row" v-if="show_business">
+                                <div class="col-md-6 d-flex justify-content-center" v-for="(vendor,index) in businesses" :key="index">
+                                    <router-link :to="{name:'vendorProduct',params: { id: vendor.id },query: { vendor: vendor.name }}">
+                                        <div class="card p-2" style="width: 25rem;height:6.5rem;border-radius:10px">
+                                            
+                                            <div class="row">
+                                            <div class="col-md-3 mt-2"><img :src="vendor.owner.public_image_url?vendor.owner.public_image_url:'@/assets/images/icons8-customer-48.png'" class="rounded-circle" alt="" width="70" height="70"/></div>
+                                                <div class="col-md-8 mt-4">
+                                                <p class="fs-15 font-weight-bold text-black"> {{vendor.name}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </router-link>
+                                </div>
+                            </div>   
                         </div>
 
                         <div class="row col-md-12">

@@ -1,17 +1,25 @@
 import { BASE_URL } from '../../../env'
 import { getToken, logout } from '../../../config'
 import SearchComponent from "../../../components/Serach.vue"
+import Dropdown from 'vue-simple-search-dropdown';
 export default {
     name:"OrderCategoryComponent",
     components:{
-        SearchComponent
+        SearchComponent,
+        "vue-select": require("vue-select"),
+        Dropdown 
     },
     data(){
         return{
             categories:[],
             loading:false,
             search:'',
-            notification:''
+            notification:'',
+            list_products:[],
+            system_products:[],
+            product:'',
+            show_business:false,
+            businesses:[],
         }
     },
     methods:{
@@ -35,6 +43,76 @@ export default {
                 })
                 .catch(err => console.log(err));
         },
+        getSystemProducts(){
+            fetch(BASE_URL+'/my/products', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': getToken()
+                }
+            })
+        .then(res => res.json())
+        .then(res => {
+            if (res.message === 'Unauthenticated.') {
+                this.$swal("Session Expired");
+                console.log(res);
+                logout();
+                this.$router.push({ name: 'welcome' });
+            }
+            console.log(res.data.data);
+            this.loading = false;
+            this.system_products = res.data.data;
+            // this.page = res.data;
+            this.system_products.forEach((data) => {
+                this.list_products.push({
+                    id: data.id,
+                    name: data.name,
+                });
+            });
+            console.log(this.list_products);
+        })
+        .catch(err => {
+                console.log(err)
+                this.loading = false;
+                if (err.response.status == 401) {
+                    this.$swal("Session Expired");
+                    logout();
+                    this.$router.push({ name: 'welcome' });
+                }
+            }
+
+        ); 
+    },
+    myChangeEvent(val){
+        console.log(val.id);
+        if(val.id){
+        this.show_business = true;
+        console.log(val);
+        this.loading = true;
+
+            fetch(BASE_URL + '/my/product/'+val.id+'/businesses', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.message === 'Unauthenticated.') {
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                    this.businesses = res.data;
+                    console.log(this.businesses)
+                    this.loading = false;
+                })
+                .catch(err => console.log(err));
+        }
+    
+    
+   
+    },
         getNotification(){
             this.loading = true
             fetch(BASE_URL + '/user/notifications/unread', {
@@ -83,7 +161,9 @@ export default {
         }
     },
     mounted() {
+        
         this.getProductCategories();
         this.getNotification();
+        this.getSystemProducts();
     },
 }
