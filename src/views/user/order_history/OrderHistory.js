@@ -309,6 +309,7 @@ export default {
             .then(res => {
                 window.localStorage.setItem("wallet-balance",res.data.wallet_balance);
                 this.getOrders();
+                this.orderInformation();
                 this.order_tab = true;
                 // window.reload();
                 this.saving = false;
@@ -326,7 +327,7 @@ export default {
                 console.log(err)
                 this.$swal({
                     title: 'Error',
-                    text: err.message[0],
+                    text: err.message,
                     icon: 'error',
                     confirmButtonText: 'ok'
                 });

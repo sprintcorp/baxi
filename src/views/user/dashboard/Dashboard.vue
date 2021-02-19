@@ -93,12 +93,12 @@
                                             <div class="text-center mt-1"><img :src="product.public_image_url" class="rounded-circle" alt="" width="70" height="70"/></div>
                                           </div>                                        
                                         </div>
-                                        <div class="row" style="margin-top:-15px"> 
+                                        <div class="row" style="margin-top:-5px"> 
                                           <div class="col-md-12 d-flex justify-content-center"> 
                                            <p class="fs-13"> {{product.quantity}} units left</p>
                                           </div>
                                         </div>
-                                        <div class="row" style="margin-top:-20px">  
+                                        <div class="row" style="margin-top:-10px">  
                                           <div class="col-md-12 d-flex justify-content-center">
                                            <h5 class="fs-15"> &#8358; {{ numberWithCommas(product.sell_price) }}.00</h5>
                                           </div>
@@ -156,7 +156,7 @@
                                                     
                             </div> -->
                             <Loading v-if="!results.length && loading"></Loading>
-                            
+
                             <div class="card" v-if="!filerResult.length && !loading && search.length > 0">
                                 <div class="card-body text-center">
                                     There are no response with your search words at the moment
