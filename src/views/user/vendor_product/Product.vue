@@ -28,17 +28,14 @@
                         <div class="col-md-12" v-if="vendor_products.length && !loading">
                             <div class="row mr-2">
                                 <div class="col-md-6 d-flex justify-content-center" v-for="(product,index) in filerResult" :key="index">
-                                    <!-- <router-link :to="{name:'vendorProduct',params: { id: vendor.id }}"> -->
                                     <div class="card p-2" style="width: 25rem;height:8rem;border-radius:0px">
-                                        <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                         <div class="row g-0">
                                         <div class="col-md-2 mt-2 mr-2"><img :src="product.image" class="rounded-circle" alt="" width="70" height="70"/></div>
                                         <div class="col-md-7">
                                             <p class="fs-12 font-weight-bold text-black"> {{product.name}}</p>
                                             <p class="fs-12 font-weight-bold text-black"> &#8358; {{ numberWithCommas(product.price) }}.00</p>
-                                            <!-- <p class="fs-10 font-weight-bold text-black" style="margin-top:-15px"> {{product.quantity}} Products</p> -->
+                                            <p class="fs-10 font-weight-bold text-black" style="margin-top:-15px"> {{product.quantity}} Units</p>
                                         </div>
-                                        <!-- <div class="col-md-3 mt-4"></div> -->
                                         <div class="col-md-2">
                                             <div class="mt-4">
                                                 <button @click="addToCart(product,index)" data-toggle="modal" data-target="#cart">
@@ -48,7 +45,6 @@
                                         </div>
                                         </div>
                                     </div>
-                                    <!-- </router-link> -->
                                 </div>
                             </div>
 
@@ -137,14 +133,22 @@
                     <div class="row">
                         <div class="font-weight-bold h4">Order Notifications</div>
                     </div>
-                    <div class="mt-3 mb-3" v-if="notification.length">Today </div>
-                    <div class="row border-bottom mt-1" v-for="(i,n) in notification" :key="n">
-                        <div class="col-md-2">
-                            <img src="/images/baxi.png" class="rounded-circle border" alt="" width="45" height="45">
-                        </div>
-                        <div class="col-md-6 mt-2">
-                            <h6>Request Accepted</h6>
-                            <p class="fs-10">View Transaction Details</p>
+                    <div class="mt-3 mb-3" v-if="notification.length"> Today <i class="fa fa-angle-down"></i></div>
+                    
+                    <div class="accordion" id="accordionExample">
+                        <div class=""  v-for="(res,n) in notification" :key="n">
+                            <div class="row" :id="'headingTwo'+n" @click="updateNotification(res.id)">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" :data-target="'#collapseTwo'+n" aria-expanded="false" aria-controls="collapseTwo">
+                                <img src="/images/baxi.png" class="rounded-circle border" alt="" width="45" height="45"> View Notification 
+                                </button>
+                            </h2>
+                            </div>
+                            <div :id="'collapseTwo'+n" class="collapse" :aria-labelledby="'headingTwo'+n" data-parent="#accordionExample">
+                            <div class="card-body">
+                                {{res.data.title}}
+                            </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row border-bottom mt-1" v-if="!notification.length">

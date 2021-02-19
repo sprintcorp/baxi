@@ -14,7 +14,7 @@
                               <div class="card-body">
                                 <p class="card-subtitle mb-2 text-muted">Total orders received</p>
                                 
-                                <h3 class="">33</h3>
+                                <h3 class="">{{information.total_orders_received}}</h3>
                                 <div class="progress-bar bg-warning" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
                             </div>
@@ -24,7 +24,7 @@
                               <div class="card-body">
                                 <p class="card-subtitle mb-2 text-muted">Total orders declined</p>
                                 
-                                <h3>4</h3>
+                                <h3>{{information.total_orders_rejected}}</h3>
                                 <div class="progress-bar bg-danger" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
                             </div>
@@ -32,9 +32,9 @@
                           <div class="col-md-3" style="margin-right:0px">
                             <div class="card" style="width: 16rem;">
                               <div class="card-body">
-                                <p class="card-subtitle mb-2 text-muted">Total orders delivered</p>
+                                <p class="card-subtitle mb-2 text-muted">Total orders pending</p>
                                 
-                                <h3>6</h3>
+                                <h3>{{information.total_orders_pending}}</h3>
                                 <div class="progress-bar bg-success" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
                             </div>
@@ -44,7 +44,7 @@
                               <div class="card-body">
                                 <p class="card-subtitle mb-2 text-muted">Total orders processing</p>
                                 
-                                <h3>2</h3>
+                                <h3>{{information.total_orders_processing}}</h3>
                                 <div class="progress-bar bg-info" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
                             </div>
@@ -64,7 +64,9 @@
                                           <option value="0">Pending Orders</option>
                                           <option value="1">Accepted Orders</option>
                                           <option value="2">Processing Orders</option>
-                                          <option value="3">Delivered Orders</option>
+                                          <option value="3">Fulfiled Orders</option>
+                                          <option value="4">Delivered Orders</option>
+                                          <option value="-1">Declined Orders</option>
                                       </select> -->
                                     </div>
                                     <div class="col-md-5 d-flex justify-content-end">
@@ -217,8 +219,8 @@
                                             <td>{{order.product.name ? order.product.name:'' }}</td>
                                             <td>{{order.product.size ? order.product.size:''}}</td>                                      
                                             <td>{{order.qty ? order.qty:'' }}</td>
-                                            <td>{{order.product.barcode ?order.product.barcode:'' }}</td>
-                                            <td>{{order.product.sku ? order.product.sku : ''}}</td>
+                                            <td>{{order.product.barcode ?order.product.barcode:'Not Available' }}</td>
+                                            <td>{{order.product.sku ? order.product.sku : 'Not Available'}}</td>
                                             <td><img :src="order.product.public_image_url ? order.product.public_image_url : ''" width="60"></td>
                                             
                                         </tr>

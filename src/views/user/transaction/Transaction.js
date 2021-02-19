@@ -1,7 +1,11 @@
 import { getName, logout, getToken, getOutlet,checkUserPermission } from '../../../config'
 import { BASE_URL } from '../../../env'
+import Loading from "../../../components/Loader.vue";
 export default {
     name: "TransactionComponent",
+    components: {
+        Loading
+      },
     data() {
         return {
             transactions: [],
@@ -92,7 +96,12 @@ export default {
                             console.log(err)
                             this.loading = false;
                             if (err.response.status == 401) {
-                                this.$swal("Session Expired");
+                                this.$swal({
+     title: 'Error',
+     text: "Session Expired",
+     icon: 'error',
+     confirmButtonText: 'ok'
+});
                                 logout();
                                 this.$router.push({ name: 'welcome' });
                             }
@@ -123,7 +132,12 @@ export default {
                             console.log(err)
                             this.loading = false;
                             if (err.response.status == 401) {
-                                this.$swal("Session Expired");
+                                this.$swal({
+     title: 'Error',
+     text: "Session Expired",
+     icon: 'error',
+     confirmButtonText: 'ok'
+});
                                 logout();
                                 this.$router.push({ name: 'welcome' });
                             }
@@ -163,7 +177,12 @@ export default {
                         console.log(err)
                         this.loading = false;
                         if (err.response.status == 401) {
-                            this.$swal("Session Expired");
+                            this.$swal({
+     title: 'Error',
+     text: "Session Expired",
+     icon: 'error',
+     confirmButtonText: 'ok'
+});
                             logout();
                             this.$router.push({ name: 'welcome' });
                         }

@@ -1,11 +1,13 @@
-
 import { getName, logout, getToken, getOutlet } from '../../../config'
 import { BASE_URL } from '../../../env'
 export default {
     name: "TransactionComponent",
     data() {
         return {
+            query:'',
+            link:'',
             orders: [],
+            information:'',
             page:[],
             name: '',
             loading: false,
@@ -24,6 +26,7 @@ export default {
             saving:false,
             order_groups:[],
             product_id:[],
+            stats:'Select Order By Status',
             days:["Sun","Mon","Tue","Wed","Thurs","Fri","Sat"],
             months:['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
         }
@@ -139,25 +142,50 @@ export default {
             .then(res => {
                 this.saving = false;
                 console.log(res)
-                this.$swal("Order Accepted");
+                this.$swal({
+                    title: 'Success',
+                    text: "Order Accepted",
+                    icon: 'success',
+                    confirmButtonText: 'ok'
+                });
                 
                 this.getOrders();
             })
             .catch(err => {
                 this.saving = false;
-                this.$swal(err.response.data.message);
+                this.$swal({
+                    title: 'Error',
+                    text: err.message[0],
+                    icon: 'error',
+                    confirmButtonText: 'ok'
+                });
                 this.getOrders();
                 console.log(err)
                 if (err.response.status == 401) {
-                    this.$swal("Session Expired");
+                    this.$swal({
+                title: 'Error',
+                text: "Session Expired",
+                icon: 'error',
+                confirmButtonText: 'ok'
+            });
                     logout();
                     this.$router.push({ name: 'welcome' });
                 }
             });
         },
+        getOrderStatus(){
+            // alert(this.query.length);
+            this.getOrders();
+        },
         getOrders() {
+            
+            if(this.query.length < 1){
+                this.link = '/my/distributor/groupTransactions'
+            }else{
+                this.link = '/my/distributor/groupTransactions?status='+ this.query
+            }
             this.loading = true;
-            fetch(BASE_URL + '/my/distributor/groupTransactions', {
+            fetch(BASE_URL + this.link, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
@@ -181,12 +209,42 @@ export default {
                         console.log(err)
                         this.loading = false;
                         if (err.response.status == 401) {
-                            this.$swal("Session Expired");
+                            this.$swal({
+                title: 'Error',
+                text: "Session Expired",
+                icon: 'error',
+                confirmButtonText: 'ok'
+            });
                             logout();
                             this.$router.push({ name: 'welcome' });
                         }
                     }
                 );
+        },
+        orderInformation(){
+            fetch(BASE_URL + '/my/businesses/stat/retailer-distributor-orders', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': getToken()
+                }
+            })
+            .then(res => res.json())
+            .then(res => {
+                if (res.message === 'Unauthenticated.') {
+                    console.log(res);
+                    logout();
+                    this.$router.push({ name: 'welcome' });
+                }
+                this.information = res.data;
+                this.loading = false;
+                
+            })
+            .catch(err => {
+                    console.log(err)
+                    this.loading = false;
+                }
+            );
         },
         getDate(date){
             const res = new Date(date);
@@ -218,7 +276,12 @@ export default {
                         console.log(err)
                         this.loading = false;
                         if (err.response.status == 401) {
-                            this.$swal("Session Expired");
+                            this.$swal({
+                title: 'Error',
+                text: "Session Expired",
+                icon: 'error',
+                confirmButtonText: 'ok'
+            });
                             logout();
                             this.$router.push({ name: 'welcome' });
                         }
@@ -244,61 +307,46 @@ export default {
             })
             .then(res => res.json())
             .then(res => {
+                window.localStorage.setItem("wallet-balance",res.data.wallet_balance);
+                this.getOrders();
+                this.order_tab = true;
+                // window.reload();
                 this.saving = false;
                 console.log(res)
-                this.$swal(res.message);                
-                this.getOrders();
+                this.$swal({
+                    title: 'Success',
+                    text: res.message,
+                    icon: 'success',
+                    confirmButtonText: 'ok'
+                });               
+                
             })
             .catch(err => {
                 this.saving = false;
                 console.log(err)
-                this.$swal(err.message[0]);
+                this.$swal({
+                    title: 'Error',
+                    text: err.message[0],
+                    icon: 'error',
+                    confirmButtonText: 'ok'
+                });
                 this.getOrders();
                 if (err.response.status == 401) {
-                    this.$swal("Session Expired");
+                    this.$swal({
+                title: 'Error',
+                text: "Session Expired",
+                icon: 'error',
+                confirmButtonText: 'ok'
+            });
                     logout();
                     this.$router.push({ name: 'welcome' });
                 }
             });
         },
-
-        // getPageTransaction(page) {
-        //     this.transactions =[];
-        //     this.loading = true;
-        //     fetch(page, {
-        //             headers: {
-        //                 'Content-Type': 'application/json',
-        //                 'Accept': 'application/json',
-        //                 'Authorization': getToken()
-        //             }
-        //         })
-        //         .then(res => res.json())
-        //         .then(res => {
-        //             if (res.message === 'Unauthenticated.') {
-        //                 console.log(res);
-        //                 logout();
-        //                 this.$router.push({ name: 'welcome' });
-        //             }
-        //             this.loading = false;
-        //             this.transactions = res.data;
-        //             this.page = res.data;
-        //             console.log(this.transactions);
-        //         })
-        //         .catch(err => {
-        //                 console.log(err)
-        //                 this.loading = false;
-        //                 if (err.response.status == 401) {
-        //                     this.$swal("Session Expired");
-        //                     logout();
-        //                     this.$router.push({ name: 'welcome' });
-        //                 }
-        //             }
-
-        //         );
-        // }
     },
 
     mounted() {
+        this.orderInformation();
         this.getOrders();
         this.name = getName();
         this.outlet = getOutlet();

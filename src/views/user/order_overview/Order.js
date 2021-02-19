@@ -34,7 +34,12 @@ export default {
                 .then(res => res.json())
                 .then(res => {
                     if (res.message === 'Unauthenticated.') {
-                        this.$swal("Session Expired");
+                        this.$swal({
+                title: 'Error',
+                text: "Session Expired",
+                icon: 'error',
+                confirmButtonText: 'ok'
+            });
                         console.log(res);
                         logout();
                         this.$router.push({ name: 'welcome' });
@@ -50,7 +55,12 @@ export default {
                         console.log(err)
                         this.loading = false;
                         if (err.response.status == 401) {
-                            this.$swal("Session Expired");
+                            this.$swal({
+                                title: 'Error',
+                                text: "Session Expired",
+                                icon: 'error',
+                                confirmButtonText: 'ok'
+                            });
                             logout();
                             this.$router.push({ name: 'welcome' });
                         }

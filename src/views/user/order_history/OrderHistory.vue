@@ -24,11 +24,65 @@
                         <section class="panel-content">
                           <div class="row">
                             <div class="col-md-12" v-if="order_tab">
-                                <div class="row border-2 mt-1">
-                                  <div class="col-md-4 mt-2 font-weight-bold"> Orders</div>
-                                  <div class="col-md-4">
-                                    
+                              <div class="row mb-4">
+                                <div class="col-md-3" style="margin-right:0px">
+                                  <div class="card" style="width: 16rem;">
+                                    <div class="card-body">
+                                      <p class="card-subtitle mb-2 text-muted">Total orders accepted</p>
+                                      
+                                      <h3 class="">{{information.total_orders_accepted}}</h3>
+                                      <div class="progress-bar bg-warning" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
                                   </div>
+                                </div>
+                                <div class="col-md-3" style="margin-right:0px">
+                                  <div class="card" style="width: 16rem;">
+                                    <div class="card-body">
+                                      <p class="card-subtitle mb-2 text-muted">Total orders declined</p>
+                                      
+                                      <h3>{{information.total_orders_rejected}}</h3>
+                                      <div class="progress-bar bg-danger" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-3" style="margin-right:0px">
+                                  <div class="card" style="width: 16rem;">
+                                    <div class="card-body">
+                                      <p class="card-subtitle mb-2 text-muted">Total orders delivered</p>
+                                      
+                                      <h3>{{information.total_orders_received}}</h3>
+                                      <div class="progress-bar bg-success" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-3" style="margin-right:0px">
+                                  <div class="card" style="width: 16rem;">
+                                    <div class="card-body">
+                                      <p class="card-subtitle mb-2 text-muted">Total orders processing</p>
+                                      
+                                      <h3>{{information.total_orders_processing}}</h3>
+                                      <div class="progress-bar bg-info" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                                <div class="row border-2 mt-1">
+                                  <div class="col-md-4 mt-2 font-weight-bold"> Orders History</div>
+                                  <!-- <div class="col-md-4"> -->
+                                    <div class="col-md-4 d-flex justify-content-end">
+                                      <select v-model="query" class="form-control" @change="getOrderStatus()" style="outline: none !important;">
+                                          <!-- <option selected>Filter Orders</option> -->
+                                          <option value="">All Orders</option>
+                                          <option value="pending">Pending Orders</option>
+                                          <option value="accepted">Accepted Orders</option>
+                                          <option value="in_progress">Processing Orders</option>
+                                          <option value="fulfilled">Fulfiled Orders</option>
+                                          <option value="delivered">Delivered Orders</option>
+                                          <option value="rejected">Declined Orders</option>
+                                      </select>
+                                    </div>
+                                  <!-- </div> -->
                                   <div class="col-md-4 d-flex justify-content-end">
                                     <button data-toggle="modal" data-target="#search" class="btns shadow btn-light btn-sm sml-radius text-black p-2" style="border-radius:30px">
                                       <i class="fa fa-search"></i> Filter by orders: From last 30 days
@@ -188,7 +242,7 @@
                                         <td>{{numberWithCommas(order.amount)}}</td>
                                       </tr>
                                                                    
-                                      <tr v-if="order_product.status != 0">
+                                      <tr v-if="order_product.status != 0 && order_product.delivery_type.toLowerCase() == 'delivery'">
                                         <td>Delivery</td>
                                         <th scope="row"></th>
                                         <th scope="row"></th>
@@ -202,7 +256,7 @@
                                         <th scope="row"></th>
                                         <th scope="row"></th>
                                         
-                                        <td class="font-weight-bold">{{numberWithCommas(parseFloat(order_product.amount) + delivery)}}</td>
+                                        <td class="font-weight-bold">{{numberWithCommas(parseFloat(order_product.total_amount))}}</td>
                                       </tr>
                                       <tr v-if="order_product.status == 1">
                                         <td></td>

@@ -34,17 +34,31 @@ export default {
             .then(res => {
                 this.getRestockLevel();
                 this.saving = false;
-                this.$swal(res.message);
+                this.$swal({
+                    title: 'Error',
+                    text: res.message,
+                    icon: 'error',
+                    confirmButtonText: 'ok'
+                });
                 
             })
             .catch(err => {
-
-                this.$swal(err.response.data.message);
+                this.$swal({
+                    title: 'Error',
+                    text: err.response.data.message,
+                    icon: 'error',
+                    confirmButtonText: 'ok'
+                });
                 this.saving = false;
                 console.log(err)
                 if (err.response.status == 401) {
                     this.saving = false;
-                    this.$swal("Session Expired");
+                    this.$swal({
+                        title: 'Error',
+                        text: "Session Expired",
+                        icon: 'error',
+                        confirmButtonText: 'ok'
+                    });
                     logout();
                     this.$router.push({ name: 'welcome' });
                 }

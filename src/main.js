@@ -14,12 +14,16 @@ import TrendChart from "vue-trend-chart";
 // import ApexCharts from 'apexcharts';
 import VueApexCharts from 'vue-apexcharts';
 import VueHtmlToPaper from 'vue-html-to-paper';
-import Select2 from 'v-select2-component';
+// import Select2 from 'v-select2-component';
 // import Popper from 'popper.js';
 // import $ from 'jquery';
 
 // Vue.use($)
 // Vue.use(Popper)
+// import VueSweetalert2 from 'vue-sweetalert2';
+// import Swal from 'sweetalert2/dist/sweetalert2.js'
+
+// import 'sweetalert2/src/sweetalert2.scss'
 const options = {
     name: '_blank',
     specs: [
@@ -32,16 +36,22 @@ const options = {
       'https://unpkg.com/kidlat-css/css/kidlat.css'
     ]
   }
-
+const option = {
+    confirmButtonColor: '#41b882',
+    cancelButtonColor: '#ff7674',
+};
+  
+Vue.use(VueSweetalert2, option);
+// Vue.use(Swal);
 Vue.use(VueApexCharts)
 Vue.use(VueHtmlToPaper, options);
 Vue.component('apexchart', VueApexCharts)
 Vue.use(TrendChart);
 Vue.use(Toasted)
 Vue.component('downloadCsv', JsonCSV)
-Vue.use(VueSweetalert2);
+// Vue.use(VueSweetalert2);
 Vue.config.productionTip = false
-Vue.component('Select2', Select2);
+// Vue.component('Select2', Select2);
 new Vue({
     router,
     store,

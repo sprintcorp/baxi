@@ -1,12 +1,24 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <router-view v-on:wallet_balance="getBalance"></router-view>
   </div>
 </template>
 
 <script>
+// import Loading from "./components/Loader.vue"
 export default {
+  // components:{
+  //       Loading
+  //   },
   name: 'App',
+  methods:{
+    getBalance(value){
+      console.log(value)
+    }
+  },
+  created(){
+    this.$on('wallet_balance');
+  }
   
 }
 </script>

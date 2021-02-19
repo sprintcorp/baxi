@@ -9,10 +9,10 @@
                             <div class="p">Please pick a vendor to access products available in their stores.</div>
                         </div>
                         <div class="col-md-6 d-flex justify-content-end">
-                        <form class="form-inline search-form my-2 my-lg-0" style="width:100%">
+                        <!-- <form class="form-inline search-form my-2 my-lg-0" style="width:100%">
                             <input type="text" v-model="search" placeholder="Type to search for product, or vendor" style="background-color:white;width:90% !important;border-radius:20px"/>
                             <button type="submit"><i class="fa fa-search"></i></button>
-                        </form>
+                        </form> -->
                         </div>
                     </div>
                     <div class="row mt-3">

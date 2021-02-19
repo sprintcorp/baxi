@@ -144,17 +144,31 @@ export default {
                 window.localStorage.removeItem("retailer_order");
                 this.show_cart = false;
                 this.saving = false;
-                this.$swal(res.message);
+                this.$swal({
+                    title: 'Success',
+                    text: res.message,
+                    icon: 'success',
+                    confirmButtonText: 'ok'
+                });
                 this.getVendorProducts();
             })
             .catch(err => {
-
-                this.$swal(err.response.data.message);
+                this.$swal({
+                    title: 'Error',
+                    text: err.response.data.message,
+                    icon: 'error',
+                    confirmButtonText: 'ok'
+                });
                 this.saving = false;
                 console.log(err)
                 if (err.response.status == 401) {
                     this.saving = false;
-                    this.$swal("Session Expired");
+                    this.$swal({
+                        title: 'Error',
+                        text: "Session Expired",
+                        icon: 'error',
+                        confirmButtonText: 'ok'
+                    });
                     logout();
                     this.$router.push({ name: 'welcome' });
                 }
@@ -183,7 +197,7 @@ export default {
                     res.data.data.forEach((data) => {
                         this.vendor_products.push({
                             product_id: data.id,
-                            business_id: data.business_product.business_id,
+                            business_id: this.$route.params.id,
                             name: data.name,
                             price: parseFloat(data.business_product.pack_price),
                             pack: data.business_product.pack_label,
@@ -202,8 +216,8 @@ export default {
                 .catch(err => console.log(err));
         },
         getNotification(){
-            this.loading = true
-            fetch(BASE_URL + '/my/notifications', {
+            // this.loading = true
+            fetch(BASE_URL + '/user/notifications/unread', {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
@@ -216,11 +230,36 @@ export default {
                         logout();
                         this.$router.push({ name: 'welcome' });
                     }
-                    this.notification = res.data.data
+                    this.notification = res.data
                     this.loading = false;
                 })
                 .catch(err => console.log(err));
-        }
+        },
+        updateNotification(id){
+            fetch(BASE_URL + '/user/notifications/'+id+'/mark-as-read', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': getToken()
+                }
+            })
+            .then(res => res.json())
+            .then(res => {
+                
+                console.log(res)
+                setTimeout(this.getNotification(),10000);
+            })
+            .catch(err => {
+                this.saving = false;
+                console.log(err)
+                if (err.response.status == 401) {
+                    this.saving = false;
+                    logout();
+                    this.$router.push({ name: 'welcome' });
+                }
+            });
+        },
     },
     mounted() {
         this.wallet =  window.localStorage.getItem('wallet-balance');

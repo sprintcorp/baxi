@@ -2,8 +2,12 @@
 // import { GET_BUSINESS } from "../../../store/action";
 import { getName, getToken, logout,getPermissions,checkUserPermission,getId,getRole } from '../../../config'
 import { BASE_URL,CASHIER_BUSINESS } from '../../../env'
+import Loading from "../../../components/Loader.vue"
 export default {
     name: "DashboardComponent",
+    components:{
+        Loading
+    },
     data() {
         return {
             user: null,
@@ -162,7 +166,12 @@ export default {
                     .then(res => res.json())
                     .then(res => {
                         if (res.message === 'Unauthenticated.') {
-                            this.$swal("Session Expired");
+                            this.$swal({
+                title: 'Error',
+                text: "Session Expired",
+                icon: 'error',
+                confirmButtonText: 'ok'
+            });
                             console.log(res);
                             logout();
                             this.$router.push({ name: 'welcome' });
@@ -195,7 +204,12 @@ export default {
                             console.log(err)
                             this.loading = false;
                             if (err.response.status == 401) {
-                                this.$swal("Session Expired");
+                                this.$swal({
+                title: 'Error',
+                text: "Session Expired",
+                icon: 'error',
+                confirmButtonText: 'ok'
+            });
                                 logout();
                                 this.$router.push({ name: 'welcome' });
                             }
@@ -219,7 +233,12 @@ export default {
                     .then(res => res.json())
                     .then(res => {
                         if (res.message === 'Unauthenticated.') {
-                            this.$swal("Session Expired");
+                            this.$swal({
+                title: 'Error',
+                text: "Session Expired",
+                icon: 'error',
+                confirmButtonText: 'ok'
+            });
                             console.log(res);
                             logout();
                             this.$router.push({ name: 'welcome' });
@@ -252,7 +271,12 @@ export default {
                             console.log(err)
                             this.loading = false;
                             if (err.response.status == 401) {
-                                this.$swal("Session Expired");
+                                this.$swal({
+                title: 'Error',
+                text: "Session Expired",
+                icon: 'error',
+                confirmButtonText: 'ok'
+            });
                                 logout();
                                 this.$router.push({ name: 'welcome' });
                             }
@@ -274,7 +298,12 @@ export default {
             .then(res => res.json())
             .then(res => {
                 if (res.message === 'Unauthenticated.') {
-                    this.$swal("Session Expired");
+                    this.$swal({
+                title: 'Error',
+                text: "Session Expired",
+                icon: 'error',
+                confirmButtonText: 'ok'
+            });
                     console.log(res);
                     logout();
                     this.$router.push({ name: 'welcome' });
@@ -305,7 +334,12 @@ export default {
                     console.log(err)
                     this.loading = false;
                     if (err.response.status == 401) {
-                        this.$swal("Session Expired");
+                        this.$swal({
+                title: 'Error',
+                text: "Session Expired",
+                icon: 'error',
+                confirmButtonText: 'ok'
+            });
                         logout();
                         this.$router.push({ name: 'welcome' });
                     }
@@ -355,7 +389,13 @@ export default {
               }
         },
         warning(message){
-            this.$swal(message);
+            // this.$swal(message);
+            this.$swal({
+                title: 'Warning',
+                text: message,
+                icon: 'warning',
+                confirmButtonText: 'close'
+            });
         },
         userPermission(){
             if(checkUserPermission('order products') == false){
@@ -394,7 +434,12 @@ export default {
 
                         this.loading = false;
                         if (err.response.status == 401) {
-                            this.$swal("Session Expired");
+                            this.$swal({
+                title: 'Error',
+                text: "Session Expired",
+                icon: 'error',
+                confirmButtonText: 'ok'
+            });
                             logout();
                             this.$router.push({ name: 'welcome' });
                         }
@@ -419,7 +464,12 @@ export default {
                     .then(res => res.json())
                     .then(res => {
                         if (res.message === 'Unauthenticated.') {
-                            this.$swal("Session Expired");
+                            this.$swal({
+                title: 'Error',
+                text: "Session Expired",
+                icon: 'error',
+                confirmButtonText: 'ok'
+            });
                             console.log(res);
                             logout();
                             this.$router.push({ name: 'welcome' });
@@ -451,7 +501,12 @@ export default {
                             console.log(err)
                             this.loading = false;
                             if (err.response.status == 401) {
-                                this.$swal("Session Expired");
+                                this.$swal({
+                title: 'Error',
+                text: "Session Expired",
+                icon: 'error',
+                confirmButtonText: 'ok'
+            });
                                 logout();
                                 this.$router.push({ name: 'welcome' });
                             }
@@ -474,7 +529,12 @@ export default {
                     .then(res => res.json())
                     .then(res => {
                         if (res.message === 'Unauthenticated.') {
-                            this.$swal("Session Expired");
+                            this.$swal({
+                title: 'Error',
+                text: "Session Expired",
+                icon: 'error',
+                confirmButtonText: 'ok'
+            });
                             console.log(res);
                             logout();
                             this.$router.push({ name: 'welcome' });
@@ -506,7 +566,12 @@ export default {
                             console.log(err)
                             this.loading = false;
                             if (err.response.status == 401) {
-                                this.$swal("Session Expired");
+                                this.$swal({
+                title: 'Error',
+                text: "Session Expired",
+                icon: 'error',
+                confirmButtonText: 'ok'
+            });
                                 logout();
                                 this.$router.push({ name: 'welcome' });
                             }
@@ -555,7 +620,13 @@ export default {
                     window.localStorage.removeItem("retailer_cashier_order");
                     this.saving = false;
                     console.log(res)
-                    this.$swal("Payment Successful",'success');
+                    // this.$swal("Payment Successful",'success');
+                    this.$swal({
+                        title: 'Success',
+                        text: "Payment Successful",
+                        icon: 'success',
+                        confirmButtonText: 'ok'
+                    });
                     this.show_cat = false;
                     this.cart_order = [];
                     
@@ -564,11 +635,22 @@ export default {
                 })
                 .catch(err => {
                     this.saving = false;
-                    this.$swal(err.response.data.message);
+                    this.$swal();
+                    this.$swal({
+                        title: 'Error',
+                        text: err.response.data.message,
+                        icon: 'error',
+                        confirmButtonText: 'ok'
+                    });
                     this.getProducts();
                     console.log(err)
                     if (err.response.status == 401) {
-                        this.$swal("Session Expired");
+                        this.$swal({
+                title: 'Error',
+                text: "Session Expired",
+                icon: 'error',
+                confirmButtonText: 'ok'
+            });
                         logout();
                         this.$router.push({ name: 'welcome' });
                     }
@@ -586,12 +668,19 @@ export default {
                 .then(res => res.json())
                 .then(res => {
                     console.log(res.data)
+                    window.localStorage.setItem("wallet-balance",res.data.available_balance)
                 })
                 .catch(err => {
                     console.log(err)
                     if (err.response.status == 401) {
                         this.saving = false;
-                        this.$swal("Session Expired");
+                        
+                        this.$swal({
+                            title: 'Error',
+                            text: "Session Expired",
+                            icon: 'error',
+                            confirmButtonText: 'ok'
+                        });
                         logout();
                         this.$router.push({ name: 'welcome' });
                     }

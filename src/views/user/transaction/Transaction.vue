@@ -153,14 +153,15 @@
 
                                 </div>
 
-                                <div class="mt-5" v-if="!transactions.length && loading" style="text-align:center">
+                                <!-- <div class="mt-5" v-if="!transactions.length && loading" style="text-align:center">
                   
                                       <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
                                         <span class="sr-only">Loading...</span>
                                       </div><br>
                                       Loading...
                                       
-                                </div>
+                                </div> -->
+                                <Loading v-if="!transactions.length && loading">Loading...</Loading>
                                 <div class="card mt-5" v-if="!transactions.length && !loading">
                                   <div class="card-body text-center">
                                     There are no products for this outlet at the moment

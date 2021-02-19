@@ -27,6 +27,7 @@ export default {
             other_info:'',
             saving:false,
             status:0,
+            information:[]
         }
     },
     computed: {
@@ -50,7 +51,7 @@ export default {
             this.saving = true;
             const payload = {
                 "status":id,
-                "applied_fees":this.applied_fee,
+                "applied_fees":this.applied_fees,
                 "order_groups":this.order_groups,
                 "comment":this.comment,
                 "other_info":this.other_info
@@ -70,17 +71,32 @@ export default {
             .then(res => {
                 this.saving = false;
                 console.log(res.response)
-                this.$swal("Order Successfully Updated");
+                this.$swal({
+                    title: 'Success',
+                    text: "Order Successfully Updated",
+                    icon: 'success',
+                    confirmButtonText: 'ok'
+                });
                 
                 this.getOrders();
             })
             .catch(err => {
                 this.saving = false;
-                this.$swal(err.response.data.message);
+                this.$swal({
+                    title: 'Error',
+                    text: err.response.data.message,
+                    icon: 'error',
+                    confirmButtonText: 'ok'
+                });
                 this.getOrders();
                 console.log(err)
                 if (err.response.status == 401) {
-                    this.$swal("Session Expired");
+                    this.$swal({
+                title: 'Error',
+                text: "Session Expired",
+                icon: 'error',
+                confirmButtonText: 'ok'
+            });
                     logout();
                     this.$router.push({ name: 'welcome' });
                 }
@@ -115,6 +131,31 @@ export default {
             })
             console.log(this.order_groups)
             
+        },
+        orderInformation(){
+            fetch(BASE_URL + '/my/businesses/stat/distributor-orders', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': getToken()
+                }
+            })
+            .then(res => res.json())
+            .then(res => {
+                if (res.message === 'Unauthenticated.') {
+                    console.log(res);
+                    logout();
+                    this.$router.push({ name: 'welcome' });
+                }
+                this.information = res.data;
+                this.loading = false;
+                
+            })
+            .catch(err => {
+                    console.log(err)
+                    this.loading = false;
+                }
+            );
         },
         sumArray(objArr){
             console.log(objArr.length)
@@ -161,7 +202,12 @@ export default {
                         console.log(err)
                         this.loading = false;
                         if (err.response.status == 401) {
-                            this.$swal("Session Expired");
+                            this.$swal({
+                title: 'Error',
+                text: "Session Expired",
+                icon: 'error',
+                confirmButtonText: 'ok'
+            });
                             logout();
                             this.$router.push({ name: 'welcome' });
                         }
@@ -196,7 +242,12 @@ export default {
                         console.log(err)
                         this.loading = false;
                         if (err.response.status == 401) {
-                            this.$swal("Session Expired");
+                            this.$swal({
+                title: 'Error',
+                text: "Session Expired",
+                icon: 'error',
+                confirmButtonText: 'ok'
+            });
                             logout();
                             this.$router.push({ name: 'welcome' });
                         }
@@ -206,6 +257,7 @@ export default {
     },
 
     mounted() {
+        this.orderInformation();
         this.getOrders();
         this.name = getName();
         this.outlet = getOutlet();

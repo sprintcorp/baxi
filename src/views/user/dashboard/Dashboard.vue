@@ -147,14 +147,16 @@
                                     Processing Order...
                                 </div>
                             </div>
-                            <div v-if="!results.length && loading" style="text-align:center;position: absolute;left: 50%;top: 50%;">                  
+                            <!-- <div v-if="!results.length && loading" style="text-align:center;position: absolute;left: 50%;top: 50%;">                  
                                 <div class="spinner-grow mt-5" style="width: 3rem; height: 3rem;" role="status">
                                     <span class="sr-only">Loading...</span>
                                 </div>
                                 <br>
                                 Loading...
                                                     
-                            </div>
+                            </div> -->
+                            <Loading v-if="!results.length && loading"></Loading>
+                            
                             <div class="card" v-if="!filerResult.length && !loading && search.length > 0">
                                 <div class="card-body text-center">
                                     There are no response with your search words at the moment
