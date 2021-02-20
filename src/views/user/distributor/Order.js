@@ -27,7 +27,8 @@ export default {
             other_info:'',
             saving:false,
             status:0,
-            information:[]
+            information:[],
+            add_fee:false,
         }
     },
     computed: {
@@ -117,6 +118,11 @@ export default {
             this.status = order.status
             
             this.order_product = order;
+            if(order.delivery_type.toLowerCase() == 'delivery'){
+                this.add_fee = true;
+            }else{
+                this.add_fee = false;
+            }
             console.log(order)
             order.orders.forEach((data)=>{
                 this.product_id.push({

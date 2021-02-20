@@ -163,31 +163,6 @@
                             </div>
                           </section>
                         </div>
-                         <!-- <div class="col-md-3" style="">
-                              <div class="row d-flex justify-content-end">
-                                  <div class="font-weight-bold h4">Order Notifications</div>
-                              </div>
-                              <div class="mt-3 mb-3 ml-5">Today <i class="fa fa-angle-down"></i></div>
-                              <div class="row mt-1 d-flex justify-content-end" v-for="(i,n) in 3" :key="n">
-                                  <div class="col-md-2">
-                                      <img src="/images/baxi.png" class="rounded-circle border" alt="" width="45" height="45">
-                                  </div>
-                                  <div class="col-md-8 mt-2">
-                                      <h6>Request Accepted</h6>
-                                      <p class="fs-10">View Transaction Details</p>
-                                  </div>
-                              </div>
-                              <div class="mt-3 mb-3 ml-5">This Week <i class="fa fa-angle-down"></i></div>
-                              <div class="row d-flex justify-content-end mt-1" v-for="(i,n) in 3" :key="n">
-                                  <div class="col-md-2">
-                                      <img src="/images/baxi.png" class="rounded-circle border" alt="" width="45" height="45">
-                                  </div>
-                                  <div class="col-md-8 mt-2">
-                                      <h6>Request Accepted</h6>
-                                      <p class="fs-10">View Transaction Details</p>
-                                  </div>
-                              </div>
-                          </div> -->
 
                         <div class="modal fade" id="order" data-bs-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -258,8 +233,8 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="row d-flex justify-content-end mr-1">
-                                        <button class="btn btn-warning" @click="addRow">Add Charges</button>
+                                    <div class="row d-flex justify-content-end mr-1" v-if="add_fee">
+                                        <button class="btn btn-warning" @click="addRow">Add Fee</button>
                                     </div>
                                     <div class="row" v-for="(applied_fee,index) in applied_fees" :key="index">
                                     <!-- <div class="row"> -->
