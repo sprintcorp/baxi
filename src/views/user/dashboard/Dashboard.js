@@ -544,16 +544,16 @@ export default {
                         this.products = res.data.data;
                         this.products.forEach((data) => {
                             this.results.push({
-                                product_id: data.product.id,
-                                name: data.product.name,
-                                amount: parseInt(data.product.recommended_price),
-                                sell_price: parseInt(data.product.recommended_price),
-                                quantity: data.qty,
-                                size: data.product.size,
-                                public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
-                                qty: data.qty,
-                                sku: data.product.sku,
-                                date:data.product.created_at,
+                                product_id: data.business_product.product_id,
+                                name: data.name,
+                                amount: parseInt(data.business_product.pack_price),
+                                sell_price: parseInt(data.business_product.pack_price),
+                                quantity: data.business_product.qty,
+                                size: data.size,
+                                public_image_url: data.public_image_url?data.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
+                                qty: data.business_product.qty,
+                                sku: data.sku,
+                                date:data.created_at,
                                 customer: {
                                     name: 'web',
                                 }

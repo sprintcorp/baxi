@@ -311,13 +311,24 @@
                                         <input type="text" class="form-control" v-model="product.pack_qty" aria-describedby="quantity">
                                       </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6"  v-if="distributor">
                                       <label class="form-label">Minimum Order Qty</label>
                                       <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                           <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/shape-size-interface-symbol.png')" class='rounded' alt="img"/></span>
                                         </div>
-                                        <input type="text" class="form-control"  v-model="product.minimum_order_quantity" aria-describedby="restock level">
+                                        <input type="text" class="form-control" v-model="product.minimum_order_quantity" aria-describedby="restock level">
+                                        
+                                      </div>
+                                    </div>
+
+                                    <div class="col-md-6"  v-if="!distributor">
+                                      <label class="form-label">Barcode</label>
+                                      <div class="input-group mb-3">
+                                          <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/qr-code.png')" class='rounded' alt="img"/></span>
+                                          </div>
+                                            <input type="text" class="form-control" v-model="product.barcode">
                                       </div>
                                     </div>
                                   </div>
@@ -362,7 +373,7 @@
                                     @change="myChangeEvent($event)" @select="mySelectEvent($event)" />
                                   </div>
                                   </div> -->
-                                  <div class="row" v-if="!distributor">
+                                  <!-- <div class="row" v-if="!distributor">
                                     <div class="col-md-12">
                                       <div class="input-group mb-3">
                                           <div class="input-group-prepend">
@@ -371,7 +382,7 @@
                                             <input type="text" class="form-control" v-model="product.barcode">
                                       </div>
                                     </div>                                    
-                                  </div>
+                                  </div> -->
                                   
                                   
                                 </div>

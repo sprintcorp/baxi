@@ -60,7 +60,7 @@
               </select>
             </div>
           </div>
-          
+          <!-- {{results}} -->
           <div class="row">
             <div :class="[!show_cat ?  'col-md-12' : 'col-md-9']">
                         <div class="col-md-12" v-if="results.length && !loading">
