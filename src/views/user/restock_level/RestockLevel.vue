@@ -138,14 +138,12 @@
                                     Saving Product...
                                 </div>
                             </div>
-                            <div v-if="!vendor_products.length && loading" style="text-align:center;position: absolute;left: 50%;top: 50%;">                  
-                                <div class="spinner-grow mt-5" style="width: 3rem; height: 3rem;" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                                <br>
+                            <!-- <div v-if="!vendor_products.length && loading" style="text-align:center;position: absolute;left: 50%;top: 50%;">                  
+                                
                                 Loading...
                                                     
-                            </div>
+                            </div> -->
+                            <Loading v-if="!vendor_products.length && loading"></Loading>
                             <div class="card" v-if="!vendor_products.length && !loading">
                                 <div class="card-body text-center">
                                     There are no products low in stock at the moment

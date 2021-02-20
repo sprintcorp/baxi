@@ -1,7 +1,11 @@
 import { getName, logout, getToken, getOutlet } from '../../../config'
 import { BASE_URL } from '../../../env'
+import Loading from "../../../components/Loader.vue"
 export default {
     name: "TransactionComponent",
+    components:{
+        Loading
+    },
     data() {
         return {
             query:'',
@@ -17,7 +21,7 @@ export default {
             start_date: '',
             end_date: '',
             order_tab:true,
-            total:0,
+            total:'',
             delivery:0,
             status:'w-0',
             progress:'progress-bar progress-bar-striped progress-bar-animated',
@@ -92,34 +96,14 @@ export default {
                 id:order.order_group_id,
                 selected_product_ids:product
             })
-            console.log(this.order_groups);
+            // console.log(this.order_groups);
 
-            // let sum = this.order_product.orders.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
-            this.delivery = order.applied_fees.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
-            // this.total = sum + this.delivery;
-            if(order.status == 0){
-                this.status = 'w-0'
-                this.color = 'bg-danger'    
+            let sum = order.orders.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
+            if(order.applied_fees){
+                this.delivery = order.applied_fees.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
             }
-            if(order.status == 1){
-                this.status = 'w-50';
-                this.color = 'bg-info'
-                console.log(order.status)
-
-            }
-            if(order.status == 2){
-                this.status = 'w-75'
-                this.color = 'bg-info'
-            }
-            if(order.status == 3){
-                this.status = 'w-100'
-                this.color = 'bg-success'
-            }
-            // else{
-            //     this.status = 'w-0'
-                 
-            // }
-            // console.log(transaction);
+            this.total = sum;
+            console.log(sum);
         },
         updateStatus(){
             // alert('hello')
@@ -288,8 +272,27 @@ export default {
                     }
                 );
         },
+        confirmDelivery(action){
+            this.$swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirm'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    this.orderAction(action)
+                }
+              })
+              console.log(action)
+        },
         orderAction(action){
+            
             this.saving = true;
+            // alert(this.saving)
+            // this.saving = true;
             const payload = {
                 "status":action,
                 "order_group_ids":this.order_groups[0].selected_product_ids,

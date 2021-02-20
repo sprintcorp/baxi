@@ -20,9 +20,9 @@
                            <router-link :to="{name:'productOrderOverview'}"><button class="btn btn-warning" style="border-radius:20px"><i class="fa fa-calendar"></i> Order History</button></router-link>
                         </div>
 
-                        <!-- <div class="col-md-7 d-flex justify-content-end">
-                            <button @click="getCart()" class="btn btn-warning" style="border-radius:20px" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-shopping-cart"></i> Cart</button>
-                        </div> -->
+                        <div class="col-md-7 d-flex justify-content-end">
+                            <p class="" style="color:red">N:B MOQ stands for minimum order quantity</p>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12" v-if="vendor_products.length && !loading">
@@ -32,9 +32,10 @@
                                         <div class="row g-0">
                                         <div class="col-md-2 mt-2 mr-2"><img :src="product.image" class="rounded-circle" alt="" width="70" height="70"/></div>
                                         <div class="col-md-7">
-                                            <p class="fs-12 font-weight-bold text-black"> {{product.name}}</p>
-                                            <p class="fs-12 font-weight-bold text-black"> &#8358; {{ numberWithCommas(product.price) }}.00</p>
-                                            <p class="fs-10 font-weight-bold text-black" style="margin-top:-15px"> {{product.quantity}} Units</p>
+                                           <p class="fs-14 font-weight-bold text-black"> {{product.name.length > 22 ? product.name.substr(0, 22)+'...' : product.name}}</p>
+                                                <p class="fs-12 font-weight-bold text-black" style="margin-top:-20px">{{product.size}}</p>
+                                                <p class="fs-12 font-weight-bold text-black" style="margin-top:-5px"> &#8358; {{ numberWithCommas(product.price) }}.00</p>
+                                                <p class="fs-10 font-weight-bold text-black" style="margin-top:-19px"> {{product.quantity}} units - MOQ {{product.minimum_order}} </p>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="mt-4">
@@ -80,7 +81,8 @@
                                         <div class="row">
                                              <div class="col-md-12 d-flex justify-content-end">
                                                 <div class="input-group rm">
-                                                    <input type="button" @click="decrease(product.quantity)" value="-" class="button-minus" data-field="quantity">
+                                                    <input type="button" @click="decrease(product.quantity)" v-if="quantity_value > product.minimum_order" value="-" class="button-minus" data-field="quantity">
+                                                    <input type="button" value="-" v-if="quantity_value <= product.minimum_order"  class="button-minus" data-field="quantity">
                                                     <input type="number" step="1" :max="product.quantity" :min="product.minimum_order" :value="quantity_value" name="quantity" @change="changes()" class="quantity-field">
                                                     <input type="button" @click="increase(product.quantity)" value="+" class="button-plus" data-field="quantity">
                                                     <!-- <h6 style="margin-top:12px;font-size:14px">{{product.pack_label}}s</h6> -->
@@ -220,7 +222,11 @@
                                       <div class="col-md-12 mt-3" v-if="show_date">
                                         <div class="input-group">
                                           <span class="input-group-text" id="basic-addon3">Delivery Date</span>
-                                          <input type="date" v-model="date" class="form-control"/>
+                                         <select class="form-control" v-model="date" aria-label="Default select example">
+                                            <option value="1">24 Hours</option>
+                                            <option value="2">48 Hours</option>
+                                            <option value="3">72 Hours</option>
+                                        </select>
                                         </div>
                                       </div>
                                     </div>

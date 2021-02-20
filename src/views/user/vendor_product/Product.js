@@ -123,11 +123,19 @@ export default {
             console.log(filteredItems)
         },
         saveOrder() {
-
             this.saving = true;
+            if(this.date.length > 0){
+                var date = new Date();
+                    const month = date.getMonth() + 1;
+                    const day = date.getDate() + parseInt(this.date);
+                    
+                    var period = date.getFullYear()+'-'+ month +'-'+day;
+            }
+
+        
         const payload = {
             "orders": JSON.parse(window.localStorage.getItem("retailer_order")),
-            "delivery":{"type": this.type, "date": this.date}
+            "delivery":{"type": this.type, "date": period}
         }
         console.log(payload);
         fetch(BASE_URL + '/my/distributor/orders', {
@@ -145,8 +153,8 @@ export default {
                 this.show_cart = false;
                 this.saving = false;
                 this.$swal({
-                    title: 'Success',
-                    text: res.message,
+                    title: res.message,
+                    text: 'Confirm order terms once distributor accepts order',
                     icon: 'success',
                     confirmButtonText: 'ok'
                 });
@@ -260,6 +268,13 @@ export default {
                 }
             });
         },
+        myDate(){
+            var date = new Date();
+            const month = date.getMonth() + 1;
+            const day = date.getDate() + parseInt(this.date);
+            
+        alert(date.getFullYear()+'-'+ month +'-'+day);
+        }
     },
     mounted() {
         this.wallet =  window.localStorage.getItem('wallet-balance');

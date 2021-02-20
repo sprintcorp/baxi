@@ -48,10 +48,10 @@
                                             <div class="row g-0">
                                             <div class="col-md-2 mr-2"><img :src="product.image" class="rounded-circle" alt="" width="70" height="70"/></div>
                                             <div class="col-md-7">
-                                                <p class="fs-12 font-weight-bold text-black"> {{product.name.length > 22 ? product.name.substr(0, 22)+'...' : product.name}} ({{product.size}})</p>
-                                                <p class="fs-12 font-weight-bold text-black" style="margin-top:-10px">({{product.size}})</p>
-                                                <p class="fs-12 font-weight-bold text-black" style="margin-top:-10px"> &#8358; {{ numberWithCommas(product.price) }}.00</p>
-                                                <p class="fs-10 font-weight-bold text-black" style="margin-top:-15px"> {{product.quantity}} units - {{product.business_name}}</p>
+                                                <p class="fs-14 font-weight-bold text-black"> {{product.name.length > 22 ? product.name.substr(0, 22)+'...' : product.name}}</p>
+                                                <p class="fs-12 font-weight-bold text-black" style="margin-top:-20px">{{product.size}}</p>
+                                                <p class="fs-12 font-weight-bold text-black" style="margin-top:-5px"> &#8358; {{ numberWithCommas(product.price) }}.00</p>
+                                                <p class="fs-10 font-weight-bold text-black" style="margin-top:-19px"> {{product.quantity}} units - {{product.business_name}}</p>
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="mt-4">
@@ -97,7 +97,8 @@
                                         <div class="row">
                                              <div class="col-md-12 d-flex justify-content-end">
                                                 <div class="input-group rm">
-                                                    <input type="button" @click="decrease(product.quantity)" value="-" class="button-minus" data-field="quantity">
+                                                    <input type="button" @click="decrease(product.quantity)" v-if="quantity_value > product.minimum_order" value="-" class="button-minus" data-field="quantity">
+                                                    <input type="button" value="-" v-if="quantity_value <= product.minimum_order"  class="button-minus" data-field="quantity">
                                                     <input type="number" step="1" :max="product.quantity" :min="product.minimum_order" :value="quantity_value" name="quantity" @change="changes()" class="quantity-field">
                                                     <input type="button" @click="increase(product.quantity)" value="+" class="button-plus" data-field="quantity">
                                                     <!-- <h6 style="margin-top:12px;font-size:14px">{{product.pack_label}}s</h6> -->
@@ -123,14 +124,15 @@
                         
 
                         <div class="row col-md-12">
-                            <div v-if="!categories.length && loading" style="text-align:center;position: absolute;left: 50%;top: 50%;">                  
+                            <!-- <div v-if="!categories.length && loading" style="text-align:center;position: absolute;left: 50%;top: 50%;">                  
                                 <div class="spinner-grow mt-5" style="width: 3rem; height: 3rem;" role="status">
                                     <span class="sr-only">Loading...</span>
                                 </div>
                                 <br>
                                 Loading...
                                                     
-                            </div>
+                            </div> -->
+                            <Loading v-if="!categories.length && loading || saving"></Loading>
                             <div class="card" v-if="!categories.length && !loading && !show_business">
                                 <div class="card-body text-center">
                                     There are no category at the moment
@@ -150,7 +152,7 @@
                         <div class="font-weight-bold h4">Order Notifications</div>
                     </div>
                     <div class="mt-3 mb-3" v-if="notification.length"> Today <i class="fa fa-angle-down"></i></div>
-                    
+
                     <div class="accordion" id="accordionExample">
                         <div class=""  v-for="(res,n) in notification" :key="n">
                             <div class="row" :id="'headingTwo'+n" @click="updateNotification(res.id)">
@@ -237,7 +239,11 @@
                                       <div class="col-md-12 mt-3" v-if="show_date">
                                         <div class="input-group">
                                           <span class="input-group-text" id="basic-addon3">Delivery Date</span>
-                                          <input type="date" v-model="date" class="form-control"/>
+                                          <select class="form-control" v-model="date" aria-label="Default select example">
+                                            <option value="1">24 Hours</option>
+                                            <option value="2">48 Hours</option>
+                                            <option value="3">72 Hours</option>
+                                        </select>
                                         </div>
                                       </div>
                                     </div>
@@ -256,7 +262,7 @@
 
                 </div>
             </div> 
-            <Loading v-if="loading || saving"></Loading>
+            <!-- <Loading v-if="loading || saving"></Loading> -->
 
 
         </div>

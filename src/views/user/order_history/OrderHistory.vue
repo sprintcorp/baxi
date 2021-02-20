@@ -48,9 +48,9 @@
                                 <div class="col-md-3" style="margin-right:0px">
                                   <div class="card" style="width: 16rem;">
                                     <div class="card-body">
-                                      <p class="card-subtitle mb-2 text-muted">Total orders delivered</p>
+                                      <p class="card-subtitle mb-2 text-muted">Total pending orders</p>
                                       
-                                      <h3>{{information.total_orders_received}}</h3>
+                                      <h3>{{information.total_orders_pending}}</h3>
                                       <div class="progress-bar bg-success" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                   </div>
@@ -100,6 +100,7 @@
                                         <th>Amount</th>                                        
                                         <th>Distributor</th>
                                         <th>Items</th>
+                                        <th>Type</th>
                                         <th>Date</th>
                                         <th>View</th>
                                       </tr>
@@ -110,9 +111,10 @@
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ order.order_group_id }}</td>
                                         <td>{{order.status == 0?'Pending':order.status == 1?'Accepted':order.status == 2?'Processing':order.status == 3?'Fulfilled':order.status == 4 ?'Delivered':order.status == 5?'Cancelled':'Declined'}}</td>                                      
-                                        <td>{{numberWithCommas(order.amount) }}</td>
+                                        <td>₦{{numberWithCommas(order.amount) }}</td>
                                         <td>{{order.business.name}}</td>
                                         <td>{{order.orders.length}}</td>
+                                        <td>{{order.delivery_type}}</td>
                                         <td>{{order.created_at}}</td>
                                         <td>
                                           <button data-toggle="modal" data-target="#order" type="button" @click="showOrder(order)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
@@ -156,14 +158,15 @@
                                         Updating Order...
                                     </div>
                                 </div>
-                                <div class="mt-5" v-if="!orders.length && loading" style="text-align:center">
+                                <!-- <div class="mt-5" v-if="!orders.length && loading" style="text-align:center">
                   
                                       <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
                                         <span class="sr-only">Loading...</span>
                                       </div><br>
                                       Loading...
                                       
-                                </div>
+                                </div> -->
+                                <Loading v-if="!orders.length && loading"></Loading>
                                 <div class="card mt-5" v-if="!orders.length && !loading">
                                   <div class="card-body text-center">
                                     There are no orders made at the moment
@@ -210,7 +213,7 @@
                                 
                                 <div class="col-md-2">
                                   <div class=""> Date Placed: </div>
-                                  <div class=""> {{order_product.created_at}} </div>
+                                  <div class=""> {{getDate(order_product.created_at)}} </div>
                                 </div>
                                 
                                 <!-- <div class="col-md-2">
@@ -239,7 +242,7 @@
                                         <td>{{order.product.name}}</td>
                                         <td>{{order.amount/order.qty}}</td>
                                         <td>{{order.qty}}</td>
-                                        <td>{{numberWithCommas(order.amount)}}</td>
+                                        <td>₦{{numberWithCommas(order.amount)}}</td>
                                       </tr>
                                                                    
                                       <tr v-if="order_product.status != 0 && order_product.delivery_type.toLowerCase() == 'delivery'">
@@ -248,7 +251,7 @@
                                         <th scope="row"></th>
                                         <th scope="row"></th>
                                         
-                                        <td>{{numberWithCommas(delivery)}}</td>
+                                        <td>₦{{numberWithCommas(delivery)}}</td>
                                       </tr>
                                       <tr>
                                         <td>Total</td>
@@ -256,7 +259,7 @@
                                         <th scope="row"></th>
                                         <th scope="row"></th>
                                         
-                                        <td class="font-weight-bold">{{numberWithCommas(parseFloat(order_product.total_amount))}}</td>
+                                        <td class="font-weight-bold">₦{{order_product.total_amount ? numberWithCommas(parseFloat(order_product.total_amount)) : numberWithCommas(total)}}</td>
                                       </tr>
                                       <tr v-if="order_product.status == 1">
                                         <td></td>
@@ -281,7 +284,7 @@
                                   <div class="row fs-50" v-if="order_product.delivery_type.toLowerCase() == 'delivery'">
                                     {{getDate(order_product.delivery_date)}}
                                   </div>
-                                  <div class="row fs-50" v-if="order_product.delivery_type.toLowerCase() == 'pickup' && order_product.status != 4 && order_product.status != 5 && order_product.status > 0">
+                                  <div class="row fs-50" v-if="order_product.delivery_type.toLowerCase() == 'pickup' && order_product.status != 4 && order_product.status != 5 && order_product.status >= 0">
                                     Pickup
                                   </div>
                                   <div class="row fs-50" v-if="order_product.status < 0">
@@ -312,12 +315,19 @@
                                     <div class="col-md-12 d-flex justify-content-center">Order Rejected</div>
                                   </div> -->
                                   <div class="form-check mt-3" v-if="order_product.status == 3">
-                                    <input class="form-check-input" type="checkbox" value=""  @change="orderAction(4)">
+                                    <input class="form-check-input" type="checkbox" value=""  @change="confirmDelivery(4)">
                                     <label class="form-check-label" for="flexCheckDefault">
                                       Check if item order has been delivered
                                     </label>
                                   </div>
+                                  <div class="form-check mt-3" v-if="order_product.status == 4">
+                                    <input class="form-check-input" type="checkbox" value=""  checked>
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                      Order confirmed
+                                    </label>
+                                  </div>
                                 </div>
+                                <Loading v-if="saving"></Loading>
                               </div>
                             </div>
                             </div>

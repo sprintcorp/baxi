@@ -1,6 +1,10 @@
 import {BASE_URL} from '../../../env';
 import { getToken, logout,getId,checkUserPermission } from '../../../config'
+import Loading from "../../../components/Loader.vue"
 export default {
+    components:{
+        Loading
+    },
     data() {
         return {
             vendor_products:[],

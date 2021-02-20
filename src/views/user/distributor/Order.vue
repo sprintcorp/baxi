@@ -221,7 +221,7 @@
                                             <td>{{order.qty ? order.qty:'' }}</td>
                                             <td>{{order.product.barcode ?order.product.barcode:'Not Available' }}</td>
                                             <td>{{order.product.sku ? order.product.sku : 'Not Available'}}</td>
-                                            <td><img :src="order.product.public_image_url ? order.product.public_image_url : ''" width="60"></td>
+                                            <td><img :src="order.product.public_image_url ? order.product.public_image_url : ''" width="60" height="80"></td>
                                             
                                         </tr>
                                         </tbody>
@@ -264,7 +264,7 @@
                                     <div class="row" v-for="(applied_fee,index) in applied_fees" :key="index">
                                     <!-- <div class="row"> -->
                                         <div class="col-md-6">
-                                            <label class="form-label">Name</label>
+                                            <label class="form-label">Fee name</label>
                                             <input type="text" class="form-control" v-model="applied_fee.name" aria-describedby="quantity">
                                         </div>
                                         <div class="col-md-6">

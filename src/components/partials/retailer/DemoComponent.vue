@@ -36,7 +36,12 @@
                     <input type="text" placeholder="Search Products" style="background-color:white;width:255%;border-radius:20px"/>
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form> -->
-                <div style="height:20%" v-if="!distributor">Outlet : <b>{{name}}</b> <br>Balance : <b>₦ {{numberWithCommas(wallet)}}</b></div>
+                <div style="height:20%" v-if="!distributor">Outlet : <b>{{name}}</b> <br>Balance : <b>₦ {{numberWithCommas(wallet)}}</b> <button @click="getBalance()" v-if="!reload"><img src="https://img.icons8.com/material/24/000000/synchronize--v1.png"/></button>
+                    <!-- <button v-if="reload" ><img src="https://img.icons8.com/material/24/000000/restart--v3.png"/></button> -->
+                    <div v-if="reload" class="spinner-border spinner-border-sm" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
                 <div class="vl"></div>
                 <!-- <button class="mr-2" v-if="order_products" data-toggle="modal" data-target="#cartModal"><i class="fa fa-shopping-cart fs-25" style="color:#ffc107"></i></button> -->
                 <div class="">
@@ -86,7 +91,8 @@ import {BASE_URL} from '../../../env'
                 distributor:false,
                 image:'',
                 notification:'',
-                wallet:''
+                wallet:'',
+                reload:false,
             }
         },
          computed:{
@@ -148,6 +154,7 @@ import {BASE_URL} from '../../../env'
                 console.log(filteredItems)
             },
             getBalance() {
+                this.reload = true;
             fetch(BASE_URL + '/user/wallet-balance', {
                         headers: {
                                 'Content-Type': 'application/json',
@@ -158,15 +165,12 @@ import {BASE_URL} from '../../../env'
                 .then(res => res.json())
                 .then(res => {
                     window.localStorage.setItem("wallet-balance",res.data.available_balance)
+                    this.wallet =  window.localStorage.getItem('wallet-balance');
+                    this.reload = false;
                 })
                 .catch(err => {
                     console.log(err)
-                    if (err.response.status == 401) {
-                        this.saving = false;
-                        this.$swal("Session Expired");
-                        logout();
-                        this.$router.push({ name: 'welcome' });
-                    }
+                    this.reload = false;
                 });
         },
         getNotification(){
@@ -191,6 +195,7 @@ import {BASE_URL} from '../../../env'
         }
         },
          mounted(){
+             this.getBalance();
              console.log(this.$router.currentRoute.name)
              this.getNotification();
             this.order_products = checkUserPermission('order products')
@@ -202,7 +207,7 @@ import {BASE_URL} from '../../../env'
             }else{
                 this.name = JSON.parse(window.localStorage.getItem('outlet_name'))
             }
-            this.getBalance();
+            
             this.outlet = getOutlet();
             
             
