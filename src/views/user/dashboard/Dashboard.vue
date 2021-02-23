@@ -88,12 +88,12 @@
                                       <div class="card-body">
                                        <div class="row d-flex justify-content-center" style=""> <h6 class="fs-13" style="font-weight:bold !important"> {{product.name.length > 20 ? product.name.substr(0, 20)+'...' : product.name}}</h6></div>
                                        <div class="row d-flex justify-content-center" style="height:25%"> <h6 class="fs-10" style="font-weight:bold !important"> {{product.size}}</h6></div>
-                                        <div class="row" style="height:50%;margin-top:0px">
+                                        <div class="row" style="height:50%;margin-top:-40px">
                                           <div class="col-md-12">
                                             <div class="text-center mt-1"><img :src="product.public_image_url" class="rounded-circle" alt="" style="height:80px"/></div>
                                           </div>                                        
                                         </div>
-                                        <div class="row" style="margin-top:-5px"> 
+                                        <div class="row" style="margin-top:-10px"> 
                                           <div class="col-md-12 d-flex justify-content-center"> 
                                            <p class="fs-13"> {{product.quantity}} units left</p>
                                           </div>

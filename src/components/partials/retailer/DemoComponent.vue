@@ -207,7 +207,7 @@ import {BASE_URL} from '../../../env'
             this.order_products = checkUserPermission('order products')
             this.image =  window.localStorage.getItem('image');
             this.wallet =  window.localStorage.getItem('wallet-balance');
-            if(getRole().toLowerCase == 'distributor'){
+            if(getRole().toLowerCase() == 'distributor'){
                 // alert('hhhh')
                 this.distributor = true
             }else{
