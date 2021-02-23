@@ -14,6 +14,7 @@ export default {
             search:'',
             order:'',
             distributor:false,
+            page:''
         }
     },
     methods:{
@@ -27,6 +28,43 @@ export default {
         getWalletHistory(){
             this.loading = true;
                 fetch(BASE_URL + '/my/wallet-histories', {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'Authorization': getToken()
+                        }
+                    })
+                    .then(res => res.json())
+                    .then(res => {
+                        if (res.message === 'Unauthenticated.') {
+                            console.log(res);
+                            logout();
+                            this.$router.push({ name: 'welcome' });
+                        }
+                        this.loading = false;
+                        this.wallets = res.data.data;
+                        this.page = res.data;
+                        console.log(this.wallets);
+                    })
+                    .catch(err => {
+                            console.log(err)
+                            this.loading = false;
+                            if (err.response.status == 401) {
+                                this.$swal({
+                                    title: 'Error',
+                                    text: "Session Expired",
+                                    icon: 'error',
+                                    confirmButtonText: 'ok'
+                                });
+                                logout();
+                                this.$router.push({ name: 'welcome' });
+                            }
+                        }
+                    );
+        },
+        getPageWallet(page){
+            this.loading = true;
+                fetch(BASE_URL + page, {
                         headers: {
                             'Content-Type': 'application/json',
                             'Accept': 'application/json',

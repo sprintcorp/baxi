@@ -55,7 +55,7 @@
                                       <tbody>
 
                                       <tr v-for="(wallet,index) in wallets" :key="index" style="text-align:center">
-                                        <td>{{ index + 1 }}</td>
+                                        <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>&#8358; {{ numberWithCommas(wallet.before_debit) }}</td>
                                         <td>&#8358; {{ numberWithCommas(wallet.after_debit) }}</td>
                                         <td>&#8358; {{numberWithCommas(wallet.amount)}}</td>
@@ -91,7 +91,7 @@
                                       <tbody>
 
                                       <tr v-for="(wallet,index) in wallets" :key="index" style="text-align:center">
-                                        <td>{{ index + 1 }}</td>
+                                        <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td> {{ wallet.before_credit ? '&#8358;' + numberWithCommas(wallet.before_credit) : 'Pending'}}</td>
                                         <td> {{ wallet.after_credit ? '&#8358;'+ numberWithCommas(wallet.after_credit) : 'Pending' }}</td>
                                         <td>&#8358; {{ numberWithCommas(wallet.amount)}}</td>
@@ -107,6 +107,28 @@
                                       </tbody>
                                     
                                     </table>
+                                    <nav aria-label="Page navigation example">
+                                      <ul class="mb-5 pagination justify-content-center">
+                                        <li class="page-item mr-1">
+                                          <button @click="getPageWallet(page.first_page_url)" class="page-link">First</button>
+                                        </li>
+                                        <li class="page-item mr-1">
+                                          <button @click="getPageWallet(page.prev_page_url)" class="page-link">Previous</button>
+                                        </li>
+                                        <li class="page-item active mr-1" aria-current="page">
+                                          <span class="page-link">{{page.current_page}}</span>
+                                        </li>
+                                        <li class="page-item mr-1" aria-current="page">
+                                          <span class="page-link">of {{page.last_page > 1? page.last_page+ ' pages' : page.last_page+ ' page'}}</span>
+                                        </li>
+                                        <li class="page-item mr-1">
+                                          <button @click="getPageWallet(page.next_page_url)" class="page-link">Next</button>
+                                        </li>
+                                        <li class="page-item mr-1">
+                                          <button @click="getPageWallet(page.last_page_url)" class="page-link">Last</button>
+                                        </li>
+                                      </ul>
+                                    </nav>
                                   </div>
 
 
