@@ -196,8 +196,8 @@
                                   </div>
                                 </div>
                                 <div class="col-md-3">
-                                  <div class="text-center" style="width:100%;height:90%">
-                                    <img :src="retailer_product.image" class="mb-2" style="width:100%"/>
+                                  <div class="text-center" style="height:100%">
+                                    <img :src="retailer_product.image" class="mb-2" style="height:250px"/>
                                   </div>
                                   <row md="12">
                                       <input id="fileUpload" ref="fileInput" type="file" @change="fileChange()" hidden>
@@ -289,16 +289,18 @@
                                       <!-- <input type="text" class="form-control" v-model="product.name" aria-describedby="product name"> -->
                                     </div>
                                     <div class="col-md-6">
-                                      <label class="form-label">Product Category</label>
-                                      <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                          <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/categories.png')" class='rounded' alt="img"/></span>
-                                        </div>
-                                      <select class="form-control" v-model="product.category_id">
-                                          <option value="" selected>Select product category</option>
-                                          <option v-for="(category,index) in categories" :key="index"  :value="category.id">{{ category.name  }}</option>                  
-                                        </select>
-                                      </div>
+                                        <label class="form-label">Price</label>
+                                          <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/coins.png')" class='rounded' alt="img"/></span>
+                                            </div>
+                                              <input type="text" class="form-control" v-model="product.pack_price" aria-describedby="quantity">
+                                          </div>
+                                        <input type="hidden" class="form-control" v-model="retailer_product.product_id" aria-describedby="quantity">
+                                 
+                                        <input type="hidden" class="form-control" v-model="product.category_id" aria-describedby="quantity">
+                                      
+                                      
                                     </div>
                                   </div>
                                   <div class="row">
@@ -308,9 +310,11 @@
                                         <div class="input-group-prepend">
                                           <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/noun_product_2646445.png')" class='rounded' alt="img"/></span>
                                         </div>
-                                        <input type="text" class="form-control" v-model="product.pack_qty" aria-describedby="quantity">
+                                        <input type="text" v-if="distributor" class="form-control" v-model="product.pack_qty" aria-describedby="quantity">
+                                        <input type="text" v-if="!distributor" class="form-control" v-model="product.qty" aria-describedby="quantity">
                                       </div>
                                     </div>
+
                                     <div class="col-md-6"  v-if="distributor">
                                       <label class="form-label">Minimum Order Qty</label>
                                       <div class="input-group mb-3">
@@ -322,29 +326,7 @@
                                       </div>
                                     </div>
 
-                                    <div class="col-md-6"  v-if="!distributor">
-                                      <label class="form-label">Barcode</label>
-                                      <div class="input-group mb-3">
-                                          <div class="input-group-prepend">
-                                            <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/qr-code.png')" class='rounded' alt="img"/></span>
-                                          </div>
-                                            <input type="text" class="form-control" v-model="product.barcode">
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col-md-6">
-                                      <label class="form-label">Price</label>
-                                      <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                          <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/coins.png')" class='rounded' alt="img"/></span>
-                                        </div>
-                                          <input type="text" class="form-control" v-model="product.pack_price" aria-describedby="quantity">
-                                      </div>
-                                      <input type="hidden" class="form-control" v-model="retailer_product.product_id" aria-describedby="quantity">
-                                    </div>
-
-                                    <div class="col-md-6" v-if="!distributor">
+                                    <!-- <div class="col-md-6" v-if="!distributor">
                                       <label class="form-label">Outlet</label>
                                       <div class="input-group mb-3">
                                           <div class="input-group-prepend">
@@ -355,24 +337,21 @@
                                             <option v-for="(outlet,index) in outlets" :key="index"  :value="outlet.id">{{ outlet.name  }}</option>                  
                                         </select>
                                       </div>
-                                    </div>
-                                    <div class="col-md-6" v-if="distributor">
-                                        <label class="form-label">Barcode</label>
-                                        <div class="input-group mb-3">
-                                          <div class="input-group-prepend">
-                                            <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/qr-code.png')" class='rounded' alt="img"/></span>
-                                          </div>
-                                            <input type="text" class="form-control" v-model="product.barcode">
-                                        </div>
-                                    </div>
+                                    </div> -->
+                                  </div>
+                                  <div class="row">
+                                    
+
+                                    
+                                    
                                     
                                   </div>
                                   
                                   
                                 </div>
                                 <div class="col-md-3">
-                                  <div class="text-center" style="width:100%;height:90%">
-                                    <img :src="product.image" class="mb-2" style="width:100%"/>
+                                  <div class="text-center" style="width:80%;height:70%">
+                                    <img :src="product.image" class="mb-2" style="width:100%;height:100%"/>
                                   </div>
                                   <row md="12">
                                       <input id="productUpload" ref="fileInputs" type="file" @change="fileChanges()" hidden>
@@ -386,7 +365,8 @@
                             </div>
                             <div class="modal-footer">
                               <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-                              <button type="button" class="btn btn-warning" @click="createProduct()" data-dismiss="modal">Add Product</button>
+                              <button type="button" class="btn btn-warning" @click="createProduct()" data-dismiss="modal" v-if="distributor">Add Product</button>
+                              <button type="button" class="btn btn-warning" @click="createRetailerProduct()" data-dismiss="modal" v-if="!distributor">Add Product</button>
                             </div>
                           </div>
                         </div>

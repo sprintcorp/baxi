@@ -41,7 +41,7 @@
                                       <thead>
                                       <tr>
                                         <th>S/N</th>
-                                        <th>Transfer ref</th>
+                                        <th>Order ID</th>
                                         <th>Type</th>
                                         <!-- <th>Category</th>-->
                                         <th>Outlet</th> 
@@ -61,7 +61,7 @@
                                         <td>{{transaction.outlet.name}}</td> 
                                         <td>{{transaction.created_at  }}</td>
                                         <td>{{transaction.orders.length}}</td>
-                                        <td>&#8358; {{transaction.amount}}</td>
+                                        <td>&#8358; {{numberWithCommas(transaction.amount)}}</td>
                                         <td>
                                           <button data-toggle="modal" data-target="#order" type="button" @click="showTransaction(transaction)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
                                         </td>
@@ -93,13 +93,13 @@
                                     </nav>
                                   </div>
 
-
+                                  <!-- {{}} -->
                                   <div class="table-responsive mt-5" v-if="transactions.length && !loading && distributor">
                                     <table class="table table-striped">
                                       <thead>
                                       <tr>
                                         <th>S/N</th>
-                                        <th>Transfer ref</th>
+                                        <th>Order ID</th>
                                         <th>Type</th>
                                         <!-- <th>Category</th>-->
                                         <!-- <th>Outlet</th>  -->
@@ -115,7 +115,6 @@
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ transaction.order_group_id }}</td>
                                         <td>{{ transaction.delivery_type }}</td>
-                                        <!-- <td>{{transaction.outlet.name}}</td>  -->
                                         <td>{{transaction.created_at  }}</td>
                                         <td>{{transaction.orders.length}}</td>
                                         <td>&#8358; {{numberWithCommas(transaction.amount)}}</td>
@@ -204,11 +203,11 @@
                                         <th scope="row">{{index+1}}</th>
                                         <th scope="row"><img :src="product.product.public_image_url" width="50"/></th>
                                         <td>{{product.product.name}}</td>
-                                        <td>{{product.amount/product.qty}}</td>
+                                        <td>&#8358; {{numberWithCommas(product.amount/product.qty)}}</td>
                                         <td>{{product.product.size?product.product.size:''}}</td>
                                         <td>{{product.product.sku?product.product.sku:''}}</td>
                                         <td>{{product.qty}}</td>
-                                        <td>&#8358; {{product.amount}}</td>
+                                        <td>&#8358; {{numberWithCommas(product.amount)}}</td>
                                       </tr>
                                              
                                     </tbody>
@@ -250,7 +249,7 @@
                                         <th scope="row"></th>
                                         <th scope="row"></th>
                                         
-                                        <td class="font-weight-bold">{{total}}</td>
+                                        <td class="font-weight-bold">&#8358; {{numberWithCommas(total)}}</td>
                                       </tr>
                                     </tbody>
                                   </table>

@@ -21,12 +21,15 @@ export const saveUser = (user) => {
     console.log(user.roles[0].name)
 };
 
-export const savePermission = (data) =>{
-    if(data.length > 0){
-    window.localStorage.setItem(PERMISSION, JSON.stringify(data));
+export const savePermission = (data,role) =>{
+    if(role.toLowerCase() == 'distributor'){
+    data.push( {action:"distributor"})
+    window.localStorage.setItem(PERMISSION, JSON.stringify(data)); 
+
     }else{
-        const permission = [{action:"distributor"},{action:"view products"}]
-        window.localStorage.setItem(PERMISSION, JSON.stringify(permission));  
+
+    window.localStorage.setItem(PERMISSION, JSON.stringify(data));
+
     }
 }
 

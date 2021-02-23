@@ -196,7 +196,7 @@
                                             <td>{{order.qty ? order.qty:'' }}</td>
                                             <td>{{order.product.barcode ?order.product.barcode:'Not Available' }}</td>
                                             <td>{{order.product.sku ? order.product.sku : 'Not Available'}}</td>
-                                            <td><img :src="order.product.public_image_url ? order.product.public_image_url : ''" width="60" height="80"></td>
+                                            <td><img :src="order.product.public_image_url ? order.product.public_image_url : ''" width="40" height="40"></td>
                                             
                                         </tr>
                                         </tbody>

@@ -202,7 +202,7 @@ export default {
                         logout();
                         this.$router.push({ name: 'welcome' });
                     }
-                    res.data.forEach((data) => {
+                    res.data.data.forEach((data) => {
                         this.vendor_products.push({
                             product_id: data.id,
                             business_id: this.$route.params.id,

@@ -21,7 +21,7 @@
                         </div>
 
                         <div class="col-md-7 d-flex justify-content-end">
-                            <p class="" style="color:red">N:B MOQ stands for minimum order quantity</p>
+                            <p class="fs-15" style="color:red;font-weight:bold">MOQ : Minimum Order Quantity</p>
                         </div>
                     </div>
                     <div class="row">

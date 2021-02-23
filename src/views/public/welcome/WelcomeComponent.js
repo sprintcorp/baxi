@@ -47,7 +47,8 @@ export default {
                                 action: data.name,
                             });
                         });
-                        savePermission(this.permission);
+                        console.log(data.data.user.roles[0].name)
+                        savePermission(this.permission,data.data.user.roles[0].name);
                         this.message = data.message;
                         this.login = false;
                         this.loading = false;

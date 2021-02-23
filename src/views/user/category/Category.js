@@ -70,7 +70,7 @@ export default {
         this.list_products = [];
         this.loading = true;
         this.show_business = true;
-        fetch(BASE_URL+'/my/products?search='+this.search, {
+        fetch(BASE_URL+'/my/products?search='+this.search+'&with_business=true', {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',

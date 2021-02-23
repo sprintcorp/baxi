@@ -37,6 +37,7 @@ export default {
                 minimum_order_quantity:'',
                 pack_price:'',
                 pack_qty:'',
+                qty:'',
                 id:'',
                 unit_price:"100",
                 unit_qty:10,
@@ -135,22 +136,22 @@ export default {
                     logout();
                     this.$router.push({ name: 'welcome' });
                 }
-                console.log(res.data.data);
+                console.log(res.data.results.data);
                 this.loading = false;
-                this.system_products = res.data.data;
+                this.system_products = res.data.results.data;
                 // this.page = res.data;
                 this.system_products.forEach((data) => {
                     this.list_products.push({
                         id: data.id,
                         name: data.name,
-                        amount: parseInt(data.business_product.pack_price),
-                        quantity: data.business_product.qty,
+                        amount: parseInt(data.recommended_price),
+                        quantity: data.stock_quantity,
                         category: data.categories[0] ?data.categories[0].name:'No Category',
                         category_id: data.categories[0] ?data.categories[0].id:'No Category',
                         size: data.size,
                         public_image_url: data.public_image_url?data.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
                         image: data.public_image_url?data.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
-                        qty: data.qty,
+                        qty: data.stock_quantity,
                         sku: data.sku,
                         date:data.created_at,
                         unit_price:"100",
@@ -208,7 +209,7 @@ export default {
                             this.local_product.push({
                                 product_id: data.product.id,
                                 name: data.product.name,
-                                amount: parseInt(data.product.recommended_price),
+                                amount: parseInt(data.price),
                                 quantity: data.qty,
                                 category: data.product.categories[0] ?data.product.categories[0].name:'No Category',
                                 size: data.product.size,
@@ -271,8 +272,8 @@ export default {
                             this.local_product.push({
                                 product_id: data.product.id,
                                 name: data.product.name,
-                                recommended_price: parseInt(data.product.recommended_price),
-                                price: parseInt(data.product.recommended_price),
+                                recommended_price: parseInt(data.price),
+                                price: parseInt(data.price),
                                 quantity: data.qty,
                                 outlet_qty: data.qty,
                                 category: data.product.categories[0] ?data.product.categories[0].name:'No Category',
@@ -404,8 +405,10 @@ export default {
                             this.local_product.push({
                                 product_id: data.product.id,
                                 name: data.product.name,
-                                amount: parseInt(data.product.recommended_price),
+                                amount: parseInt(data.price),
+                                recommended_price: parseInt(data.price),
                                 quantity: data.qty,
+                                outlet_qty: data.qty,
                                 category: data.product.categories[0] ?data.product.categories[0].name:'No Category',
                                 size: data.product.size,
                                 public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
@@ -797,21 +800,51 @@ export default {
 
                 );
         },
+        createRetailerProduct(){
+            this.saving = true;
+            delete this.product.sku;
+            this.product.product_id = this.product.id;
+            this.product.price = this.product.pack_price;
+            const payload = {
+                "products":[this.product]
+            }
+            fetch(BASE_URL +'/my/outlet/'+window.localStorage.getItem("retailer_outlet")+'/products/add', {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': getToken()
+                }
+            })
+            .then(res => res.json())
+            .then(res => {
+                this.saving = false;
+                this.$swal({
+                    title: 'Success',
+                    text: res.message,
+                    icon: 'success',
+                    confirmButtonText: 'ok'
+                });
+                console.log(res);
+                this.getProducts();
+                this.getCategories();
+            })
+            .catch(err => {
+                this.saving = false;
+                this.$swal({
+                    title: 'Error',
+                    text: err.response.data.message,
+                    icon: 'error',
+                    confirmButtonText: 'ok'
+                });
+            });
+
+        },
         createProduct() {
             this.saving = true;
-            
-            // toString(this.product.unit_price);
-            // fetch(BASE_URL + '/my/outlet/' + this.product.outlet + '/products/new', {
-                if(this.distributor){
-                    this.url = '/my/distributor/product/'+this.product.id+'/add';
-                }else{
-                    this.url = '/my/outlet/'+window.localStorage.getItem("retailer_outlet")+'/products/add';
-                    delete this.product.sku;
-                    // this.product.name;
-                    this.product.product_id = this.product.id;
-                    this.product.price = this.product.pack_price;
-                }
-            fetch(BASE_URL +this.url, {
+         
+            fetch(BASE_URL + '/my/distributor/product/'+this.product.id+'/add', {
                     method: 'POST',
                     body: JSON.stringify(this.product),
                     headers: {

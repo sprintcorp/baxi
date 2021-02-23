@@ -686,6 +686,29 @@ export default {
                     }
                 });
         },
+        // getCashierOutlets() {
+        //     fetch(BASE_URL + '/my/businesses/' + window.localStorage.getItem("cahier_business") + '/outlets ', {
+        //             headers: {
+        //                 'Content-Type': 'application/json',
+        //                 'Accept': 'application/json',
+        //                 'Authorization': getToken()
+        //             }
+        //         })
+        //         .then(res => res.json())
+        //         .then(res => {
+        //             if (res.message === 'Unauthenticated.') {
+        //                 console.log(res);
+        //                 logout();
+        //                 this.$router.push({ name: 'welcome' });
+        //             }
+        //             this.outlets = res.data;
+        //             window.localStorage.setItem("outlet_name", JSON.stringify(this.outlets[0].name));
+                    
+        //         })
+        //         .catch((err) => {
+        //             console.log(err)
+        //         });
+        // }
 
     },
 
@@ -702,6 +725,8 @@ export default {
         this.username = getName();
         this.start_date = new Date("2015-08-21").getTime();
         this.end_date = new Date().getTime();
-        
+        // if(getRole().toLowerCase == 'cashier'){
+        //     this.getCashierOutlets()
+        // }
     }
 }

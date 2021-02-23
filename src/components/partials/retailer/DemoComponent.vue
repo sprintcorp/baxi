@@ -31,7 +31,7 @@
                     <router-link :to="{name:'distributorOrders'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-calendar"></i> Order</router-link>
                 </li>
                 <li v-if="order_products" :class="[this.$router.currentRoute.name === 'walletHistory' ? 'nav-item active' : 'nav-item']">
-                    <router-link :to="{name:'walletHistory'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-money"></i> Wallet History</router-link>
+                    <router-link :to="{name:'walletHistory'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-wallet"></i> Wallet History</router-link>
                 </li>
 
                 </ul>
@@ -39,13 +39,16 @@
                     <input type="text" placeholder="Search Products" style="background-color:white;width:255%;border-radius:20px"/>
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form> -->
-                <div style="height:20%" v-if="!distributor">Outlet : <b>{{name}}</b> <br>Balance : <b>₦ {{numberWithCommas(wallet)}}</b> <button @click="getBalance()" v-if="!reload"><img src="https://img.icons8.com/material/24/000000/synchronize--v1.png"/></button>
+                <div style="height:20%" v-if="!distributor && order_products"><i class="fa fa-building"></i> Outlet : <b>{{name}}</b> <br><i class="fa fa-wallet"></i> Balance : <b>₦ {{numberWithCommas(wallet)}}</b> <button @click="getBalance()" v-if="!reload"><img src="https://img.icons8.com/material/24/000000/synchronize--v1.png"/></button>
                    
                     <div v-if="reload" class="spinner-border spinner-border-sm" role="status">
                         <span class="sr-only">Loading...</span>
                     </div>
                 </div>
-                <div style="height:20%" v-if="distributor">Balance : <b>₦ {{numberWithCommas(wallet)}}</b> <button @click="getBalance()" v-if="!reload"><img src="https://img.icons8.com/material/24/000000/synchronize--v1.png"/></button>
+                <!-- <div style="height:20%" v-if="!distributor && !order_products"><i class="fa fa-building"></i> Outlet : <b>{{name}}</b>
+                   
+                </div> -->
+                <div style="height:20%" v-if="distributor"><i class="fa fa-wallet"></i> Balance : <b>₦ {{numberWithCommas(wallet)}}</b> <button @click="getBalance()" v-if="!reload"><img src="https://img.icons8.com/material/24/000000/synchronize--v1.png"/></button>
                    
                     <div v-if="reload" class="spinner-border spinner-border-sm" role="status">
                         <span class="sr-only">Loading...</span>
@@ -53,7 +56,7 @@
                 </div>
                 <div class="vl"></div>
                 <!-- <button class="mr-2" v-if="order_products" data-toggle="modal" data-target="#cartModal"><i class="fa fa-shopping-cart fs-25" style="color:#ffc107"></i></button> -->
-                <div class="">
+                <div class="" v-if="!distributor">
                     <div class="icon-badge-container top-head-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="far fa-bell icon-badge-icon" style="color:#ffc107"></i>
                         <div class="icon-badge" style="width:7px;height:7px"></div> 
@@ -190,11 +193,12 @@ import {BASE_URL} from '../../../env'
                         logout();
                         this.$router.push({ name: 'welcome' });
                     }
-                    this.notification = res.data
+                    this.notification = res.data.slice(0,5)
                     this.loading = false;
                 })
                 .catch(err => console.log(err));
-        }
+        },
+        
         },
          mounted(){
              this.getBalance();
@@ -203,12 +207,14 @@ import {BASE_URL} from '../../../env'
             this.order_products = checkUserPermission('order products')
             this.image =  window.localStorage.getItem('image');
             this.wallet =  window.localStorage.getItem('wallet-balance');
-            if(getRole() == 'Distributor'){
+            if(getRole().toLowerCase == 'distributor'){
                 // alert('hhhh')
                 this.distributor = true
             }else{
                 this.name = JSON.parse(window.localStorage.getItem('outlet_name'))
             }
+
+            
             
             this.outlet = getOutlet();
             

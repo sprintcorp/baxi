@@ -32,8 +32,8 @@ export default {
                     new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()))
         },
         distributorTransactions() {
-            return this.transactions.filter((transaction) => (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
-                    new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()) && transaction.status == 3)
+            return this.transactions.filter((transaction) => transaction.delivery_type.toLowerCase().includes(this.search.toLowerCase()) && (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
+                    new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()))
         },
         // amount(){
         //     return this.transactions.orders.map(o => parseFloat(o.amount)).reduce((a, c) => { a + c })
@@ -97,11 +97,11 @@ export default {
                             this.loading = false;
                             if (err.response.status == 401) {
                                 this.$swal({
-     title: 'Error',
-     text: "Session Expired",
-     icon: 'error',
-     confirmButtonText: 'ok'
-});
+                                    title: 'Error',
+                                    text: "Session Expired",
+                                    icon: 'error',
+                                    confirmButtonText: 'ok'
+                                });
                                 logout();
                                 this.$router.push({ name: 'welcome' });
                             }
@@ -133,11 +133,11 @@ export default {
                             this.loading = false;
                             if (err.response.status == 401) {
                                 this.$swal({
-     title: 'Error',
-     text: "Session Expired",
-     icon: 'error',
-     confirmButtonText: 'ok'
-});
+                                    title: 'Error',
+                                    text: "Session Expired",
+                                    icon: 'error',
+                                    confirmButtonText: 'ok'
+                                });
                                 logout();
                                 this.$router.push({ name: 'welcome' });
                             }
