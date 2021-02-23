@@ -102,6 +102,10 @@ export const removeUser = () => {
     // window.localStorage.removeItem("retailer_reta");
     window.localStorage.removeItem(ROLE);
     window.localStorage.removeItem(PERMISSION);
+    window.localStorage.removeItem("outlet_name");
+    window.localStorage.removeItem("wallet-balance");
+    window.localStorage.removeItem("cahier_outlet");
+    window.localStorage.removeItem("cahier_business");
 };
 
 export const logout = () => {

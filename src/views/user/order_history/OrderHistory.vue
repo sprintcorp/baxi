@@ -117,7 +117,9 @@
                                         <td>{{order.delivery_type}}</td>
                                         <td>{{order.created_at}}</td>
                                         <td>
-                                          <button data-toggle="modal" data-target="#order" type="button" @click="showOrder(order)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
+                                          <router-link :to="{name:'orderInformation',params: { id: order.order_group_id }}">
+                                            <button class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
+                                          </router-link>
                                         </td>
                                       </tr>
                                       </tbody>
@@ -184,7 +186,7 @@
                                   </button>                                  
                                 </div>
                               </nav>
-                            </div>
+                              </div>
                               <div class="row  top-section">
                                 <div class="col-md-12 p-3">
                                   Transaction tracker

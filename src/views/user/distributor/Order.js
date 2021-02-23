@@ -71,10 +71,10 @@ export default {
             .then(res => res.json())
             .then(res => {
                 this.saving = false;
-                console.log(res.response)
+                console.log(res)
                 this.$swal({
                     title: 'Success',
-                    text: "Order Successfully Updated",
+                    text: res.message,
                     icon: 'success',
                     confirmButtonText: 'ok'
                 });

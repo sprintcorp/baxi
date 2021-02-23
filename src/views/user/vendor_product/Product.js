@@ -186,8 +186,8 @@ export default {
         getVendorProducts() {
             this.vendor_products = [];
             this.loading = true
-            fetch(BASE_URL + '/my/products?category_id=' +
-            window.localStorage.getItem("vendor_category_id") + '&business_id=' +
+            fetch(BASE_URL + '/my/products/category/' +
+            window.localStorage.getItem("vendor_category_id") + '/business/' +
             this.$route.params.id, {
                     headers: {
                         'Content-Type': 'application/json',
@@ -202,20 +202,20 @@ export default {
                         logout();
                         this.$router.push({ name: 'welcome' });
                     }
-                    res.data.data.forEach((data) => {
+                    res.data.forEach((data) => {
                         this.vendor_products.push({
                             product_id: data.id,
                             business_id: this.$route.params.id,
-                            name: data.name,
-                            price: parseFloat(data.business_product.pack_price),
-                            pack: data.business_product.pack_label,
-                            minimum_order: data.business_product.minimum_order_qty,
-                            quantity: data.business_product.qty,
+                            name: data.product.name,
+                            price: parseFloat(data.pack_price),
+                            pack: data.pack_label,
+                            minimum_order: data.minimum_order_qty,
+                            quantity: data.qty,
                             size: data.size,
-                            image:data.public_image_url,
-                            qty: data.business_product.qty,
-                            pack_label:data.business_product.pack_label,
-                            pack_qty:data.business_product.pack_qty,
+                            image:data.product.public_image_url,
+                            qty: data.qty,
+                            pack_label:data.pack_label,
+                            pack_qty:data.pack_qty,
                         });
                     });
                     console.log(this.local_product);

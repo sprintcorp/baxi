@@ -1,173 +1,169 @@
 <template>
     <!-- <RetailerLayoutComponent> -->
         <div>
-            <div class="main-content style2" style="background-color: #e8edf2;min-height:80vh">
-                <div class="heading-sec">
-                    <div class="row">
-                      <div class="breadcrumbs">
-                            <ul>
-                            <li><router-link :to="{name:'dashboard'}" title="">Home</router-link></li>
-                            <li><router-link :to="{name: 'outletOverview', params: { id: outlet }}" title="">Outlet</router-link></li>
-                            <li><span>Order</span></li>
-                            </ul>
-                        </div>
-                        <section class="panel-content">
-                          <div class="row">
-                        <div class="col-md-2">
-                          <download-csv
-                              class="btn btn-info"
-                              :data="fiilterSearch"
-                              name="transaction.csv">
+           <div class="container" v-if="!loading">
+                              <div class="row mt-4 mb-1">
+                              <nav>
+                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                                    
+                                </div>
+                              </nav>
+                              </div>
+                              <div class="row  top-section">
+                                <div class="col-md-9 p-3">
+                                  Transaction tracker
+                                </div>
+                                <div class="col-md-3 d-flex justify-content-end">
+                                  <router-link :to="{name:'productOrderOverview'}">
+                                    <button class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">
+                                    <i class="fa fa-arrow-right fs-20"></i>
+                                    </button>
+                                  </router-link>
+                                </div>
+                              </div>
+                              
+                              <div class="row store-info pt-5 pl-3 mb-2">
+                                <div class="col-md-3" style="">
+                                  <div class=" pt-3 pb-1 pl-3 bg-white store-column"> <i class="fa fa-user fs-20 mr-2"></i> {{order_product.business.name}}</div>
+                                </div>
 
-                              Download Excel <i class="fa fa-file"></i>
+                                <div class="col-md-">
+                                  <div class=""> Contact number: </div>
+                                  <div class=""> {{order_product.business.phone}} </div>
+                                </div>
+                                
+                                <div class="col-md-2">
+                                  <div class=""> Contact address: </div>
+                                  <div class=""> {{order_product.business.address_city}} </div>
+                                </div>
+                                
+                                <div class="col-md-2">
+                                  <div class=""> Order Number: </div>
+                                  <div class=""> {{order_product.order_group_id}} </div>
+                                </div>
+                                
+                                <div class="col-md-2">
+                                  <div class=""> Date Placed: </div>
+                                  <div class=""> {{getDate(order_product.created_at)}} </div>
+                                </div>
+                                
+                                <!-- <div class="col-md-2">
+                                  <div class=""> Payment mode: </div>
+                                  <div class=""> {{}} </div>
+                                </div> -->
 
-                            </download-csv>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="row">
-                          <div class="col-md-6">
-                            <div class="input-group">
-                              <span class="input-group-text" id="basic-addon3">From</span>
-                              <input type="date" v-model="start_date" class="form-control" @change="showDate"/>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="input-group">
-                              <span class="input-group-text" id="basic-addon3">To</span>
-                              <input type="date" v-model="end_date" class="form-control" @change="showDate"/>
-                            </div>
-                          </div>
-                          </div>
-                        </div>
-                            <div class="col-md-4">
-                                  <input type="text" v-model="search" placeholder="Search Here..." class="form-control" style="background-color:white;"/>
-                                 
-                            </div>
-                          </div>
-    
-    <div class="row">
-      <div class="col-md-12">
-        <div class="widget">
-          <div class="widget-controls">
-            <!-- <span class="close-content"><i class="fa fa-trash-o"></i></span> -->
-            <span class="expand-content"><i class="fa fa-expand"></i></span>
-            <span class="refresh-content"><i class="fa fa-refresh"></i></span>
-          </div>
-          <!-- <pre>{{fiilterSearch}}</pre> -->
-          <div class="our-clients-sec">
-            <div class="widget-title">
-              <h3>Order</h3>
+                              </div>
+
+                              <div class="row p-5">
+                                <div class="col-md-4">
+                                  <h4>Order Details.</h4>
+                                  <table class="table caption-top">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Items</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Total</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr v-for="(order,index) in order_product.orders" :key="index">
+                                        <th scope="row">{{index + 1}}</th>
+                                        <td>{{order.product.name}}</td>
+                                        <td>{{order.amount/order.qty}}</td>
+                                        <td>{{order.qty}}</td>
+                                        <td>₦{{numberWithCommas(order.amount)}}</td>
+                                      </tr>
+                                                                   
+                                      <tr v-if="order_product.status != 0 && order_product.delivery_type.toLowerCase() == 'delivery'">
+                                        <td>Delivery</td>
+                                        <th scope="row"></th>
+                                        <th scope="row"></th>
+                                        <th scope="row"></th>
+                                        
+                                        <td>₦{{numberWithCommas(delivery)}}</td>
+                                      </tr>
+                                      <tr>
+                                        <td>Total</td>
+                                        <th scope="row"></th>
+                                        <th scope="row"></th>
+                                        <th scope="row"></th>
+                                        
+                                        <td class="font-weight-bold">₦{{order_product.total_amount ? numberWithCommas(parseFloat(order_product.total_amount)) : numberWithCommas(total)}}</td>
+                                      </tr>
+                                      <tr v-if="order_product.status == 1">
+                                        <td></td>
+                                        <th scope="row"></th>
+                                        
+                                        <th scope="row"><button type="submit" class="btn btn-danger" @click="orderAction(-1)">Reject</button></th>
+                                        <th scope="row"><button type="submit" class="btn btn-success" @click="orderAction(2)">Accept</button></th>
+                                        <th scope="row"></th>
+                                        
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                                <div class="col-md-2"></div>
+                                <div class="col-md-6 mt-1">
+                                  <div class="row mt-5 fs-25" v-if="order_product.delivery_type.toLowerCase() == 'delivery' && order_product.status != 4">
+                                    Delivery Date
+                                  </div>
+                                  <div class="row mt-5 fs-25" v-if="order_product.status == 4">
+                                    Delivered
+                                  </div>
+                                  <div class="row fs-50" v-if="order_product.delivery_type.toLowerCase() == 'delivery'">
+                                    {{getDate(order_product.delivery_date)}}
+                                  </div>
+                                  <div class="row fs-50" v-if="order_product.delivery_type.toLowerCase() == 'pickup' && order_product.status != 4 && order_product.status != 5 && order_product.status >= 0">
+                                    Pickup
+                                  </div>
+                                  <div class="row fs-50" v-if="order_product.status < 0">
+                                    Order Rejected
+                                  </div>
+                                  <div class="row fs-50" v-if="order_product.status == 5">
+                                    Order Canceled
+                                  </div>
+                                  <!-- <div class="row"> -->
+                                    <!-- {{order_product.status}} {{order_product.seen}} -->
+                                    <!-- {{order_product.status}}
+                                    {{status}} -->
+                                    <div class="progress">
+                                      <div v-if="order_product.status == 1" class="progress-bar progress-bar-striped progress-bar-animated bg-info w-50" role="progressbar" aria-valuenow="status" aria-valuemin="0" aria-valuemax="100"></div>
+                                      <div v-if="order_product.status == 4" class="progress-bar progress-bar-striped progress-bar-animated bg-success w-100" role="progressbar" aria-valuenow="status" aria-valuemin="0" aria-valuemax="100"></div>
+                                      <div v-if="order_product.status == 0" class="progress-bar progress-bar-striped progress-bar-animated bg-warning w-25" role="progressbar" aria-valuenow="status" aria-valuemin="0" aria-valuemax="100"></div>
+                                      <div v-if="order_product.status < 0 || order_product.status == 5" class="progress-bar progress-bar-striped progress-bar-animated bg-danger w-100" role="progressbar" aria-valuenow="status" aria-valuemin="0" aria-valuemax="100"></div>
+                                      <div v-if="order_product.status == 2 || order_product.status == 3" class="progress-bar progress-bar-striped progress-bar-animated bg-info w-75" role="progressbar" aria-valuenow="status" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                  <!-- </div> -->
+                                  <div class="row mt-5 ml-5" v-if="order_product.status >= 0 && order_product.status < 5">
+                                    <div class="col-md-3">Pending</div>
+                                    <div class="col-md-3">Order Accepted</div>
+                                    <div class="col-md-3">{{order_product.status == 3 ?'Fulfilled':'Processing'}}</div>
+                                    <div class="col-md-3">Delivered</div>
+                                  </div>
+                                  <!-- <div class="row mt-5 ml-5" v-if="order_product.status < 0">
+                                    <div class="col-md-12 d-flex justify-content-center">Order Rejected</div>
+                                  </div> -->
+                                  <div class="form-check mt-3" v-if="order_product.status == 3">
+                                    <input class="form-check-input" type="checkbox" value=""  @change="confirmDelivery(4)">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                      Check if item order has been delivered
+                                    </label>
+                                  </div>
+                                  <div class="form-check mt-3" v-if="order_product.status == 4">
+                                    <input class="form-check-input" type="checkbox" value="" checked>
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                      Order received
+                                    </label>
+                                  </div>
+                                </div>
+                                
+                              </div>
             </div>
-            <div class="table-responsive" v-if="orders.length && !loading">
-              <table class="table table-striped">
-                <thead>
-                <tr>
-                  <th>S/N</th>
-                  <th>Order</th>
-                  <!-- <th>Customer</th> -->
-                  <th>Numbers of items</th>
-                  <!-- <th>Amount (&#8358;)</th>
-                  <th>Quatity</th>                  
-                  <th>Available Quantity</th>
-                  <th>Outlet</th> -->
-                  <th>Date</th>
-                  <th>View</th>
-                </tr>
-                </thead>
-                <tbody>
 
-                <tr v-for="(order,index) in fiilterSearch" :key="index">
-                  <td>{{ index+1 }}</td>
-                  <td>{{ order.order_group_id }}</td>
-                  <!-- <td>{{ order.orders[0].customer.name }}</td> -->
-                  <td>{{ order.orders.length == 1 ? order.orders.length+" Item" : order.orders.length+" Items" }}</td>
-                  <td>{{ order.created_at }}</td>
-                  <td>
-                    <button data-toggle="modal" data-target="#order" type="button" @click="showOrders(order)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
-                  </td>
-                 
-                  <td></td>
-                  <td></td>
-                </tr>
-                </tbody>
-               
-              </table>
-              
-            </div>
-
-             <div  v-if="!orders.length && loading" style="text-align:center">
-                  
-                  <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
-                    <span class="sr-only">Loading...</span>
-                  </div><br>
-                                      Loading...
-                  
-            </div>
-            <div class="card" v-if="!orders.length && !loading">
-              <div class="card-body text-center">
-                There are no order at the moment
-              </div>
-            </div>
-
-
-            <div class="modal fade" id="order" tabindex="-1" role="dialog" aria-labelledby="product" aria-hidden="true">
-              <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-                <div class="modal-content">
-                  <div class="modal-header text-center">
-                  <span class="login100-form-title p-b-33">Cart Item</span>
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i></button>
-                </div>
-                <div class="modal-body">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">customer name</th>
-                        <th scope="col">customer phone</th>
-                        <th scope="col">customer email</th>
-                        <th scope="col">product</th>
-                        <th scope="col">price</th>
-                        <th scope="col">quantity</th>
-                        <th scope="col">date</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="(product,index) in group_orders.orders" :key="index">
-                        <th scope="row">{{index+1}}</th>
-                        <td>{{ product.customer.name }}</td>
-                        <td>{{ product.customer.phone }}</td>
-                        <td>{{ product.customer.email }}</td>
-                        <td>{{ product.product.name }}</td>
-                        <td>{{ product.amount }}</td>
-                        <td>{{ product.qty }}</td>
-                        <td>{{ product.created_at }}</td>
-                      </tr>
-                      
-                    </tbody>
-                  </table>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-danger"><i class="fa fa-times-circle"></i></button>
-                          <button type="button" class="btn btn-success text-white" @click="acceptOrder(group_orders.group_id)">&nbsp; <i class="fa fa-check-circle"></i></button>
-                        </div>
-                        </div>
-                      </div>
-            </div>
-
-
-
-          </div>
-        </div>
-      </div>
-      
-    </div>
-
-  </section>
-
-
-                    </div>
-                </div>
-            </div>
+            <Loading v-if="loading || saving"></Loading>
+                          
         </div>
     <!-- </RetailerLayoutComponent> -->
 </template>

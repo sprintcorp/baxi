@@ -25,7 +25,11 @@ export default {
             show_cart:false,
             cart:[],
             wallet:'',
-            total:''
+            total:'',
+            businesses_product:[],
+            show_date:false,
+            saving:false,
+            cart_order:[],
         }
     },
     methods:{
@@ -88,27 +92,48 @@ export default {
         }
         // console.log(res.data.data);
         this.loading = false;
-        this.system_products = res.data.data;
-        // this.page = res.data;
-        this.system_products.forEach((data) => {
+        this.system_products = res.data.results.data;
+        this.system_products.forEach((product)=>{
+            product.forEach((data)=>{
             this.list_products.push({
-                product_id: data.id,
-                business_id: data.business_product.business != '' ? data.business_product.business.id : '',
-                business_name: data.business_product.business != '' ? data.business_product.business.name : '',
-                name: data.name,
-                price: parseFloat(data.business_product.pack_price),
-                pack: data.business_product.pack_label,
-                minimum_order: data.business_product.minimum_order_qty,
-                quantity: data.business_product.qty,
-                size: data.size,
-                image:data.public_image_url,
-                qty: data.business_product.qty,
-                pack_label:data.business_product.pack_label,
-                pack_qty:data.business_product.pack_qty,
-                category:data.categories[0].name,
-            });
-        });
+                    product_id: data.product.id,
+                    business_id: data.business != '' ? data.business.id : '',
+                    business_name: data.business != '' ? data.business.name : '',
+                    name: data.product.name,
+                    price: parseFloat(data.pack_price),
+                    pack: data.pack_label,
+                    minimum_order: data.minimum_order_qty,
+                    quantity: data.qty,
+                    size: data.size,
+                    image:data.product.public_image_url,
+                    qty: data.qty,
+                    pack_label:data.pack_label,
+                    pack_qty:data.pack_qty,
+                    // category:data.categories[0].name,
+                });
+            })
+        })
+        // this.page = res.data;
+        // this.system_products.forEach((data) => {
+        //     this.list_products.push({
+        //         product_id: data.id,
+        //         business_id: data.business_product.business != '' ? data.business_product.business.id : '',
+        //         business_name: data.business_product.business != '' ? data.business_product.business.name : '',
+        //         name: data.name,
+        //         price: parseFloat(data.business_product.pack_price),
+        //         pack: data.business_product.pack_label,
+        //         minimum_order: data.business_product.minimum_order_qty,
+        //         quantity: data.business_product.qty,
+        //         size: data.size,
+        //         image:data.public_image_url,
+        //         qty: data.business_product.qty,
+        //         pack_label:data.business_product.pack_label,
+        //         pack_qty:data.business_product.pack_qty,
+        //         category:data.categories[0].name,
+        //     });
+        // });
         console.log(this.list_products);
+        this.getCart();
     })
     .catch(err => {
             console.log(err)
@@ -353,5 +378,6 @@ export default {
         this.getProductCategories();
         this.getNotification();
         this.wallet =  window.localStorage.getItem('wallet-balance');
+        this.getCart();
     },
 }

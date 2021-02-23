@@ -17,7 +17,7 @@
                 <li :class="[this.$router.currentRoute.name === 'productOverview' || this.$router.currentRoute.name === 'restockLevel' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'productOverview'}"  class="nav-link font-weight-bold" href="#"><i class="fa fa-cube"></i> Product</router-link>
                 </li>
-                <li v-if="order_products && !distributor" :class="[this.$router.currentRoute.name === 'categoryOrder' || this.$router.currentRoute.name === 'productOrderOverview' || this.$router.currentRoute.name == 'categoryVendor' || this.$router.currentRoute.name == 'vendorProduct'  ? 'nav-item active' : 'nav-item']">
+                <li v-if="order_products && !distributor" :class="[this.$router.currentRoute.name === 'categoryOrder' || this.$router.currentRoute.name === 'productOrderOverview' || this.$router.currentRoute.name == 'categoryVendor' || this.$router.currentRoute.name == 'orderInformation' || this.$router.currentRoute.name == 'vendorProduct'  ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'categoryOrder'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-calendar"></i> Order </router-link>
                 </li>
 
@@ -30,6 +30,9 @@
                 <li v-if="distributor" :class="[this.$router.currentRoute.name === 'distributorOrders' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'distributorOrders'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-calendar"></i> Order</router-link>
                 </li>
+                <li v-if="order_products" :class="[this.$router.currentRoute.name === 'walletHistory' ? 'nav-item active' : 'nav-item']">
+                    <router-link :to="{name:'walletHistory'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-money"></i> Wallet History</router-link>
+                </li>
 
                 </ul>
                 <!-- <form  class="form-inline search-form my-2 my-lg-0" v-if="(this.$router.currentRoute.name != 'categoryOrder')">
@@ -37,7 +40,13 @@
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form> -->
                 <div style="height:20%" v-if="!distributor">Outlet : <b>{{name}}</b> <br>Balance : <b>₦ {{numberWithCommas(wallet)}}</b> <button @click="getBalance()" v-if="!reload"><img src="https://img.icons8.com/material/24/000000/synchronize--v1.png"/></button>
-                    <!-- <button v-if="reload" ><img src="https://img.icons8.com/material/24/000000/restart--v3.png"/></button> -->
+                   
+                    <div v-if="reload" class="spinner-border spinner-border-sm" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div style="height:20%" v-if="distributor">Balance : <b>₦ {{numberWithCommas(wallet)}}</b> <button @click="getBalance()" v-if="!reload"><img src="https://img.icons8.com/material/24/000000/synchronize--v1.png"/></button>
+                   
                     <div v-if="reload" class="spinner-border spinner-border-sm" role="status">
                         <span class="sr-only">Loading...</span>
                     </div>
@@ -45,10 +54,24 @@
                 <div class="vl"></div>
                 <!-- <button class="mr-2" v-if="order_products" data-toggle="modal" data-target="#cartModal"><i class="fa fa-shopping-cart fs-25" style="color:#ffc107"></i></button> -->
                 <div class="">
-                    <div class="icon-badge-container">
-                        <i class="far fa-bell icon-badge-icon" style="color:#ffc107"></i>
-                        <div class="icon-badge" style="width:7px;height:7px"></div>
+                    <div class="icon-badge-container top-head-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="far fa-bell icon-badge-icon" style="color:#ffc107"></i>
+                        <div class="icon-badge" style="width:7px;height:7px"></div> 
+                        <ul class="dropdown-menu dropdown-menu-right" style="width:350px">
+                            <li style="margin-bottom:20px;" v-for="(notifications,index) in notification" :key="index">
+                                <router-link :to="{name:'orderInformation',params: { id: notifications.data.order_id }}" href="#" class="top-text-block" style="">
+                                    <div class="top-text-heading"> {{notifications.data.title}}</div>
+                                    <!-- <div class="top-text-light">15 minutes ago</div> -->
+                                </router-link> 
+                            </li>
+                            
+                        
+                        <li>
+                            <div class="loader-topbar"></div>
+                        </li>
+                        </ul>             
                     </div>
+
                 </div>
                 <!-- <div class="mr-3 ml-3">
                     <img src="/images/baxi.png" class="rounded-circle border" alt="" width="45" height="45">
@@ -109,28 +132,7 @@ import {BASE_URL} from '../../../env'
         },
             logout() {
                 logout();
-                    this.$router.push({ name: 'welcome' });
-                // alert(getToken())
-                // fetch(BASE_URL + '/user/logout', {
-                //         'Content-Type': 'application/json',
-                //         'Accept': 'application/json',
-                //         'Authorization': getToken()
-                //     })
-                // .then(res => res.json())
-                // .then(res => {
-                //     console.log(res.data)
-                //      logout();
-                //     this.$router.push({ name: 'welcome' });
-                // })
-                // .catch(err => {
-                //     console.log(err)
-                //     if (err.response.status == 401) {
-                //         this.saving = false;
-                //         this.$swal("Session Expired");
-                //         logout();
-                //         this.$router.push({ name: 'welcome' });
-                //     }
-                // });               
+                    this.$router.push({ name: 'welcome' });              
             },
             sumProduct() {
                 if (JSON.parse(window.localStorage.getItem("retailer_order")) && JSON.parse(window.localStorage.getItem("retailer_order")).length) {
@@ -188,7 +190,7 @@ import {BASE_URL} from '../../../env'
                         logout();
                         this.$router.push({ name: 'welcome' });
                     }
-                    this.notification = res.data.data
+                    this.notification = res.data
                     this.loading = false;
                 })
                 .catch(err => console.log(err));
@@ -273,4 +275,32 @@ import {BASE_URL} from '../../../env'
   margin-right: 10px;
   top: -70px;
 }
+
+.top-text-block{
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: 400;
+  line-height: 1.42857143;
+  color: #333;
+  white-space: inherit !important;
+  /* border-bottom:1px solid #f4f4f4; */
+  position:relative;
+}
+/* .top-text-block:hover{
+    content: '';
+        width: 4px;
+        background: #f05a1a;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        position: absolute;
+}
+
+.top-text-light{
+    /* // color:#ccc; */
+    /* color: #999;
+    font-size: 0.8em; */
+/* }  */
+
 </style>

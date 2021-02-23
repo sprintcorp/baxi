@@ -367,22 +367,6 @@
                                     </div>
                                     
                                   </div>
-                                  <!-- <div class="row">
-                                  <div class="col-md-5">
-                                    <Select2 v-model="myValue" class="form-control" :options="myOptions" :settings="{ settingOption: value, settingOption: value }"
-                                    @change="myChangeEvent($event)" @select="mySelectEvent($event)" />
-                                  </div>
-                                  </div> -->
-                                  <!-- <div class="row" v-if="!distributor">
-                                    <div class="col-md-12">
-                                      <div class="input-group mb-3">
-                                          <div class="input-group-prepend">
-                                            <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/qr-code.png')" class='rounded' alt="img"/></span>
-                                          </div>
-                                            <input type="text" class="form-control" v-model="product.barcode">
-                                      </div>
-                                    </div>                                    
-                                  </div> -->
                                   
                                   
                                 </div>

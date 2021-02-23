@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div class="container-fluid mt-5" style="margin-left:50px;margin-right:50px">
+        <div class="container mt-5">
            <div class="row">
-               <div class="col-md-8" style="border-right:2px solid black;">
+               <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="font-weight-bold h4">Vendors</div>
@@ -35,12 +35,12 @@
                     <div class="row">
                         <div class="col-md-12" v-if="vendors.length && !loading">
                             <div class="row">
-                                <div class="col-md-6 d-flex justify-content-center" v-for="(vendor,index) in vendors" :key="index">
+                                <div class="col-md-4 d-flex justify-content-center" v-for="(vendor,index) in vendors" :key="index">
                                     <router-link :to="{name:'vendorProduct',params: { id: vendor.id },query: { vendor: vendor.name }}">
-                                    <div class="card p-2" style="width: 25rem;height:6.5rem;border-radius:10px">
+                                    <div class="card p-2" style="width: 100%;height:6.5rem;border-radius:10px">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                         <div class="row">
-                                        <div class="col-md-3 mt-2"><img :src="vendor.owner.public_image_url?vendor.owner.public_image_url:'@/assets/images/icons8-customer-48.png'" class="rounded-circle" alt="" width="70" height="70"/></div>
+                                        <div class="col-md-4 mt-2"><img :src="vendor.owner.public_image_url?vendor.owner.public_image_url:'@/assets/images/icons8-customer-48.png'" class="rounded-circle" alt="" width="70" height="70"/></div>
                                             <div class="col-md-8 mt-4">
                                             <p class="fs-15 font-weight-bold text-black"> {{vendor.name}}</p>
                                             </div>
@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 <!-- <div class="col-md-1"></div> -->
-                <div class="col-md-3 ml-4" style="">
+                <!-- <div class="col-md-3 ml-4" style="">
                     <div class="row">
                         <div class="font-weight-bold h4">Order Notifications</div>
                     </div>
@@ -90,7 +90,7 @@
                            No Notification at the moment
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div> 
 
 

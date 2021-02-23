@@ -799,26 +799,17 @@ export default {
         },
         createProduct() {
             this.saving = true;
-            const payload = {
-                "barcode": this.product.barcode,
-                "recommended_price": this.product.recommended_price,
-                "outlet_qty": this.product.outlet_qty,
-                "category_id": parseInt(this.product.category_id),
-                "restock_level": this.product.restock_level,
-                "name": this.product.name,
-                "brand_id": 1
-                    // "outlet": this.$route.params.id
-            };
-            console.log(payload);
+            
             // toString(this.product.unit_price);
             // fetch(BASE_URL + '/my/outlet/' + this.product.outlet + '/products/new', {
                 if(this.distributor){
                     this.url = '/my/distributor/product/'+this.product.id+'/add';
                 }else{
-                    this.url = '/my/outlet/'+window.localStorage.getItem("retailer_outlet")+'/products/new';
+                    this.url = '/my/outlet/'+window.localStorage.getItem("retailer_outlet")+'/products/add';
                     delete this.product.sku;
                     // this.product.name;
                     this.product.product_id = this.product.id;
+                    this.product.price = this.product.pack_price;
                 }
             fetch(BASE_URL +this.url, {
                     method: 'POST',

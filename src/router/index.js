@@ -28,6 +28,7 @@ import OutletComponent from "../views/user/retailer_outlet/Outlet.vue";
 import OrderHistoryComponent from "../views/user/order_history/OrderHistory.vue";
 import TransactionComponent from "../views/user/transaction/Transaction.vue";
 import ProductComponent from "../views/user/product/Product.vue";
+import WalletComponent from "../views/user/wallet/Wallet.vue";
 import OrderComponent from "../views/user/order/Orders.vue";
 import DistributorOrdersComponent from "../views/user/distributor/Order.vue";
 import RetailerOrderOverviewComponent from "../views/user/order_overview/Order.vue";
@@ -138,6 +139,13 @@ const routes = [{
                 meta: { authorize: 'order products' } 
             },
             {
+                name: "walletHistory",
+                path: "/wallet/history",
+                component: WalletComponent,
+                ...preventRoutes,
+                meta: { authorize: 'order products' } 
+            },
+            {
                 name: "restockLevel",
                 path: "/outlet/restock/level",
                 component: RestockLevelComponent,
@@ -178,10 +186,11 @@ const routes = [{
                 meta: { authorize: 'view products' } 
             },
             {
-                name: "outletOrder",
-                path: "/my/order/:id",
+                name: "orderInformation",
+                path: "/retailer/distributor/orders/:id",
                 component: OrderComponent,
-                ...preventRoutes
+                ...preventRoutes,
+                meta: { authorize: 'order products' } 
             },
             {
                 name: "retailerOrder",

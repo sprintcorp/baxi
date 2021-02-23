@@ -1,14 +1,14 @@
 <template>
     <div>
-        <div class="container-fluid mt-5" style="margin-left:50px;margin-right:50px">
+        <div class="container mt-5">
            <div class="row">
-               <div class="col-md-8" style="border-right:2px solid black;">
+               <div class="col-md-12">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             <div class="font-weight-bold h4">Order Categories</div>
                             <div class="p">Please pick a category of products you would want to make an order</div>
                         </div>
-                        <div class="col-md-6 d-flex justify-content-end">
+                        <div class="col-md-4 d-flex justify-content-end">
                         <form class="form-inline search-form my-2 my-lg-0" style="width:100%">
                             <input type="text" v-model="search" @change="checkfield()" placeholder="Search Products" style="background-color:white;width:90% !important;border-radius:20px"/>
                             <button type="submit" @click.prevent="searchProduct()"><i class="fa fa-search"></i></button>
@@ -39,32 +39,85 @@
 
                             </div>
                         </div>
-
+<!-- {{show_cart}} -->
                         
                         <div class="row mr-2" v-if="show_business">
-                                <div class="col-md-6 d-flex justify-content-center" v-for="(product,index) in list_products" :key="index">
-                                    <div class="card p-2" style="width: 25rem;height:8rem;border-radius:0px">
-                                        <!-- <div class=""> -->
-                                            <div class="row g-0">
-                                            <div class="col-md-2 mr-2"><img :src="product.image" class="rounded-circle" alt="" width="70" height="70"/></div>
-                                            <div class="col-md-7">
-                                                <p class="fs-14 font-weight-bold text-black"> {{product.name.length > 22 ? product.name.substr(0, 22)+'...' : product.name}}</p>
-                                                <p class="fs-12 font-weight-bold text-black" style="margin-top:-20px">{{product.size}}</p>
-                                                <p class="fs-12 font-weight-bold text-black" style="margin-top:-5px"> &#8358; {{ numberWithCommas(product.price) }}.00</p>
-                                                <p class="fs-10 font-weight-bold text-black" style="margin-top:-19px"> {{product.quantity}} units - {{product.business_name}}</p>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="mt-4">
-                                                    <button @click="addToCart(product,index)" data-toggle="modal" data-target="#cart">
-                                                        <i class="fa fa-shopping-cart"></i>
-                                                    </button>
+                            <div :class="[!show_cart ? 'col-md-12' : 'col-md-8']" style="">
+                                <div class="row">
+                                    <div :class="[!show_cart ? 'col-md-4 d-flex justify-content-center' : 'col-md-6 d-flex justify-content-center']" v-for="(product,index) in list_products" :key="index">
+                                        <div class="card p-2" style="width: 25rem;height:8rem;border-radius:0px">
+                                            <!-- <div class=""> -->
+                                                <div class="row g-0">
+                                                <div class="col-md-2 mr-2"><img :src="product.image" class="rounded-circle" alt="" width="70" height="70"/></div>
+                                                <div class="col-md-7">
+                                                    <p class="fs-14 font-weight-bold text-black"> {{product.name.length > 22 ? product.name.substr(0, 22)+'...' : product.name}}</p>
+                                                    <p class="fs-12 font-weight-bold text-black" style="margin-top:-20px">{{product.size}}</p>
+                                                    <p class="fs-12 font-weight-bold text-black" style="margin-top:-5px"> &#8358; {{ numberWithCommas(product.price) }}.00</p>
+                                                    <p class="fs-10 font-weight-bold text-black" style="margin-top:-19px"> {{product.quantity}} units - {{product.business_name}}</p>
                                                 </div>
-                                            </div>
-                                            </div>
-                                        <!-- </div> -->
+                                                <div class="col-md-2">
+                                                    <div class="mt-4">
+                                                        <button @click="addToCart(product,index)" data-toggle="modal" data-target="#cart">
+                                                            <i class="fa fa-shopping-cart"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            <!-- </div> -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-4" v-if="show_cart">
+                                <!-- <div class="col-md-3" style="" v-if="show_cart"> -->
+                                <div class="row p-3" style="margin-top:-17px;background-color:#d8d4d4">
+                                    <h5><i class="fa fa-shopping-cart"></i>  {{cart_order.length}} items added to order</h5>   
+                                </div>
+                                <div class="row" style="margin-top:-15px">
+                                    <div style="margin-top:-15px" class="col-md-12 d-flex justify-content-center" v-for="(carts,index) in cart_order" :key="index">
+                                            
+                                            <div class="card p-2" style="width:100%;height:6.5rem;border-radius:0px">
+                                                <!-- hello -->
+                                                <div class="row g-0">
+                                                <div class="col-md-2 mt-2"><img :src="carts.image" class="rounded-circle" alt="" width="70" height="70"/></div>
+                                                <div class="col-md-5 mt-2 ml-1">
+                                                    <p class="fs-10 font-weight-bold text-black"> {{carts.name}}</p>
+                                                    <p class="fs-10 font-weight-bold text-black" style="margin-top:-20px"> Quantity {{carts.qty}}</p>
+                                                </div>
+                                                <div class="col-md-3 mt-4 fs-10">&#8358;{{ numberWithCommas(carts.amount) }}</div>
+                                                <div class="col-md-1">
+                                                    <div class="mt-4">
+                                                        <button @click="removeFromCart(cart_order,index)">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            
+                                    </div>
+                                </div>
+                                <div class="row align-items-end p-3">
+                                    <div class="col-sm-8">
+                                        Total : &#8358; {{numberWithCommas(total)}}
+                                    </div>
+                                    <div class="col-sm-4 d-flex justify-content-end" v-if="wallet >= total">
+                                        <button type="button" data-toggle="modal" data-target="#type" class="btn btn-warning pl-4 pr-4" style="border-radius:15px">Order</button>
+                                    </div>
+                                    
+                                </div>
+                                <div class="row align-items-end p-3" v-if="total > wallet">
+                                        <span style="border-radius:15px;color:red;font-style:bold">Available balance is less than order</span>
+                                </div>                        
+
+
+                            <!-- </div> -->
+                            </div>
+
+
+                            
+                        </div>
 
 
 
@@ -124,14 +177,6 @@
                         
 
                         <div class="row col-md-12">
-                            <!-- <div v-if="!categories.length && loading" style="text-align:center;position: absolute;left: 50%;top: 50%;">                  
-                                <div class="spinner-grow mt-5" style="width: 3rem; height: 3rem;" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                                <br>
-                                Loading...
-                                                    
-                            </div> -->
                             <Loading v-if="!categories.length && loading || saving"></Loading>
                             <div class="card" v-if="!categories.length && !loading && !show_business">
                                 <div class="card-body text-center">
@@ -147,7 +192,7 @@
                     </div>
                 </div>
                 <!-- <div class="col-md-1"></div> -->
-                <div class="col-md-3 ml-4" style="" v-if="!show_cart">
+                <!-- <div class="col-md-3 ml-4" style="" v-if="!show_cart">
                     <div class="row">
                         <div class="font-weight-bold h4">Order Notifications</div>
                     </div>
@@ -175,52 +220,11 @@
                            No Notification at the moment
                         </div>
                     </div>
-                </div>
+                </div> -->
 
 
-                 <div class="col-md-3 ml-2" style="" v-if="show_cart">
-                            <div class="row p-3" style="margin-top:-17px;background-color:#d8d4d4">
-                                <h5><i class="fa fa-shopping-cart"></i>  {{cart_order.length}} items in cart</h5>   
-                            </div>
-                            <div class="row" style="margin-top:-15px">
-                                <div style="margin-top:-15px" class="col-md-12 d-flex justify-content-center" v-for="(cart,index) in cart_order" :key="index">
-                                        <!-- <router-link :to="{name:'vendorProduct',params: { id: vendor.id }}"> -->
-                                        <div class="card p-2" style="width:350rem;height:6.5rem;border-radius:0px">
-                                            <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
-                                            <div class="row g-0">
-                                            <div class="col-md-2 mt-2"><img :src="cart.image" class="rounded-circle" alt="" width="70" height="70"/></div>
-                                            <div class="col-md-5 mt-2 ml-1">
-                                                <p class="fs-10 font-weight-bold text-black"> {{cart.name}}</p>
-                                                <p class="fs-10 font-weight-bold text-black" style="margin-top:-20px"> Quantity {{cart.qty}}</p>
-                                            </div>
-                                            <div class="col-md-3 mt-4 fs-10">&#8358;{{ numberWithCommas(cart.amount) }}</div>
-                                            <div class="col-md-1">
-                                                <div class="mt-4">
-                                                    <button @click="removeFromCart(cart_order,index)">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div>
-                                        <!-- </router-link> -->
-                                </div>
-                            </div>
-                            <div class="row align-items-end p-3">
-                                <div class="col-sm-8">
-                                    Total : &#8358; {{numberWithCommas(total)}}
-                                </div>
-                                <div class="col-sm-4 d-flex justify-content-end" v-if="wallet >= total">
-                                    <button type="button" data-toggle="modal" data-target="#type" class="btn btn-warning pl-4 pr-4" style="border-radius:15px">Order</button>
-                                </div>
-                                
-                            </div>
-                            <div class="row align-items-end p-3" v-if="total > wallet">
-                                    <span style="border-radius:15px;color:red;font-style:bold">Available balance is less than order</span>
-                            </div>
-
-
-                            <div class="modal fade" id="type" tabindex="-1" role="dialog" aria-labelledby="user" aria-hidden="true">
+                 
+                 <div class="modal fade" id="type" tabindex="-1" role="dialog" aria-labelledby="user" aria-hidden="true">
                                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
@@ -258,9 +262,6 @@
                                 </div>
                                 </div>
                             </div>
-
-
-                </div>
             </div> 
             <!-- <Loading v-if="loading || saving"></Loading> -->
 
