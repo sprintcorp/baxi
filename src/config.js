@@ -103,10 +103,12 @@ export const removeUser = () => {
     window.localStorage.removeItem(ID);
     window.localStorage.removeItem("retailer_business");
     // window.localStorage.removeItem("retailer_reta");
+    window.localStorage.removeItem("ledger-balance");
     window.localStorage.removeItem(ROLE);
     window.localStorage.removeItem(PERMISSION);
     window.localStorage.removeItem("outlet_name");
     window.localStorage.removeItem("wallet-balance");
+    
     window.localStorage.removeItem("cahier_outlet");
     window.localStorage.removeItem("cahier_business");
 };
