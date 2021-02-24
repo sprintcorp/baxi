@@ -18,6 +18,7 @@
                     <div class="row mt-3">
                         <div class="col-md-4">
                             <router-link :to="{name:'productOrderOverview'}"><button class="btn btn-warning" style="border-radius:20px"><i class="fa fa-calendar"></i> Order History</button></router-link>
+                            <router-link :to="{name:'walletHistory'}"><button class="btn btn-warning ml-2" style="border-radius:20px"><i class="fa fa-wallet"></i> Wallet History</button></router-link>
                         </div>
                         <div class="col-md-4">
                             <select class="form-control" @change="getLGA()" v-model="selected_state">

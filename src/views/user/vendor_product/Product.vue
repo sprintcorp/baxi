@@ -16,11 +16,12 @@
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                            <router-link :to="{name:'productOrderOverview'}"><button class="btn btn-warning" style="border-radius:20px"><i class="fa fa-calendar"></i> Order History</button></router-link>
+                           <router-link :to="{name:'walletHistory'}"><button class="btn btn-warning ml-2" style="border-radius:20px"><i class="fa fa-wallet"></i> Wallet History</button></router-link>
                         </div>
 
-                        <div class="col-md-7 d-flex justify-content-end">
+                        <div class="col-md-5 d-flex justify-content-end">
                             <p class="fs-15" style="color:red;font-weight:bold">MOQ : Minimum Order Quantity</p>
                         </div>
                     </div>

@@ -30,16 +30,16 @@
                 <li v-if="distributor" :class="[this.$router.currentRoute.name === 'distributorOrders' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'distributorOrders'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-calendar"></i> Order</router-link>
                 </li>
-                <li v-if="order_products" :class="[this.$router.currentRoute.name === 'walletHistory' ? 'nav-item active' : 'nav-item']">
+                <!-- <li v-if="order_products" :class="[this.$router.currentRoute.name === 'walletHistory' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'walletHistory'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-wallet"></i> Wallet History</router-link>
-                </li>
+                </li> -->
 
                 </ul>
                 <!-- <form  class="form-inline search-form my-2 my-lg-0" v-if="(this.$router.currentRoute.name != 'categoryOrder')">
                     <input type="text" placeholder="Search Products" style="background-color:white;width:255%;border-radius:20px"/>
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form> -->
-                <div style="height:20%" v-if="!distributor && order_products"><i class="fa fa-building"></i> Outlet : <b>{{name}}</b> <br><i class="fa fa-wallet"></i> <b>₦ {{numberWithCommas(wallet)}}</b> | <i class="fa fa-money-bill"></i> Ledger : <b>₦ {{numberWithCommas(ledger)}}</b><button @click="getBalance()" v-if="!reload"><img src="https://img.icons8.com/material/24/000000/synchronize--v1.png"/></button>
+                <div style="height:20%" v-if="!distributor && order_products"><i class="fa fa-building"></i> Outlet : <b>{{name}}</b> <br><i class="fa fa-wallet"></i> Wallet : <b>₦ {{numberWithCommas(wallet)}}</b> | <i class="fa fa-money-bill"></i> Ledger : <b>₦ {{numberWithCommas(ledger)}}</b><button @click="getBalance()" v-if="!reload"><img src="https://img.icons8.com/material/24/000000/synchronize--v1.png"/></button>
                    
                     <div v-if="reload" class="spinner-border spinner-border-sm" role="status">
                         <span class="sr-only">Loading...</span>
