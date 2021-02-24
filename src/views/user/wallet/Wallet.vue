@@ -43,7 +43,7 @@
                                         <th>S/N</th>
                                         <th>Balance before debit</th>
                                         <th>Balance after debit</th>
-                                        <th>Amount debit</th>
+                                        <th>Amount debited</th>
                                         <th>Outlet</th> 
                                         <th>Number of products</th>
                                         <th>Order ID</th>
@@ -79,7 +79,7 @@
                                         <th>S/N</th>
                                         <th>Balance before credit</th>
                                         <th>Balance after credit</th>
-                                        <th>Amount credit</th>
+                                        <th>Amount credited</th>
                                         <th>Outlet</th> 
                                         <th>Number of products</th>
                                         <th>Order ID</th>
