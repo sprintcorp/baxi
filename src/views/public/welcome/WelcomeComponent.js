@@ -61,7 +61,13 @@ export default {
                     }
                 ).catch((error) => {
                     this.loading = false
-                    this.$swal(error.response.data.message);
+                    // this.$swal(error.response.data.message);
+                    this.$swal({
+                        title: 'Error',
+                        text: error.response.data.message,
+                        icon: 'error',
+                        confirmButtonText: 'ok'
+                    });
                 })
             // }
         }

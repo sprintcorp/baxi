@@ -93,7 +93,7 @@
                                   <div class="table-responsive mt-5" v-if="orders.length && !loading">
                                     <table class="table table-striped">
                                       <thead>
-                                      <tr>
+                                      <tr style="text-align:center">
                                         <th>S/N</th>
                                         <th>Order ref</th>
                                         <th>Status</th>
@@ -107,7 +107,7 @@
                                       </thead>
                                       <tbody>
 
-                                      <tr v-for="(order,index) in filerTransactions" :key="index">
+                                      <tr style="text-align:center" v-for="(order,index) in filerTransactions" :key="index">
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ order.order_group_id }}</td>
                                         <td>{{order.status == 0?'Pending':order.status == 1?'Accepted':order.status == 2?'Processing':order.status == 3?'Fulfilled':order.status == 4 ?'Delivered':order.status == 5?'Cancelled':'Declined'}}</td>                                      
@@ -230,7 +230,7 @@
                                   <h4>Order Details.</h4>
                                   <table class="table caption-top">
                                     <thead>
-                                      <tr>
+                                      <tr style="text-align:center">
                                         <th scope="col">#</th>
                                         <th scope="col">Items</th>
                                         <th scope="col">Price</th>
@@ -239,7 +239,7 @@
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      <tr v-for="(order,index) in order_product.orders" :key="index">
+                                      <tr style="text-align:center" v-for="(order,index) in order_product.orders" :key="index">
                                         <th scope="row">{{index + 1}}</th>
                                         <td>{{order.product.name}}</td>
                                         <td>{{order.amount/order.qty}}</td>

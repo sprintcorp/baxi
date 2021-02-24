@@ -39,7 +39,7 @@
                     <input type="text" placeholder="Search Products" style="background-color:white;width:255%;border-radius:20px"/>
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form> -->
-                <div style="height:20%" v-if="!distributor && order_products"><i class="fa fa-building"></i> Outlet : <b>{{name}}</b> <br><i class="fa fa-wallet"></i> Balance : <b>₦ {{numberWithCommas(wallet)}}</b> <button @click="getBalance()" v-if="!reload"><img src="https://img.icons8.com/material/24/000000/synchronize--v1.png"/></button>
+                <div style="height:20%" v-if="!distributor && order_products"><i class="fa fa-building"></i> Outlet : <b>{{name}}</b> <br><i class="fa fa-wallet"></i> Wallet : <b>₦ {{numberWithCommas(wallet)}}</b> | <i class="fa fa-money-bill"></i> Ledger : <b>₦ {{numberWithCommas(ledger)}}</b><button @click="getBalance()" v-if="!reload"><img src="https://img.icons8.com/material/24/000000/synchronize--v1.png"/></button>
                    
                     <div v-if="reload" class="spinner-border spinner-border-sm" role="status">
                         <span class="sr-only">Loading...</span>
@@ -60,13 +60,14 @@
                     <div class="icon-badge-container top-head-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="far fa-bell icon-badge-icon" style="color:#ffc107"></i>
                         <div class="icon-badge" style="width:7px;height:7px"></div> 
-                        <ul class="dropdown-menu dropdown-menu-right" style="width:350px">
-                            <li style="margin-bottom:20px;" v-for="(notifications,index) in notification" :key="index">
+                        <ul class="dropdown-menu dropdown-menu-right" style="width:350px;border:0px;background-color:#e8e5d86b">
+                            <li style="margin-bottom:25px;" v-for="(notifications,index) in notification" :key="index">
                                 <router-link :to="{name:'orderInformation',params: { id: notifications.data.order_id }}" href="#" class="top-text-block" style="">
-                                    <div class="top-text-heading"> {{notifications.data.title}}</div>
+                                    <div class="top-text-heading notification-style fs-12" style=""> {{notifications.data.title}}</div>
                                     <!-- <div class="top-text-light">15 minutes ago</div> -->
                                 </router-link> 
                             </li>
+                            <li style="text-align:center" v-if="notification.length > 4"><button class="btn notification-button">View all notification</button></li>
                             
                         
                         <li>
@@ -80,7 +81,7 @@
                     <img src="/images/baxi.png" class="rounded-circle border" alt="" width="45" height="45">
                 </div> -->
                 
-                <div class="mr-4 ml-3 mb-1">
+                <div class="mr-0 ml-3 mb-1">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <img :src="image" class="rounded-circle border" alt="" width="45" height="45"></a>
@@ -118,6 +119,7 @@ import {BASE_URL} from '../../../env'
                 image:'',
                 notification:'',
                 wallet:'',
+                ledger:'',
                 reload:false,
             }
         },
@@ -170,7 +172,10 @@ import {BASE_URL} from '../../../env'
                 .then(res => res.json())
                 .then(res => {
                     window.localStorage.setItem("wallet-balance",res.data.available_balance)
+                    window.localStorage.setItem("ledger-balance",res.data.ledger_balance)
                     this.wallet =  window.localStorage.getItem('wallet-balance');
+                    this.ledger =  window.localStorage.getItem('ledger-balance');
+                    this.name = JSON.parse(window.localStorage.getItem('outlet_name'))
                     this.reload = false;
                 })
                 .catch(err => {
@@ -207,6 +212,7 @@ import {BASE_URL} from '../../../env'
             this.order_products = checkUserPermission('order products')
             this.image =  window.localStorage.getItem('image');
             this.wallet =  window.localStorage.getItem('wallet-balance');
+            this.ledger =  window.localStorage.getItem('ledger-balance');
             if(getRole().toLowerCase() == 'distributor'){
                 // alert('hhhh')
                 this.distributor = true
@@ -292,6 +298,32 @@ import {BASE_URL} from '../../../env'
   white-space: inherit !important;
   /* border-bottom:1px solid #f4f4f4; */
   position:relative;
+}
+
+.notification-style{
+    background:rgb(255, 193, 7);
+    color:white;
+    font-weight:bold;
+    width:300px;
+    height: 40px;
+    /* margin-bottom: 20px; */
+    padding:5px
+    
+}
+.notification-style:hover{
+       background:#bdbbb8;
+    }
+.notification-button{
+    margin-left:10px;
+    width:300px;
+    background-color: #bdbbb8;
+    color:white;
+    border: 0px;
+}
+.notification-button:hover{
+    background-color:rgb(255, 193, 7);;
+    color:white;
+    border: 0px;
 }
 /* .top-text-block:hover{
     content: '';

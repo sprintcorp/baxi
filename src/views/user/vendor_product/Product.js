@@ -21,7 +21,8 @@ export default {
             saving:false,
             search:'',
             notification:'',
-            wallet:''
+            wallet:'',
+            page:''
         }
     },
     computed: {
@@ -154,7 +155,7 @@ export default {
                 this.saving = false;
                 this.$swal({
                     title: res.message,
-                    text: 'Confirm order terms once distributor accepts order',
+                    text: 'Order '+res.data.group_id+' sent to the distributor. You will receive a feedback shortly',
                     icon: 'success',
                     confirmButtonText: 'ok'
                 });
@@ -202,6 +203,47 @@ export default {
                         logout();
                         this.$router.push({ name: 'welcome' });
                     }
+                    this.page = res.data;
+                    res.data.data.forEach((data) => {
+                        this.vendor_products.push({
+                            product_id: data.id,
+                            business_id: this.$route.params.id,
+                            name: data.product.name,
+                            price: parseFloat(data.pack_price),
+                            pack: data.pack_label,
+                            minimum_order: data.minimum_order_qty,
+                            quantity: data.qty,
+                            size: data.size,
+                            image:data.product.public_image_url,
+                            qty: data.qty,
+                            pack_label:data.pack_label,
+                            pack_qty:data.pack_qty,
+                        });
+                    });
+                    console.log(this.local_product);
+                    this.loading = false;
+                })
+                .catch(err => console.log(err));
+        },
+
+        getPageVendorProducts(page) {
+            this.vendor_products = [];
+            this.loading = true
+            fetch(page, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.message === 'Unauthenticated.') {
+                        console.log(res);
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                    this.page = res.data;
                     res.data.data.forEach((data) => {
                         this.vendor_products.push({
                             product_id: data.id,
@@ -238,7 +280,7 @@ export default {
                         logout();
                         this.$router.push({ name: 'welcome' });
                     }
-                    this.notification = res.data
+                    this.notification = res.data.slice(0,5)
                     this.loading = false;
                 })
                 .catch(err => console.log(err));

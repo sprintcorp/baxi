@@ -59,7 +59,7 @@
                                   <h4>Order Details.</h4>
                                   <table class="table caption-top">
                                     <thead>
-                                      <tr>
+                                      <tr style="text-align:center">
                                         <th scope="col">#</th>
                                         <th scope="col">Items</th>
                                         <th scope="col">Price</th>
@@ -68,8 +68,8 @@
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      <tr v-for="(order,index) in order_product.orders" :key="index">
-                                        <th scope="row">{{index + 1}}</th>
+                                      <tr style="text-align:center" v-for="(order,index) in order_product.orders" :key="index">
+                                        <td class="col-3">{{index + 1}}</td>
                                         <td>{{order.product.name}}</td>
                                         <td>{{order.amount/order.qty}}</td>
                                         <td>{{order.qty}}</td>

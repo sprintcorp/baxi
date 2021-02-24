@@ -39,7 +39,8 @@ export default {
             totat_product:0,
             saved_orders:'',
             saving:false,
-            distributor:false
+            distributor:false,
+            customer:'',
         }
     },
     computed: {
@@ -89,7 +90,8 @@ export default {
             product.price = value * product.sell_price 
             product.int_amount = product.amount
             product.amount = product.price.toString()
-            product.customer.name = 'web'
+            product.customer.name = 'web';
+            product.customer.replace = true;
             product.retailer_id = getId()
             if(checkUserPermission('order products') == true){
             product.outlet_id = window.localStorage.getItem("retailer_outlet");
@@ -491,6 +493,7 @@ export default {
                                 date:data.product.created_at,
                                 customer: {
                                     name: 'web',
+
                                 }
 
                             });
@@ -598,10 +601,15 @@ export default {
             // }else{
             //     this.saved_orders = JSON.parse(window.localStorage.getItem("cashier_order"))
             // }
+            this.saved_orders.filter((v) =>{ 
+                if(v.customer.replace == true){
+                    v.customer.name = this.customer;
+                }
+            });
             const payload = {
                 "orders": this.saved_orders                
             }
-        
+        // this.loading = false
             console.log(payload);
 
 

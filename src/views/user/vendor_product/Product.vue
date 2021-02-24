@@ -26,11 +26,11 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12" v-if="vendor_products.length && !loading">
-                            <div class="row mr-2">
+                            <div class="row mr-2 mb-4">
                                 <div class="col-md-6 d-flex justify-content-center" v-for="(product,index) in filerResult" :key="index">
                                     <div class="card p-2" style="width: 25rem;height:8rem;border-radius:0px">
                                         <div class="row g-0">
-                                        <div class="col-md-2 mt-2 mr-2"><img :src="product.image" class="rounded-circle" alt="" width="70" height="70"/></div>
+                                        <div class="col-md-2 mt-2 mr-2"><img :src="product.image" class="rounded-circle" alt="" height="70"/></div>
                                         <div class="col-md-7">
                                            <p class="fs-14 font-weight-bold text-black"> {{product.name.length > 22 ? product.name.substr(0, 22)+'...' : product.name}}</p>
                                                 <p class="fs-12 font-weight-bold text-black" style="margin-top:-20px">{{product.size}}</p>
@@ -48,6 +48,31 @@
                                     </div>
                                 </div>
                             </div>
+
+
+
+                            <nav aria-label="Page navigation example">
+                                      <ul class="mb-5 pagination justify-content-center">
+                                        <li class="page-item mr-1">
+                                          <button @click="getPageVendorProducts(page.first_page_url)" class="page-link">First</button>
+                                        </li>
+                                        <li class="page-item mr-1">
+                                          <button @click="getPageVendorProducts(page.prev_page_url)" class="page-link">Previous</button>
+                                        </li>
+                                        <li class="page-item active mr-1" aria-current="page">
+                                          <span class="page-link">{{page.current_page}}</span>
+                                        </li>
+                                        <li class="page-item mr-1" aria-current="page">
+                                          <span class="page-link">of {{page.last_page > 1? page.last_page+ ' pages' : page.last_page+ ' page'}}</span>
+                                        </li>
+                                        <li class="page-item mr-1">
+                                          <button @click="getPageVendorProducts(page.next_page_url)" class="page-link">Next</button>
+                                        </li>
+                                        <li class="page-item mr-1">
+                                          <button @click="getPageVendorProducts(page.last_page_url)" class="page-link">Last</button>
+                                        </li>
+                                      </ul>
+                                    </nav>
 
                         </div>
 

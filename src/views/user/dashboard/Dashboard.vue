@@ -88,12 +88,12 @@
                                       <div class="card-body">
                                        <div class="row d-flex justify-content-center" style=""> <h6 class="fs-13" style="font-weight:bold !important"> {{product.name.length > 20 ? product.name.substr(0, 20)+'...' : product.name}}</h6></div>
                                        <div class="row d-flex justify-content-center" style="height:25%"> <h6 class="fs-10" style="font-weight:bold !important"> {{product.size}}</h6></div>
-                                        <div class="row" style="height:50%;margin-top:-40px">
+                                        <div class="row" style="height:50%;margin-top:-5px">
                                           <div class="col-md-12">
                                             <div class="text-center mt-1"><img :src="product.public_image_url" class="rounded-circle" alt="" style="height:80px"/></div>
                                           </div>                                        
                                         </div>
-                                        <div class="row" style="margin-top:-10px"> 
+                                        <div class="row" style="margin-top:-5px"> 
                                           <div class="col-md-12 d-flex justify-content-center"> 
                                            <p class="fs-13"> {{product.quantity}} units left</p>
                                           </div>
@@ -266,11 +266,37 @@
                     </table>
                     <div class="row d-flex">
                     <div class="align-self-center mx-auto" style="margin-bottom:-20px">
-                       <button class="btn btn-warning rounded-pill text-dark px-5 py-2" data-toggle="modal" data-target="#modeofpaymentModal">Proceed to payment</button>
+                       <button class="btn btn-warning rounded-pill text-dark px-5 py-2" data-toggle="modal" data-target="#customerInfo">Proceed to payment</button>
                     </div>
                     </div>
                 </div>
             </div>
+
+
+
+          <div class="modal fade" id="customerInfo" tabindex="-1" role="dialog" aria-labelledby="customerInfo" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h6 class="modal-title font-weight-bold"> Customer information</h6>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                
+                <div class="modal-body row">
+                  <div class="col-md-12">
+                    <input type="name" v-model="customer" placeholder="customer name" class="form-control">
+                  </div>
+                  <div class="col-md-12 d-flex justify-content-end mt-2">
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Next</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
 
 
 

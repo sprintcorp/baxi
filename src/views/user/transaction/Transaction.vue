@@ -39,25 +39,25 @@
                                   <div class="table-responsive mt-5" v-if="transactions.length && !loading && !distributor">
                                     <table class="table table-striped">
                                       <thead>
-                                      <tr>
+                                      <tr style="text-align:center">
                                         <th>S/N</th>
                                         <th>Order ID</th>
                                         <th>Type</th>
-                                        <!-- <th>Category</th>-->
-                                        <th>Outlet</th> 
-                                        <th>Date</th>
-                                        <th>No of Items</th>
+                                        <th>Customer</th>
+                                        <th>Outlet name</th> 
+                                        <th>Transaction date</th>
+                                        <th>No of items</th>
                                         <th>Amount</th>
                                         <th>View</th>
                                       </tr>
                                       </thead>
                                       <tbody>
 
-                                      <tr v-for="(transaction,index) in filerTransactions" :key="index">
+                                      <tr style="text-align:center" v-for="(transaction,index) in filerTransactions" :key="index">
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ transaction.order_group_id }}</td>
                                         <td>{{ transaction.type }}</td>
-                                        <!-- <td></td>-->
+                                        <td>{{transaction.orders[0].customer ? transaction.orders[0].customer.name: 'No name'}}</td>
                                         <td>{{transaction.outlet.name}}</td> 
                                         <td>{{transaction.created_at  }}</td>
                                         <td>{{transaction.orders.length}}</td>
@@ -97,7 +97,7 @@
                                   <div class="table-responsive mt-5" v-if="transactions.length && !loading && distributor">
                                     <table class="table table-striped">
                                       <thead>
-                                      <tr>
+                                      <tr style="text-align:center">
                                         <th>S/N</th>
                                         <th>Order ID</th>
                                         <th>Type</th>
@@ -111,7 +111,7 @@
                                       </thead>
                                       <tbody>
 
-                                      <tr v-for="(transaction,index) in distributorTransactions" :key="index">
+                                      <tr style="text-align:center" v-for="(transaction,index) in distributorTransactions" :key="index">
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ transaction.order_group_id }}</td>
                                         <td>{{ transaction.delivery_type }}</td>
@@ -186,7 +186,7 @@
                             <div class="modal-body">
                                 <table class="table caption-top">
                                     <thead>
-                                      <tr>
+                                      <tr style="text-align:center">
                                         <th scope="col">#</th>
                                         <th scope="col"></th>
                                         <th scope="col">Items</th>
@@ -199,9 +199,9 @@
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      <tr v-for="(product,index) in transaction_product.orders" :key="index">
+                                      <tr style="text-align:center" v-for="(product,index) in transaction_product.orders" :key="index">
                                         <th scope="row">{{index+1}}</th>
-                                        <th scope="row"><img :src="product.product.public_image_url" width="50"/></th>
+                                        <th scope="row"><img :src="product.product.public_image_url" height="50"/></th>
                                         <td>{{product.product.name}}</td>
                                         <td>&#8358; {{numberWithCommas(product.amount/product.qty)}}</td>
                                         <td>{{product.product.size?product.product.size:''}}</td>
@@ -225,7 +225,7 @@
                       <div class="modal fade" tabindex="-1" ria-hidden="true" id="printMe">
                         <table class="table caption-top">
                                     <thead>
-                                      <tr>
+                                      <tr style="text-align:center">
                                         <th scope="col">#</th>
                                         <th scope="col">Items</th>
                                         <th scope="col">Price</th>                                        
@@ -235,7 +235,7 @@
                                     </thead>
                                     <tbody>
                                                                    
-                                      <tr>
+                                      <tr style="text-align:center">
                                         <td>Status</td>
                                         <th scope="row"></th>
                                         <th scope="row"></th>
@@ -243,7 +243,7 @@
                                         
                                         <td>{{status}}</td>
                                       </tr>
-                                      <tr>
+                                      <tr style="text-align:center">
                                         <td>Total</td>
                                         <th scope="row"></th>
                                         <th scope="row"></th>

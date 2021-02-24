@@ -274,7 +274,7 @@ export default {
             // this.$swal(res.message);
             this.$swal({
                 title: res.message,
-                text: 'Confirm order terms once distributor accepts order',
+                text: 'Order '+res.data.group_id+' sent to the distributor. You will receive a feedback shortly',
                 icon: 'success',
                 confirmButtonText: 'ok'
             });
