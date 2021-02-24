@@ -39,7 +39,7 @@
                     <input type="text" placeholder="Search Products" style="background-color:white;width:255%;border-radius:20px"/>
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form> -->
-                <div style="height:20%" v-if="!distributor && order_products"><i class="fa fa-building"></i> Outlet : <b>{{name}}</b> <br><i class="fa fa-wallet"></i> : <b>₦ {{numberWithCommas(wallet)}}</b> | <i class="fa fa-money-bill"></i> Ledger : <b>₦ {{numberWithCommas(ledger)}}</b><button @click="getBalance()" v-if="!reload"><img src="https://img.icons8.com/material/24/000000/synchronize--v1.png"/></button>
+                <div style="height:20%" v-if="!distributor && order_products"><i class="fa fa-building"></i> Outlet : <b>{{name}}</b> <br><i class="fa fa-wallet"></i> <b>₦ {{numberWithCommas(wallet)}}</b> | <i class="fa fa-money-bill"></i> Ledger : <b>₦ {{numberWithCommas(ledger)}}</b><button @click="getBalance()" v-if="!reload"><img src="https://img.icons8.com/material/24/000000/synchronize--v1.png"/></button>
                    
                     <div v-if="reload" class="spinner-border spinner-border-sm" role="status">
                         <span class="sr-only">Loading...</span>
