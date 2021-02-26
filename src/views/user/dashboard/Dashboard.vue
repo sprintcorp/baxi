@@ -214,7 +214,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="fs-15 mt-3 mb-1 text-center" style="color:red" v-if="error">Selected quantity is more than available quantity</div>
+                                        <div class="fs-15 mt-5 mb-1 text-center" style="color:red" v-if="error">Selected quantity is more than available quantity</div>
                                     </div>
                                     
 
@@ -298,10 +298,25 @@
                 </div>
                 
                 <div class="modal-body row">
-                  <div class="col-md-12">
-                    <input type="name" v-model="customer" placeholder="customer name" class="form-control">
-                  </div>
-                  <div class="col-md-12 d-flex justify-content-end mt-2">
+                  <!-- <div class="row"> -->
+                    <div class="col-md-6">
+                      <input type="name" v-model="customer.firstname" placeholder="customer firstname" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                      <input type="name" v-model="customer.lastname" placeholder="customer lastname" class="form-control">
+                    </div>
+                  <!-- </div> -->
+                  <!-- <div class="row"> -->
+                    <div class="col-md-12 mt-3">
+                      <input type="text " v-model="customer.phone" placeholder="customer phone" class="form-control">
+                    </div>
+                  <!-- </div> -->
+                  <!-- <div class="row"> -->
+                    <div class="col-md-12 mt-3">
+                      <input type="email " v-model="customer.email" placeholder="customer email" class="form-control">
+                    </div>
+                  <!-- </div> -->
+                  <div class="col-md-12 d-flex justify-content-end mt-2 mb-1">
                     <button class="btn btn-warning" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Next</button>
                   </div>
                 </div>

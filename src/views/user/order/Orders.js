@@ -38,14 +38,15 @@ export default {
             console.log(this.start_date.toString());
         },
         sumArray(objArr){
-            console.log(objArr.length)
+            // console.log(objArr.length)
 
             let counts = objArr.reduce((prev, curr) => {
-                let count = prev.get(curr.id) || 0;
-                prev.set(curr.id + count);
+                // let count = prev.get(curr.id) || 0;
+                // prev.set(curr.id + count);
+                prev.set(curr.id);
                 return prev;
               }, new Map());
-              
+            //   console.log(counts)
               // then, map your counts object back to an array
               let reducedObjArr = [...counts].map(([id]) => {
                 return {id}
@@ -77,15 +78,15 @@ export default {
               console.log(action)
         },
         orderAction(action){
-            
-            this.saving = true;
-            // alert(this.saving)
+            console.log(action)
             // this.saving = true;
+            // alert(this.saving)
+            this.saving = true;
             const payload = {
                 "status":action,
                 "order_group_ids":this.order_groups[0].selected_product_ids,
             }
-            console.log(payload)
+            // console.log(this.order_groups)
 
             fetch(BASE_URL + '/my/distributor/orders/status', {
                 method: 'PUT',
@@ -100,8 +101,6 @@ export default {
             .then(res => {
                 window.localStorage.setItem("wallet-balance",res.data.wallet_balance);
                 this.getRetailerOrders();
-                // this.orderInformation();
-                // this.order_tab = true;
                 if(action == 1){
                     window.reload();
                 }
@@ -124,7 +123,6 @@ export default {
                     icon: 'error',
                     confirmButtonText: 'ok'
                 });
-                // this.getOrders();
                 if (err.response.status == 401) {
                     this.$swal({
                 title: 'Error',

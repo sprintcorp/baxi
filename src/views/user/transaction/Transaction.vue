@@ -32,7 +32,7 @@
                                   
                                     <div class="col-md-2 mt-2 font-weight-bold">
                                       
-                                      <router-link :to="{name:'distributorSalesTransaction'}" class="top-text-block" style="color:black;text-decoration:none">Sales Transaction</router-link></div>
+                                      <router-link :to="{name:'distributorSalesTransaction'}" v-if="distributor" class="top-text-block" style="color:black;text-decoration:none">Sales Transaction</router-link></div>
                                   
                                   <div class="col-md-5 d-flex justify-content-end">
                                      <input type="text" v-model="search" placeholder="Search for transaction type" class="inp" style="background-color:white;width:91%;"/>
@@ -52,6 +52,7 @@
                                         <th>Order ID</th>
                                         <th>Type</th>
                                         <th>Customer</th>
+                                        <th>Phone</th>
                                         <th>Outlet name</th> 
                                         <th>Transaction date</th>
                                         <th>No of items</th>
@@ -65,7 +66,8 @@
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ transaction.order_group_id }}</td>
                                         <td>{{ transaction.type }}</td>
-                                        <td>{{transaction.orders[0].customer ? transaction.orders[0].customer.name: 'No name'}}</td>
+                                        <td>{{transaction.customer ? transaction.customer.customer.firstname+' '+transaction.customer.customer.lastname: 'No name'}}</td>
+                                        <td>{{transaction.customer ? transaction.customer.customer.phone: 'No phone'}}</td>
                                         <td>{{transaction.outlet.name}}</td> 
                                         <td>{{transaction.created_at  }}</td>
                                         <td>{{transaction.orders.length}}</td>

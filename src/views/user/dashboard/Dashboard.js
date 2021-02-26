@@ -40,7 +40,12 @@ export default {
             saved_orders:'',
             saving:false,
             distributor:false,
-            customer:'',
+            customer:{
+                firstname:'',
+                lastname:'',
+                phone:'',
+                email:''
+            },
         }
     },
     computed: {
@@ -57,7 +62,9 @@ export default {
             this.product = product;
             this.key = index
             console.log(this.key)
-            this.quantity_value = product.minimum_order;
+            if(this.distributor){
+                this.quantity_value = product.minimum_order;
+            }
             // alert("hello")
         },
         increase(qty){
@@ -91,8 +98,8 @@ export default {
             product.price = value * product.sell_price 
             product.int_amount = product.amount
             product.amount = product.price.toString()
-            product.customer.name = 'web';
-            product.customer.replace = true;
+            // product.customer.name = 'web';
+            // product.customer.replace = true;
             product.retailer_id = getId()
             if(checkUserPermission('order products') == true){
                 product.outlet_id = window.localStorage.getItem("retailer_outlet");
@@ -205,9 +212,7 @@ export default {
                                 qty: data.qty,
                                 sku: data.product.sku,
                                 date:data.product.created_at,
-                                customer: {
-                                    name: 'web',
-                                }
+                                
 
                             });
                         });
@@ -272,9 +277,7 @@ export default {
                                 qty: data.qty,
                                 sku: data.product.sku,
                                 date:data.product.created_at,
-                                customer: {
-                                    name: 'web',
-                                }
+                               
 
                             });
                         });
@@ -647,14 +650,15 @@ export default {
             // }else{
             //     this.saved_orders = JSON.parse(window.localStorage.getItem("cashier_order"))
             // }
-            this.saved_orders.filter((v) =>{ 
-                if(v.customer.replace == true){
-                    v.customer.name = this.customer;
-                }
-            });
+            // this.saved_orders.filter((v) =>{ 
+            //     if(v.customer.replace == true){
+            //         v.customer.name = this.customer;
+            //     }
+            // });
             const payload = {
                 "orders": this.saved_orders,
-                "business_id":business        
+                "business_id":business,
+                "customer":this.customer        
             }
         this.loading = false
             console.log(payload);
