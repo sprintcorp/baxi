@@ -18,11 +18,12 @@ export default {
             end_date: '',
             status:'',
             distributor:false,
+            transaction:''
         }
     },
     computed: {
         filerTransactions() {
-            return this.transactions.filter((transaction) => transaction.type.toLowerCase().includes(this.search.toLowerCase()) && (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
+            return this.transactions.filter((transaction) => (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
                     new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()))
         },
     },
@@ -34,7 +35,9 @@ export default {
         showDate() {
             console.log(this.start_date.toString());
         },
-        
+        showTransaction(transaction){
+            this.transaction = transaction;
+        },
         getTransaction() {
                 this.loading = true;
                 fetch(BASE_URL + '/my/distributor/customer/transactions', {

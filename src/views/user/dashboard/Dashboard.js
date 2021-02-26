@@ -678,14 +678,29 @@ export default {
                     window.localStorage.setItem("retailer_cashier_order",[]);
                     window.localStorage.removeItem("retailer_cashier_order");
                     this.saving = false;
-                    console.log(res)
+                    // console.log(res)
                     // this.$swal("Payment Successful",'success');
-                    this.$swal({
-                        title: 'Success',
-                        text: "Payment Successful",
-                        icon: 'success',
-                        confirmButtonText: 'ok'
-                    });
+                    
+                    if(res.success){
+                        this.$swal({
+                            title: 'Success',
+                            text: "Payment Successful",
+                            icon: 'success',
+                            confirmButtonText: 'ok'
+                        });
+                    }else{
+                        // let errors = '';
+                        // res.message.errors.forEach((error)=>{
+                        //     errors +=error;
+                        // })
+                        // console.log(errors.product_1);
+                        this.$swal({
+                            title: 'Error',
+                            text: "Error saving order",
+                            icon: 'error',
+                            confirmButtonText: 'ok'
+                        });
+                    }
                     this.show_cat = false;
                     this.cart_order = [];
                     
