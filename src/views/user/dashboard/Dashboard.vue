@@ -1,7 +1,7 @@
 <template>
   <!-- <RetailerLayoutComponent> -->
     <div>
-      <div class="container-fluid p-2" style="background-color: white;min-height:80vh">
+      <div class="container-fluid p-2" style="background-color: white;min-height:80vh;overflow:none">
         <div class="heading-sec">
           <!-- Retailer header -->
           <div class="row p-5" v-if="change_outlet">
@@ -119,20 +119,27 @@
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
                                     <div class="card p-2" style="height:14rem;margin-top:10px;width:13rem">
                                         <div class="card-body">
-                                          <div class="row d-flex justify-content-center"> <p class="fs-13"> {{product.name.lenght > 20 ? product.name.substr(0, 20) : product.name.substr(0, 20)+"..."}}</p></div>
-                                            <div class="row" style="height:50%">
-                                              <div class="col-md-12">
-                                                <div class="text-center"><img :src="product.public_image_url" class="rounded-circle" alt="" width="100" height="100"/></div>
-                                              </div>
-                                            <div class="col-md-12 text-center">  
-                                            <!-- <div class="card-body"> -->
-                                              <!-- <p class="fs-13"> {{product.name}}</p> -->
-                                              <p class="fs-13"> {{product.quantity}} | &#8358; {{ numberWithCommas(product.sell_price) }}</p>
-                                              <p class="fs-13"> </p>
-                                            <!-- </div> -->
-                                            </div>
-                                            </div>
+                                       <div class="row d-flex justify-content-center" style=""> <h6 class="fs-13" style="font-weight:bold !important"> {{product.name.length > 20 ? product.name.substr(0, 20)+'...' : product.name}}</h6></div>
+                                       <div class="row d-flex justify-content-center" style="height:25%"> <h6 class="fs-10" style="font-weight:bold !important"> {{product.size}}</h6></div>
+                                        <div class="row" style="height:50%;margin-top:-5px">
+                                          <div class="col-md-12">
+                                            <div class="text-center mt-1"><img :src="product.public_image_url" class="rounded-circle" alt="" style="height:80px"/></div>
+                                          </div>                                        
                                         </div>
+                                        <div class="row" style="margin-top:-5px"> 
+                                          <div class="col-md-12 d-flex justify-content-center"> 
+                                           <p class="fs-13"> {{product.quantity}} units left</p>
+                                          </div>
+                                        </div>
+                                        <div class="row" style="margin-top:-20px">  
+                                          <div class="col-md-12 d-flex justify-content-center">
+                                           <h5 class="fs-15"> &#8358; {{ numberWithCommas(product.sell_price) }}.00</h5>
+                                          </div>
+                                        </div>
+                                        <button v-if="permission && product.quantity > 0" class="btn btn-warning btn-block" @click="addToCart(product,index)" data-toggle="modal" data-target="#cart">Sell</button>
+                                        <button v-if="!permission" class="btn btn-warning btn-block" @click="warning('You are not permitted to execute this action')">Sell</button>
+                                        <button v-if="permission && product.quantity < 1" class="btn btn-warning btn-block" @click="warning('The following item(s) are now out-of-stock. Click the restock button to continue.')">Sell</button>
+                                    </div>
                                     </div>
                                     <!-- </router-link> -->
                                 </div>
@@ -190,13 +197,19 @@
                                         <div class="text-center"><img :src="product.public_image_url" width="200" height="200"/></div>
                                         <div class="fs-15 mt-2 h3 text-center">{{product.name}} ({{product.size}})</div>
                                         <div class="fs-15 mt-1 h4 text-center">&#8358; {{ numberWithCommas(product.sell_price) }}.00</div>
-                                        <div class="fs-13 mt-1 text-center">{{ product.quantity }} Units Left</div>
-                                        <div class="fs-15 mt-3 mb-1 text-center">Select Quantity</div>
+                                        <div class="fs-13 text-center">{{ product.quantity }} Units Left</div>
+                                        <div class="fs-13 text-center" v-if="distributor">Minimum order quantity {{ product.minimum_order }}</div>
+                                        <div class="fs-15 mt-1 mb-1 text-center">Select Quantity</div>
                                         <div class="row">
                                             <div class="col-md-12 d-flex justify-content-end">
                                                 <div class="input-group rm">
-                                                    <input type="button" @click="decrease(product.quantity)" value="-" class="button-minus" data-field="quantity">
-                                                    <input type="number" step="1" max=""  :value="quantity_value" name="quantity" @change="changes()" class="quantity-field">
+                                                    <input type="button" @click="decrease(product.quantity)" v-if="quantity_value > product.minimum_order && distributor" value="-" class="button-minus" data-field="quantity">
+                                                    <input type="button" value="-" v-if="quantity_value <= product.minimum_order && distributor"  class="button-minus" data-field="quantity">
+                                                    <input type="number" v-if="distributor" step="1" :max="product.quantity" :min="product.minimum_order" :value="quantity_value" name="quantity" @change="changes()" class="quantity-field">
+
+
+                                                    <input type="button" v-if="!distributor" @click="decrease(product.quantity)" value="-" class="button-minus" data-field="quantity">
+                                                    <input type="number" v-if="!distributor" step="1" max=""  :value="quantity_value" name="quantity" @change="changes()" class="quantity-field">
                                                     <input type="button" @click="increase(product.quantity)" value="+" class="button-plus" data-field="quantity">
                                                 </div>
                                             </div>

@@ -136,7 +136,8 @@ export default {
         
         const payload = {
             "orders": JSON.parse(window.localStorage.getItem("retailer_order")),
-            "delivery":{"type": this.type, "date": period}
+            "delivery":{"type": this.type, "date": period},
+            "outlet_id":parseInt(window.localStorage.getItem("retailer_outlet"))
         }
         console.log(payload);
         fetch(BASE_URL + '/my/distributor/orders', {

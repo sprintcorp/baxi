@@ -23,18 +23,19 @@
 
                         <section class="panel-content">
                           <div class="row">
-                            <div class="col-md-12" v-if="transaction_tab">
+                            <div class="col-md-12">
                                 <div class="row border-2 mt-1">
                                   <div class="col-md-1 mt-2 font-weight-bold" style="">
-                                    <span class="link-line">Transaction</span>
+                                    <router-link :to="{name:'transactionOverview'}" class="top-text-block" style="color:black;text-decoration:none">
+                                     <span> Transaction</span>
+                                    </router-link>
                                   </div>
-
                                   
-                                    <div class="col-md-2 mt-2 font-weight-bold">
-                                      
-                                      <router-link :to="{name:'distributorSalesTransaction'}" class="top-text-block" style="color:black;text-decoration:none">Sales Transaction</router-link></div>
+                                    <div class="col-md-3 mt-2 font-weight-bold">                                      
+                                      <span class="link-line">Sales Transaction</span>
+                                    </div>
                                   
-                                  <div class="col-md-5 d-flex justify-content-end">
+                                  <div class="col-md-4 d-flex justify-content-end">
                                      <input type="text" v-model="search" placeholder="Search for transaction type" class="inp" style="background-color:white;width:91%;"/>
                                   </div>
                                   <div class="col-md-4 d-flex justify-content-end">
@@ -44,64 +45,9 @@
                                   </div>
                                 </div>
                                   <div class="row">
-                                  <div class="table-responsive mt-5" v-if="transactions.length && !loading && !distributor">
-                                    <table class="table table-striped">
-                                      <thead>
-                                      <tr style="text-align:center">
-                                        <th>S/N</th>
-                                        <th>Order ID</th>
-                                        <th>Type</th>
-                                        <th>Customer</th>
-                                        <th>Outlet name</th> 
-                                        <th>Transaction date</th>
-                                        <th>No of items</th>
-                                        <th>Amount</th>
-                                        <th>View</th>
-                                      </tr>
-                                      </thead>
-                                      <tbody>
+                                 
+                     
 
-                                      <tr style="text-align:center" v-for="(transaction,index) in filerTransactions" :key="index">
-                                        <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
-                                        <td>{{ transaction.order_group_id }}</td>
-                                        <td>{{ transaction.type }}</td>
-                                        <td>{{transaction.orders[0].customer ? transaction.orders[0].customer.name: 'No name'}}</td>
-                                        <td>{{transaction.outlet.name}}</td> 
-                                        <td>{{transaction.created_at  }}</td>
-                                        <td>{{transaction.orders.length}}</td>
-                                        <td>&#8358; {{numberWithCommas(transaction.amount)}}</td>
-                                        <td>
-                                          <button data-toggle="modal" data-target="#order" type="button" @click="showTransaction(transaction)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
-                                        </td>
-                                      </tr>
-                                      </tbody>
-                                    
-                                    </table>
-                                    <nav aria-label="Page navigation example">
-                                      <ul class="mb-5 pagination justify-content-center">
-                                        <li class="page-item mr-1">
-                                          <button @click="getPageTransaction(page.first_page_url)" class="page-link">First</button>
-                                        </li>
-                                        <li class="page-item mr-1">
-                                          <button @click="getPageTransaction(page.prev_page_url)" class="page-link">Previous</button>
-                                        </li>
-                                        <li class="page-item active mr-1" aria-current="page">
-                                          <span class="page-link">{{page.current_page}}</span>
-                                        </li>
-                                        <li class="page-item mr-1" aria-current="page">
-                                          <span class="page-link">of {{page.last_page > 1? page.last_page+ ' pages' : page.last_page+ ' page'}}</span>
-                                        </li>
-                                        <li class="page-item mr-1">
-                                          <button @click="getPageTransaction(page.next_page_url)" class="page-link">Next</button>
-                                        </li>
-                                        <li class="page-item mr-1">
-                                          <button @click="getPageTransaction(page.last_page_url)" class="page-link">Last</button>
-                                        </li>
-                                      </ul>
-                                    </nav>
-                                  </div>
-
-                                  <!-- {{}} -->
                                   <div class="table-responsive mt-5" v-if="transactions.length && !loading && distributor">
                                     <table class="table table-striped">
                                       <thead>
@@ -109,8 +55,6 @@
                                         <th>S/N</th>
                                         <th>Order ID</th>
                                         <th>Type</th>
-                                        <!-- <th>Category</th>-->
-                                        <!-- <th>Outlet</th>  -->
                                         <th>Date</th>
                                         <th>No of Items</th>
                                         <th>Amount</th>
@@ -184,7 +128,7 @@
                             </div>
                         </section>
 
-                      <div class="modal fade" id="order" tabindex="-1" aria-labelledby="order" aria-hidden="true">
+                      <!-- <div class="modal fade" id="order" tabindex="-1" aria-labelledby="order" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-dialog-centered">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -223,7 +167,7 @@
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                              <!-- <button type="button" class="btn btn-primary" @click="printReceipt(transaction_product.orders)">Print</button> -->
+                              
                             </div>
                           </div>
                         </div>
@@ -261,7 +205,7 @@
                                       </tr>
                                     </tbody>
                                   </table>
-                      </div>
+                      </div> -->
 
 
   <div class="modal fade" id="search" tabindex="-1" role="dialog" aria-labelledby="user" aria-hidden="true">

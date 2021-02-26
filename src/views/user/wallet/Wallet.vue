@@ -2,38 +2,19 @@
     <div>
          <div class="container-fluid" style="">
                 <div class="heading-sec">
-                    <div class="row">
-                         
-
-                            <!-- <div class="row mt-5">
-                              <nav>
-                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                  <button @click="changeTab()" class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">
-                                    Transactions
-                                  </button>
-                                  <button @click="changeTab()" class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">
-                                    Transaction tracker
-                                  </button>
-                                  
-                                </div>
-                              </nav>
-                            </div> -->
-                        
+                    <div class="row">                       
 
                         <section class="panel-content">
                           <div class="row">
                             <div class="col-md-12">
                                 <div class="row border-2 mt-1">
                                   <div class="col-md-4 mt-2 font-weight-bold"> Wallet History</div>
-                                  <div class="col-md-4 d-flex justify-content-end">
-                                     <!-- <input type="text" v-model="search" placeholder="Search for transaction type" class="inp" style="background-color:white;width:91%;"/> -->
-                                  </div>
+                                  <div class="col-md-4 d-flex justify-content-end"> </div>
                                   <div class="col-md-4 d-flex justify-content-end">
                                     <button data-toggle="modal" data-target="#search" class="btns shadow btn-light btn-sm sml-radius text-black p-2" style="border-radius:30px">
                                       <img src="../../../assets/icon/noun_filter_3070438.png" alt="img"/> Filter by wallet: From last 30 days
                                     </button>
                                   </div>
-                                  <!-- {{distributor}} -->
                                 </div>
                                   <div class="row">
                                   <div class="table-responsive mt-5" v-if="wallets.length && !loading">

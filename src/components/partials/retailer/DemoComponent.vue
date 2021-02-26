@@ -17,7 +17,7 @@
                 <li :class="[this.$router.currentRoute.name === 'productOverview' || this.$router.currentRoute.name === 'restockLevel' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'productOverview'}"  class="nav-link font-weight-bold" href="#"><i class="fa fa-cube"></i> Product</router-link>
                 </li>
-                <li v-if="order_products && !distributor" :class="[this.$router.currentRoute.name === 'categoryOrder' || this.$router.currentRoute.name === 'productOrderOverview' || this.$router.currentRoute.name == 'categoryVendor' || this.$router.currentRoute.name == 'orderInformation' || this.$router.currentRoute.name == 'vendorProduct'  ? 'nav-item active' : 'nav-item']">
+                <li v-if="order_products && !distributor" :class="[this.$router.currentRoute.name === 'walletHistory' || this.$router.currentRoute.name === 'categoryOrder' || this.$router.currentRoute.name === 'productOrderOverview' || this.$router.currentRoute.name == 'categoryVendor' || this.$router.currentRoute.name == 'orderInformation' || this.$router.currentRoute.name == 'vendorProduct'  ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'categoryOrder'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-calendar"></i> Order </router-link>
                 </li>
 
@@ -30,9 +30,9 @@
                 <li v-if="distributor" :class="[this.$router.currentRoute.name === 'distributorOrders' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'distributorOrders'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-calendar"></i> Order</router-link>
                 </li>
-                <!-- <li v-if="order_products" :class="[this.$router.currentRoute.name === 'walletHistory' ? 'nav-item active' : 'nav-item']">
+                <li v-if="order_products && distributor" :class="[this.$router.currentRoute.name === 'walletHistory' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'walletHistory'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-wallet"></i> Wallet History</router-link>
-                </li> -->
+                </li>
 
                 </ul>
                 <!-- <form  class="form-inline search-form my-2 my-lg-0" v-if="(this.$router.currentRoute.name != 'categoryOrder')">
@@ -67,7 +67,7 @@
                                     <!-- <div class="top-text-light">15 minutes ago</div> -->
                                 </router-link> 
                             </li>
-                            <li style="text-align:center" v-if="notification.length > 4"><button class="btn notification-button">View all notification</button></li>
+                            <li style="text-align:center" v-if="notification.length > 4"><router-link :to="{name:'notification'}"><button class="btn notification-button">View all notification</button></router-link></li>
                             
                         
                         <li>

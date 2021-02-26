@@ -17,8 +17,14 @@
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <router-link :to="{name:'productOrderOverview'}"><button class="btn btn-warning" style="border-radius:20px"><i class="fa fa-calendar"></i> Order History</button></router-link>
-                        <router-link :to="{name:'walletHistory'}"><button class="btn btn-warning ml-2" style="border-radius:20px"><i class="fa fa-wallet"></i> Wallet History</button></router-link>
+                        <div class="col-md-6">
+                           <router-link :to="{name:'productOrderOverview'}"><button class="btn btn-warning" style="border-radius:20px"><i class="fa fa-calendar"></i> Order History</button></router-link>
+                           <router-link :to="{name:'walletHistory'}"><button class="btn btn-warning ml-2" style="border-radius:20px"><i class="fa fa-wallet"></i> Wallet History</button></router-link>
+                        </div>
+
+                        <div class="col-md-6 d-flex justify-content-end">
+                            <p class="fs-15"  v-if="show_business" style="color:red;font-weight:bold">MOQ : Minimum Order Quantity</p>
+                        </div>
                     </div>
                     <div class="row">
                         <!-- {{show_business}} -->
@@ -54,7 +60,8 @@
                                                     <p class="fs-14 font-weight-bold text-black"> {{product.name.length > 22 ? product.name.substr(0, 22)+'...' : product.name}}</p>
                                                     <p class="fs-12 font-weight-bold text-black" style="margin-top:-20px">{{product.size}}</p>
                                                     <p class="fs-12 font-weight-bold text-black" style="margin-top:-5px"> &#8358; {{ numberWithCommas(product.price) }}.00</p>
-                                                    <p class="fs-10 font-weight-bold text-black" style="margin-top:-19px"> {{product.quantity}} units - {{product.business_name}}</p>
+                                                    <p class="fs-10 font-weight-bold text-black" style="margin-top:-19px;letter-spacing: 1px;"> {{product.quantity}} units - {{product.business_name}}</p>
+                                                    <p class="fs-10 font-weight-bold text-black" style="margin-top:-19px">  MOQ {{product.minimum_order}}</p>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="mt-4">

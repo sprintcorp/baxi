@@ -27,8 +27,10 @@ import BusinessComponent from "../views/user/business/Business.vue";
 import OutletComponent from "../views/user/retailer_outlet/Outlet.vue";
 import OrderHistoryComponent from "../views/user/order_history/OrderHistory.vue";
 import TransactionComponent from "../views/user/transaction/Transaction.vue";
+import DistributorTransactionsComponent from "../views/user/sales_transaction/Transaction.vue";
 import ProductComponent from "../views/user/product/Product.vue";
 import WalletComponent from "../views/user/wallet/Wallet.vue";
+import NotificationComponent from "../views/user/notification/Notification.vue";
 import OrderComponent from "../views/user/order/Orders.vue";
 import DistributorOrdersComponent from "../views/user/distributor/Order.vue";
 import RetailerOrderOverviewComponent from "../views/user/order_overview/Order.vue";
@@ -146,6 +148,13 @@ const routes = [{
                 meta: { authorize: 'order products' } 
             },
             {
+                name: "notification",
+                path: "/notification",
+                component: NotificationComponent,
+                ...preventRoutes,
+                // meta: { authorize: 'order products' } 
+            },
+            {
                 name: "restockLevel",
                 path: "/outlet/restock/level",
                 component: RestockLevelComponent,
@@ -157,6 +166,13 @@ const routes = [{
                 path: "/retailer/outlet/:id",
                 component: OutletComponent,
                 ...preventRoutes
+            },
+            {
+                name: "distributorSalesTransaction",
+                path: "/distributor/transaction/",
+                component: DistributorTransactionsComponent,
+                ...preventRoutes,
+                meta: { authorize: 'distributor' } 
             },
             {
                 name: "transactionOverview",

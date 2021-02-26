@@ -64,7 +64,7 @@ export default {
         },
         getPageWallet(page){
             this.loading = true;
-                fetch(BASE_URL + page, {
+                fetch(page, {
                         headers: {
                             'Content-Type': 'application/json',
                             'Accept': 'application/json',
@@ -80,7 +80,7 @@ export default {
                         }
                         this.loading = false;
                         this.wallets = res.data.data;
-                        // this.page = res.data;
+                        this.page = res.data;
                         console.log(this.wallets);
                     })
                     .catch(err => {

@@ -57,6 +57,7 @@ export default {
             this.product = product;
             this.key = index
             console.log(this.key)
+            this.quantity_value = product.minimum_order;
             // alert("hello")
         },
         increase(qty){
@@ -94,21 +95,31 @@ export default {
             product.customer.replace = true;
             product.retailer_id = getId()
             if(checkUserPermission('order products') == true){
-            product.outlet_id = window.localStorage.getItem("retailer_outlet");
+                product.outlet_id = window.localStorage.getItem("retailer_outlet");
             }else{
-            product.outlet_id = window.localStorage.getItem("cahier_outlet");
+                product.outlet_id = window.localStorage.getItem("cahier_outlet");
             }
+            if(!this.distributor){
             if (JSON.parse(window.localStorage.getItem("retailer_cashier_order"))) {
                 this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
             }
-            // product.qty = value;
             this.pushToArray(this.cart, product);
             window.localStorage.setItem("retailer_cashier_order", JSON.stringify(this.cart));
             this.cart = [];
             this.quantity_value = 0;
-            // this.getProduct()
             this.getCart();
             console.log(this.cart)
+        }else{
+            if (JSON.parse(window.localStorage.getItem("distributor_cart"))) {
+                this.cart = JSON.parse(window.localStorage.getItem("distributor_cart"))
+            }
+            this.pushToArray(this.cart, product);
+            window.localStorage.setItem("distributor_cart", JSON.stringify(this.cart));
+            this.cart = [];
+            this.quantity_value = 0;
+            this.getCart();
+            console.log(this.cart)
+        }
             
 
         },
@@ -316,14 +327,15 @@ export default {
                     this.results.push({
                         product_id: data.product.id,
                         name: data.product.name,
-                        amount: parseInt(data.product.recommended_price),
-                        sell_price: parseInt(data.product.recommended_price),
-                        quantity: data.qty,
+                        amount: parseInt(data.pack_price),
+                        sell_price: parseInt(data.pack_price),
+                        quantity: data.pack_qty,
                         size: data.product.size,
                         public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
-                        qty: data.qty,
+                        qty: data.pack_qty,
                         sku: data.product.sku,
                         date:data.product.created_at,
+                        minimum_order: data.minimum_order_qty,
                         customer: {
                             name: 'web',
                         }
@@ -353,8 +365,18 @@ export default {
 
 
         sumProduct() {
-            if (JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length) {
+            if (JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length && !this.distributor) {
                 this.cart_order = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
+                let sum = this.cart_order.map(o => parseFloat(o.price)).reduce((a, c) => { return a + c });
+                let sum_product = this.cart_order.map(o => parseFloat(o.qty)).reduce((a, c) => { return a + c });
+                
+                this.total_with_vat = sum * 7.5 /100;
+                this.total = sum;
+                this.total_product = sum_product;
+            }
+
+            if (JSON.parse(window.localStorage.getItem("distributor_cart")) && JSON.parse(window.localStorage.getItem("distributor_cart")).length && this.distributor) {
+                this.cart_order = JSON.parse(window.localStorage.getItem("distributor_cart"))
                 let sum = this.cart_order.map(o => parseFloat(o.price)).reduce((a, c) => { return a + c });
                 let sum_product = this.cart_order.map(o => parseFloat(o.qty)).reduce((a, c) => { return a + c });
                 
@@ -364,21 +386,37 @@ export default {
             }
         },
         getCart(){
-            if (JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length > 0) {
+            if (JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length > 0 && !this.distributor) {
                 this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"));
+                this.sumProduct()
+                this.show_cat = true;
+            }
+            if (JSON.parse(window.localStorage.getItem("distributor_cart")) && JSON.parse(window.localStorage.getItem("distributor_cart")).length > 0 && this.distributor) {
+                this.cart = JSON.parse(window.localStorage.getItem("distributor_cart"));
                 this.sumProduct()
                 this.show_cat = true;
             }
         },
         removeFromCart(cart_order,index){
+            if(!this.distributor){
             const filteredItems = cart_order.slice(0, index).concat(cart_order.slice(index + 1, cart_order.length))
             window.localStorage.setItem("retailer_cashier_order", JSON.stringify(filteredItems));
             this.getCart();
             this.sumProduct();
             this.checkColumn();
+            }else{
+                const filteredItems = cart_order.slice(0, index).concat(cart_order.slice(index + 1, cart_order.length))
+                window.localStorage.setItem("distributor_cart", JSON.stringify(filteredItems));
+                this.getCart();
+                this.sumProduct();
+                this.checkColumn(); 
+            }
         },
         checkColumn(){
-            if (JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length && !this.cat) {
+            
+            if (!this.distributor && JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length && !this.cat) {
+                this.show_cat = true;
+             } else if (!this.distributor && JSON.parse(window.localStorage.getItem("distributor_cart")) && JSON.parse(window.localStorage.getItem("distributor_cart")).length && !this.cat) {
                 this.show_cat = true;
             }else{
                 this.show_cat = false;
@@ -597,7 +635,15 @@ export default {
         saveOrder() {
             this.saving = true;
             // if(checkUserPermission('order products') == true){
-                this.saved_orders = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
+                if(this.distributor){
+                    this.saved_orders = JSON.parse(window.localStorage.getItem("distributor_cart"))
+                    var business =  JSON.parse(window.localStorage.getItem("cahier_business"))
+                    var url = '/my/distributor/customer/order'
+                }else{
+                    this.saved_orders = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
+                    business = ''
+                    url = '/my/retailer/orders'
+                }
             // }else{
             //     this.saved_orders = JSON.parse(window.localStorage.getItem("cashier_order"))
             // }
@@ -607,13 +653,14 @@ export default {
                 }
             });
             const payload = {
-                "orders": this.saved_orders                
+                "orders": this.saved_orders,
+                "business_id":business        
             }
-        // this.loading = false
+        this.loading = false
             console.log(payload);
 
 
-            fetch(BASE_URL + '/my/retailer/orders', {
+            fetch(BASE_URL + url, {
                     method: 'POST',
                     body: JSON.stringify(payload),
                     headers: {
@@ -721,8 +768,13 @@ export default {
     },
 
     mounted() {
-        if (JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length > 0) {
+        if (!this.distributor && JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length > 0) {
             this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"));
+            this.getCart();
+        }
+
+        if (this.distributor && JSON.parse(window.localStorage.getItem("distributor_cart")) && JSON.parse(window.localStorage.getItem("distributor_cart")).length > 0) {
+            this.cart = JSON.parse(window.localStorage.getItem("distributor_cart"));
             this.getCart();
         }
         this.getBalance();
