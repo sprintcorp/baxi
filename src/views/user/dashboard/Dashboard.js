@@ -204,8 +204,8 @@ export default {
                             this.results.push({
                                 product_id: data.product.id,
                                 name: data.product.name,
-                                amount: parseInt(data.price),
-                                sell_price: parseInt(data.price),
+                                amount: data.price > 0 ? parseInt(data.price) : parseInt(data.product.recommended_price),
+                                sell_price: data.price > 0 ? parseInt(data.price) : parseInt(data.product.recommended_price),
                                 quantity: data.qty,
                                 size: data.product.size,
                                 public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
@@ -269,8 +269,8 @@ export default {
                             this.results.push({
                                 product_id: data.product.id,
                                 name: data.product.name,
-                                amount: parseInt(data.price),
-                                sell_price: parseInt(data.price),
+                                amount: data.price > 0 ? parseInt(data.price) : parseInt(data.product.recommended_price),
+                                sell_price: data.price > 0 ? parseInt(data.price) : parseInt(data.product.recommended_price),
                                 quantity: data.qty,
                                 size: data.product.size,
                                 public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
