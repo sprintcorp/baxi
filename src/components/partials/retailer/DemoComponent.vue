@@ -60,14 +60,37 @@
                     <div class="icon-badge-container top-head-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="far fa-bell icon-badge-icon" style="color:#ffc107"></i>
                         <div class="icon-badge" style="width:7px;height:7px"></div> 
-                        <ul class="dropdown-menu dropdown-menu-right" style="width:350px;border:0px;background-color:#e8e5d86b">
+                        <ul class="dropdown-menu dropdown-menu-right" style="width:350px;border:0px;background-color:white">
                             <li style="margin-bottom:25px;" v-for="(notifications,index) in notification" :key="index">
                                 <router-link :to="{name:'orderInformation',params: { id: notifications.data.order_id }}" href="#" class="top-text-block" style="">
-                                    <div class="top-text-heading notification-style fs-12" style=""> {{notifications.data.title}}</div>
+                                    <div class="top-text-heading notification-style fs-12" style="color:black;line-height:15px"> {{notifications.data.title}}</div>
                                     <!-- <div class="top-text-light">15 minutes ago</div> -->
                                 </router-link> 
                             </li>
                             <li style="text-align:center" v-if="notification.length > 4"><router-link :to="{name:'notification'}"><button class="btn notification-button">View all notification</button></router-link></li>
+                            
+                        
+                        <li>
+                            <div class="loader-topbar"></div>
+                        </li>
+                        </ul>             
+                    </div>
+
+                </div>
+                
+                <div class="" v-if="distributor">
+                    <div class="icon-badge-container top-head-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="far fa-bell icon-badge-icon" style="color:#ffc107"></i>
+                        <div class="icon-badge" style="width:7px;height:7px"></div> 
+                        <ul class="dropdown-menu dropdown-menu-right" style="width:330px;border:0px;background-color:white;align:justify">
+                            <div class="">
+                                <li style="margin-bottom:25px;margin-left:15px" v-for="(notifications,index) in notification" :key="index">
+                                
+                                        <div class="top-text-heading notification-style fs-12" style="color:black;line-height:15px"> {{notifications.data.title}}</div>
+                                        
+                                </li>
+                            </div>
+                            
                             
                         
                         <li>
