@@ -209,7 +209,8 @@ export default {
         this.pushToArray(this.cart, products);
         window.localStorage.setItem("retailer_order", JSON.stringify(this.cart));
         this.show_cart = true;
-        this.quantity_value = 0;
+        // this.quantity_value = 0;
+        this.quantity_value = products.minimum_order;
         this.getCart();
         console.log(this.cart)
         
@@ -275,7 +276,7 @@ export default {
             // this.$swal(res.message);
             this.$swal({
                 title: res.message,
-                text: 'Order '+res.data.group_id+' sent to the distributor. You will receive a feedback shortly',
+                text: 'Order *********'+res.data.group_id.slice(-4)+' sent to the distributor. You will receive a feedback shortly',
                 icon: 'success',
                 confirmButtonText: 'ok'
             });

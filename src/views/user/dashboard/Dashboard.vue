@@ -60,7 +60,7 @@
               </select>
             </div>
           </div>
-          <!-- {{results}} -->
+          <!-- {{cart}} -->
           <div class="row">
             <div :class="[!show_cat ?  'col-md-12' : 'col-md-9']">
                         <div class="col-md-12" v-if="results.length && !loading">
@@ -198,7 +198,7 @@
                                         <div class="fs-15 mt-2 h3 text-center">{{product.name}} ({{product.size}})</div>
                                         <div class="fs-15 mt-1 h4 text-center">&#8358; {{ numberWithCommas(product.sell_price) }}.00</div>
                                         <div class="fs-13 text-center">{{ product.quantity }} Units Left</div>
-                                        <div class="fs-13 text-center" v-if="distributor">Minimum order quantity {{ product.minimum_order }}</div>
+                                        <!-- <div class="fs-13 text-center" v-if="distributor">Minimum order quantity {{ product.minimum_order }}</div> -->
                                         <div class="fs-15 mt-1 mb-1 text-center">Select Quantity</div>
                                         <div class="row">
                                             <div class="col-md-12 d-flex justify-content-end">

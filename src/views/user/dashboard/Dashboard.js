@@ -62,9 +62,9 @@ export default {
             this.product = product;
             this.key = index
             console.log(this.key)
-            if(this.distributor){
-                this.quantity_value = product.minimum_order;
-            }
+            // if(this.distributor){
+            //     this.quantity_value = product.minimum_order;
+            // }
             // alert("hello")
         },
         increase(qty){
@@ -302,6 +302,7 @@ export default {
             }
 
             if(getRole() == 'Distributor'){
+                this.results = [];
                 this.distributor = true;
                 this.cat = false;
                 fetch(BASE_URL + '/my/distributor/products', {
@@ -675,8 +676,13 @@ export default {
                 })
                 .then(res => res.json())
                 .then(res => {
-                    window.localStorage.setItem("retailer_cashier_order",[]);
+                    if(!this.distributor){
+                    window.localStorage.setItem("retailer_cashier_order",[]);                    
                     window.localStorage.removeItem("retailer_cashier_order");
+                    }else{
+                    // window.localStorage.setItem("distributor_cart",[]);
+                    window.localStorage.removeItem("distributor_cart");
+                    }
                     this.saving = false;
                     // console.log(res)
                     // this.$swal("Payment Successful",'success');
