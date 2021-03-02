@@ -1,7 +1,8 @@
 import { BASE_URL, AUTH_TOKEN, NAME, ID, OUTLET, ROLE,PERMISSION, CASHIER_BUSINESS, CASHIER_OUTLET } from "./env";
 
 export const saveToken = (token) => {
-    window.localStorage.setItem(AUTH_TOKEN, token);
+    let bearer_token = "Bearer "+token;
+    window.localStorage.setItem(AUTH_TOKEN, bearer_token);
 };
 
 export const saveUser = (user) => {
