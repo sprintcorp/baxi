@@ -8,11 +8,11 @@
             <div class="col-md-8" style="">   
                   <div class="heading-profile">
                     <h2 class="text-black">
-                      Welcome back, <span class="text-black">{{ username }}!</span> 
+                      Welcome back, <span class="text-black">{{ username }}!</span> <span v-if="distributor" style="color:red">-  {{notification_info}} pending orders</span>
                     </h2>
                   </div>             
             </div>
-            <div class="col-md-4" style="">   
+            <div class="col-md-4" style="" v-if="!distributor">   
                   <div class="input-group">
                     <span class="input-group-text bg-white" style="border:1px solid white;color:black">Select Outlet</span>
                     <select v-model='selected_outlet' @change="changeOutlet($event)" class="form-control">
@@ -30,7 +30,7 @@
             <div class="col-md-5" style="">   
                   <div class="heading-profile">
                     <h2 class="text-black">
-                      Welcome back, <span class="text-black">{{ username }}!</span> 
+                     Welcome back, <span class="text-black">{{ username }}!</span> 
                     </h2>
                   </div>             
             </div>
@@ -60,9 +60,10 @@
               </select>
             </div>
           </div>
-          <!-- {{cart}} -->
+            <!-- <pre>{{show_cat}}</pre> -->
           <div class="row">
-            <div :class="[!show_cat ?  'col-md-12' : 'col-md-9']">
+           
+            <div :class="[!show_cat ?  'col-md-12' : 'col-md-8']">
                         <div class="col-md-12" v-if="results.length && !loading">
                             <div class="row p-3" v-if="cat" style="background-color:#dee2e645;margin-top:-20px">
                                 <div class="col-md-2" v-for="(category,index) in filerResult" :key="index">
@@ -222,7 +223,7 @@
                                     
                                 </div>
                                 <div class="row p-5 d-flex justify-content-center">
-                                    <button type="button" class="btn btn-warning mr-3" v-if="quantity_value > 0 && !error" @click="submitToCart(quantity_value,product)" style="border-radius:20px" data-dismiss="modal"><i class="fa fa-shopping-cart"></i> ADD TO CART</button>
+                                    <button type="button" class="btn btn-warning mr-3" data-dismiss="modal" v-if="quantity_value > 0 && !error" @click="submitToCart(quantity_value,product)" style="border-radius:20px"><i class="fa fa-shopping-cart"></i> ADD TO CART</button>
                                     <!-- <button type="button" class="btn btn-light" style="border-radius:20px;color:red" data-dismiss="modal">CLOSE</button>                                     -->
                                 </div>
                                 </div>
@@ -230,7 +231,7 @@
                         </div>
                         <!-- End of Add Cart -->
 
-            <div class="col-md-3" v-if="show_cat" style="margin-top:-20px;min-height:20vh;overflow:hidden">
+            <div class="col-md-4" v-if="show_cat" style="margin-top:-20px;min-height:20vh;overflow:hidden">
               <div class="bg-dark" style="width:100%">
                   <table class="table table-dark">
                     <thead class="">
@@ -244,13 +245,15 @@
                     </thead>
                     <tbody>
                         <tr v-for="(product, i) in cart" :key='i'>
-                           <td>{{product.name}}</td>
-                           <td>{{product.qty}}</td>
-                           <td>₦{{numberWithCommas(product.price/product.qty)}}.00</td>
-                           <td>₦{{numberWithCommas(product.price)}}.00</td>
-                           <td><button @click="removeFromCart(cart,i)">
+                           <td width="50">{{product.name}}</td>
+                           <td width="100"><button class="text-white h4" @click="increaseCart(cart,i)">+</button> {{product.qty}} <button class="text-white h4" @click="decreaseCart(cart,i)"> -</button></td>
+                           <td>₦{{numberWithCommas(product.int_amount)}}.00</td>
+                           <td>₦{{numberWithCommas(product.int_amount * product.qty)}}.00</td>
+                           <td>
+                              <button @click="removeFromCart(cart,i)">
                                 <i class="fa fa-trash" style="color:white"></i>
-                            </button></td>
+                              </button>
+                            </td>
                          </tr>
                         <br>
                         <tr>
@@ -317,6 +320,8 @@
                     </div>
                   <!-- </div> -->
                   <div class="col-md-12 d-flex justify-content-end mt-2 mb-1">
+                    
+                    <button class="btn btn-default mr-3" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Skip</button>
                     <button class="btn btn-warning" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Next</button>
                   </div>
                 </div>

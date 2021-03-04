@@ -42,8 +42,7 @@
 
                                   <div class="col-md-5 d-flex justify-content-start">
                                     <!-- <div> -->
-                                      <!-- <button type="button" class="btn rounded btn-success mr-1" style="border-radius:45px !important;height:43px !important;width:230px">Stock Value: ₦2,234,331</button>
-                                      <button type="button" class="btn rounded" style="border-radius:45px !important;background-color:#372B96;color:white;height:43px !important;width:190px">Inventory Items: 300</button> -->
+                                      <button type="button" class="btn rounded" style="border-radius:30px !important;background-color:#372B96;color:white;height:43px !important;width:190px">Total Products: {{page.total}}</button>
                                     <!-- </div> -->
                                   </div>
 
@@ -315,11 +314,22 @@
                                       </div>
                                     </div>
 
+                                    <div class="col-md-6" v-if="!distributor">
+                                      <label class="form-label">Category</label>
+                                      <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/categories.png')" class='rounded' alt="img"/></span>
+                                        </div>
+                                        <input type="text" class="form-control" v-model="product.category" aria-describedby="restock level" readonly>
+                                        
+                                      </div>
+                                    </div>
+
                                     <div class="col-md-6"  v-if="distributor">
                                       <label class="form-label">Minimum Order Qty</label>
                                       <div class="input-group mb-3">
                                         <div class="input-group-prepend">
-                                          <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/shape-size-interface-symbol.png')" class='rounded' alt="img"/></span>
+                                          <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/noun_dashboard_3542616.png')" class='rounded' alt="img"/></span>
                                         </div>
                                         <input type="text" class="form-control" v-model="product.minimum_order_quantity" aria-describedby="restock level">
                                         
@@ -340,7 +350,27 @@
                                     </div> -->
                                   </div>
                                   <div class="row">
-                                    
+                                    <div class="col-md-6" v-if="distributor">
+                                      <label class="form-label">Category</label>
+                                      <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/categories.png')" class='rounded' alt="img"/></span>
+                                        </div>
+                                        <input type="text" class="form-control" v-model="product.category" aria-describedby="restock level" readonly>
+                                        
+                                      </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                      <label class="form-label">Size</label>
+                                      <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/shape-size-interface-symbol.png')" class='rounded' alt="img"/></span>
+                                        </div>
+                                        <input type="text" class="form-control" v-model="product.size" aria-describedby="restock level" readonly>
+                                        
+                                      </div>
+                                    </div>
 
                                     
                                     

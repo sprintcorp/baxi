@@ -29,6 +29,8 @@ export default {
             status:0,
             information:[],
             add_fee:false,
+            query:'',
+            link:'',
         }
     },
     computed: {
@@ -47,6 +49,10 @@ export default {
                 name:"",
                 amount:""
             });
+        },
+        getOrderStatus(){
+            // alert(this.query.length);
+            this.getOrders();
         },
         confirmOrder(id){
             this.saving = true;
@@ -184,7 +190,12 @@ export default {
         },
         getOrders() {
             this.loading = true;
-            fetch(BASE_URL + '/my/distributor/groupTransactions', {
+            if(this.query.length < 1){
+                this.link = '/my/distributor/groupTransactions'
+            }else{
+                this.link = '/my/distributor/groupTransactions?status='+ this.query
+            }
+            fetch(BASE_URL + this.link, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',

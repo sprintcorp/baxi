@@ -60,14 +60,16 @@
                                   <div class="row border-2 mt-1 top-table p-2">
                                     <div class="col-md-4 mt-2 font-weight-bold"> Orders</div>
                                     <div class="col-md-3 d-flex justify-content-end">
-                                      <!-- <select v-model="stats" class="form-control" @change="filerTransaction()" style="outline: none !important;">
-                                          <option value="0">Pending Orders</option>
-                                          <option value="1">Accepted Orders</option>
-                                          <option value="2">Processing Orders</option>
-                                          <option value="3">Fulfiled Orders</option>
-                                          <option value="4">Delivered Orders</option>
-                                          <option value="-1">Declined Orders</option>
-                                      </select> -->
+                                      <select v-model="query" class="form-control" @change="getOrderStatus()" style="outline: none !important;">
+                                          <!-- <option selected>Filter Orders</option> -->
+                                          <option value="">All Orders</option>
+                                          <option value="pending">Pending Orders</option>
+                                          <option value="accepted">Accepted Orders</option>
+                                          <option value="in_progress">Processing Orders</option>
+                                          <option value="fulfilled">Fulfiled Orders</option>
+                                          <option value="delivered">Delivered Orders</option>
+                                          <option value="rejected">Declined Orders</option>
+                                      </select>
                                     </div>
                                     <div class="col-md-5 d-flex justify-content-end">
                                       <button data-toggle="modal" data-target="#search" class="btns shadow btn-light btn-sm sml-radius text-black p-2" style="border-radius:30px">

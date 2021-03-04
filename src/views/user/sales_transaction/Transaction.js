@@ -35,6 +35,10 @@ export default {
         showDate() {
             console.log(this.start_date.toString());
         },
+        getDate(date){
+            const res = new Date(date);
+            return res.getDate() +' '+this.days[res.getDay()] +' '+this.months[res.getMonth()]+' '+ res.getFullYear();
+        },
         showTransaction(transaction){
             this.transaction = transaction;
         },

@@ -40,6 +40,7 @@ export default {
             saved_orders:'',
             saving:false,
             distributor:false,
+            notification_info:0,
             customer:{
                 firstname:'',
                 lastname:'',
@@ -391,15 +392,76 @@ export default {
         },
         getCart(){
             if (JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length > 0 && !this.distributor) {
+               
                 this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"));
                 this.sumProduct()
                 this.show_cat = true;
             }
+
             if (JSON.parse(window.localStorage.getItem("distributor_cart")) && JSON.parse(window.localStorage.getItem("distributor_cart")).length > 0 && this.distributor) {
+                this.show_cat = true;
                 this.cart = JSON.parse(window.localStorage.getItem("distributor_cart"));
                 this.sumProduct()
-                this.show_cat = true;
+                
             }
+        },
+        increaseCart(cart,index){
+            const size = ++this.cart[index].qty;
+
+            cart[index].qty = size;
+            cart[index].price = cart[index].sell_price * size;
+            if(!this.distributor){
+            if (JSON.parse(window.localStorage.getItem("retailer_cashier_order"))) {
+                this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
+            }
+
+            this.pushToArray(this.cart, cart[index]);
+            window.localStorage.setItem("retailer_cashier_order", JSON.stringify(this.cart));
+        }else{
+            if (JSON.parse(window.localStorage.getItem("distributor_cart"))) {
+                this.cart = JSON.parse(window.localStorage.getItem("distributor_cart"))
+            }
+
+            this.pushToArray(this.cart, cart[index]);
+            window.localStorage.setItem("distributor_cart", JSON.stringify(this.cart));
+        }
+
+            this.getCart();
+            this.sumProduct();
+            this.checkColumn(); 
+        },
+        decreaseCart(cart,index){
+            if(this.cart[index].qty > 1){
+                var size = --this.cart[index].qty;
+            }else{
+                size = this.cart[index].qty;
+                this.$swal({
+                    title: 'Action Denied',
+                    text: "Product quantity must be greater than 0",
+                    icon: 'warning',
+                    confirmButtonText: 'ok'
+                });
+            }
+            cart[index].qty = size;
+            cart[index].price = cart[index].sell_price * size;
+            if(!this.distributor){
+                if (JSON.parse(window.localStorage.getItem("retailer_cashier_order"))) {
+                    this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
+                }
+    
+                this.pushToArray(this.cart, cart[index]);
+                window.localStorage.setItem("retailer_cashier_order", JSON.stringify(this.cart));
+            }else{
+                if (JSON.parse(window.localStorage.getItem("distributor_cart"))) {
+                    this.cart = JSON.parse(window.localStorage.getItem("distributor_cart"))
+                }
+    
+                this.pushToArray(this.cart, cart[index]);
+                window.localStorage.setItem("distributor_cart", JSON.stringify(this.cart));
+            }
+            this.getCart();
+            this.sumProduct();
+            this.checkColumn(); 
         },
         removeFromCart(cart_order,index){
             if(!this.distributor){
@@ -408,7 +470,9 @@ export default {
             this.getCart();
             this.sumProduct();
             this.checkColumn();
-            }else{
+            }
+            
+            if(this.distributor){
                 const filteredItems = cart_order.slice(0, index).concat(cart_order.slice(index + 1, cart_order.length))
                 window.localStorage.setItem("distributor_cart", JSON.stringify(filteredItems));
                 this.getCart();
@@ -420,7 +484,7 @@ export default {
             
             if (!this.distributor && JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length && !this.cat) {
                 this.show_cat = true;
-             } else if (!this.distributor && JSON.parse(window.localStorage.getItem("distributor_cart")) && JSON.parse(window.localStorage.getItem("distributor_cart")).length && !this.cat) {
+             } else if (this.distributor && JSON.parse(window.localStorage.getItem("distributor_cart")) && JSON.parse(window.localStorage.getItem("distributor_cart")).length && !this.cat) {
                 this.show_cat = true;
             }else{
                 this.show_cat = false;
@@ -766,29 +830,25 @@ export default {
                     }
                 });
         },
-        // getCashierOutlets() {
-        //     fetch(BASE_URL + '/my/businesses/' + window.localStorage.getItem("cahier_business") + '/outlets ', {
-        //             headers: {
-        //                 'Content-Type': 'application/json',
-        //                 'Accept': 'application/json',
-        //                 'Authorization': getToken()
-        //             }
-        //         })
-        //         .then(res => res.json())
-        //         .then(res => {
-        //             if (res.message === 'Unauthenticated.') {
-        //                 console.log(res);
-        //                 logout();
-        //                 this.$router.push({ name: 'welcome' });
-        //             }
-        //             this.outlets = res.data;
-        //             window.localStorage.setItem("outlet_name", JSON.stringify(this.outlets[0].name));
-                    
-        //         })
-        //         .catch((err) => {
-        //             console.log(err)
-        //         });
-        // }
+        getOrderNotification(){
+            fetch(BASE_URL + '/my/distributor/groupTransactions?status=pending', {
+                headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                }
+            })
+            .then(res => res.json())
+            .then(res => {
+                console.log(res.data.data)
+                this.notification_info = res.data.total;
+               
+            })
+            .catch(err => {
+                console.log(err)              
+                
+            });
+        },
 
     },
 
@@ -801,7 +861,12 @@ export default {
         if (this.distributor && JSON.parse(window.localStorage.getItem("distributor_cart")) && JSON.parse(window.localStorage.getItem("distributor_cart")).length > 0) {
             this.cart = JSON.parse(window.localStorage.getItem("distributor_cart"));
             this.getCart();
+            
         }
+
+        // if(this.distributor){
+            this.getOrderNotification();
+        // }
         this.getBalance();
         this.userPermission();
         this.checkPermission();
