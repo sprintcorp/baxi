@@ -95,6 +95,7 @@ export default {
         },
         submitToCart(value,product){
             // product.quantity = value
+            if(value > 0 && value <= product.quantity){
             product.qty = value
             product.price = value * product.sell_price 
             product.int_amount = product.amount
@@ -128,7 +129,14 @@ export default {
             this.getCart();
             console.log(this.cart)
         }
-            
+    }else{
+        this.$swal({
+            title: 'Action Denied',
+            text: "Quantity must not be more than available quantity or less than One",
+            icon: 'warning',
+            confirmButtonText: 'ok'
+        });
+    }
 
         },
         getResponse() {
@@ -406,8 +414,17 @@ export default {
             }
         },
         increaseCart(cart,index){
-            const size = ++this.cart[index].qty;
-
+            if(this.cart[index].qty < this.cart[index].quantity){
+            var size = ++this.cart[index].qty;
+            }else{
+                size = this.cart[index].qty;
+                this.$swal({
+                    title: 'Action Denied',
+                    text: "Quantity exceed available quatity ",
+                    icon: 'warning',
+                    confirmButtonText: 'ok'
+                });
+            }
             cart[index].qty = size;
             cart[index].price = cart[index].sell_price * size;
             if(!this.distributor){
