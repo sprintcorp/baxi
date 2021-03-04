@@ -240,7 +240,7 @@
                         <th scope="">QTY</th>
                         <th scope="">Unit(₦)</th>
                         <th scope="">Price</th>
-                        <th scope=""></th>
+                        <th scope="" width="100"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -249,12 +249,11 @@
                            <td> {{product.qty}} </td>
                            <td>₦{{numberWithCommas(product.int_amount)}}.00</td>
                            <td>₦{{numberWithCommas(product.int_amount * product.qty)}}.00</td>
-                           <td>
-                             
+                           <td width="100">                             
 
                               <button class="text-white h4" @click="increaseCart(cart,i)">+</button>
                               <button class="text-white h4" @click="decreaseCart(cart,i)">-</button>
-                               <button @click="removeFromCart(cart,i)">
+                              <button @click="removeFromCart(cart,i)">
                                 <i class="fa fa-trash" style="color:white"></i>
                               </button>
                             </td>
