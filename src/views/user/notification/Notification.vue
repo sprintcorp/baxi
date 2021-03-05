@@ -48,8 +48,8 @@
                                     <table class="table table-striped" v-if="distributor">
                                       <thead>
                                       <tr style="text-align:center">
-                                        <th>S/N</th>
-                                        <th>Message</th>
+                                        <th width="20">S/N</th>
+                                        <th width="200">Message</th>
                                         <th>Balance after credit</th>
                                         
                                       </tr>
@@ -57,8 +57,8 @@
                                       <tbody>
 
                                       <tr v-for="(notifications,index) in notification" :key="index" style="text-align:center">
-                                        <td>{{ index + 1 }}</td>
-                                        <td> {{ notifications.data.title}}</td>
+                                        <td width="20">{{ index + 1 }}</td>
+                                        <td width="200"> {{ notifications.data.title}}</td>
                                        
                                         <!-- <td :style="wallet.completed == 1?'color:green;font-weight:bold !important':'color:red;font-weight:bold !important'"> {{wallet.completed == 1 ? 'Paid' : 'Pending'}}</td> -->
                                         <td>

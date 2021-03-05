@@ -194,7 +194,7 @@
                             <div class="row" style="margin-top:-15px">
                                 <div style="margin-top:-15px" class="col-md-12 d-flex justify-content-center" v-for="(cart,index) in cart_order" :key="index">
                                         <!-- <router-link :to="{name:'vendorProduct',params: { id: vendor.id }}"> -->
-                                        <div class="card p-2" style="width:350rem;height:6.5rem;border-radius:0px">
+                                        <div class="card p-2" style="height:6.5rem;border-radius:0px">
                                             <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                             <div class="row g-0">
                                             <div class="col-md-2 mt-2"><img :src="cart.image" class="rounded-circle" alt="" width="70" height="70"/></div>
