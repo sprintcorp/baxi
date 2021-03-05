@@ -47,6 +47,7 @@ export default {
                 phone:'',
                 email:''
             },
+            scrollPosition: 0,
         }
     },
     computed: {
@@ -55,6 +56,7 @@ export default {
         }
     },
     methods: {
+        
         numberWithCommas(x) {
             const num = parseFloat(x)
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
