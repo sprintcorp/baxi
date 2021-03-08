@@ -173,7 +173,8 @@
                                     
                                 </div>
                                 <div class="row p-5 d-flex justify-content-center" style="margin-bottom:-20px">
-                                    <button type="button" class="btn btn-warning mr-3" v-if="quantity_value > 0 && !error && product.minimum_order <= quantity_value" @click="submitToCart(quantity_value,product)" style="border-radius:20px"><i class="fa fa-shopping-cart"></i> ADD TO CART</button>
+                                    <button type="button" :class="quantity_value > 0 && !error ? 'btn btn-warning mr-3' : 'btn btn-warning mr-3 disabled'" data-dismiss="modal" @click="submitToCart(quantity_value,product)" style="border-radius:20px"><i class="fa fa-shopping-cart"></i> ADD TO CART</button>
+                                    <!-- <button type="button" class="btn btn-warning mr-3" v-if="quantity_value > 0 && !error && product.minimum_order <= quantity_value" @click="submitToCart(quantity_value,product)" style="border-radius:20px"><i class="fa fa-shopping-cart"></i> ADD TO CART</button> -->
                                     
                                 </div>
                                  <div class="fs-15 mt-3 mb-1 text-center" style="color:red" v-if="error">Selected quantity is more than available quantity</div>

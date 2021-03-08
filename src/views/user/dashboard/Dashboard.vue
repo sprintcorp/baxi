@@ -51,7 +51,10 @@
           </div>
 
           <div class="row p-5" style="margin-top:-30px">
-            <div class="col-md-9 col-sm-2" @click="goBack()"><i class="fa fa-arrow-left fs-20"></i></div>
+            <div class="col-md-2 col-sm-2" @click="goBack()"><i class="fa fa-arrow-left fs-20"></i></div>
+            <div class="col-md-7 col-sm-7">
+              <!-- <button @click="removeCart()">clear</button> -->
+            </div>
             <!-- <div class="col-md-1 col-sm-2" style="margin-right:-30px"><i class="fa fa-shopping-cart fs-20"></i></div> -->
             <div class="col-md-3 col-sm-3 d-flex justify-content-end">
               <select class="form-control" @change="getResponse()" v-model="type" aria-label="Default select example">
@@ -283,10 +286,11 @@
                          
                     </tbody>
                     </table>
-                    <div class="row d-flex">
-                    <div class="align-self-center mx-auto" style="margin-bottom:-20px">
-                       <button class="btn btn-warning rounded-pill text-dark px-5 py-2" data-toggle="modal" data-target="#customerInfo">Proceed to payment</button>
-                    </div>
+                    <div class="row">
+                      <div class="col-md-12 d-flex justify-content-center mx-auto">
+                        <button class="btn btn-warning mr-3" data-toggle="modal" data-target="#customerInfo">Proceed to payment</button>
+                        <button class="btn btn-warning" @click="removeCart()">Clear Cart Items</button>
+                      </div>
                     </div>
                 </div>
             </div>
@@ -347,7 +351,7 @@
       </div>
       
       <div class="modal-body row">
-        <div class="col-md-6">
+        <div class="col-md-6" @click="saveOrder('wallet')" data-dismiss="modal">
           <div class="card mt-1 h-100">
               <div class="mx-auto mt-1">
                   <img :src="require('@/assets/images/img8.png')" class='rounded' alt="img"/>
@@ -369,7 +373,7 @@
                 </div>
           </div>
         </div> -->
-        <div class="col-md-6 close" @click="saveOrder()" data-dismiss="modal">
+        <div class="col-md-6 close" @click="saveOrder('cash')" data-dismiss="modal">
           <div class="card mt-1 h-100">
              <div class="mx-auto mt-1">
                   <img :src="require('@/assets/images/img12.png')" class='rounded' alt="img"/>

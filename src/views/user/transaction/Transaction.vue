@@ -25,16 +25,16 @@
                           <div class="row">
                             <div class="col-md-12" v-if="transaction_tab">
                                 <div class="row border-2 mt-1">
-                                  <div class="col-md-1 mt-2 font-weight-bold" style="">
-                                    <span class="link-line">Transaction</span>
+                                  <div class="col-md-2 mt-2 font-weight-bold" style="">
+                                    <span class="link-line">Order Transaction</span>
                                   </div>
 
                                   
-                                    <div class="col-md-2 mt-2 font-weight-bold">
+                                    <div class="col-md-2 mt-2 font-weight-bold" style="margin-left:-30px">
                                       
                                       <router-link :to="{name:'distributorSalesTransaction'}" v-if="distributor" class="top-text-block" style="color:black;text-decoration:none">Sales Transaction</router-link></div>
                                   
-                                  <div class="col-md-5 d-flex justify-content-end">
+                                  <div class="col-md-4 d-flex justify-content-end">
                                      <input type="text" v-model="search" placeholder="Search for transaction type" class="inp" style="background-color:white;width:91%;"/>
                                   </div>
                                   <div class="col-md-4 d-flex justify-content-end">

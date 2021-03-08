@@ -25,13 +25,13 @@
                           <div class="row">
                             <div class="col-md-12">
                                 <div class="row border-2 mt-1">
-                                  <div class="col-md-1 mt-2 font-weight-bold" style="">
+                                  <div class="col-md-2 mt-2 font-weight-bold" style="">
                                     <router-link :to="{name:'transactionOverview'}" class="top-text-block" style="color:black;text-decoration:none">
-                                     <span> Transaction</span>
+                                     <span>Order Transaction</span>
                                     </router-link>
                                   </div>
                                   
-                                    <div class="col-md-3 mt-2 font-weight-bold">                                      
+                                    <div class="col-md-2 mt-2 font-weight-bold" style="margin-left:-30px">                                      
                                       <span class="link-line">Sales Transaction</span>
                                     </div>
                                   

@@ -719,7 +719,16 @@ export default {
             console.log(event.target.name)
             this.getProducts();
         },
-        saveOrder() {
+        removeCart(){
+            if(this.distributor){
+                window.localStorage.removeItem("distributor_cart");
+            }else{
+                window.localStorage.removeItem("retailer_cashier_order");
+            }
+            this.show_cat = false;
+            this.cart_order = [];
+        },
+        saveOrder(type) {
             this.saving = true;
             // if(checkUserPermission('order products') == true){
                 if(this.distributor){
@@ -742,7 +751,8 @@ export default {
             const payload = {
                 "orders": this.saved_orders,
                 "business_id":business,
-                "customer":this.customer        
+                "customer":this.customer,
+                "payment_type":type        
             }
         this.loading = false
             console.log(payload);
@@ -762,8 +772,8 @@ export default {
                     if(!this.distributor){
                     window.localStorage.setItem("retailer_cashier_order",[]);                    
                     window.localStorage.removeItem("retailer_cashier_order");
-                    }else{
-                    // window.localStorage.setItem("distributor_cart",[]);
+                    }
+                    if(this.distributor){
                     window.localStorage.removeItem("distributor_cart");
                     }
                     this.saving = false;
@@ -880,6 +890,7 @@ export default {
         if (this.distributor && JSON.parse(window.localStorage.getItem("distributor_cart")) && JSON.parse(window.localStorage.getItem("distributor_cart")).length > 0) {
             this.cart = JSON.parse(window.localStorage.getItem("distributor_cart"));
             this.getCart();
+            console.log(this.cart)
             
         }
 
