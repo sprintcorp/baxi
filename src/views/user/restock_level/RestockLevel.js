@@ -39,9 +39,9 @@ export default {
                 this.getRestockLevel();
                 this.saving = false;
                 this.$swal({
-                    title: 'Error',
+                    title: 'success',
                     text: res.message,
-                    icon: 'error',
+                    icon: 'success',
                     confirmButtonText: 'ok'
                 });
                 
@@ -93,15 +93,15 @@ export default {
                     }
                     res.data.forEach((data) => {
                         this.vendor_products.push({
-                            product_id: data.outlet_product.id,
+                            product_id: data.outlet_product.product.id,
                             business_id: parseInt(window.localStorage.getItem("business_id")),
-                            name: data.outlet_product.name,
+                            name: data.outlet_product.product.name,
                             restock_level: data.outlet_product.restock_level,
-                            size: data.outlet_product.size,
-                            sku: data.outlet_product.sku,
+                            size: data.outlet_product.product.size,
+                            sku: data.outlet_product.product.sku,
                             image:data.outlet_product.product.public_image_url?data.outlet_product.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
-                            qty: data.outlet_qty,
-                            quantity: data.outlet_qty,
+                            qty: data.outlet_product.qty,
+                            quantity: data.outlet_product.qty,
                             retailer_id: getId(),
                         });
                     });
