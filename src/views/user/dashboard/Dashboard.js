@@ -722,8 +722,11 @@ export default {
         },
         removeCart(){
             if(this.distributor){
+                this.cart = [];
                 window.localStorage.removeItem("distributor_cart");
             }else{
+                this.cart = [];
+                window.localStorage.setItem("retailer_cashier_order",[]);  
                 window.localStorage.removeItem("retailer_cashier_order");
             }
             this.show_cat = false;
