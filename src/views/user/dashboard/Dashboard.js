@@ -668,19 +668,19 @@ export default {
                             logout();
                             this.$router.push({ name: 'welcome' });
                         }
-                        console.log(res.data.data);
+                        console.log(res.data.results.data);
                         this.loading = false;
-                        this.products = res.data.data;
+                        this.products = res.data.results.data;
                         this.products.forEach((data) => {
                             this.results.push({
-                                product_id: data.business_products[0].product_id,
+                                product_id: data.id,
                                 name: data.name,
-                                amount: parseInt(data.business_products[0].pack_price),
-                                sell_price: parseInt(data.business_products[0].pack_price),
-                                quantity: data.business_products[0].qty,
+                                amount: parseInt(data.recommended_price),
+                                sell_price: parseInt(data.recommended_price),
+                                quantity: data.stock_quantity,
                                 size: data.size,
                                 public_image_url: data.public_image_url?data.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
-                                qty: data.business_products[0].qty,
+                                qty: data.stock_quantity,
                                 sku: data.sku,
                                 date:data.created_at,
                                 customer: {
