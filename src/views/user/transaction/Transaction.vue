@@ -26,7 +26,7 @@
                             <div class="col-md-12" v-if="transaction_tab">
                                 <div class="row border-2 mt-1">
                                   <div class="col-md-2 mt-2 font-weight-bold" style="">
-                                    <span class="link-line">Order Transaction</span>
+                                    <h5 class="link-line">Order Transaction <span class="badge badge-warning">{{page.total}}</span></h5>
                                   </div>
 
                                   <!-- <pre>{{filerTransactions}}</pre> -->

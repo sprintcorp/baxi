@@ -51,25 +51,7 @@ export default {
             console.log(this.transaction_tab)
             this.transaction_tab = true;
         },
-        showTransaction(transaction) {
-            // this.transaction_tab = false;
-            this.transaction_product = transaction;
-
-            let sum = this.transaction_product.orders.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
-            this.delivery = this.transaction_product.orders.map(o => parseFloat(o.delivery)).reduce((a, c) => { return a + c });
-            this.total = sum + this.delivery;
-            if(this.transaction_product.paid == 0 && this.transaction_product.type != 'cash'){
-                this.status = 'Unpaid'
-            }
-            if(this.transaction_product.paid == 1){
-                this.status = 'Paid'
-            }
-            if(this.transaction_product.paid == 0 && this.transaction_product.type == 'cash'){
-                this.status = 'Paid'
-            }
-            
-            console.log(transaction);
-        },
+        
         getTransaction() {
             if(checkUserPermission('distributor') == false){
                 this.loading = true;
