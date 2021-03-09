@@ -66,15 +66,16 @@ export default {
             return this.transactions.filter((transaction) => new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
                 new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime())
         },
-        amount(){
-            return this.filerTransactions.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
-        }
+        // amount(){
+        //     return this.filerTransactions.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
+        // }
     },
     methods: {
         showDate() {
             console.log(this.start_date.toString());
             const day = 1000 * 60 * 60 * 24 * this.duration;
             this.start_date = new Date().getTime()- day;
+            this.total_transaction = this.filerTransactions.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
            
         },
         goToProduct(){            

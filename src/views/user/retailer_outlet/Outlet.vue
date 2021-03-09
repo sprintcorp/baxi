@@ -65,7 +65,7 @@
                           <img :src="require('@/assets/icon/icons8-split-transaction-48.png')" class='rounded' alt="img"/>                          
                         </div>
                         <div class="col-md-8">
-                          <h6 class="d-flex justify-content-end text-bold">&#8358; {{numberWithCommas(amount)}}</h6>
+                          <h6 class="d-flex justify-content-end text-bold">&#8358; {{numberWithCommas(total_transaction)}}</h6>
                         </div>
                         </div>                            
                         
