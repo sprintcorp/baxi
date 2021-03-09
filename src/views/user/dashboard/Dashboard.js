@@ -721,11 +721,12 @@ export default {
             this.getProducts();
         },
         removeCart(){
+            this.cart = [];
             if(this.distributor){
-                this.cart = [];
+               
                 window.localStorage.removeItem("distributor_cart");
             }else{
-                this.cart = [];
+                
                 window.localStorage.setItem("retailer_cashier_order",[]);  
                 window.localStorage.removeItem("retailer_cashier_order");
             }
@@ -778,14 +779,7 @@ export default {
                     // this.$swal("Payment Successful",'success');
                     
                     if(res.success){
-                        if(!this.distributor){
-                            window.localStorage.setItem("retailer_cashier_order",[]);                    
-                            window.localStorage.removeItem("retailer_cashier_order");
-                            }
-                            if(this.distributor){
-                            window.localStorage.removeItem("distributor_cart");
-                            }
-                            
+                        this.removeCart();                            
                             this.show_cat = false;
                             this.cart_order = [];
                         this.$swal({
