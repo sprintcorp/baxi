@@ -28,7 +28,7 @@ export default {
     },
     computed: {
         filerTransactions() {
-            return this.transactions.filter((transaction) => transaction.type.toLowerCase().includes(this.search.toLowerCase()) && (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
+            return this.transactions.filter((transaction) => transaction.payment_type.toLowerCase().includes(this.search.toLowerCase()) && (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
                     new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()))
         },
         distributorTransactions() {

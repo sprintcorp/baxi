@@ -45,7 +45,8 @@ export default {
                 firstname:'',
                 lastname:'',
                 phone:'',
-                email:''
+                email:'',
+                baxi_username:''
             },
             scrollPosition: 0,
         }
@@ -769,24 +770,28 @@ export default {
                 })
                 .then(res => res.json())
                 .then(res => {
-                    if(!this.distributor){
-                    window.localStorage.setItem("retailer_cashier_order",[]);                    
-                    window.localStorage.removeItem("retailer_cashier_order");
-                    }
-                    if(this.distributor){
-                    window.localStorage.removeItem("distributor_cart");
-                    }
-                    this.saving = false;
+                    
                     // console.log(res)
                     // this.$swal("Payment Successful",'success');
                     
                     if(res.success){
+                        if(!this.distributor){
+                            window.localStorage.setItem("retailer_cashier_order",[]);                    
+                            window.localStorage.removeItem("retailer_cashier_order");
+                            }
+                            if(this.distributor){
+                            window.localStorage.removeItem("distributor_cart");
+                            }
+                            
+                            this.show_cat = false;
+                            this.cart_order = [];
                         this.$swal({
                             title: 'Success',
                             text: "Payment Successful",
                             icon: 'success',
                             confirmButtonText: 'ok'
                         });
+
                     }else{
                         // let errors = '';
                         // res.message.errors.forEach((error)=>{
@@ -800,9 +805,8 @@ export default {
                             confirmButtonText: 'ok'
                         });
                     }
-                    this.show_cat = false;
-                    this.cart_order = [];
                     
+                    this.saving = false;
                     
                     this.getProducts();
                 })

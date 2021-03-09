@@ -29,6 +29,7 @@
                                     <span class="link-line">Order Transaction</span>
                                   </div>
 
+                                  <!-- <pre>{{filerTransactions}}</pre> -->
                                   
                                     <div class="col-md-2 mt-2 font-weight-bold" style="margin-left:-30px">
                                       
@@ -65,7 +66,7 @@
                                       <tr style="text-align:center" v-for="(transaction,index) in filerTransactions" :key="index">
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ transaction.order_group_id }}</td>
-                                        <td>{{ transaction.type }}</td>
+                                        <td>{{ transaction.payment_type }}</td>
                                         <td>{{transaction.customer ? transaction.customer.customer.firstname+' '+transaction.customer.customer.lastname: 'No name'}}</td>
                                         <td>{{transaction.customer ? transaction.customer.customer.phone: 'No phone'}}</td>
                                         <td>{{transaction.outlet.name}}</td> 
@@ -111,9 +112,6 @@
                                         <th>S/N</th>
                                         <th>Order ID</th>
                                         <th>Type</th>
-                                        <!-- <th>Category</th>-->
-                                        <!-- <th>Outlet</th>  -->
-                                        <th>Date</th>
                                         <th>No of Items</th>
                                         <th>Amount</th>
                                         <th>View</th>

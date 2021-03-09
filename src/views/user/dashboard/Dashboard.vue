@@ -320,6 +320,7 @@
                     <div class="col-md-12 mt-3">
                       <input type="text " v-model="customer.phone" placeholder="customer phone" class="form-control">
                     </div>
+                    
                   <!-- </div> -->
                   <!-- <div class="row"> -->
                     <div class="col-md-12 mt-3">
@@ -351,13 +352,13 @@
       </div>
       
       <div class="modal-body row">
-        <div class="col-md-6" @click="saveOrder('wallet')" data-dismiss="modal">
+        <div class="col-md-6" data-toggle="modal" data-target="#optionModal" data-dismiss="modal">
           <div class="card mt-1 h-100">
               <div class="mx-auto mt-1">
                   <img :src="require('@/assets/images/img8.png')" class='rounded' alt="img"/>
               </div>
                 <div class="card-body text-center">
-                   <div class="h5 nav-link text-dark" data-toggle="modal" data-target="#optionModal" data-dismiss="modal">
+                   <div class="h5 nav-link text-dark">
                      Wallet to Wallet
                      </div> 
                 </div>
@@ -399,10 +400,11 @@
         </button>
       </div>
       <div class="modal-body text-center text-dark">
-        <p class="">Please give the customer the Account ID <br> below to make payments.
-        </p>
-         <button class="btn btn-outline-secondary rounded-pill">Account ID: RST12345</button> <br>
-         <a href="" class="btn btn-warning rounded-pill mt-4">Continue</a>
+        <div class="col-md-12 mt-3">
+            <input type="text" v-model="customer.baxi_username" placeholder="customer username" class="form-control">
+        </div>
+         <!-- <button class="btn btn-outline-secondary rounded-pill">Account ID: RST12345</button> <br> -->
+         <button class="btn btn-warning rounded-pill mt-4" data-dismiss="modal" @click="saveOrder('wallet')">Continue</button>
       </div>
     </div>
   </div>
