@@ -22,6 +22,7 @@ export default {
             outlet_transactions:[],
             total_quantity:0,
             restock_level:[],
+            duration:'',
             series: [{
                 data: []
               }],
@@ -64,11 +65,17 @@ export default {
         filerTransactions() {
             return this.transactions.filter((transaction) => new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
                 new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime())
+        },
+        amount(){
+            return this.filerTransactions.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
         }
     },
     methods: {
         showDate() {
             console.log(this.start_date.toString());
+            const day = 1000 * 60 * 60 * 24 * this.duration;
+            this.start_date = new Date().getTime()- day;
+           
         },
         goToProduct(){            
             this.$router.push({ name: 'productOverview' });
@@ -308,11 +315,11 @@ export default {
                         this.loading = false;
                         if (err.response.status == 401) {
                             this.$swal({
-     title: 'Error',
-     text: "Session Expired",
-     icon: 'error',
-     confirmButtonText: 'ok'
-});
+                        title: 'Error',
+                        text: "Session Expired",
+                        icon: 'error',
+                        confirmButtonText: 'ok'
+                    });
                             logout();
                             this.$router.push({ name: 'welcome' });
                         }

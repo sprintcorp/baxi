@@ -19,7 +19,7 @@
 
                 <div class="col-md-8 d-flex justify-content-end p-5">
                   <div class="mr-2">
-                    <select class="form-control">
+                    <select class="form-control" v-model="duration" @change="showDate()">
                       <option value="1">Today</option>
                       <option value="7">Weekly</option>
                       <option value="30">Monthly</option>
@@ -30,6 +30,7 @@
               </div>
 
               <!-- <div class="row" style="margin-top:-30px"> -->
+                <!-- {{amount}} -->
               <div class="col-md-12" >
                 <div class="row">
 
@@ -64,7 +65,7 @@
                           <img :src="require('@/assets/icon/icons8-split-transaction-48.png')" class='rounded' alt="img"/>                          
                         </div>
                         <div class="col-md-8">
-                          <h6 class="d-flex justify-content-end text-bold">&#8358; {{numberWithCommas(total_transaction)}}</h6>
+                          <h6 class="d-flex justify-content-end text-bold">&#8358; {{numberWithCommas(amount)}}</h6>
                         </div>
                         </div>                            
                         
@@ -103,7 +104,7 @@
                           <img :src="require('@/assets/icon/icons8-ledger-48.png')" class='rounded' alt="img"/>                          
                         </div>
                         <div class="col-md-8">
-                          <h5 class="d-flex justify-content-end">{{transactions.length}}</h5>
+                          <h5 class="d-flex justify-content-end">{{filerTransactions.length}}</h5>
                         </div>
                         </div> 
                         <div class="progress-bar bg-success" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
