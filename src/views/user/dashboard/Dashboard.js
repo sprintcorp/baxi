@@ -722,11 +722,10 @@ export default {
         },
         removeCart(){
             this.cart = [];
-            if(this.distributor){
-               
+            if(this.distributor){ 
+                window.localStorage.setItem("distributor_cart",[]);                
                 window.localStorage.removeItem("distributor_cart");
-            }else{
-                
+            }else{                
                 window.localStorage.setItem("retailer_cashier_order",[]);  
                 window.localStorage.removeItem("retailer_cashier_order");
             }
