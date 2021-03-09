@@ -287,7 +287,7 @@
                     </tbody>
                     </table>
                     <div class="row">
-                      <div class="col-md-12 d-flex justify-content-center mx-auto">
+                      <div class="col-md-12 d-flex justify-content-center mx-auto mb-4">
                         <button class="btn btn-warning mr-3" data-toggle="modal" data-target="#customerInfo">Proceed to payment</button>
                         <button class="btn btn-warning" @click="removeCart()">Clear Cart Items</button>
                       </div>
