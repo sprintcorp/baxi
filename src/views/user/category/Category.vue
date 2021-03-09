@@ -60,7 +60,7 @@
                                                     <p class="fs-14 font-weight-bold text-black"> {{product.name.length > 22 ? product.name.substr(0, 22)+'...' : product.name}}</p>
                                                     <p class="fs-12 font-weight-bold text-black" style="margin-top:-20px">{{product.size}}</p>
                                                     <p class="fs-12 font-weight-bold text-black" style="margin-top:-5px"> &#8358; {{ numberWithCommas(product.price) }}.00</p>
-                                                    <p class="fs-10 font-weight-bold text-black" style="margin-top:-19px;letter-spacing: 1px;"> {{product.quantity}} units - {{product.business_name}}</p>
+                                                    <p class="fs-10 font-weight-bold text-black" style="margin-top:-19px;letter-spacing: 1px;"> {{product.quantity}} packs - {{product.business_name}}</p>
                                                     <p class="fs-10 font-weight-bold text-black" style="margin-top:-19px">  MOQ {{product.minimum_order}}</p>
                                                 </div>
                                                 <div class="col-md-2">
@@ -88,12 +88,13 @@
                                             <div class="card p-2" style="width:100%;height:6.5rem;border-radius:0px">
                                                 <!-- hello -->
                                                 <div class="row g-0">
-                                                <div class="col-md-2 mt-2"><img :src="carts.image" class="rounded-circle" alt="" width="70" height="70"/></div>
-                                                <div class="col-md-5 mt-2 ml-1">
+                                                <div class="col-md-3 mt-2"><img :src="carts.image" class="rounded-circle" alt="" width="70" height="70"/></div>
+                                                <div class="col-md-7 mt-2 ml-1">
                                                     <p class="fs-10 font-weight-bold text-black"> {{carts.name}}</p>
                                                     <p class="fs-10 font-weight-bold text-black" style="margin-top:-20px"> Quantity {{carts.qty}}</p>
+                                                    <p class="fs-14 font-weight-bold text-black" style="margin-top:-20px"> &#8358;{{ numberWithCommas(carts.amount) }}</p>
                                                 </div>
-                                                <div class="col-md-3 mt-4 fs-10">&#8358;{{ numberWithCommas(carts.amount) }}</div>
+                                                <!-- <div class="col-md-3 mt-4 fs-10"></div> -->
                                                 <div class="col-md-1">
                                                     <div class="mt-4">
                                                         <button @click="removeFromCart(cart_order,index)">

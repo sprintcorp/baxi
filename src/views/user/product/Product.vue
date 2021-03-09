@@ -265,16 +265,20 @@
                       <div class="modal fade" id="product" tabindex="-1" aria-labelledby="product" aria-hidden="true">
                         <div class="modal-dialog modal-xl modal-dialog-centered">
                           <div class="modal-content">
+                            <div class="d-flex justify-content-end">
+                             <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><img :src="require('@/assets/icon/noun_cancel_2014884.png')" class='rounded' alt="img"/></button>
+                            </div>
                             <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
-                              <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><img :src="require('@/assets/icon/noun_cancel_2014884.png')" class='rounded' alt="img"/></button>
+                              <h4 class="modal-title" id="exampleModalLabel">ADD PRODUCT</h4>
+                             
+                              <p>The Asterisk sign (*) indicates the form is compulsory and must be filled before you can add a product</p>
                             </div>
                             <div class="modal-body">
                               <div class="row">
                                 <div class="col-md-9">
                                   <div class="row">
                                     <div class="col-md-6">
-                                      <label class="form-label">Product name</label>
+                                      <label class="form-label">Product name *</label>
                                       <!-- <Select2 v-model="myValue" class="form-control" style="width:200px" :options="system_products" :settings="{ settingOption: value, settingOption: value }"
                                     @change="myChangeEvent($event)" @select="mySelectEvent($event)"/> -->
                                     <Dropdown
@@ -288,7 +292,7 @@
                                       <!-- <input type="text" class="form-control" v-model="product.name" aria-describedby="product name"> -->
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label">Price</label>
+                                        <label class="form-label">Unit Price *</label>
                                           <div class="input-group mb-3">
                                             <div class="input-group-prepend">
                                               <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/coins.png')" class='rounded' alt="img"/></span>
@@ -304,7 +308,7 @@
                                   </div>
                                   <div class="row">
                                     <div class="col-md-6">
-                                      <label class="form-label">Quantity</label>
+                                      <label class="form-label">Quantity *</label>
                                       <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                           <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/noun_product_2646445.png')" class='rounded' alt="img"/></span>
@@ -326,7 +330,7 @@
                                     </div>
 
                                     <div class="col-md-6"  v-if="distributor">
-                                      <label class="form-label">Minimum Order Qty</label>
+                                      <label class="form-label">Minimum Order Quantity</label>
                                       <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                           <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/noun_dashboard_3542616.png')" class='rounded' alt="img"/></span>
@@ -372,16 +376,54 @@
                                       </div>
                                     </div>
 
+                                    <div class="col-md-6" v-if="!distributor">
+                                      <label class="form-label">Barcode</label>
+                                      <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/qr-code.png')" class='rounded' alt="img"/></span>
+                                        </div>
+                                        <input type="text" class="form-control" v-model="product.barcode" aria-describedby="restock level">
+                                        
+                                      </div>
+                                    </div>
+
                                     
                                     
                                     
+                                  </div>
+
+
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <label class="form-label">Restock level</label>
+                                      <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/restock.png')" class='rounded' alt="img"/></span>
+                                        </div>
+                                        <input type="text" class="form-control" v-model="product.restock_level" aria-describedby="restock level">
+                                        
+                                      </div>
+                                    </div>
+
+                                    <div class="col-md-6" v-if="distributor">
+                                      <label class="form-label">Barcode</label>
+                                      <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/qr-code.png')" class='rounded' alt="img"/></span>
+                                        </div>
+                                        <input type="text" class="form-control" v-model="product.barcode" aria-describedby="restock level">
+                                        
+                                      </div>
+                                    </div>   
                                   </div>
                                   
                                   
                                 </div>
                                 <div class="col-md-3">
-                                  <div class="text-center" style="width:80%;height:70%">
-                                    <img :src="product.image" class="mb-2" style="width:100%;height:100%"/>
+                                  {{product.image}}
+                                  <div class="text-center" @click="addFiles()" style="width:80%;height:70%;border:1px dashed grey">
+                                    <img :src="product.image" class="mb-2" style="width:50%;height:50%;margin-top:30px"/>
+                                    <p>Upload product image</p>
                                   </div>
                                   <row md="12">
                                       <input id="productUpload" ref="fileInputs" type="file" @change="fileChanges()" hidden>

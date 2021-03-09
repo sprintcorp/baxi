@@ -36,7 +36,7 @@
                                            <p class="fs-14 font-weight-bold text-black"> {{product.name.length > 22 ? product.name.substr(0, 22)+'...' : product.name}}</p>
                                                 <p class="fs-12 font-weight-bold text-black" style="margin-top:-20px">{{product.size}}</p>
                                                 <p class="fs-12 font-weight-bold text-black" style="margin-top:-5px"> &#8358; {{ numberWithCommas(product.price) }}.00</p>
-                                                <p class="fs-10 font-weight-bold text-black" style="margin-top:-19px"> {{product.quantity}} units - MOQ {{product.minimum_order}} </p>
+                                                <p class="fs-10 font-weight-bold text-black" style="margin-top:-19px"> {{product.quantity}} packs - MOQ {{product.minimum_order}} </p>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="mt-4">
@@ -162,7 +162,7 @@
                     <div class="row">
                         <div class="font-weight-bold h4">Order Notifications</div>
                     </div>
-                    <div class="mt-3 mb-3" v-if="notification.length"> Today <i class="fa fa-angle-down"></i></div>
+                    <div class="mt-3 mb-3" v-if="notification.length"> Today</div>
                     
                     <div class="accordion" id="accordionExample">
                         <div class=""  v-for="(res,n) in notification" :key="n">
@@ -195,15 +195,16 @@
                             <div class="row" style="margin-top:-15px">
                                 <div style="margin-top:-15px" class="col-md-12 d-flex justify-content-center" v-for="(cart,index) in cart_order" :key="index">
                                         <!-- <router-link :to="{name:'vendorProduct',params: { id: vendor.id }}"> -->
-                                        <div class="card p-2" style="height:6.5rem;border-radius:0px">
+                                        <div class="card p-2" style="height:6.5rem;width:100%;border-radius:0px">
                                             <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                             <div class="row g-0">
-                                            <div class="col-md-2 mt-2"><img :src="cart.image" class="rounded-circle" alt="" width="70" height="70"/></div>
-                                            <div class="col-md-5 mt-2 ml-1">
+                                            <div class="col-md-3 mt-2"><img :src="cart.image" class="rounded-circle" alt="" width="70" height="70"/></div>
+                                            <div class="col-md-7 mt-2 ml-1">
                                                 <p class="fs-10 font-weight-bold text-black"> {{cart.name}}</p>
                                                 <p class="fs-10 font-weight-bold text-black" style="margin-top:-20px"> Quantity {{cart.qty}}</p>
+                                                <p class="fs-14 font-weight-bold text-black" style="margin-top:-20px">&#8358;{{ numberWithCommas(cart.amount) }}</p>
                                             </div>
-                                            <div class="col-md-3 mt-4 fs-10">&#8358;{{ numberWithCommas(cart.amount) }}</div>
+                                            <!-- <div class="col-md-3 mt-4 fs-10"></div> -->
                                             <div class="col-md-1">
                                                 <div class="mt-4">
                                                     <button @click="removeFromCart(cart_order,index)">

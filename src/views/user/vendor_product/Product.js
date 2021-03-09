@@ -152,6 +152,8 @@ export default {
             })
             .then(res => res.json())
             .then(res => {
+                this.cart = [];
+                window.localStorage.setItem("retailer_order",[]);
                 window.localStorage.removeItem("retailer_order");
                 this.show_cart = false;
                 this.saving = false;
