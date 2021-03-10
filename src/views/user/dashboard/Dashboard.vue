@@ -8,7 +8,7 @@
             <div class="col-md-8" style="">   
                   <div class="heading-profile">
                     <h2 class="text-black">
-                      Welcome back, <span class="text-black">{{ username }}!</span> <span v-if="distributor" style="color:red">-  {{notification_info}} pending orders</span>
+                      Welcome back, <span class="text-black">{{ username }}!</span> <span v-if="distributor" style="color:red">-  <router-link :to="{name:'distributorOrders'}" style="color:red">{{notification_info}} pending orders</router-link></span>
                     </h2>
                   </div>             
             </div>

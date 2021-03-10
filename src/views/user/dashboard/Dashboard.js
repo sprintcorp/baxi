@@ -403,16 +403,22 @@ export default {
         },
         getCart(){
             if (JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length > 0 && !this.distributor) {
-               
-                this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"));
+                const cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order")).filter(cart => parseInt(cart.retailer_id) == getId());
+                this.cart = cart;
                 this.sumProduct()
-                this.show_cat = true;
+                if(cart.length > 0){
+                    this.show_cat = true;
+                }
             }
 
             if (JSON.parse(window.localStorage.getItem("distributor_cart")) && JSON.parse(window.localStorage.getItem("distributor_cart")).length > 0 && this.distributor) {
-                this.show_cat = true;
-                this.cart = JSON.parse(window.localStorage.getItem("distributor_cart"));
+                
+                const cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order")).filter(cart => parseInt(cart.retailer_id) == getId());
+                this.cart = cart;
                 this.sumProduct()
+                if(cart.length > 0){
+                    this.show_cat = true;
+                }
                 
             }
         },
