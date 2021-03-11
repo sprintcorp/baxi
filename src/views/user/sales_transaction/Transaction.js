@@ -22,7 +22,7 @@ export default {
         }
     },
     computed: {
-        filerTransactions() {
+        filterTransactions() {
             return this.transactions.filter((transaction) => (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
                     new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()))
         },
@@ -124,7 +124,7 @@ export default {
                     }
 
                 );
-        }
+        },
     },
 
     mounted() {

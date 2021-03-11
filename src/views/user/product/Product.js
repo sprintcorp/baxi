@@ -380,7 +380,7 @@ export default {
             this.local_product = [];
             if(checkUserPermission('order products') == false && this.distributor == false){
                 this.loading = true;
-                fetch(BASE_URL + '/my/outlet/'+window.localStorage.getItem("cahier_outlet")+'/products', {
+                fetch(BASE_URL + '/my/outlet/'+window.localStorage.getItem("cashier_business")+'/products', {
                             headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',

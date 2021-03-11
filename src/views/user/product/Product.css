@@ -15,14 +15,17 @@
   .dropdown .dropdown-input {
     background: #fff;
     cursor: pointer;
-    border: 1px solid #e7ecf5;
+    border: 1px solid #ced4da;
     border-radius: 3px;
     color: #333;
     display: block;
-    font-size: .8em;
-    padding: 6px;
-    min-width: 400px;
-    max-width: 400px;
+    /*font-size: .8em;*/
+    /*min-width: 400px;*/
+    /*max-width: 400px;*/
+  min-width: 100% !important;
+  padding: 6px;
+  font-size: 16px;
+      font-weight: bold;
 }
 Dropdown{
     width:600px;
@@ -58,3 +61,7 @@ border: 1px solid #DEDEDE;
 border-radius: 10px;
 opacity: 1;
 } */
+
+.input-group {
+    margin: 0 0 20px 0 !important;
+}

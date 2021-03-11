@@ -14,8 +14,9 @@
              <input type="email" class="form-control" placeholder="Username" v-model="credentials.username"> 
            </div>
 
-           <div class="form-group mt-4">
-              <input type="password" class="form-control" placeholder="Password" v-model="credentials.password">
+           <div class="form-group mt-4 input-with-icon" @click="togglePassword">
+              <input :type="passwordShown ? 'text':'password'" class="form-control" placeholder="Password" v-model="credentials.password">
+             <i class="fa fa-eye input-icon"></i>
            </div>
            <div class="form-group" style="margin-top:80px;margin-bottom:50px;">
              <button class="btn btn-warning btn-block" style="border-radius:20px" @click.prevent="switchToIMS()">Login</button>
@@ -72,30 +73,60 @@
   </div>
 </template>
 
-<script src="./WelcomeComponent.js">
-</script>
+<script src="./WelcomeComponent.js"></script>
 
 <style scoped>
-.center {
-  margin: auto;
-  width: 100%;
-  padding: 10px;
-   margin-left: 40%;
-  /* margin-right: 50%; */
-  margin-top: 20%;
-}
-.right-side-image {
-  background-image: url(/images/background.png);
-  width: 100%;
-  height:100vh;
-  background-size: cover;
-  background-repeat: no-repeat;
-  /* zoom:1 */
-}
-.container-fluid{
-  margin-right: -60px !important;
-}
-body{
-  overflow: hidden;
-}
+  .center {
+    margin: auto;
+    width: 100%;
+    padding: 10px;
+     margin-left: 40%;
+    /* margin-right: 50%; */
+    margin-top: 20%;
+  }
+
+  .right-side-image {
+    background-image: url(/images/background.png);
+    width: 100%;
+    height:100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    /* zoom:1 */
+  }
+
+  .container-fluid{
+    margin-right: -60px !important;
+  }
+
+  body {
+    overflow: hidden;
+  }
+
+  .input-with-icon {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .input-icon {
+    z-index: 999;
+    display:block;
+    position: absolute;
+    margin-top: -28px;
+    right: 80px;
+    font-size: 20px;
+  }
+
+ .input-icon:hover {
+    cursor: pointer;
+  }
+
+  /*.input-field {*/
+  /*  width: 100%;*/
+  /*  padding: 10px;*/
+  /*  text-align: center;*/
+  /*}*/
+
+  /*h2 {*/
+  /*  color: green;*/
+  /*}*/
 </style>

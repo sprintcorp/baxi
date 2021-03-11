@@ -26,14 +26,15 @@
                             <div class="col-md-12" v-if="transaction_tab">
                                 <div class="row border-2 mt-1">
                                   <div class="col-md-2 mt-2 font-weight-bold" style="">
-                                    <h5 class="link-line">Order Transaction <span class="badge badge-warning">{{page.total}}</span></h5>
+                                    <h5 class="link-line" v-if="!this.distributor">Sales Transaction <span class="badge badge-warning">{{page.total}}</span></h5>
+                                    <h5 class="" v-if="this.distributor">Order <span class="badge badge-warning">{{page.total}}</span></h5>
                                   </div>
 
-                                  <!-- <pre>{{filerTransactions}}</pre> -->
+                                  <!-- <pre>{{filterTransactions}}</pre> -->
                                   
                                     <div class="col-md-2 mt-2 font-weight-bold" style="margin-left:-30px">
                                       
-                                      <router-link :to="{name:'distributorSalesTransaction'}" v-if="distributor" class="top-text-block" style="color:black;text-decoration:none">Sales Transaction</router-link></div>
+                                      <router-link :to="{name:'distributorSalesTransaction'}" v-if="distributor" class="top-text-block" style="color:black;text-decoration:none">Sales</router-link></div>
                                   
                                   <div class="col-md-4 d-flex justify-content-end">
                                      <input type="text" v-model="search" placeholder="Search for transaction type" class="inp" style="background-color:white;width:91%;"/>
@@ -53,7 +54,7 @@
                                         <th>Order ID</th>
                                         <th>Type</th>
                                         <th>Customer</th>
-                                        <th>Phone</th>
+                                        <th>Status</th>
                                         <th>Outlet name</th> 
                                         <th>Transaction date</th>
                                         <th>No of items</th>
@@ -63,13 +64,17 @@
                                       </thead>
                                       <tbody>
 
-                                      <tr style="text-align:center" v-for="(transaction,index) in filerTransactions" :key="index">
+                                      <tr style="text-align:center" v-for="(transaction,index) in filterTransactions" :key="index">
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ transaction.order_group_id }}</td>
                                         <td>{{ transaction.payment_type }}</td>
-                                        <td>{{transaction.customer ? transaction.customer.customer.firstname+' '+transaction.customer.customer.lastname: 'No name'}}</td>
-                                        <td>{{transaction.customer ? transaction.customer.customer.phone: 'No phone'}}</td>
-                                        <td>{{transaction.outlet.name}}</td> 
+                                        <td>
+                                          {{transaction.customer ? transaction.customer.customer.firstname+' '+transaction.customer.customer.lastname: 'No info'}}<br>
+                                          <span v-if="transaction.customer && transaction.customer.customer.phone">{{transaction.customer.customer.phone}}</span>
+                                        </td>
+                                        <td v-if="transaction.paid" class="text-success">Paid</td>
+                                        <td v-else class="text-danger">Not Paid</td>
+                                        <td>{{transaction.outlet.name}}</td>
                                         <td>{{transaction.created_at  }}</td>
                                         <td>{{transaction.orders.length}}</td>
                                         <td>&#8358; {{numberWithCommas(transaction.amount)}}</td>
@@ -168,7 +173,7 @@
                                       Loading...
                                       
                                 </div> -->
-                                <Loading v-if="!transactions.length && loading">Loading...</Loading>
+                                <Loading v-if="!transactions.length && loading || saving">Loading...</Loading>
                                 <div class="card mt-5" v-if="!transactions.length && !loading">
                                   <div class="card-body text-center">
                                     There are no transaction for this outlet at the moment
@@ -222,12 +227,68 @@
                                   </table>
                             </div>
                             <div class="modal-footer">
+                              <button v-if="!transaction_product.paid && !distributor" type="button" class="btn btn-success" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Pay Now</button>
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                              <!-- <button type="button" class="btn btn-primary" @click="printReceipt(transaction_product.orders)">Print</button> -->
+                               <button type="button" v-if="!distributor"  class="btn btn-primary" @click="printReceipt(transaction_product.orders)">Print</button>
                             </div>
                           </div>
                         </div>
                       </div>
+
+
+
+
+                        <div class="modal fade" id="modeofpaymentModal" tabindex="-1" role="dialog" aria-labelledby="modeofpaymentModal" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h6 class="modal-title font-weight-bold"> Pick a payment method</h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              
+                              <div class="modal-body row">
+                                <div class="col-md-6 payment-method-card" data-toggle="modal" data-target="#optionModal" data-dismiss="modal">
+                                  <div class="card m-1 h-100 p-3">
+                                      <div class="mx-auto mt-1">
+                                          <img :src="require('@/assets/images/img8.png')" class='rounded' alt="img"/>
+                                      </div>
+                                        <div class="card-body text-center" style="padding: 0 !important;color:#ccc;">
+                                          <div class="h5 nav-link">
+                                            Wallet to Wallet
+                                              <small><em>Coming Soon...</em></small>
+                                            </div> 
+                                        </div>
+                                  </div>
+                                </div>
+                                <!-- <div class="col-md-4 ">
+                                  <div class="card mt-1 h-100">
+                                      <div class="mx-auto mt-1">
+                                        <img :src="require('@/assets/images/img9.png')" class='rounded' alt="img"/>
+                                      </div>
+                                        <div class="h5 card-body text-center">
+                                            POS
+                                        </div>
+                                  </div>
+                                </div> -->
+                                <div class="col-md-6 payment-method-card" @click="saveOrder('cash')" data-dismiss="modal">
+                                  <div class="card m-1 h-100 p-3">
+                                    <div class="mx-auto mt-1">
+                                          <img :src="require('@/assets/images/img12.png')" class='rounded' alt="img"/>
+                                      </div>
+                                        <div class="card-body text-center" style="padding: 0 !important;">
+                                            <div class="h5 nav-link text-dark">
+                                                Cash
+                                            </div>
+                                        </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
 
 
                       <div class="modal fade" tabindex="-1" ria-hidden="true" id="printMe">

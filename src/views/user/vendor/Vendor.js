@@ -1,7 +1,11 @@
 import { BASE_URL } from '../../../env'
 import { getToken, logout } from '../../../config'
+import Loading from "../../../components/Loader.vue";
 export default {
     name:"VendorComponent",
+    components: {
+        Loading
+      },
     data(){
         return{
             vendors:[],
@@ -92,7 +96,7 @@ export default {
         },
         getNotification(){
             this.loading = true
-            fetch(BASE_URL + '/my/notifications', {
+            fetch(BASE_URL + '/user/notifications', {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',

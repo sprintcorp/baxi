@@ -4,11 +4,11 @@
       <div class="container-fluid" style="background-color: white;min-height:80vh">
         <div class="heading-sec">
           <div class="row" v-if="!saving">
-            <div class="col-md-9" style="border-right:2px solid black">
+            <div class="col-md-9" style="border-right:1px solid #eee">
               <div class="row">
                 <div class="col-md-4 mt-5">
                     <div class="input-group">
-                    <span class="input-group-text">Select Outlet</span>
+                      <span class="input-group-text font-weight-bold"><strong>Select Outlet</strong></span>
                     <select v-model='selected_outlet' @change="getOutletInformation()" class="form-control">
                       <!-- <option>Select outlet</option> -->
                       <option v-for="(outlet,index) in outlets" :key="index" :value="outlet.id">{{outlet.name}}</option>
@@ -20,6 +20,7 @@
                 <div class="col-md-8 d-flex justify-content-end p-5">
                   <div class="mr-2">
                     <select class="form-control" v-model="duration" @change="showDate()">
+                      <!-- <option selected>All</option> -->
                       <option value="1">Today</option>
                       <option value="7">Weekly</option>
                       <option value="30">Monthly</option>
@@ -40,7 +41,7 @@
                   <div class="card" style="width: 13rem;">
                     <div class="card-body">
                       <!-- <div class="row"> -->
-                        <p class="mb-2 text-muted d-flex justify-content-end">Total product sold</p>    
+                      <p class="mb-2 text-muted d-flex justify-content-end"><strong>Total product sold</strong></p>
                         <div class="row"> 
                         <div class="col-md-4">
                           <img :src="require('@/assets/icon/icons8-packaging-48.png')" class='rounded' alt="img"/>                          
@@ -59,7 +60,7 @@
                   <div class="card" style="width: 13rem;">
                     <div class="card-body">
                       <!-- <div class="row"> -->
-                        <p class="mb-2 text-muted d-flex justify-content-end">Transaction Amount</p>   
+                      <p class="mb-2 text-muted d-flex justify-content-end"><strong>Transaction Amount</strong></p>
                         <div class="row"> 
                         <div class="col-md-4">
                           <img :src="require('@/assets/icon/icons8-split-transaction-48.png')" class='rounded' alt="img"/>                          
@@ -79,7 +80,7 @@
                   <div class="card" style="width: 13rem;">
                     <div class="card-body">
                       <!-- <div class="row"> -->
-                        <p class="mb-2 text-muted d-flex justify-content-end">Restock Level</p> 
+                      <p class="mb-2 text-muted d-flex justify-content-end"><strong>Restock Level</strong></p>
                         <div class="row"> 
                         <div class="col-md-4">
                           <img :src="require('@/assets/icon/icons8-windows-defragmenter-48.png')" class='rounded' alt="img"/>                          
@@ -98,13 +99,13 @@
                   <div class="card" style="width: 13rem;">
                     <div class="card-body">
                       <!-- <div class="row"> -->
-                        <p class="mb-2 text-muted d-flex justify-content-end">Total Transaction</p>                               
+                      <p class="mb-2 text-muted d-flex justify-content-end"><strong>Total Transaction</strong></p>
                         <div class="row"> 
                         <div class="col-md-4">
                           <img :src="require('@/assets/icon/icons8-ledger-48.png')" class='rounded' alt="img"/>                          
                         </div>
                         <div class="col-md-8">
-                          <h5 class="d-flex justify-content-end">{{filerTransactions.length}}</h5>
+                          <h5 class="d-flex justify-content-end">{{page.total}}</h5>
                         </div>
                         </div> 
                         <div class="progress-bar bg-success" role="progressbar" style="width: 100%;height:10px" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
@@ -154,7 +155,7 @@
                 <!-- <div class="row"> -->
                           <download-csv
                               class="btn btn-info"
-                              :data="filerTransactions"
+                              :data="filterTransactions"
                               name="transaction.csv">
 
                               Download Excel <i class="fa fa-file"></i>
@@ -185,11 +186,11 @@
                     </thead>
                     <tbody  v-if="transactions.length && !loading">
 
-                    <tr v-for="(transaction,index) in filerTransactions" :key="index">
-                      <td>{{ index+1 }}</td>
+                    <tr v-for="(transaction,index) in filterTransactions" :key="index">
+                      <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                       <td>{{ transaction.order_group_id }}</td>
                       <td>&#8358; {{ transaction.amount }}</td>
-                      <td>{{ transaction.type }}</td>
+                      <td>{{ transaction.payment_type }}</td>
                       <td>{{ transaction.orders.length == 1 ? transaction.orders.length + " Item" : transaction.orders.length+" Items" }}</td>
                       <!-- <td>{{ transaction.orders[0].customer.name }}</td> -->
                       <td>{{ transaction.created_at }}</td>
@@ -200,6 +201,28 @@
                     </tbody>
                   
                   </table>
+                  <nav aria-label="Page navigation example">
+                    <ul class="mb-5 pagination justify-content-center">
+                      <li class="page-item mr-1">
+                        <button @click="getPageOutletTransaction(page.first_page_url)" class="page-link">First</button>
+                      </li>
+                      <li class="page-item mr-1">
+                        <button @click="getPageOutletTransaction(page.prev_page_url)" class="page-link">Previous</button>
+                      </li>
+                      <li class="page-item active mr-1" aria-current="page">
+                        <span class="page-link">{{page.current_page}}</span>
+                      </li>
+                      <li class="page-item mr-1" aria-current="page">
+                        <span class="page-link">of {{page.last_page > 1? page.last_page+ ' pages' : page.last_page+ ' page'}}</span>
+                      </li>
+                      <li class="page-item mr-1">
+                        <button @click="getPageOutletTransaction(page.next_page_url)" class="page-link">Next</button>
+                      </li>
+                      <li class="page-item mr-1">
+                        <button @click="getPageOutletTransaction(page.last_page_url)" class="page-link">Last</button>
+                      </li>
+                    </ul>
+                  </nav>
                   
                 </div>
               </div>
@@ -272,45 +295,44 @@
               <!-- </div> -->
             </div>
 
-             <div class="col-md-3 mt-4" style="">
+             <div class="col-md-3 mt-4">
                <div class="ml-5">
-                <div class="row">
-                    <div class="heading-profile">
+                <div class="row" style="box-shadow: 0 0 10px 0 #ccc;border-radius: 4px;">
+                    <div class="heading-profile text-center bg-warning">
                       <h4 class="font-weight-bold">
                       Inventory Summary
                       </h4>
                     </div>
-                </div>
-                <div class="row p-1" style="border:1px solid grey;border-radius:0px;width:270px">
-                  <div class="col-md-12">
+
+                  <div class="col-md-12" style="padding:10px;">
                     <div class="row">
-                      <div class="col-md-7"><p>PRODUCTS SOLD</p></div>
+                      <div class="col-md-7"><strong>PRODUCTS SOLD</strong></div>
                       <!-- <div class="col-md-1">|</div> -->
-                      <div class="col-md-3"><p>{{total_quantity}}</p></div>
+                      <div class="col-md-3">{{total_quantity}}</div>
                     </div>
                     <hr>
                     <div class="row">
-                      <div class="col-md-7"><p>PRODUCTS LEFT</p></div>
+                      <div class="col-md-7"><strong>PRODUCTS LEFT</strong></div>
                       <!-- <div class="col-md-1">|</div> -->
-                      <div class="col-md-3"><p>10099883</p></div>
+                      <div class="col-md-3">10099883</div>
                     </div>
                   </div>                  
                 </div>
-                <div class="row">
-                    <div class="heading-profile">
-                      <h4 class="font-weight-bold">
-                      Top Selling Products
-                      </h4>
-                    </div>
-                </div>
-                <div class="row p-1" style="border:1px solid grey;border-radius:0px;width:270px">
+
+                <div class="row mt-5" style="box-shadow: 0 0 10px 0 #ccc;border-radius: 4px;">
+                  <div class="heading-profile text-center bg-warning mb-4">
+                    <h4 class="font-weight-bold">
+                    Top Selling Products
+                    </h4>
+                  </div>
+
                   <div class="col-md-12" v-if="top_selling.length > 0">
                     <div class="row mb-3" v-for="(product,index) in top_selling" :key="index">
-                      <div class="col-md-6"><img :src="product.product.public_image_url" alt="" width="100" height="100"></div>
-                      <div class="col-md-6">
-                        <div><p>{{product.product.name}}</p></div>
+                      <div class="col-md-4 text-center"><img :src="product.product.public_image_url" alt="" style="height:70px"></div>
+                      <div class="col-md-8">
+                        <div><h6 class="m-0"><strong>{{product.product.name}}</strong></h6></div>
                         <!-- <div><p>Product id</p></div> -->
-                        <div><p> Sold : {{product.count}}</p></div>
+                        <div>Sold : {{product.count}}</div>
                         <!-- <div><p>Amount Left</p></div> -->
                       </div>
                       <!-- <hr> -->
@@ -364,12 +386,12 @@
             </div> 
         </div>
         <div class="row col-md-12">
-                            <div class="overlay" v-if="saving">
-                                <div style="text-align:center;position: absolute;left: 40%;top: 40%;color:white;font-size:40px">
-                                    <span class="spinner-border spinner-border-sm fs-100" role="status" aria-hidden="true"></span>
-                                    Saving Outlet...
-                                </div>
-                            </div>
+            <div class="overlay" v-if="saving">
+                <div style="text-align:center;position: absolute;left: 40%;top: 40%;color:white;font-size:40px">
+                    <span class="spinner-border spinner-border-sm fs-100" role="status" aria-hidden="true"></span>
+                    Saving Outlet...
+                </div>
+            </div>
         </div>
 
         <!-- All Businesses -->

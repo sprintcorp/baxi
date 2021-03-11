@@ -63,7 +63,7 @@
                                       </thead>
                                       <tbody>
 
-                                      <tr style="text-align:center" v-for="(transaction,index) in filerTransactions" :key="index">
+                                      <tr style="text-align:center" v-for="(transaction,index) in filterTransactions" :key="index">
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ transaction.order_group_id }}</td>
                                         <td>Paid</td>
@@ -145,7 +145,7 @@
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                              <!-- <button type="button" class="btn btn-primary" @click="printReceipt(transaction_product.orders)">Print</button> -->
+                               <button type="button" class="btn btn-primary" @click="printReceipt(transaction_product.orders)">Print</button>
                             </div>
                           </div>
                         </div>

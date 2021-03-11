@@ -107,7 +107,7 @@
                                       </thead>
                                       <tbody>
 
-                                      <tr style="text-align:center" v-for="(order,index) in filerTransactions" :key="index">
+                                      <tr style="text-align:center" v-for="(order,index) in filterTransactions" :key="index">
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ order.order_group_id }}</td>
                                         <td>{{order.status == 0?'Pending':order.status == 1?'Accepted':order.status == 2?'Processing':order.status == 3?'Fulfilled':order.status == 4 ?'Delivered':order.status == 5?'Cancelled':'Declined'}}</td>                                      

@@ -95,7 +95,7 @@
                                         </thead>
                                         <tbody>
 
-                                        <tr v-for="(order,index) in filerTransactions" :key="index">
+                                        <tr v-for="(order,index) in filterTransactions" :key="index">
                                           <td>{{  index + 1 }}</td>
                                           <td>{{ order.order_group_id }}</td>
                                           <td>{{order.status == 0?'Pending':order.status == 1?'Accepted':order.status == 2?'Processing':order.status == 3?'Fulfilled':order.status == 4 ?'Delivered':order.status == 5?'Cancelled':'Declined'}}</td>                                      

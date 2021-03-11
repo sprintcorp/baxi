@@ -96,6 +96,60 @@ export default {
             }
 
         },
+        increaseCart(cart,index){
+            if(this.cart_order[index].qty < this.cart_order[index].quantity){
+            var size = ++this.cart_order[index].qty;
+            }else{
+                size = this.cart_order[index].qty;
+                this.$swal({
+                    title: 'Action Denied',
+                    text: "Quantity exceed available quatity ",
+                    icon: 'warning',
+                    confirmButtonText: 'ok'
+                });
+            }
+            cart[index].qty = size;
+            cart[index].amount = cart[index].price * size;
+            if (JSON.parse(window.localStorage.getItem("retailer_order"))) {
+                this.cart_order = JSON.parse(window.localStorage.getItem("retailer_order"))
+            }
+
+            this.pushToArray(this.cart, cart[index]);
+            window.localStorage.setItem("retailer_order", JSON.stringify(this.cart));
+            this.getCart();
+            this.sumProduct();
+        },
+        decreaseCart(cart,index){
+            if(this.cart_order[index].qty  > this.cart_order[index].minimum_order){
+            var size = --this.cart_order[index].qty;
+            }else{
+                size = this.cart_order[index].qty;
+                this.$swal({
+                    title: 'Action Denied',
+                    text: "Product quantity must be greater than minimum order quantity",
+                    icon: 'warning',
+                    confirmButtonText: 'ok'
+                });
+            }
+            cart[index].qty = size;
+            cart[index].amount = cart[index].price * size;
+            if (JSON.parse(window.localStorage.getItem("retailer_order"))) {
+                this.cart_order = JSON.parse(window.localStorage.getItem("retailer_order"))
+            }
+
+            this.pushToArray(this.cart, cart[index]);
+            window.localStorage.setItem("retailer_order", JSON.stringify(this.cart));
+            this.getCart();
+            this.sumProduct();
+        },
+        moq(){
+            this.$swal({
+                title: 'Action Denied',
+                text: "Product quantity cannot be less than minimum order quantity",
+                icon: 'warning',
+                confirmButtonText: 'ok'
+            });
+        },
         sumProduct() {
             if (JSON.parse(window.localStorage.getItem("retailer_order")) && JSON.parse(window.localStorage.getItem("retailer_order")).length) {
                 this.cart_order = JSON.parse(window.localStorage.getItem("retailer_order"))

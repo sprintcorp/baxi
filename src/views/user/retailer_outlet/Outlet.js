@@ -22,7 +22,8 @@ export default {
             outlet_transactions:[],
             total_quantity:0,
             restock_level:[],
-            duration:'',
+            duration:30,
+            page:'',
             series: [{
                 data: []
               }],
@@ -62,12 +63,12 @@ export default {
         }
     },
     computed: {
-        filerTransactions() {
+        filterTransactions() {
             return this.transactions.filter((transaction) => new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
                 new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime())
         },
         // amount(){
-        //     return this.filerTransactions.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
+        //     return this.filterTransactions.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
         // }
     },
     methods: {
@@ -75,50 +76,49 @@ export default {
             console.log(this.start_date.toString());
             const day = 1000 * 60 * 60 * 24 * this.duration;
             this.start_date = new Date().getTime()- day;
-            this.total_transaction = this.filerTransactions.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
+            this.total_transaction = this.filterTransactions.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
            
         },
         goToProduct(){            
             this.$router.push({ name: 'productOverview' });
         },
-        getUserBusiness() {
-            this.loading = true;
-            fetch(BASE_URL + '/my/businesses', {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': getToken()
-                    }
-                })
-                .then(res => res.json())
-                .then(res => {
-                    if (res.message === 'Unauthenticated.') {
-                        // console.log(res);
-                        logout();
-                        this.$router.push({ name: 'welcome' });
-                    }
-                    this.loading = false;
-                    this.businesses = res.data.my_own_businesses;
-                    window.localStorage.setItem("retailer_business", this.businesses[0].id);
+        // getUserBusiness() {
+        //     this.loading = true;
+        //     fetch(BASE_URL + '/my/businesses', {
+        //             headers: {
+        //                 'Content-Type': 'application/json',
+        //                 'Accept': 'application/json',
+        //                 'Authorization': getToken()
+        //             }
+        //         })
+        //         .then(res => res.json())
+        //         .then(res => {
+        //             if (res.message === 'Unauthenticated.') {
+        //                 logout();
+        //                 this.$router.push({ name: 'welcome' });
+        //             }
+        //             this.loading = false;
+        //             this.businesses = res.data.my_own_businesses;
+        //             window.localStorage.setItem("retailer_business", this.businesses[0].id);
 
-                })
-                .catch((err) => {
-                        console.log("error log " +
-                            err)
-                        this.loading = false;
-                        if (err.response.status == 401) {
-                            this.$swal({
-     title: 'Error',
-     text: "Session Expired",
-     icon: 'error',
-     confirmButtonText: 'ok'
-});
-                            logout();
-                            this.$router.push({ name: 'welcome' });
-                        }
-                    }
-                );
-        },
+        //         })
+        //         .catch((err) => {
+        //                 console.log("error log " +
+        //                     err)
+        //                 this.loading = false;
+        //                 if (err.response.status == 401) {
+        //                     this.$swal({
+        //                     title: 'Error',
+        //                     text: "Session Expired",
+        //                     icon: 'error',
+        //                     confirmButtonText: 'ok'
+        //                 });
+        //                     logout();
+        //                     this.$router.push({ name: 'welcome' });
+        //                 }
+        //             }
+        //         );
+        // },
         showProducts(transaction) {
             this.transaction_product = transaction;
         },
@@ -187,7 +187,42 @@ export default {
                         this.$router.push({ name: 'welcome' });
                     }
                     this.loading = false;
-                    this.transactions = res.data.transactions;
+                    this.transactions = res.data.transactions.data
+                    this.page = res.data.transactions;
+                    // console.log(this.transactions);
+                    let sum = this.transactions.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
+                    // console.log(sum);
+                    this.total_transaction = sum;
+                })
+                .catch(err => {
+                        console.log(err)
+                        this.loading = false;
+                        
+                    }
+
+                );
+        },
+        getPageOutletTransaction(page) {
+            // alert(id)
+            this.total_transaction = 0;
+            this.loading = true;
+            fetch(page, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.message === 'Unauthenticated.') {
+                        console.log(res);
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                    this.loading = false;
+                    this.transactions = res.data.transactions.data
+                    this.page = res.data.transactions;
                     // console.log(this.transactions);
                     let sum = this.transactions.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
                     // console.log(sum);
@@ -329,7 +364,7 @@ export default {
                 );
         },
         getTopSellingProduct(id){
-            fetch(BASE_URL + '/my/businesses/stat/top-selling?outlet_id='+id, {
+            fetch(BASE_URL + '/my/businesses/stat/retailer-top-selling?outlet_id='+id, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -441,15 +476,17 @@ export default {
         
     },
 
-    mounted() {        
+    mounted() {   
+        this.getOutletTransaction();     
         this.getBusinessOutlets();
-        this.getUserBusiness();
-        this.getOutletTransaction();
+        // this.getUserBusiness();
+        
         this.name = getName();
         this.getSecondaryUsers();
         // this.getTopSellingProduct();
         this.start_date = new Date("2015-08-21").getTime();
         this.end_date = new Date().getTime();
+        this.showDate()
         
     }
 }

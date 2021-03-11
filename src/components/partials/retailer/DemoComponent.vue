@@ -39,21 +39,49 @@
                     <input type="text" placeholder="Search Products" style="background-color:white;width:255%;border-radius:20px"/>
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form> -->
-                <div style="height:20%" v-if="!distributor && order_products"><i class="fa fa-building"></i> Outlet : <b>{{name}}</b> <br><i class="fa fa-wallet"></i> Wallet : <b>₦ {{numberWithCommas(wallet)}}</b> | <i class="fa fa-money-bill"></i> Ledger : <b>₦ {{numberWithCommas(ledger)}}</b><button @click="getBalance()" v-if="!reload"><img src="https://img.icons8.com/material/24/000000/synchronize--v1.png"/></button>
-                   
-                    <div v-if="reload" class="spinner-border spinner-border-sm" role="status">
-                        <span class="sr-only">Loading...</span>
+
+                <div>
+                    <div v-if="!distributor && order_products" class="pull-right mt-3">
+                        <h6 style="font-size:14px;text-align: right"><i class="fa fa-building"></i> {{name}}</h6>
+                        <!-- <h5 style="font-size:18px;">{{name}}</h5> -->
+                    </div>
+
+                    <div class="pull-right mr-4 mt-1 text-right">
+                        <p class="m-0" style="line-height:25px;font-size:17px;color: #0e5a14;">
+                            <i class="fa fa-wallet"></i> Available:
+                            ₦ <strong>{{numberWithCommas(wallet)}}</strong>
+
+                            <button @click="getBalance" v-if="!reload">
+                                <i class="fa fa-spinner"></i>
+                            </button>
+
+                            <button v-if="reload">
+                                <i class="fa fa-spinner fa-pulse fa-fw"></i>
+                                <span class="sr-only">Loading...</span>
+                            </button>
+                        </p>
+
+                        <p style="line-height:22px;font-size:14px;color:#d47a3bb5;margin-right:35px;">
+<!--                            <i class="fa fa-money-bill"></i> -->
+                            Ledger:
+                            <strong>₦ {{numberWithCommas(ledger)}}</strong>
+                        </p>
                     </div>
                 </div>
+
+
+<!--                <div style="height:20%"><i class="fa fa-building"></i> Outlet : <b>{{name}}</b> <br><i class="fa fa-wallet"></i> Wallet : <b>₦ {{numberWithCommas(wallet)}}</b> | <i class="fa fa-money-bill"></i> Ledger : <b>₦ {{numberWithCommas(ledger)}}</b><button @click="getBalance()" v-if="!reload"><img src="https://img.icons8.com/material/24/000000/synchronize&#45;&#45;v1.png"/></button>-->
+<!--                   -->
+<!--                    <div v-if="reload" class="spinner-border spinner-border-sm" role="status">-->
+<!--                        <span class="sr-only">Loading...</span>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+
                 <!-- <div style="height:20%" v-if="!distributor && !order_products"><i class="fa fa-building"></i> Outlet : <b>{{name}}</b>
                    
                 </div> -->
-                <div style="height:20%" v-if="distributor"><i class="fa fa-wallet"></i> Balance : <b>₦ {{numberWithCommas(wallet)}}</b> <button @click="getBalance()" v-if="!reload"><img src="https://img.icons8.com/material/24/000000/synchronize--v1.png"/></button>
-                   
-                    <div v-if="reload" class="spinner-border spinner-border-sm" role="status">
-                        <span class="sr-only">Loading...</span>
-                    </div>
-                </div>
+                
                 <div class="vl"></div>
                 <!-- <button class="mr-2" v-if="order_products" data-toggle="modal" data-target="#cartModal"><i class="fa fa-shopping-cart fs-25" style="color:#ffc107"></i></button> -->
                 <div class="" v-if="!distributor">

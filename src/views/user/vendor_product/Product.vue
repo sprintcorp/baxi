@@ -9,10 +9,10 @@
                             <div class="p">Please pick a product you would like.</div>
                         </div>
                         <div class="col-md-6 d-flex justify-content-end">
-                        <form class="form-inline search-form my-2 my-lg-0" style="width:100%">
+                        <!-- <form class="form-inline search-form my-2 my-lg-0" style="width:100%">
                             <input type="text" v-model="search" placeholder="Type to search for product, or vendor" style="background-color:white;width:90% !important;border-radius:20px"/>
                             <button type="submit"><i class="fa fa-search"></i></button>
-                        </form>
+                        </form> -->
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -82,9 +82,6 @@
                             <div class="modal-dialog modal-dialog-centered">
                                 
                                 <div class="modal-content">
-                                    <div class="card rounded-circle text-center p-3" style="width:6rem;height:6rem;margin-top:-50px;background-color:#ffc107;border:0px">
-                                        <i class="fa fa-shopping-cart" style="font-size:50px"></i>
-                                    </div>
                                     <button type="button" class="btn btn-light" style="border-radius:20px;color:red;position:absolute;right:0" data-dismiss="modal">X</button>                                    
                                     <div class="row text-center">
                                         <div class="col-md-12">
@@ -108,7 +105,7 @@
                                              <div class="col-md-12 d-flex justify-content-end">
                                                 <div class="input-group rm">
                                                     <input type="button" @click="decrease(product.quantity)" v-if="quantity_value > product.minimum_order" value="-" class="button-minus" data-field="quantity">
-                                                    <input type="button" value="-" v-if="quantity_value <= product.minimum_order"  class="button-minus" data-field="quantity">
+                                                    <input type="button" @click="moq()" value="-" v-if="quantity_value <= product.minimum_order"  class="button-minus" data-field="quantity">
                                                     <input type="number" step="1" :max="product.quantity" :min="product.minimum_order" :value="quantity_value" name="quantity" @change="changes()" class="quantity-field">
                                                     <input type="button" @click="increase(product.quantity)" value="+" class="button-plus" data-field="quantity">
                                                     <!-- <h6 style="margin-top:12px;font-size:14px">{{product.pack_label}}s</h6> -->
@@ -195,21 +192,23 @@
                             <div class="row" style="margin-top:-15px">
                                 <div style="margin-top:-15px" class="col-md-12 d-flex justify-content-center" v-for="(cart,index) in cart_order" :key="index">
                                         <!-- <router-link :to="{name:'vendorProduct',params: { id: vendor.id }}"> -->
-                                        <div class="card p-2" style="height:6.5rem;width:100%;border-radius:0px">
+                                        <div class="card p-2" style="height:7rem;width:100%;border-radius:0px">
                                             <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                             <div class="row g-0">
                                             <div class="col-md-3 mt-2"><img :src="cart.image" class="rounded-circle" alt="" width="70" height="70"/></div>
-                                            <div class="col-md-7 mt-2 ml-1">
-                                                <p class="fs-10 font-weight-bold text-black"> {{cart.name}}</p>
+                                            <div class="col-md-6 mt-2 ml-1">
+                                                <p class="fs-10 font-weight-bold text-black"> {{cart.name.length > 22 ? cart.name.substr(0, 22)+'...' : cart.name}}</p>
                                                 <p class="fs-10 font-weight-bold text-black" style="margin-top:-20px"> Quantity {{cart.qty}}</p>
                                                 <p class="fs-14 font-weight-bold text-black" style="margin-top:-20px">&#8358;{{ numberWithCommas(cart.amount) }}</p>
                                             </div>
                                             <!-- <div class="col-md-3 mt-4 fs-10"></div> -->
-                                            <div class="col-md-1">
-                                                <div class="mt-4">
+                                            <div class="col-md-2">
+                                                <div class="mt-1">
                                                     <button @click="removeFromCart(cart_order,index)">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
+                                                    <button class="text-black h4" @click="increaseCart(cart_order,index)">+</button>
+                                                    <button class="text-black h4" @click="decreaseCart(cart_order,index)">-</button>
                                                 </div>
                                             </div>
                                             </div>

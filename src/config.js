@@ -110,8 +110,8 @@ export const removeUser = () => {
     window.localStorage.removeItem("outlet_name");
     window.localStorage.removeItem("wallet-balance");
     
-    window.localStorage.removeItem("cahier_outlet");
-    window.localStorage.removeItem("cahier_business");
+    window.localStorage.removeItem("cashier_business");
+    window.localStorage.removeItem("cashier_business");
 };
 
 export const logout = () => {

@@ -8,7 +8,7 @@
             <div class="col-md-8" style="">   
                   <div class="heading-profile">
                     <h2 class="text-black">
-                      Welcome back, <span class="text-black">{{ username }}!</span> <span v-if="distributor" style="color:red">-  <router-link :to="{name:'distributorOrders'}" style="color:red">{{notification_info}} pending orders</router-link></span>
+                      Welcome back, <span class="text-black">{{ username }}!</span> <span v-if="distributor" style="font-size:16px;font-weight:bold;color:#fff;background-color:#681b1b;padding:2px 4px;border-radius:5px;"> <router-link :to="{name:'distributorOrders'}" style="color:#fff">{{notification_info}} pending orders</router-link></span>
                     </h2>
                   </div>             
             </div>
@@ -90,8 +90,9 @@
                                     <div class="card p-1" style="height:15rem;margin-top:20px;width:12rem">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                       <div class="card-body">
-                                       <div class="row d-flex justify-content-center" style=""> <h6 class="fs-13" style="font-weight:bold !important"> {{product.name.length > 20 ? product.name.substr(0, 20)+'...' : product.name}}</h6></div>
-                                       <div class="row d-flex justify-content-center" style="height:25%"> <h6 class="fs-10" style="font-weight:bold !important"> {{product.size}}</h6></div>
+                                       <div class="row d-flex justify-content-center" style="">
+                                           <h6 class="fs-13 m-0" style="font-weight:bold !important"> {{product.name.length > 20 ? product.name.substr(0, 20)+'...' : product.name}}</h6></div>
+                                       <div class="row d-flex justify-content-center"> <h6 class="fs-10" style="font-weight:bold !important"> {{product.size}}</h6></div>
                                         <div class="row" style="height:50%;margin-top:-5px">
                                           <div class="col-md-12">
                                             <div class="text-center mt-1"><img :src="product.public_image_url" class="rounded-circle" alt="" style="height:80px"/></div>
@@ -185,22 +186,19 @@
             <!-- Add Cart -->
                         <div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="product" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="card rounded-circle text-center p-3" style="width:6rem;height:6rem;margin-top:-50px;background-color:#ffc107;border:0px">
-                                        <i class="fa fa-shopping-cart" style="font-size:50px"></i>
-                                    </div>
-                                    <button type="button" class="close-modal" data-dismiss="modal"><img :src="require('@/assets/icon/noun_cancel_2014884.png')" class='rounded' alt="img"/></button>                                    
+                                <div class="modal-content" style="width:450px !important;">
                                     <div class="row text-center">
-                                        <div class="col-md-12">
-                                            <div class="fs-20 font-weight-bolder text-black">Add this item to cart?</div>                                        
+                                        <div class="col-md-12 mt-4">
+                                            <div class="fs-20 font-weight-bolder text-black">Add this item to order?</div>
                                         </div>
                                     </div>
+                                    <button type="button" class="close-modal" data-dismiss="modal"><img :src="require('@/assets/icon/noun_cancel_2014884.png')" class='rounded' alt="img"/></button>
                                     
                                 <div class="modal-body" style="margin-top:-65px">
                                      <div class="row card border-0">
                                         <div class="text-center"><img :src="product.public_image_url" width="200" height="200"/></div>
-                                        <div class="fs-15 mt-2 h3 text-center">{{product.name}} ({{product.size}})</div>
-                                        <div class="fs-15 mt-1 h4 text-center">&#8358; {{ numberWithCommas(product.sell_price) }}.00</div>
+                                        <div class="fs-15 mt-2 h5 text-center">{{product.name}} ({{product.size}})</div>
+                                        <div class="fs-15 mt-1 h5 text-center">&#8358; {{ numberWithCommas(product.sell_price) }}.00</div>
                                         <div class="fs-13 text-center">{{ product.quantity }} Units Left</div>
                                         <!-- <div class="fs-13 text-center" v-if="distributor">Minimum order quantity {{ product.minimum_order }}</div> -->
                                         <div class="fs-15 mt-1 mb-1 text-center">Select Quantity</div>
@@ -262,13 +260,8 @@
                             </td>
                          </tr>
                         <br>
-                        <tr>
-                           <td></td>
-                           <!-- <td></td> -->
-                           <td>Units</td>
-                           <td>Products</td>
-                           <td>Amount</td>
-                         </tr>
+
+
                          <tr>
                            <td>VAT</td>
                            <!-- <td></td> -->
@@ -287,9 +280,13 @@
                     </tbody>
                     </table>
                     <div class="row">
-                      <div class="col-md-12 d-flex justify-content-center mx-auto mb-4">
-                        <button class="btn btn-warning mr-3" data-toggle="modal" data-target="#customerInfo">Proceed to payment</button>
-                        <button class="btn btn-warning" @click="removeCart()">Clear Cart Items</button>
+                      <div class="col-md-12 m-1" style="font-size: 10px;">
+                        <button class="btn btn-success col-md-4" data-toggle="modal" style="font-size: 14px;" data-target="#customerInfo">Proceed <span class="fa fa-check"></span></button>
+
+                          <div class="col-md-6 pull-right text-right">
+                            <button class="btn btn-warning" style="margin:2px;font-size: 14px;" data-toggle="modal" data-target="#saveInfo">Save <span class="fa fa-save"></span></button>
+                            <button class="btn btn-danger" style="margin:2px;font-size: 14px;" @click="removeCart()">Clear <span class="fa fa-times"></span></button>
+                          </div>
                       </div>
                     </div>
                 </div>
@@ -341,6 +338,54 @@
 
 
 
+
+          <div class="modal fade" id="saveInfo" tabindex="-1" role="dialog" aria-labelledby="saveInfo" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h6 class="modal-title font-weight-bold"> Customer information</h6>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                
+                <div class="modal-body row">
+                  <!-- <div class="row"> -->
+                    <div class="col-md-6">
+                      <input type="name" v-model="customer.firstname" placeholder="customer firstname" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                      <input type="name" v-model="customer.lastname" placeholder="customer lastname" class="form-control">
+                    </div>
+                  <!-- </div> -->
+                  <!-- <div class="row"> -->
+                    <div class="col-md-6 mt-3">
+                      <input type="text " v-model="customer.phone" placeholder="customer phone" class="form-control">
+                    </div>
+                    
+                  <!-- </div> -->
+                  <!-- <div class="row"> -->
+                    <div class="col-md-6 mt-3">
+                      <input type="email " v-model="customer.email" placeholder="customer email" class="form-control">
+                    </div>
+                  <!-- </div> -->
+
+                  <div class="col-md-12 mt-3">
+                      <input type="text" v-model="customer.baxi_username" placeholder="customer username" class="form-control">
+                  </div>
+
+                  <div class="col-md-12 d-flex justify-content-end mt-2 mb-1">                    
+                    <button class="btn btn-warning" data-dismiss="modal" @click="saveOrder()">Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
   <div class="modal fade" id="modeofpaymentModal" tabindex="-1" role="dialog" aria-labelledby="modeofpaymentModal" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -352,14 +397,15 @@
       </div>
       
       <div class="modal-body row">
-        <div class="col-md-6" data-toggle="modal" data-target="#optionModal" data-dismiss="modal">
-          <div class="card mt-1 h-100">
+        <div class="col-md-6 payment-method-card" data-toggle="modal" data-target="#optionModal" data-dismiss="modal">
+          <div class="card m-1 h-100 p-3">
               <div class="mx-auto mt-1">
                   <img :src="require('@/assets/images/img8.png')" class='rounded' alt="img"/>
               </div>
-                <div class="card-body text-center">
-                   <div class="h5 nav-link text-dark">
+                <div class="card-body text-center" style="padding: 0 !important;color:#ccc;">
+                   <div class="h5 nav-link">
                      Wallet to Wallet
+                       <small><em>Coming Soon...</em></small>
                      </div> 
                 </div>
           </div>
@@ -374,13 +420,15 @@
                 </div>
           </div>
         </div> -->
-        <div class="col-md-6 close" @click="saveOrder('cash')" data-dismiss="modal">
-          <div class="card mt-1 h-100">
+        <div class="col-md-6 payment-method-card" @click="saveOrder('cash')" data-dismiss="modal">
+          <div class="card m-1 h-100 p-3">
              <div class="mx-auto mt-1">
                   <img :src="require('@/assets/images/img12.png')" class='rounded' alt="img"/>
               </div>
-                <div class="h5 card-body text-center">
-                    Cash
+                <div class="card-body text-center" style="padding: 0 !important;">
+                    <div class="h5 nav-link text-dark">
+                        Cash
+                    </div>
                 </div>
           </div>
         </div>

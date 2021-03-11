@@ -54,14 +54,15 @@
                         </div>
 
                         <div class="row col-md-12">
-                            <div v-if="!vendors.length && loading" style="text-align:center;position: absolute;left: 50%;top: 50%;">                  
+                            <!-- <div v-if="!vendors.length && loading" style="text-align:center;position: absolute;left: 50%;top: 50%;">                  
                                 <div class="spinner-grow mt-5" style="width: 3rem; height: 3rem;" role="status">
                                     <span class="sr-only">Loading...</span>
                                 </div>
                                 <br>
                                 Loading...
                                                     
-                            </div>
+                            </div> -->
+                            <Loading v-if="!vendors.length && loading">Loading...</Loading>
                             <div class="card" v-if="!vendors.length && !loading">
                                 <div class="card-body text-center">
                                     There are no vendors at the moment for this category in this state

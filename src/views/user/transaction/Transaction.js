@@ -24,12 +24,15 @@ export default {
             progress:'progress-bar',
             color:'bg-warning',
             distributor:false,
+            saving:false,
         }
     },
     computed: {
-        filerTransactions() {
-            return this.transactions.filter((transaction) => transaction.payment_type.toLowerCase().includes(this.search.toLowerCase()) && (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
-                    new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()))
+        filterTransactions() {
+            return this.transactions.filter((transaction) => {
+                return (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
+                    new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime())
+            })
         },
         distributorTransactions() {
             return this.transactions.filter((transaction) => transaction.delivery_type.toLowerCase().includes(this.search.toLowerCase()) && (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
@@ -171,7 +174,87 @@ export default {
                     }
 
                 );
-        }
+        },
+
+        showTransaction(transaction){
+            this.transaction_product = transaction;
+            console.log(transaction)
+        },
+
+        saveOrder(type) {
+            console.log(type + this.transaction_product.order_group_id)
+            this.saving = true;
+                if(this.distributor){
+                    this.saved_orders = JSON.parse(window.localStorage.getItem("distributor_cart"))
+                   
+                    var url = '/my/distributor/customer/order'
+                }else{
+                    url = '/my/retailer/orders'
+                }
+            const payload = {
+                "order_id": this.transaction_product.order_group_id,
+                "payment_type":type,
+    
+            }
+            this.loading = false
+            console.log(payload);
+
+
+            fetch(BASE_URL + url, {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    
+                    if(res.success){
+                        this.$swal({
+                            title: 'Success',
+                            text: "Order Successful",
+                            icon: 'success',
+                            confirmButtonText: 'ok'
+                        });
+
+                    }else{
+                        this.$swal({
+                            title: 'Error',
+                            text: "Error saving order",
+                            icon: 'error',
+                            confirmButtonText: 'ok'
+                        });
+                    }
+                    
+                    this.saving = false;
+
+                    this.getTransaction();
+                })
+                .catch(err => {
+                    this.saving = false;
+                    this.$swal({
+                        title: 'Error',
+                        text: err.response.data.message,
+                        icon: 'error',
+                        confirmButtonText: 'ok'
+                    });
+                    this.getTransaction();
+                    console.log(err)
+                    if (err.response.status == 401) {
+                        this.$swal({
+                            title: 'Error',
+                            text: "Session Expired",
+                            icon: 'error',
+                            confirmButtonText: 'ok'
+                        });
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                });
+        },
     },
 
     mounted() {

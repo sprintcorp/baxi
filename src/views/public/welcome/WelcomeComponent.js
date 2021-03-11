@@ -5,6 +5,7 @@ export default {
     name: "WelcomeComponent",
     data() {
         return {
+            passwordShown: false,
             register: true,
             loading: false,
             loginStatus: null,
@@ -20,6 +21,10 @@ export default {
 
 
     methods: {
+        togglePassword() {
+            this.passwordShown = !this.passwordShown;
+        },
+
         showLoginin() {
             this.login = true;
         },

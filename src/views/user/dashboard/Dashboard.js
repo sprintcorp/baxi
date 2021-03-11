@@ -49,6 +49,15 @@ export default {
                 baxi_username:''
             },
             scrollPosition: 0,
+            fees: [],
+            vat: 0.0,
+            api_headers: {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': getToken()
+                }
+            }
         }
     },
     computed: {
@@ -57,7 +66,20 @@ export default {
         }
     },
     methods: {
-        
+        fetchFees() {
+          fetch(BASE_URL + '/fees', this.api_headers)
+              .then(response => response.json())
+              .then(response => {
+                  this.fees = response.data;
+
+                  this.fees.forEach(fee => {
+                      if(fee.name === 'VAT') this.vat = fee.value;
+                  });
+              })
+              .catch(err => console.log(err));
+        },
+
+
         numberWithCommas(x) {
             const num = parseFloat(x)
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -106,11 +128,6 @@ export default {
             // product.customer.name = 'web';
             // product.customer.replace = true;
             product.retailer_id = getId()
-            if(checkUserPermission('order products') == true){
-                product.outlet_id = window.localStorage.getItem("retailer_outlet");
-            }else{
-                product.outlet_id = window.localStorage.getItem("cahier_outlet");
-            }
             if(!this.distributor){
             if (JSON.parse(window.localStorage.getItem("retailer_cashier_order"))) {
                 this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
@@ -184,7 +201,7 @@ export default {
 
         getProducts() {
             if(checkUserPermission('order products') == false && getRole() !== 'Distributor'){
-                this.selected_outlet = window.localStorage.getItem("cahier_outlet");
+                this.selected_outlet = window.localStorage.getItem("cashier_outlet");
                 this.results = [];
                 this.loading = true;
                 this.cat = false
@@ -209,7 +226,6 @@ export default {
                             this.$router.push({ name: 'welcome' });
                         }
                         console.log(res.data.data);
-                        this.loading = false;
                         this.getCart();
                         this.products = res.data.data;
                         this.products.forEach((data) => {
@@ -229,6 +245,8 @@ export default {
                             });
                         });
                         console.log(this.results);
+
+                        this.loading = false;
                     })
                     .catch(err => {
                             console.log(err)
@@ -385,8 +403,8 @@ export default {
                 this.cart_order = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
                 let sum = this.cart_order.map(o => parseFloat(o.price)).reduce((a, c) => { return a + c });
                 let sum_product = this.cart_order.map(o => parseFloat(o.qty)).reduce((a, c) => { return a + c });
-                
-                this.total_with_vat = sum * 7.5 /100;
+
+                this.total_with_vat = sum * this.vat/100;
                 this.total = sum;
                 this.total_product = sum_product;
             }
@@ -396,7 +414,7 @@ export default {
                 let sum = this.cart_order.map(o => parseFloat(o.price)).reduce((a, c) => { return a + c });
                 let sum_product = this.cart_order.map(o => parseFloat(o.qty)).reduce((a, c) => { return a + c });
                 
-                this.total_with_vat = sum * 7.5 /100;
+                this.total_with_vat = sum * this.vat/100;
                 this.total = sum;
                 this.total_product = sum_product;
             }
@@ -436,6 +454,8 @@ export default {
             }
             cart[index].qty = size;
             cart[index].price = cart[index].sell_price * size;
+            const amount = cart[index].sell_price * size;
+            cart[index].amount = amount.toString();
             if(!this.distributor){
             if (JSON.parse(window.localStorage.getItem("retailer_cashier_order"))) {
                 this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
@@ -470,6 +490,8 @@ export default {
             }
             cart[index].qty = size;
             cart[index].price = cart[index].sell_price * size;
+            const amount = cart[index].sell_price * size;
+            cart[index].amount = amount.toString();
             if(!this.distributor){
                 if (JSON.parse(window.localStorage.getItem("retailer_cashier_order"))) {
                     this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
@@ -584,7 +606,7 @@ export default {
         getCategoryProduct(category_id){
             // alert(category_id);
             if(checkUserPermission('order products') == false){
-                this.selected_outlet = window.localStorage.getItem("cahier_outlet");
+                this.selected_outlet = window.localStorage.getItem("cashier_outlet");
                 this.results = [];
                 this.loading = true;
                 this.cat = false
@@ -728,11 +750,11 @@ export default {
         },
         removeCart(){
             this.cart = [];
-            if(this.distributor){ 
-                window.localStorage.setItem("distributor_cart",[]);                
+            if(this.distributor){
+                window.localStorage.setItem("distributor_cart",[]);
                 window.localStorage.removeItem("distributor_cart");
-            }else{                
-                window.localStorage.setItem("retailer_cashier_order",[]);  
+            }else{
+                window.localStorage.setItem("retailer_cashier_order",[]);
                 window.localStorage.removeItem("retailer_cashier_order");
             }
             this.show_cat = false;
@@ -740,29 +762,21 @@ export default {
         },
         saveOrder(type) {
             this.saving = true;
-            // if(checkUserPermission('order products') == true){
                 if(this.distributor){
                     this.saved_orders = JSON.parse(window.localStorage.getItem("distributor_cart"))
-                    var business =  JSON.parse(window.localStorage.getItem("cahier_business"))
+                    var business =  JSON.parse(window.localStorage.getItem("cashier_business"))
                     var url = '/my/distributor/customer/order'
                 }else{
                     this.saved_orders = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
                     business = ''
                     url = '/my/retailer/orders'
                 }
-            // }else{
-            //     this.saved_orders = JSON.parse(window.localStorage.getItem("cashier_order"))
-            // }
-            // this.saved_orders.filter((v) =>{ 
-            //     if(v.customer.replace == true){
-            //         v.customer.name = this.customer;
-            //     }
-            // });
             const payload = {
                 "orders": this.saved_orders,
                 "business_id":business,
                 "customer":this.customer,
-                "payment_type":type        
+                "payment_type":type,
+                "outlet_id": checkUserPermission('order products') === true ? window.localStorage.getItem("retailer_outlet") : window.localStorage.getItem("cashier_outlet")
             }
         this.loading = false
             console.log(payload);
@@ -780,26 +794,18 @@ export default {
                 .then(res => res.json())
                 .then(res => {
                     
-                    // console.log(res)
-                    // this.$swal("Payment Successful",'success');
-                    
                     if(res.success){
-                        this.removeCart();                            
+                        this.removeCart();
                             this.show_cat = false;
                             this.cart_order = [];
                         this.$swal({
                             title: 'Success',
-                            text: "Payment Successful",
+                            text: "Order Successful",
                             icon: 'success',
                             confirmButtonText: 'ok'
                         });
 
                     }else{
-                        // let errors = '';
-                        // res.message.errors.forEach((error)=>{
-                        //     errors +=error;
-                        // })
-                        // console.log(errors.product_1);
                         this.$swal({
                             title: 'Error',
                             text: "Error saving order",
@@ -809,7 +815,7 @@ export default {
                     }
                     
                     this.saving = false;
-                    
+
                     this.getProducts();
                 })
                 .catch(err => {
@@ -825,11 +831,11 @@ export default {
                     console.log(err)
                     if (err.response.status == 401) {
                         this.$swal({
-                title: 'Error',
-                text: "Session Expired",
-                icon: 'error',
-                confirmButtonText: 'ok'
-            });
+                            title: 'Error',
+                            text: "Session Expired",
+                            icon: 'error',
+                            confirmButtonText: 'ok'
+                        });
                         logout();
                         this.$router.push({ name: 'welcome' });
                     }
@@ -887,7 +893,10 @@ export default {
 
     },
 
-    mounted() {
+    created() {
+        // get fees
+        this.fetchFees();
+
         if (!this.distributor && JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length > 0) {
             this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"));
             this.getCart();
@@ -897,7 +906,7 @@ export default {
             this.cart = JSON.parse(window.localStorage.getItem("distributor_cart"));
             this.getCart();
             console.log(this.cart)
-            
+
         }
 
         // if(this.distributor){
