@@ -79,7 +79,7 @@
                                         <td>{{transaction.orders.length}}</td>
                                         <td>&#8358; {{numberWithCommas(transaction.amount)}}</td>
                                         <td>
-                                          <button data-toggle="modal" data-target="#order" type="button" @click="showTransaction(transaction)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
+                                          <button data-toggle="modal" data-target="#order" type="button" @click="showTransaction(transaction)" class="btn btn-warning text-white"><i class="fa fa-eye"></i></button>
                                         </td>
                                       </tr>
                                       </tbody>
@@ -132,7 +132,7 @@
                                         <td>{{transaction.orders.length}}</td>
                                         <td>&#8358; {{numberWithCommas(transaction.amount)}}</td>
                                         <td>
-                                          <button data-toggle="modal" data-target="#order" type="button" @click="showTransaction(transaction)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
+                                          <button data-toggle="modal" data-target="#order" type="button" @click="showTransaction(transaction)" class="btn btn-warning text-white"><i class="fa fa-eye"></i></button>
                                         </td>
                                       </tr>
                                       </tbody>
@@ -292,37 +292,56 @@
 
 
                       <div class="modal fade" tabindex="-1" ria-hidden="true" id="printMe">
-                        <table class="table caption-top" style="width:200px">
-                                    <thead>
-                                      <tr style="text-align:center"><img :src="require('@/assets/images/img8.png')"></tr>
-                                      <tr style="text-align:center">
-                                        <th scope="col">#</th>
-                                        <th scope="col">Items</th>
-                                        <th scope="col">Price</th>                                        
-                                        <th scope="col">Delivery date</th>
-                                        <th scope="col">Total</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                                                   
-                                      <tr style="text-align:center">
-                                        <td>Status</td>
-                                        <th scope="row"></th>
-                                        <th scope="row"></th>
-                                        <th scope="row"></th>
-                                        
-                                        <td>{{status}}</td>
-                                      </tr>
-                                      <tr style="text-align:center">
-                                        <td>Total</td>
-                                        <th scope="row"></th>
-                                        <th scope="row"></th>
-                                        <th scope="row"></th>
-                                        
-                                        <td class="font-weight-bold">&#8358; {{numberWithCommas(total)}}</td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
+                        <div class="row p-5" style="width:500px">
+                           <div class="col-md-12  d-flex justify-content-center"><img :src="require('@/assets/baxi.png')" width="50"></div><br>
+                           <div class="col-md-12  d-flex justify-content-center"><h4>{{titleCase(business_name)}} Store</h4></div><br>
+                           <div class="col-md-12  d-flex justify-content-center"><h5>Outlet : {{titleCase(outlet_name)}}</h5></div><br>
+                           <div class="col-md-12  d-flex justify-content-center"><h6>Tran Ref{{transaction_product.trans_ref}}</h6></div><br>
+                           <div class="col-md-12 mt-3 d-flex justify-content-center"><h6>Receipt</h6></div><br>
+                           <!-- <div class="row"> -->
+                            <div class="col-md-7 mt-3 d-flex justify-content-start"><h6>Date : {{current_date}}</h6></div>
+                            <div class="col-md-5 mt-3 d-flex justify-content-start"><h6>Time : {{current_time}}</h6></div>
+                            <div class="col-md-12 mt-5 d-flex justify-content-center"><h6>Purchase Details</h6></div>
+                           <!-- </div> -->
+                        
+                          <table class="table caption-top">
+                                      <thead>
+                                      
+                                        <tr style="text-align:center">
+                                          <th scope="col">Product</th>
+                                          <th scope="col">QTY</th>                                        
+                                          <th scope="col">Price</th>
+                                          <th scope="col">Total</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                                                    
+                                        <tr style="text-align:center" v-for="(product,index) in transaction_product.orders" :key="index">
+                                          <td>{{product.product.name}}</td>
+                                          <td scope="row">{{product.qty}}</td>
+                                          <td scope="row">{{product.amount / product.qty}}</td>
+                                          <td scope="row">{{product.amount}}</td>
+                                          
+                                          <td>{{status}}</td>
+                                        </tr>
+                                        <tr style="">
+                                          <td>Total</td>
+                                          <th scope="row"></th>
+                                          <th scope="row"></th>
+                                          <!-- <th scope="row">{{transaction_product.amount}}</th> -->
+                                          
+                                          <td class="font-weight-bold"  width="100">&#8358; {{numberWithCommas(transaction_product.amount)}}</td>
+                                        </tr>
+                                      </tbody>
+                          </table>
+                          <div class="col-md-12 mt-2 d-flex justify-content-center"><h6>{{transaction_product.payment_type}} transaction</h6></div><br>
+                          <div class="col-md-12 mt-5 d-flex justify-content-center"><p>Terms & Conditions Apply</p></div><br>
+                          <div class="col-md-12 d-flex justify-content-center"><p>No refund of money after payment</p></div><br>
+                          <div class="col-md-12 d-flex justify-content-center"><p><b>Thank you for your patronage</b></p></div><br>
+                          <div class="col-md-7 mt-3 d-flex justify-content-start"><p>Sales Officer:</p></div>
+                            <div class="col-md-5 mt-3 d-flex justify-content-start"><p>{{business_name}}</p></div>
+                            <div class="col-md-12 mt-3 d-flex justify-content-center"><p>Powered by baxi</p></div><br>
+                        </div>
                       </div>
 
 

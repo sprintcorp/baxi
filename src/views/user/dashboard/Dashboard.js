@@ -432,7 +432,7 @@ export default {
 
             if (JSON.parse(window.localStorage.getItem("distributor_cart")) && JSON.parse(window.localStorage.getItem("distributor_cart")).length > 0 && this.distributor) {
                 
-                const cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order")).filter(cart => parseInt(cart.retailer_id) == getId());
+                const cart = JSON.parse(window.localStorage.getItem("distributor_cart")).filter(cart => parseInt(cart.retailer_id) == getId());
                 this.cart = cart;
                 this.sumProduct()
                 if(cart.length > 0){
@@ -769,7 +769,7 @@ export default {
                     var url = '/my/distributor/customer/order'
                 }else{
                     this.saved_orders = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
-                    business = ''
+                    business = JSON.parse(window.localStorage.getItem("retailer_business"))
                     url = '/my/retailer/orders'
                 }
             const payload = {
@@ -797,11 +797,12 @@ export default {
                     
                     if(res.success){
                         this.removeCart();
+                        this.customer = '';
                             this.show_cat = false;
                             this.cart_order = [];
                         this.$swal({
                             title: 'Success',
-                            text: "Order Successful",
+                            text: 'Payment successful',
                             icon: 'success',
                             confirmButtonText: 'ok'
                         });

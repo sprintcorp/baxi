@@ -25,6 +25,10 @@ export default {
             color:'bg-warning',
             distributor:false,
             saving:false,
+            business_name:'',
+            outlet_name:'',
+            current_date:'',
+            current_time:'',
         }
     },
     computed: {
@@ -175,7 +179,9 @@ export default {
 
                 );
         },
-
+        titleCase(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+        },
         showTransaction(transaction){
             this.transaction_product = transaction;
             console.log(transaction)
@@ -264,5 +270,9 @@ export default {
         this.outlet = getOutlet();
         this.start_date = new Date("2015-08-21").getTime();
         this.end_date = new Date().getTime();
+        this.business_name = window.localStorage.getItem("name")
+        this.outlet_name = JSON.parse(window.localStorage.getItem("outlet_name"))
+        this.current_date = new Date().toISOString().slice(0,10);
+        this.current_time = new Date(new Date().getTime() + 60*60).toLocaleTimeString();
     },
 }
