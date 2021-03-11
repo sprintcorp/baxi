@@ -38,22 +38,28 @@
                             <div class="row">
                             <div class="col-md-12">
                                 <div class="row mt-3 top-table p-3">
-                                  <div class="col-md-2 mt-2 font-weight-bold fs-20"> Product</div>
+                                  <div class="col-md-1 mt-2 font-weight-bold fs-20"> Product</div>
 
-                                  <div class="col-md-5 d-flex justify-content-start">
+                                  <div class="col-md-6">
                                     <!-- <div> -->
-                                      <button type="button" class="btn rounded" style="border-radius:30px !important;background-color:#372B96;color:white;height:43px !important;width:190px">Total Products: {{page.total}}</button>
+                                    <button type="button" class="btn rounded mr-1" style="border-radius:30px !important;background-color:#1e8b39;color:white;height:43px !important;width:200px;font-size:14px;" v-if="page.total_value"><strong>Total Value:</strong> &#8358;{{page.total_value.toLocaleString()}}</button>
+                                    <!-- </div> -->
+
+                                    <!-- <div> -->
+                                    <button type="button" class="btn rounded" style="border-radius:30px !important;background-color:#372B96;color:white;height:43px !important;width:200px;font-size:14px;"><strong>Total Products:</strong> {{page.total}}</button>
                                     <!-- </div> -->
                                   </div>
 
-                                  <div class="col-md-5 d-flex justify-content-center">
+                                  <div class="col-md-5">
                                     <button data-toggle="modal" data-target="#search" class="btn shadow mr-1 btn-light btn-sm sml-radius text-black p-2" style="border-radius:30px;width:120px;height:40px !important">
                                       <img src="../../../assets/icon/noun_filter_3070438.png" alt="img"/>  Date Filter
                                     </button>
 
-                                    <router-link :to="{name:'restockLevel'}"><button  class="btns shadow white-skin btn-sm sml-radius text-black  mr-2 p-2"  style="border-radius:25px;border:2px solid black">
-                                      <i class="fa fa-microchip"></i> Restock Level
-                                    </button></router-link>
+                                    <router-link :to="{name:'restockLevel'}">
+                                      <button  class="btns shadow white-skin btn-sm sml-radius text-black  mr-2 p-2"  style="border-radius:25px;border:2px solid black">
+                                        <i class="fa fa-microchip"></i> Restock Level
+                                      </button>
+                                    </router-link>
 
                                     <button v-if="create_product" data-toggle="modal" data-target="#product" class="btns shadow yellow-skin btn-sm sml-radius text-black p-2" style="border-radius:30px;height:40px !important"><i class="fa fa-plus-circle"></i> Add Product
                                     </button>
@@ -89,8 +95,8 @@
                                         <td>₦{{ numberWithCommas(product.recommended_price) }}</td>
                                         <td>{{product.date }}</td>
                                         <td v-if="create_product || distributor">
-                                          <button v-if="create_product" @click="editRetailerProduct(product)" data-toggle="modal" data-target="#editProduct"><i class="fa fa-edit"></i></button>
-                                          <button @click="editRetailerProduct(product)" data-toggle="modal" data-target="#updateQuantity"><i class="fa fa-arrow-up"></i></button>
+                                          <button v-if="create_product" @click="editRetailerProduct(product)" data-toggle="modal" data-target="#editProduct" title="Edit Product"><i class="fa fa-edit"></i></button>
+                                          <button @click="editRetailerProduct(product)" data-toggle="modal" data-target="#updateQuantity" title="Update Stock"><i class="fa fa-arrow-up"></i></button>
                                         </td>
                                       </tr>
                                       </tbody>
@@ -137,7 +143,7 @@
                                       Loading...
                                       
                                 </div> -->
-                                <Loading v-if="!local_product.length && loading"></Loading>
+                               
                                 <div class="card mt-5" v-if="!local_product.length && !loading">
                                   <div class="card-body text-center">
                                     There are no products for this outlet at the moment
@@ -283,13 +289,16 @@
                                       <label class="form-label">Product Name *</label>
                                       <!-- <Select2 v-model="myValue" class="form-control" style="width:200px" :options="system_products" :settings="{ settingOption: value, settingOption: value }"
                                     @change="myChangeEvent($event)" @select="mySelectEvent($event)"/> -->
-                                    <Dropdown
-                                        :options="list_products"
-                                        v-on:selected="myChangeEvent($event)"
-                                        :disabled="false"
-                                        :maxItem="100"
-                                        placeholder="Search for products">
-                                    </Dropdown>
+
+                                      <Select2 v-model="myValue" style="width:100%" :options="list_products" :settings="select2Options" @change="myChangeEvent($event)" @select="selectedProduct($event)" />
+
+<!--                                      <Dropdown-->
+<!--                                        :options="list_products"-->
+<!--                                        v-on:selected="myChangeEvent($event)"-->
+<!--                                        :disabled="false"-->
+<!--                                        :maxItem="100"-->
+<!--                                        placeholder="Search for products">-->
+<!--                                    </Dropdown>-->
                                       <!-- <input type="text" class="form-control" v-model="product.name" aria-describedby="product name"> -->
                                     </div>
                                     <div class="col-md-6">
@@ -488,6 +497,7 @@
                     </div>
                 </div>
             </div>
+             <Loading v-if="!local_product.length && loading"></Loading>
         </div>
     <!-- </RetailerLayoutComponent> -->
 </template>

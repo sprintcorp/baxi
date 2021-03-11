@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="container-fluid mt-5" style="margin-left:50px;margin-right:50px">
+        <div class="container-fluid" style="margin-left:50px;margin-right:50px">
            <div class="row">
                <div class="col-md-8" style="border-right:2px solid black;">
                     <div class="row">

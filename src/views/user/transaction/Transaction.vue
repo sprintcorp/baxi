@@ -1,7 +1,7 @@
 <template>
     <!-- <RetailerLayoutComponent> -->
         <div>
-            <div class="container-fluid" style="">
+            <div class="container-fluid">
                 <div class="heading-sec">
                     <div class="row">
                          
@@ -292,8 +292,9 @@
 
 
                       <div class="modal fade" tabindex="-1" ria-hidden="true" id="printMe">
-                        <table class="table caption-top">
+                        <table class="table caption-top" style="width:200px">
                                     <thead>
+                                      <tr style="text-align:center"><img :src="require('@/assets/images/img8.png')"></tr>
                                       <tr style="text-align:center">
                                         <th scope="col">#</th>
                                         <th scope="col">Items</th>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height:70px;border-bottom:2px solid #ccc;background-color:white !important">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" style="height:70px;background-color:#facc48 !important;box-shadow: 0 0.5px 10px 0 #999;">
             <a class="navbar-brand" href="#">
                 <img src="/images/baxi.png" alt="" width="50" height="45">
             </a>
@@ -9,7 +9,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse bg-white" style="z-index:10" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse" style="z-index:10;background-color:#facc48 !important" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mt-3">
                 <li :class="[this.$router.currentRoute.name === 'dashboard' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'dashboard'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-home"></i> Dashboard</router-link>
@@ -61,7 +61,7 @@
                             </button>
                         </p>
 
-                        <p style="line-height:22px;font-size:14px;color:#d47a3bb5;margin-right:35px;">
+                        <p style="line-height:22px;font-size:14px;color:rgba(117, 59, 18, 0.93);margin-right:35px;">
 <!--                            <i class="fa fa-money-bill"></i> -->
                             Ledger:
                             <strong>₦ {{numberWithCommas(ledger)}}</strong>
@@ -86,7 +86,7 @@
                 <!-- <button class="mr-2" v-if="order_products" data-toggle="modal" data-target="#cartModal"><i class="fa fa-shopping-cart fs-25" style="color:#ffc107"></i></button> -->
                 <div class="" v-if="!distributor">
                     <div class="icon-badge-container top-head-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="far fa-bell icon-badge-icon" style="color:#ffc107"></i>
+                      <i class="far fa-bell icon-badge-icon" style="color:rgb(90 90 90)"></i>
                         <div class="icon-badge" style="width:7px;height:7px"></div> 
                         <ul class="dropdown-menu dropdown-menu-right" style="width:350px;border:0px;background-color:white">
                             <li style="margin-bottom:25px;" v-for="(notifications,index) in notification" :key="index">
@@ -144,7 +144,7 @@
                 </div>
             </div>
         </nav>
-
+        <div class="clearfix"></div>
 
     </div>
 </template>
@@ -352,12 +352,12 @@ import {BASE_URL} from '../../../env'
 }
 
 .notification-style{
-    background:rgb(255, 193, 7);
+    background:rgb(228 228 225);
     color:white;
     font-weight:bold;
     width:300px;
     height: 40px;
-    /* margin-bottom: 20px; */
+    margin-bottom:-15px;
     padding:5px
     
 }

@@ -36,7 +36,8 @@ export default {
             outlets:'',
             change_outlet:true,
             url:'',
-            totat_product:0,
+            total_product:0,
+            per_page: 50,
             saved_orders:'',
             saving:false,
             distributor:false,
@@ -205,7 +206,7 @@ export default {
                 this.results = [];
                 this.loading = true;
                 this.cat = false
-                fetch(BASE_URL + '/my/outlet/'+this.selected_outlet+'/products', {
+                fetch(BASE_URL + '/my/outlet/'+this.selected_outlet+'/products?per_page='+this.per_page, {
                             headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',
@@ -271,7 +272,7 @@ export default {
                 this.results = [];
                 this.loading = true;
                 this.cat = false
-                fetch(BASE_URL + '/my/outlet/'+window.localStorage.getItem("retailer_outlet")+'/products', {
+                fetch(BASE_URL + '/my/outlet/'+window.localStorage.getItem("retailer_outlet")+'/products?per_page='+this.per_page, {
                             headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',

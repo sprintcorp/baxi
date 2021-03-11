@@ -1,14 +1,16 @@
 <template>
   <!-- <RetailerLayoutComponent> -->
     <div>
-      <div class="container-fluid p-2" style="background-color: white;min-height:80vh;overflow:none">
+      <div class="container-fluid p-2 mt-5" style="background-color: white;min-height:80vh;overflow:none">
         <div class="heading-sec">
           <!-- Retailer header -->
           <div class="row p-5" v-if="change_outlet">
             <div class="col-md-8" style="">   
                   <div class="heading-profile">
                     <h2 class="text-black">
-                      Welcome back, <span class="text-black">{{ username }}!</span> <span v-if="distributor" style="font-size:16px;font-weight:bold;color:#fff;background-color:#681b1b;padding:2px 4px;border-radius:5px;"> <router-link :to="{name:'distributorOrders'}" style="color:#fff">{{notification_info}} pending orders</router-link></span>
+                      Welcome back, <span class="text-black">{{ username }}!</span>
+
+                        <span v-if="distributor && notification_info" style="font-size:16px;font-weight:bold;color:#fff;background-color:#681b1b;padding:2px 4px;border-radius:5px;"> <router-link :to="{name:'distributorOrders'}" style="color:#fff">{{notification_info}} pending orders</router-link></span>
                     </h2>
                   </div>             
             </div>
@@ -397,37 +399,56 @@
       </div>
       
       <div class="modal-body row">
-        <div class="col-md-6 payment-method-card" data-toggle="modal" data-target="#optionModal" data-dismiss="modal">
-          <div class="card m-1 h-100 p-3">
+        <div class="col-md-3 payment-method-card" data-toggle="modal" data-target="#optionModal" data-dismiss="modal">
+          <div class="card m-1 h-100 p-0">
               <div class="mx-auto mt-1">
                   <img :src="require('@/assets/images/img8.png')" class='rounded' alt="img"/>
               </div>
                 <div class="card-body text-center" style="padding: 0 !important;color:#ccc;">
-                   <div class="h5 nav-link">
-                     Wallet to Wallet
+                   <div class="nav-link">
+                       <span class="d-block">Wallet</span>
                        <small><em>Coming Soon...</em></small>
                      </div> 
                 </div>
           </div>
         </div>
-        <!-- <div class="col-md-4 ">
-          <div class="card mt-1 h-100">
-               <div class="mx-auto mt-1">
-                <img :src="require('@/assets/images/img9.png')" class='rounded' alt="img"/>
+
+          <div class="col-md-3 payment-method-card">
+              <div class="card m-1 h-100 p-0">
+                  <div class="mx-auto mt-1">
+                      <img :src="require('@/assets/images/img9.png')" class='rounded' alt="img"/>
+                  </div>
+                  <div class="card-body text-center" style="padding: 0 !important;color:#ccc;">
+                      <div class="nav-link">
+                          <span class="d-block">Baxi POS</span>
+                          <small><em>Coming Soon...</em></small>
+                      </div>
+                  </div>
               </div>
-                <div class="h5 card-body text-center">
-                    POS
-                </div>
           </div>
-        </div> -->
-        <div class="col-md-6 payment-method-card" @click="saveOrder('cash')" data-dismiss="modal">
-          <div class="card m-1 h-100 p-3">
+
+          <div class="col-md-3 payment-method-card">
+              <div class="card m-1 h-100 p-0">
+                  <div class="mx-auto mt-1">
+                      <img :src="require('@/assets/images/img9.png')" class='rounded' alt="img"/>
+                  </div>
+                  <div class="card-body text-center" style="padding: 0 !important;color:#ccc;">
+                      <div class="nav-link">
+                          <span class="d-block">Other POS</span>
+                          <small><em>Coming Soon...</em></small>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-md-3 payment-method-card" @click="saveOrder('cash')" data-dismiss="modal">
+          <div class="card m-1 h-100 p-0">
              <div class="mx-auto mt-1">
                   <img :src="require('@/assets/images/img12.png')" class='rounded' alt="img"/>
               </div>
                 <div class="card-body text-center" style="padding: 0 !important;">
-                    <div class="h5 nav-link text-dark">
-                        Cash
+                    <div class="nav-link">
+                        <span class="d-block">Cash</span>
                     </div>
                 </div>
           </div>

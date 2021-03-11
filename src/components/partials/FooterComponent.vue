@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="fixed-bottom">
         <footer>
             <div class="container">
                 <p>© 2020 Inventory Management System <i class="fa fa-shopping-bag"></i></p>

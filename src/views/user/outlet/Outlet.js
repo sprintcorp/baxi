@@ -11,6 +11,7 @@ export default {
             transaction: '',
             total_transaction: 0,
             recent_transaction:[],
+            per_page: 50
         }
     },
     methods: {
@@ -35,7 +36,7 @@ export default {
         },
 
         getBusinessOutletsProduct() {
-            fetch(BASE_URL + '/my/outlet/' + this.$route.params.id + '/products', {
+            fetch(BASE_URL + '/my/outlet/' + this.$route.params.id + '/products?per_page='+this.per_page, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',

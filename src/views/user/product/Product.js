@@ -2,6 +2,8 @@ import { getName, logout, getToken, getOutlet,checkUserPermission, getRole } fro
 import { BASE_URL,CASHIER_BUSINESS } from '../../../env';
 import Dropdown from 'vue-simple-search-dropdown';
 import Loading from "../../../components/Loader.vue";
+import Select2 from 'v-select2-component';
+
 // import { ImageBarcodeReader } from "vue-barcode-reader";
 // import { CREATE_ORDER, CREATE_PRODUCT } from "../../../store/action";
 export default {
@@ -9,15 +11,16 @@ export default {
     components: {
         "vue-select": require("vue-select"),
         Dropdown,
-        Loading
+        Loading,
+        Select2
       },
     data() {
         return {
             myValue: 'Search Products',
-            myOptions: [] ,
+            myOptions: [],
             products: '',
             user_form: false,
-            loading: false,
+            loading: true,
             local_product: [],
             search: '',
             start_date: '',
@@ -81,9 +84,63 @@ export default {
             distributor:false,
             system_products:[],
             list_products:[],
-            selected_procuct:'',
-            url:''
-            
+            selected_product:'',
+            url:'',
+            per_page: 50,
+            select2Options: {
+                ajax : {
+                    url: BASE_URL + '/my/products',
+                    headers: {
+                        "Accept": "application/json",
+                        "Authorization": getToken()
+                    },
+                    // Query parameters will be ?search=[term]&page=[page]
+                    data: function (params) {
+                        return {
+                            search: params.term,
+                            type: 'name',
+                            via: 'api',
+                            page: params.page || 1
+                        }
+                    },
+                    processResults: function (data, params) {
+                        let res = [];
+                        data.data.results.data.filter(item => {
+                            res.push({
+                                id: item.id,
+                                text: `${item.name} (${item.size})`,
+                                name: item.name,
+                                amount: parseInt(item.recommended_price),
+                                quantity: item.stock_quantity,
+                                category: item.categories[0] ?item.categories[0].name:'No Category',
+                                category_id: item.categories[0] ?item.categories[0].id:'No Category',
+                                size: item.size,
+                                public_image_url: item.public_image_url?item.public_image_url:'../../../assets/icon/noun_Upload_2321446.png',
+                                image: item.public_image_url?item.public_image_url:'../../../assets/icon/noun_Upload_2321446.png',
+                                qty: item.stock_quantity,
+                                restock_level:0,
+                                sku: item.sku,
+                                barcode: item.barcode?item.barcode:"",
+                                date:item.created_at,
+                                unit_price:"100",
+                                unit_qty:10
+                            });
+                        });
+
+                        params.page = params.page || 1;
+                        return {
+                            results: res,
+                            pagination: {
+                                more: (params.page * 10) < data.total_pages
+                            }
+                        };
+                    },
+                    delay: 200,
+                },
+                placeholder: 'Search Product',
+                    allowClear:true,
+                    minimumInputLength: 3
+            }
         }
     },
     computed: {
@@ -95,11 +152,12 @@ export default {
     methods: {
         myChangeEvent(val){
             console.log(val);
-            this.product = val;
         },
-        // mySelectEvent({id, text}){
-        //     console.log({id, text})
-        // },
+        selectedProduct(product){
+            console.log(product)
+            this.product = product;
+        },
+
         numberWithCommas(x) {
             const num = parseFloat(x)
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -116,70 +174,6 @@ export default {
 
         },
 
-        getSystemProducts(){
-                fetch(BASE_URL+'/my/products', {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': getToken()
-                    }
-                })
-            .then(res => res.json())
-            .then(res => {
-                if (res.message === 'Unauthenticated.') {
-                    this.$swal({
-                title: 'Error',
-                text: "Session Expired",
-                icon: 'error',
-                confirmButtonText: 'ok'
-            });
-                    console.log(res);
-                    logout();
-                    this.$router.push({ name: 'welcome' });
-                }
-                console.log(res.data.results.data);
-                this.loading = false;
-                this.system_products = res.data.results.data;
-                // this.page = res.data;
-                this.system_products.forEach((data) => {
-                    this.list_products.push({
-                        id: data.id,
-                        name: data.name,
-                        amount: parseInt(data.recommended_price),
-                        quantity: data.stock_quantity,
-                        category: data.categories[0] ?data.categories[0].name:'No Category',
-                        category_id: data.categories[0] ?data.categories[0].id:'No Category',
-                        size: data.size,
-                        public_image_url: data.public_image_url?data.public_image_url:'../../../assets/icon/noun_Upload_2321446.png',
-                        image: data.public_image_url?data.public_image_url:'../../../assets/icon/noun_Upload_2321446.png',
-                        qty: data.stock_quantity,
-                        restock_level:0,
-                        sku: data.sku,
-                        barcode: data.barcode?data.barcode:"",
-                        date:data.created_at,
-                        unit_price:"100",
-                        unit_qty:10
-                    });
-                });
-                console.log(this.list_products);
-            })
-            .catch(err => {
-                    console.log(err)
-                    this.loading = false;
-                    if (err.response.status == 401) {
-                        this.$swal({
-                title: 'Error',
-                text: "Session Expired",
-                icon: 'error',
-                confirmButtonText: 'ok'
-            });
-                        logout();
-                        this.$router.push({ name: 'welcome' });
-                    }
-                }
-
-            ); 
-        },
         getPageProducts(page) {
             this.local_product = [];
             if(checkUserPermission('order products') == false && this.distributor == false){
@@ -377,10 +371,11 @@ export default {
             }
         },
         getProducts() {
+            this.loading = true;
             this.local_product = [];
             if(checkUserPermission('order products') == false && this.distributor == false){
                 this.loading = true;
-                fetch(BASE_URL + '/my/outlet/'+window.localStorage.getItem("cashier_business")+'/products', {
+                fetch(BASE_URL + '/my/outlet/'+window.localStorage.getItem("cashier_business")+'/products?per_page='+this.per_page, {
                             headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',
@@ -445,7 +440,7 @@ export default {
             if(checkUserPermission('order products') == true && this.distributor == false){
 
                 this.loading = true;
-                fetch(BASE_URL + '/my/outlet/'+window.localStorage.getItem("retailer_outlet")+'/products', {
+                fetch(BASE_URL + '/my/outlet/'+window.localStorage.getItem("retailer_outlet")+'/products?per_page='+this.per_page, {
                             headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',
@@ -946,7 +941,7 @@ export default {
     
 
     mounted() {
-        this.getSystemProducts();
+        // this.getSystemProducts();
         this.userPermission();
         this.create_product = checkUserPermission('create products');
         // this.distributor = checkUserPermission('distributor');

@@ -18,9 +18,9 @@
               <input :type="passwordShown ? 'text':'password'" class="form-control" placeholder="Password" v-model="credentials.password">
              <i class="fa fa-eye input-icon"></i>
            </div>
-           <div class="form-group" style="margin-top:80px;margin-bottom:50px;">
+           <div class="form-group" style="margin-top:40px;margin-bottom:50px;">
              <button class="btn btn-warning btn-block" style="border-radius:20px" @click.prevent="switchToIMS()">Login</button>
-
+              <small class="mt-2 d-block font-weight-bold text-center">Don't have an account? <a href="#">Sign Up</a> now</small>
            </div>
            <div class="form-group mb-5" style="text-align:center">
              <!-- <button class="btn btn-warning btn-sm"><i class="fa fa-comments"></i> Chat with us</button> -->
