@@ -1,7 +1,7 @@
 <template>
     <!-- <RetailerLayoutComponent> -->
         <div>
-            <div class="container" style="background-color: white;min-height:80vh">
+            <div class="container-fluid" style="background-color: white;min-height:80vh">
                 <div class="heading-sec">
                     <div class="row">
                          
@@ -93,7 +93,7 @@
                                         <td>{{product.size}}</td>
                                         <td>{{ product.outlet_qty}}</td>                                        
                                         <td>₦{{ numberWithCommas(product.recommended_price) }}</td>
-                                        <td>{{product.date }}</td>
+                                        <td>{{product.date | moment("ddd, Do MMMM 'YY, h:mma") }}</td>
                                         <td v-if="create_product || distributor">
                                           <button v-if="create_product" @click="editRetailerProduct(product)" data-toggle="modal" data-target="#editProduct" title="Edit Product"><i class="fa fa-edit"></i></button>
                                           <button @click="editRetailerProduct(product)" data-toggle="modal" data-target="#updateQuantity" title="Update Stock"><i class="fa fa-arrow-up"></i></button>
@@ -289,7 +289,7 @@
                                       <label class="form-label">Product Name *</label>
                                       <!-- <Select2 v-model="myValue" class="form-control" style="width:200px" :options="system_products" :settings="{ settingOption: value, settingOption: value }"
                                     @change="myChangeEvent($event)" @select="mySelectEvent($event)"/> -->
-
+                                    
                                       <Select2 v-model="myValue" style="width:100%" :options="list_products" :settings="select2Options" @change="myChangeEvent($event)" @select="selectedProduct($event)" />
 
 <!--                                      <Dropdown-->

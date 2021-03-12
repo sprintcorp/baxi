@@ -1,13 +1,21 @@
 import { getName, logout, getToken, getOutlet } from '../../../config'
 import { BASE_URL } from '../../../env'
+import Vue from 'vue';
+import Loading from "../../../components/Loader.vue"
+
+Vue.use(require('vue-moment'));
+
 export default {
     name: "TransactionComponent",
+    components:{
+        Loading
+    },
     data() {
         return {
             orders: [],
             page:[],
             name: '',
-            loading: false,
+            loading: true,
             outlet: '',
             order_product: [],
             search: '',
@@ -161,12 +169,10 @@ export default {
                     this.$router.push({ name: 'welcome' });
                 }
                 this.information = res.data;
-                this.loading = false;
                 
             })
             .catch(err => {
                     console.log(err)
-                    this.loading = false;
                 }
             );
         },
@@ -211,10 +217,10 @@ export default {
                         this.$router.push({ name: 'welcome' });
                     }
                     this.orders = res.data.data;
-                    this.loading = false;
                     
                     this.page = res.data;
-                    console.log(this.orders);
+
+                    this.loading = false;
                 })
                 .catch(err => {
                         console.log(err)

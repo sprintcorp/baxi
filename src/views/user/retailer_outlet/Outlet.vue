@@ -193,7 +193,9 @@
                       <td>{{ transaction.payment_type }}</td>
                       <td>{{ transaction.orders.length == 1 ? transaction.orders.length + " Item" : transaction.orders.length+" Items" }}</td>
                       <!-- <td>{{ transaction.orders[0].customer.name }}</td> -->
-                      <td>{{ transaction.created_at }}</td>
+                      <td>
+                        {{ transaction.created_at | moment("ddd, Do MMMM 'YY, h:mma") }}
+                      </td>
                       <!-- <td>
                         <button data-toggle="modal" data-target="#order" type="button" @click="showProducts(transaction)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
                       </td> -->
@@ -273,7 +275,9 @@
                         <td>{{ product.product.name }}</td>
                         <td>{{ numberWithCommas(product.amount) }}</td>
                         <td>{{ product.qty }}</td>
-                        <td>{{ product.created_at }}</td>
+                        <td>
+                          {{product.created_at | moment("ddd, Do MMMM 'YY, h:mma") }}
+                        </td>
                       </tr>
                       
                     </tbody>
@@ -406,10 +410,10 @@
 
 <style scoped>
 th{
-  font-size: 12px;
+  font-size: 16px;
 }
 td{
-  font-size: 13px;
+  font-size: 15px;
 }
 .overlay {
 	position: fixed;

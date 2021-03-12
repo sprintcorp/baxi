@@ -40,7 +40,7 @@ const option = {
     confirmButtonColor: '#41b882',
     cancelButtonColor: '#ff7674',
 };
-  
+
 Vue.use(VueSweetalert2, option);
 // Vue.use(Swal);
 Vue.use(VueApexCharts)

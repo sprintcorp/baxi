@@ -10,7 +10,7 @@
                     <h2 class="text-black">
                       Welcome back, <span class="text-black">{{ username }}!</span>
 
-                        <span v-if="distributor && notification_info" style="font-size:16px;font-weight:bold;color:#fff;background-color:#681b1b;padding:2px 4px;border-radius:5px;"> <router-link :to="{name:'distributorOrders'}" style="color:#fff">{{notification_info}} pending orders</router-link></span>
+                        <span v-if="distributor && notification_info" style="font-size:16px;font-weight:bold;color:#fff;background-color:#681b1b;padding:2px 4px;border-radius:5px;margin-left:10px;"> <router-link :to="{name:'distributorOrders'}" style="color:#fff">{{notification_info}} pending orders</router-link></span>
                     </h2>
                   </div>             
             </div>
@@ -89,7 +89,7 @@
                             <div class="row pr-3 pb-3" v-if="!cat && !distributor" style="background-color:#d6d6d6;margin-top:-20px">
                                 <div :class="[show_cat ? 'col-md-3' : 'col-md-2']" v-for="(product,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
-                                    <div class="card p-1" style="height:15rem;margin-top:20px;width:12rem">
+                                    <div class="card p-1" style="height:15rem;margin:10px;">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                       <div class="card-body">
                                        <div class="row d-flex justify-content-center" style="">
@@ -121,20 +121,21 @@
 
 
 
-                            <div class="row pr-3" v-if="!cat && distributor" style="background-color:#d6d6d6;margin-top:-20px">
+                            <div class="row pr-3 pb-3" v-if="!cat && distributor" style="background-color:#d6d6d6;margin-top:-20px">
                                 <div :class="[show_cat ? 'col-md-3' : 'col-md-2']" v-for="(product,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
-                                    <div class="card p-2" style="height:14rem;margin-top:10px;width:13rem">
+                                    <div class="card p-1" style="margin:10px;">
                                         <div class="card-body">
-                                       <div class="row d-flex justify-content-center" style=""> <h6 class="fs-13" style="font-weight:bold !important"> {{product.name.length > 20 ? product.name.substr(0, 20)+'...' : product.name}}</h6></div>
-                                       <div class="row d-flex justify-content-center" style="height:25%"> <h6 class="fs-10" style="font-weight:bold !important"> {{product.size}}</h6></div>
-                                        <div class="row" style="height:50%;margin-top:-5px">
+                                            <div class="row d-flex justify-content-center" style="">
+                                                <h6 class="fs-13 m-0" style="font-weight:bold !important"> {{product.name.length > 20 ? product.name.substr(0, 20)+'...' : product.name}}</h6></div>
+                                       <div class="row d-flex justify-content-center"> <h6 class="fs-10" style="font-weight:bold !important"> {{product.size}}</h6></div>
+                                        <div class="row" style="height:50%;">
                                           <div class="col-md-12">
-                                            <div class="text-center mt-1"><img :src="product.public_image_url" class="rounded-circle" alt="" style="height:80px"/></div>
-                                          </div>                                        
+                                            <div class="text-center"><img :src="product.public_image_url" class="rounded-circle" alt="" style="height:80px"/></div>
+                                          </div>
                                         </div>
-                                        <div class="row" style="margin-top:-5px"> 
-                                          <div class="col-md-12 d-flex justify-content-center"> 
+                                        <div class="row" style="margin-top:-5px">
+                                          <div class="col-md-12 d-flex justify-content-center">
                                            <p class="fs-13"> {{product.quantity}} units left</p>
                                           </div>
                                         </div>
@@ -206,7 +207,7 @@
                                         <div class="fs-15 mt-1 mb-1 text-center">Select Quantity</div>
                                         <div class="row">
                                             <div class="col-md-12 d-flex justify-content-end">
-                                                <div class="input-group rm">
+                                                <div class="input-group mb-1">
                                                     <input type="button" @click="decrease(product.quantity)" v-if="quantity_value > product.minimum_order && distributor" value="-" class="button-minus" data-field="quantity">
                                                     <input type="button" value="-" v-if="quantity_value <= product.minimum_order && distributor"  class="button-minus" data-field="quantity">
                                                     <input type="number" v-if="distributor" step="1" :max="product.quantity" :min="product.minimum_order" :value="quantity_value" name="quantity" @change="changes()" class="quantity-field">
@@ -225,7 +226,7 @@
                                    
                                     
                                 </div>
-                                <div class="row p-5 d-flex justify-content-center">
+                                <div class="row pb-3 d-flex justify-content-center">
                                     <button type="button" :class="quantity_value > 0 && !error ? 'btn btn-warning mr-3' : 'btn btn-warning mr-3 disabled'" data-dismiss="modal" @click="submitToCart(quantity_value,product)" style="border-radius:20px"><i class="fa fa-shopping-cart"></i> ADD TO CART</button>
                                     <!-- <button type="button" class="btn btn-light" style="border-radius:20px;color:red" data-dismiss="modal">CLOSE</button>                                     -->
                                 </div>
@@ -345,40 +346,50 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h6 class="modal-title font-weight-bold"> Customer information</h6>
+                  <div class="modal-title font-weight-bold">
+                      <h6><strong>Customer information</strong> <em>(required)</em></h6>
+                  </div>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 
-                <div class="modal-body row">
-                  <!-- <div class="row"> -->
-                    <div class="col-md-6">
-                      <input type="name" v-model="customer.firstname" placeholder="customer firstname" class="form-control">
-                    </div>
-                    <div class="col-md-6">
-                      <input type="name" v-model="customer.lastname" placeholder="customer lastname" class="form-control">
-                    </div>
-                  <!-- </div> -->
-                  <!-- <div class="row"> -->
-                    <div class="col-md-6 mt-3">
-                      <input type="text " v-model="customer.phone" placeholder="customer phone" class="form-control">
-                    </div>
-                    
-                  <!-- </div> -->
-                  <!-- <div class="row"> -->
-                    <div class="col-md-6 mt-3">
-                      <input type="email " v-model="customer.email" placeholder="customer email" class="form-control">
-                    </div>
-                  <!-- </div> -->
+                <div class="modal-body">
+                    <form action="#" @submit.prevent="saveOrder()">
+                        <div class="row">
+                            <div class="col-md-12 mt-3">
+                                <input type="text" v-model="customer.baxi_username" placeholder="customer username" class="form-control">
+                            </div>
+                        </div>
 
-                  <div class="col-md-12 mt-3">
-                      <input type="text" v-model="customer.baxi_username" placeholder="customer username" class="form-control">
-                  </div>
 
-                  <div class="col-md-12 d-flex justify-content-end mt-2 mb-1">                    
-                    <button class="btn btn-warning" data-dismiss="modal" @click="saveOrder()">Save</button>
-                  </div>
+                        <div class="row">
+                            <small class="col-md-12 mt-3 text-danger"><em>Required without username</em></small>
+                            <!-- <div class="row"> -->
+                            <div class="col-md-6">
+                              <input type="name" v-bind:required="!customer.baxi_username" v-model="customer.firstname" placeholder="Firstname *" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                              <input type="name" v-model="customer.lastname" placeholder="Lastname" class="form-control">
+                            </div>
+                          <!-- </div> -->
+                          <!-- <div class="row"> -->
+                            <div class="col-md-6 mt-3">
+                              <input type="text " v-model="customer.phone" placeholder="Phone" class="form-control">
+                            </div>
+
+                          <!-- </div> -->
+                          <!-- <div class="row"> -->
+                            <div class="col-md-6 mt-3">
+                              <input type="email " v-model="customer.email" placeholder="Email" class="form-control">
+                            </div>
+                          <!-- </div> -->
+                        </div>
+
+                      <div class="col-md-12 d-flex justify-content-end mt-2 mb-1">
+                        <button type="submit" class="btn btn-warning">Save</button>
+                      </div>
+                    </form>
                 </div>
               </div>
             </div>

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view v-on:wallet_balance="getBalance"></router-view>
+    <router-view></router-view>
   </div>
 </template>
 

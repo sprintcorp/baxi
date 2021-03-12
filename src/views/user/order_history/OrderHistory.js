@@ -1,6 +1,10 @@
 import { getName, logout, getToken, getOutlet } from '../../../config'
 import { BASE_URL } from '../../../env'
 import Loading from "../../../components/Loader.vue"
+import Vue from 'vue'
+
+Vue.use(require('vue-moment'));
+
 export default {
     name: "TransactionComponent",
     components:{
@@ -14,7 +18,7 @@ export default {
             information:'',
             page:[],
             name: '',
-            loading: false,
+            loading: true,
             outlet: '',
             order_product: [],
             search: '',
@@ -39,7 +43,11 @@ export default {
         filterTransactions() {
             return this.orders.filter((transaction) => (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
                     new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()))
-        }
+        },
+
+        // createdAt() {
+        //     return this.
+        // }
     },
     methods: {
         numberWithCommas(x) {
@@ -162,13 +170,12 @@ export default {
             this.getOrders();
         },
         getOrders() {
-            
             if(this.query.length < 1){
                 this.link = '/my/distributor/groupTransactions'
             }else{
                 this.link = '/my/distributor/groupTransactions?status='+ this.query
             }
-            this.loading = true;
+
             fetch(BASE_URL + this.link, {
                     headers: {
                         'Content-Type': 'application/json',
@@ -184,26 +191,24 @@ export default {
                         this.$router.push({ name: 'welcome' });
                     }
                     this.orders = res.data.data;
-                    this.loading = false;
                     
                     this.page = res.data;
-                    console.log(this.orders);
+                    this.loading = false;
                 })
                 .catch(err => {
-                        console.log(err)
-                        this.loading = false;
-                        if (err.response.status == 401) {
-                            this.$swal({
-                title: 'Error',
-                text: "Session Expired",
-                icon: 'error',
-                confirmButtonText: 'ok'
-            });
-                            logout();
-                            this.$router.push({ name: 'welcome' });
-                        }
+                    console.log(err)
+                    this.loading = false;
+                    if (err.response.status == 401) {
+                        this.$swal({
+                            title: 'Error',
+                            text: "Session Expired",
+                            icon: 'error',
+                            confirmButtonText: 'ok'
+                        });
+                        logout();
+                        this.$router.push({ name: 'welcome' });
                     }
-                );
+                });
         },
         orderInformation(){
             fetch(BASE_URL + '/my/businesses/stat/retailer-distributor-orders', {
@@ -221,7 +226,7 @@ export default {
                     this.$router.push({ name: 'welcome' });
                 }
                 this.information = res.data;
-                this.loading = false;
+                // this.loading = false;
                 
             })
             .catch(err => {
@@ -349,7 +354,7 @@ export default {
         },
     },
 
-    mounted() {
+    created() {
         this.orderInformation();
         this.getOrders();
         this.name = getName();

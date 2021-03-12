@@ -1,6 +1,10 @@
 import { getName, logout, getToken, getOutlet,checkUserPermission } from '../../../config'
 import { BASE_URL } from '../../../env'
 import Loading from "../../../components/Loader.vue";
+
+import Vue from 'vue';
+Vue.use(require('vue-moment'));
+
 export default {
     name: "TransactionComponent",
     components: {
@@ -33,16 +37,17 @@ export default {
     },
     computed: {
         filterTransactions() {
-            return this.transactions.filter((transaction) => {
-                return (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
-                    new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime())
-            })
+            return this.transactions.filter((transaction) => transaction.order_group_id.toLowerCase().includes(this.search.toLowerCase()) && (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
+            new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()) 
+           )
         },
         distributorTransactions() {
-            return this.transactions.filter((transaction) => transaction.delivery_type.toLowerCase().includes(this.search.toLowerCase()) && (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
+            return this.transactions.filter((transaction) => transaction.order_group_id.toLowerCase().includes(this.search.toLowerCase()) || transaction.delivery_type.toLowerCase().includes(this.search.toLowerCase()) || (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
                     new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()))
         },
         // amount(){
+            // (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
+            //         new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()) ||
         //     return this.transactions.orders.map(o => parseFloat(o.amount)).reduce((a, c) => { a + c })
         // }
     },
@@ -96,43 +101,46 @@ export default {
                             }
                         }
                     );
-                }else{
-                    this.loading = true;
-                fetch(BASE_URL + '/my/distributor/transactions', {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json',
-                            'Authorization': getToken()
-                        }
-                    })
-                    .then(res => res.json())
-                    .then(res => {
-                        if (res.message === 'Unauthenticated.') {
-                            console.log(res);
+                }
+        },
+        getDistributorTransactions(){
+            // alert(true)
+           this.loading = true;
+            fetch(BASE_URL + '/my/distributor/transactions', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.message === 'Unauthenticated.') {
+                        console.log(res);
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                    this.loading = false;
+                    this.transactions = res.data.data;
+                    this.page = res.data;
+                    console.log(this.transactions);
+                })
+                .catch(err => {
+                        console.log(err)
+                        this.loading = false;
+                        if (err.response.status == 401) {
+                            this.$swal({
+                                title: 'Error',
+                                text: "Session Expired",
+                                icon: 'error',
+                                confirmButtonText: 'ok'
+                            });
                             logout();
                             this.$router.push({ name: 'welcome' });
                         }
-                        this.loading = false;
-                        this.transactions = res.data.data;
-                        this.page = res.data;
-                        console.log(this.transactions);
-                    })
-                    .catch(err => {
-                            console.log(err)
-                            this.loading = false;
-                            if (err.response.status == 401) {
-                                this.$swal({
-                                    title: 'Error',
-                                    text: "Session Expired",
-                                    icon: 'error',
-                                    confirmButtonText: 'ok'
-                                });
-                                logout();
-                                this.$router.push({ name: 'welcome' });
-                            }
-                        }
-                    );
-                }
+                    }
+                );
+            
         },
 
         printReceipt(product){
@@ -167,11 +175,11 @@ export default {
                         this.loading = false;
                         if (err.response.status == 401) {
                             this.$swal({
-     title: 'Error',
-     text: "Session Expired",
-     icon: 'error',
-     confirmButtonText: 'ok'
-});
+                                title: 'Error',
+                                text: "Session Expired",
+                                icon: 'error',
+                                confirmButtonText: 'ok'
+                            });
                             logout();
                             this.$router.push({ name: 'welcome' });
                         }
@@ -264,8 +272,19 @@ export default {
     },
 
     mounted() {
-        this.distributor = checkUserPermission('distributor');
-        this.getTransaction();
+        // this.distributor = checkUserPermission('distributor');
+        
+        if(checkUserPermission('distributor')){
+            // alert(true)
+            this.getDistributorTransactions()
+            this.distributor = true;
+            this.outlet_name = JSON.parse(window.localStorage.getItem("name"))
+            
+        }else{
+            this.outlet_name = JSON.parse(window.localStorage.getItem("outlet_name"))
+            this.getTransaction();
+        }
+        
         this.name = getName();
         this.outlet = getOutlet();
         this.start_date = new Date("2015-08-21").getTime();
@@ -274,5 +293,6 @@ export default {
         this.outlet_name = JSON.parse(window.localStorage.getItem("outlet_name"))
         this.current_date = new Date().toISOString().slice(0,10);
         this.current_time = new Date(new Date().getTime() + 60*60).toLocaleTimeString();
+        // alert(this.distributor);
     },
 }

@@ -80,22 +80,21 @@
                         <!-- Add Cart -->
                         <div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="product" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
-                                
-                                <div class="modal-content">
-                                    <button type="button" class="btn btn-light" style="border-radius:20px;color:red;position:absolute;right:0" data-dismiss="modal">X</button>                                    
+                                <div class="modal-content" style="width:450px !important;">
                                     <div class="row text-center">
-                                        <div class="col-md-12">
-                                            <div class="fs-20 font-weight-bolder text-black">Add this item to order?</div>                                        
+                                        <div class="col-md-12 mt-4">
+                                            <div class="fs-20 font-weight-bolder text-black">Add this item to order?</div>
                                         </div>
                                     </div>
-                                    
-                                <div class="modal-body" style="margin-top:-30px">
+                                    <button type="button" class="close-modal" data-dismiss="modal"><img :src="require('@/assets/icon/noun_cancel_2014884.png')" class='rounded' alt="img"/></button>
+
+                                <div class="modal-body" style="margin-top:-35px">
                                      <div class="row card border-0">
-                                         
+
                                         <div class="text-center"><img :src="product.image" width="100" height="100"/></div>
-                                        <div class="fs-15 mt-2 text-center" v-if="product.size">{{product.name}} - {{product.size}}</div>
-                                        <div class="fs-15 mt-2 text-center" v-if="!product.size">{{product.name}}</div>
-                                        <div class="fs-15 mt-1 text-center">&#8358; {{numberWithCommas(product.price)}}.00</div>
+                                        <div class="fs-15 mt-2 h5 text-center" v-if="product.size">{{product.name}} - {{product.size}}</div>
+                                        <div class="fs-15 mt-2 h5 text-center" v-if="!product.size">{{product.name}}</div>
+                                        <div class="fs-15 mt-1 h5 text-center">&#8358; {{numberWithCommas(product.price)}}.00</div>
                                         <!-- <div class="fs-15 mt-1 text-center">{{ product.quantity }} Quantity</div> -->
                                         <!-- <div class="fs-15 mt-1 text-center">{{ product.size }} </div> -->
                                         <!-- <div class="fs-15 mt-1 text-center">N:B Minimum Order {{ product.minimum_order }}</div> -->
@@ -118,7 +117,7 @@
                                    
                                     
                                 </div>
-                                <div class="row p-5 d-flex justify-content-center" style="margin-bottom:-20px">
+                                <div class="row pb-3 d-flex justify-content-center">
                                     <!-- <button type="button" class="btn btn-warning mr-3" v-if="quantity_value > 0 && !error && product.minimum_order <= quantity_value" @click="submitToCart(quantity_value,product)" style="border-radius:20px"><i class="fa fa-shopping-cart"></i> ADD TO CART</button> -->
                                     <button type="button" :class="quantity_value > 0 && !error ? 'btn btn-warning mr-3' : 'btn btn-warning mr-3 disabled'" data-dismiss="modal" @click="submitToCart(quantity_value,product)" style="border-radius:20px"><i class="fa fa-shopping-cart"></i> ADD TO CART</button>
                                     

@@ -1,6 +1,10 @@
 import { getName, logout, getToken, getOutlet,checkUserPermission } from '../../../config'
 import { BASE_URL } from '../../../env'
 import Loading from "../../../components/Loader.vue";
+import Vue from 'vue';
+
+Vue.use(require('vue-moment'));
+
 export default {
     name: "DistributorTransactionsComponent",
     components: {
@@ -16,14 +20,13 @@ export default {
             search: '',
             start_date: '',
             end_date: '',
-            status:'',
             distributor:false,
             transaction:''
         }
     },
     computed: {
         filterTransactions() {
-            return this.transactions.filter((transaction) => (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
+            return this.transactions.filter((transaction) => transaction.order_group_id.toLowerCase().includes(this.search.toLowerCase()) && (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
                     new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()))
         },
     },

@@ -43,7 +43,9 @@
                                         <td>{{wallet.retailer_distributor_transaction.outlet.name}}</td> 
                                         <td>{{wallet.retailer_distributor_transaction.orders.length  }}</td>                                        
                                         <td>{{wallet.retailer_distributor_transaction.order_group_id  }}</td>                                        
-                                        <td> {{wallet.created_at}}</td>
+                                        <td>
+                                            {{wallet.created_at | moment("ddd, Do MMMM 'YY, h:mma") }}
+                                        </td>
                                         <td :style="wallet.completed == 1?'color:green;font-weight:bold !important':'color:red;font-weight:bold !important'"> {{wallet.completed == 1 ? 'Paid' : 'Pending'}}</td>
                                         <td>
                                           <button data-toggle="modal" data-target="#order" type="button" @click="getWallet(wallet)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
@@ -79,7 +81,9 @@
                                         <td>{{wallet.retailer_distributor_transaction.outlet.name}}</td> 
                                         <td>{{wallet.retailer_distributor_transaction.orders.length  }}</td>  
                                         <td>{{wallet.retailer_distributor_transaction.order_group_id  }}</td>                                       
-                                        <td> {{wallet.created_at}}</td>
+                                        <td>
+                                            {{wallet.created_at | moment("ddd, Do MMMM 'YY, h:mma") }}
+                                        </td>
                                         <td :style="wallet.completed == 1?'color:green;font-weight:bold !important':'color:red;font-weight:bold !important'"> {{wallet.completed == 1 ? 'Paid' : 'Pending'}}</td>
                                         <td>
                                           <button data-toggle="modal" data-target="#order" type="button" @click="getWallet(wallet)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>

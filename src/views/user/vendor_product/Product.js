@@ -212,8 +212,8 @@ export default {
                 this.show_cart = false;
                 this.saving = false;
                 this.$swal({
-                    title: res.message,
-                    text: 'Order *********'+res.data.group_id.slice(-4)+' sent to the distributor. You will receive a feedback shortly',
+                    title: "Success",
+                    text: res.message,
                     icon: 'success',
                     confirmButtonText: 'ok'
                 });

@@ -35,9 +35,9 @@
             //       this.isLoading = false
             //     },5000)
             // },
-            // onCancel() {
-            //   console.log('User cancelled the loader.')
-            // }
+            onCancel() {
+              // console.log('User cancelled the loader.')
+            }
         }
     }
 </script> 

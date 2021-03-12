@@ -25,7 +25,7 @@ export default {
             cart_order:[],
             show_cat:false,
             total:0,
-            total_with_val:0,
+            total_with_vat:0,
             product:'',
             quantity_value:0,
             error:false,
@@ -762,6 +762,8 @@ export default {
             this.cart_order = [];
         },
         saveOrder(type) {
+            console.log(this.customer)
+            this.loading = true;
             this.saving = true;
                 if(this.distributor){
                     this.saved_orders = JSON.parse(window.localStorage.getItem("distributor_cart"))

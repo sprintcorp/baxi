@@ -25,18 +25,20 @@
                           <div class="row">
                             <div class="col-md-12">
                                 <div class="row border-2 mt-1">
+                                  <div class="col-md-2 mt-2 font-weight-bold" style="margin-left:-30px">
+                                      <span class="link-line">Sales Transaction</span>
+                                  </div>
+
                                   <div class="col-md-2 mt-2 font-weight-bold" style="">
                                     <router-link :to="{name:'transactionOverview'}" class="top-text-block" style="color:black;text-decoration:none">
                                      <span>Order Transaction</span>
                                     </router-link>
                                   </div>
                                   
-                                    <div class="col-md-2 mt-2 font-weight-bold" style="margin-left:-30px">                                      
-                                      <span class="link-line">Sales Transaction</span>
-                                    </div>
+
                                   
                                   <div class="col-md-4 d-flex justify-content-end">
-                                     <input type="text" v-model="search" placeholder="Search for transaction type" class="inp" style="background-color:white;width:91%;"/>
+                                     <input type="text" v-model="search" placeholder="Search for order id" class="inp" style="background-color:white;width:91%;"/>
                                   </div>
                                   <div class="col-md-4 d-flex justify-content-end">
                                     <button data-toggle="modal" data-target="#search" class="btns shadow btn-light btn-sm sml-radius text-black p-2" style="border-radius:30px">
@@ -55,6 +57,7 @@
                                         <th>S/N</th>
                                         <th>Order ID</th>
                                         <th>Status</th>
+                                        <th>Payment type</th>
                                         <th>Date</th>
                                         <th>No of Items</th>
                                         <th>Amount</th>
@@ -67,7 +70,10 @@
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ transaction.order_group_id }}</td>
                                         <td>Paid</td>
-                                        <td>{{ transaction.created_at }}</td>
+                                        <td>{{transaction.payment_type}}</td>
+                                        <td>
+                                            {{transaction.created_at | moment("ddd, Do MMMM 'YY, h:mma") }}
+                                        </td>
                                         <td>{{transaction.orders.length}}</td>
                                         <td>&#8358; {{numberWithCommas(transaction.amount)}}</td>
                                         <td>

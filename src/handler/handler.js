@@ -8,7 +8,6 @@ if (getToken()) {
     axios.defaults.headers.common = {
         'Authorization': getToken()
     };
-    console.log(getToken());
 }
 
 const baseHandler = axios.create({

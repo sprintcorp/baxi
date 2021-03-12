@@ -26,15 +26,17 @@
                             <div class="col-md-12" v-if="transaction_tab">
                                 <div class="row border-2 mt-1">
                                   <div class="col-md-2 mt-2 font-weight-bold" style="">
-                                    <h5 class="link-line" v-if="!this.distributor">Sales Transaction <span class="badge badge-warning">{{page.total}}</span></h5>
-                                    <h5 class="" v-if="this.distributor">Order <span class="badge badge-warning">{{page.total}}</span></h5>
+                                    <!-- {{distributor}} -->
+                                    <h5 class="link-line" v-if="!distributor">Sales Transaction <span class="badge badge-warning">{{page.total}}</span></h5>
+                                    
+                                    <router-link :to="{name:'distributorSalesTransaction'}" v-if="distributor" class="top-text-block" style="color:black;text-decoration:none">Sales Transaction</router-link>
                                   </div>
 
                                   <!-- <pre>{{filterTransactions}}</pre> -->
                                   
-                                    <div class="col-md-2 mt-2 font-weight-bold" style="margin-left:-30px">
-                                      
-                                      <router-link :to="{name:'distributorSalesTransaction'}" v-if="distributor" class="top-text-block" style="color:black;text-decoration:none">Sales</router-link></div>
+                                    <div class="col-md-2 mt-2 font-weight-bold" style="margin-left:-30px">                                      
+                                      <span v-if="distributor" class="link-line">Order Transaction</span>
+                                    </div>
                                   
                                   <div class="col-md-4 d-flex justify-content-end">
                                      <input type="text" v-model="search" placeholder="Search for transaction type" class="inp" style="background-color:white;width:91%;"/>
@@ -52,7 +54,7 @@
                                       <tr style="text-align:center">
                                         <th>S/N</th>
                                         <th>Order ID</th>
-                                        <th>Type</th>
+                                        <th>Payment Type</th>
                                         <th>Customer</th>
                                         <th>Status</th>
                                         <th>Outlet name</th> 
@@ -67,7 +69,7 @@
                                       <tr style="text-align:center" v-for="(transaction,index) in filterTransactions" :key="index">
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ transaction.order_group_id }}</td>
-                                        <td>{{ transaction.payment_type }}</td>
+                                        <td>{{ transaction.payment_type ? transaction.payment_type.toUpperCase() : 'PENDING' }}</td>
                                         <td>
                                           {{transaction.customer ? transaction.customer.customer.firstname+' '+transaction.customer.customer.lastname: 'No info'}}<br>
                                           <span v-if="transaction.customer && transaction.customer.customer.phone">{{transaction.customer.customer.phone}}</span>
@@ -75,7 +77,9 @@
                                         <td v-if="transaction.paid" class="text-success">Paid</td>
                                         <td v-else class="text-danger">Not Paid</td>
                                         <td>{{transaction.outlet.name}}</td>
-                                        <td>{{transaction.created_at  }}</td>
+                                        <td>
+                                          {{transaction.created_at | moment("ddd, Do MMMM 'YY, h:mma") }}
+                                        </td>
                                         <td>{{transaction.orders.length}}</td>
                                         <td>&#8358; {{numberWithCommas(transaction.amount)}}</td>
                                         <td>
@@ -109,7 +113,7 @@
                                     </nav>
                                   </div>
 
-                                  <!-- {{}} -->
+                                  <!-- {{transactions}} -->
                                   <div class="table-responsive mt-5" v-if="transactions.length && !loading && distributor">
                                     <table class="table table-striped">
                                       <thead>
@@ -128,7 +132,9 @@
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ transaction.order_group_id }}</td>
                                         <td>{{ transaction.delivery_type }}</td>
-                                        <td>{{transaction.created_at  }}</td>
+                                        <td>
+                                          {{transaction.created_at | moment("ddd, Do MMMM 'YY, h:mma") }}
+                                        </td>
                                         <td>{{transaction.orders.length}}</td>
                                         <td>&#8358; {{numberWithCommas(transaction.amount)}}</td>
                                         <td>
@@ -249,7 +255,7 @@
                               </div>
                               
                               <div class="modal-body row">
-                                <div class="col-md-6 payment-method-card" data-toggle="modal" data-target="#optionModal" data-dismiss="modal">
+                                <div class="col-md-6 payment-method-card" @click="saveOrder('wallet')">
                                   <div class="card m-1 h-100 p-3">
                                       <div class="mx-auto mt-1">
                                           <img :src="require('@/assets/images/img8.png')" class='rounded' alt="img"/>
@@ -296,8 +302,8 @@
                            <div class="col-md-12  d-flex justify-content-center"><img :src="require('@/assets/baxi.png')" width="50"></div><br>
                            <div class="col-md-12  d-flex justify-content-center"><h4>{{titleCase(business_name)}} Store</h4></div><br>
                            <div class="col-md-12  d-flex justify-content-center"><h5>Outlet : {{titleCase(outlet_name)}}</h5></div><br>
-                           <div class="col-md-12  d-flex justify-content-center"><h6>Tran Ref{{transaction_product.trans_ref}}</h6></div><br>
-                           <div class="col-md-12 mt-3 d-flex justify-content-center"><h6>Receipt</h6></div><br>
+                           <div class="col-md-12  d-flex justify-content-center"><h6>Tran Ref {{transaction_product.trans_ref}}</h6></div><br>
+                           <div v-if="transaction_product.trans_ref" class="col-md-12 mt-3 d-flex justify-content-center"><h6>Receipt</h6></div><br>
                            <!-- <div class="row"> -->
                             <div class="col-md-7 mt-3 d-flex justify-content-start"><h6>Date : {{current_date}}</h6></div>
                             <div class="col-md-5 mt-3 d-flex justify-content-start"><h6>Time : {{current_time}}</h6></div>

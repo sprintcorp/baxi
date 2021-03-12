@@ -103,7 +103,9 @@
                                           <td>{{order.orders.length }}</td>
                                           <td>{{order.retailer.buid}}</td>
                                           <td>{{order.delivery_type}}</td>
-                                          <td>{{order.created_at}}</td>
+                                          <td>
+                                              {{order.created_at | moment("ddd, Do MMMM 'YY, h:mma") }}
+                                          </td>
                                           <td>
                                             <button data-toggle="modal" data-target="#order" type="button" @click="showOrder(order)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
                                           </td>
@@ -144,14 +146,7 @@
                                       Processing Order...
                                   </div>
                               </div>
-                                  <div class="mt-5" v-if="!orders.length && loading" style="text-align:center">
-                    
-                                        <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
-                                          <span class="sr-only">Loading...</span>
-                                        </div><br>
-                                        Loading...
-                                        
-                                  </div>
+                                  <Loading v-if="!orders.length && loading"></Loading>
                                   <div class="card mt-5" v-if="!orders.length && !loading">
                                     <div class="card-body text-center">
                                       There are no orders made at the moment

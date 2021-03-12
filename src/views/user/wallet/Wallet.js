@@ -1,6 +1,9 @@
 import { logout, getToken,checkUserPermission } from '../../../config'
 import { BASE_URL } from '../../../env'
 import Loading from "../../../components/Loader.vue";
+import Vue from 'vue';
+
+Vue.use(require('vue-moment'));
 
 export default {
     name: "WalletComponent",
@@ -14,7 +17,9 @@ export default {
             search:'',
             order:'',
             distributor:false,
-            page:''
+            page:'',
+            start_date: new Date(),
+            end_date: new Date()
         }
     },
     methods:{

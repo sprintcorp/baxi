@@ -2,6 +2,10 @@
 // import { GET_BUSINESS } from "../../../store/action";
 import { getName, getToken, logout } from '../../../config'
 import { BASE_URL } from '../../../env'
+import Vue from 'vue';
+
+Vue.use(require('vue-moment'));
+
 export default {
     name: "DashboardComponent",
     data() {

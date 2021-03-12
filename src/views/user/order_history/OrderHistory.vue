@@ -115,7 +115,9 @@
                                         <td>{{order.business.name}}</td>
                                         <td>{{order.orders.length}}</td>
                                         <td>{{order.delivery_type}}</td>
-                                        <td>{{order.created_at}}</td>
+                                        <td>
+                                          {{order.created_at | moment("ddd, Do MMMM 'YY, h:mma") }}
+                                        </td>
                                         <td>
                                           <router-link :to="{name:'orderInformation',params: { id: order.order_group_id }}">
                                             <button class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>

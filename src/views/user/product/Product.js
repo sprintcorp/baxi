@@ -3,7 +3,8 @@ import { BASE_URL,CASHIER_BUSINESS } from '../../../env';
 import Dropdown from 'vue-simple-search-dropdown';
 import Loading from "../../../components/Loader.vue";
 import Select2 from 'v-select2-component';
-
+import Vue from 'vue';
+Vue.use(require('vue-moment'));
 // import { ImageBarcodeReader } from "vue-barcode-reader";
 // import { CREATE_ORDER, CREATE_PRODUCT } from "../../../store/action";
 export default {
