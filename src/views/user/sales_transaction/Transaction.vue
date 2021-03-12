@@ -4,7 +4,7 @@
             <div class="container-fluid" style="">
                 <div class="heading-sec">
                     <div class="row">
-                         
+
 
                             <!-- <div class="row mt-5">
                               <nav>
@@ -15,11 +15,11 @@
                                   <button @click="changeTab()" class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">
                                     Transaction tracker
                                   </button>
-                                  
+
                                 </div>
                               </nav>
                             </div> -->
-                        
+
 
                         <section class="panel-content">
                           <div class="row">
@@ -34,11 +34,11 @@
                                      <span>Order Transaction</span>
                                     </router-link>
                                   </div>
-                                  
 
-                                  
+
+
                                   <div class="col-md-4 d-flex justify-content-end">
-                                     <input type="text" v-model="search" placeholder="Search for order id" class="inp" style="background-color:white;width:91%;"/>
+                                     <input type="text" v-model="search" placeholder="Search for transaction ref" class="inp" style="background-color:white;width:91%;"/>
                                   </div>
                                   <div class="col-md-4 d-flex justify-content-end">
                                     <button data-toggle="modal" data-target="#search" class="btns shadow btn-light btn-sm sml-radius text-black p-2" style="border-radius:30px">
@@ -47,15 +47,15 @@
                                   </div>
                                 </div>
                                   <div class="row">
-                                 
-                     
+
+
 
                                   <div class="table-responsive mt-5" v-if="transactions.length && !loading && distributor">
                                     <table class="table table-striped">
                                       <thead>
                                       <tr style="text-align:center">
                                         <th>S/N</th>
-                                        <th>Order ID</th>
+                                        <th>Transaction Ref</th>
                                         <th>Status</th>
                                         <th>Payment type</th>
                                         <th>Date</th>
@@ -81,7 +81,7 @@
                                         </td>
                                       </tr>
                                       </tbody>
-                                    
+
                                     </table>
                                     <nav aria-label="Page navigation example">
                                       <ul class="mb-5 pagination justify-content-center">
@@ -106,7 +106,7 @@
                                       </ul>
                                     </nav>
                                   </div>
-                                   
+
 
                                 </div>
 
@@ -124,28 +124,27 @@
                                     <thead>
                                       <tr style="text-align:center">
                                         <th scope="col">#</th>
-                                        <th scope="col"></th>
                                         <th scope="col">Items</th>
                                         <th scope="col">Price</th>
                                         <th scope="col">Size</th>
                                         <th scope="col">SKU</th>
                                         <th scope="col">Quantity</th>
-                                        
+
                                         <th scope="col">Total</th>
                                       </tr>
                                     </thead>
                                     <tbody>
                                       <tr style="text-align:center" v-for="(product,index) in transaction.orders" :key="index">
-                                        <th scope="row">{{index+1}}</th>
-                                        <th scope="row"><img :src="product.business_product.product.public_image_url" height="50"/></th>
-                                        <td>{{product.business_product.name}}</td>
+                                        <td scope="row">{{index+1}}</td>
+                                        <td scope="row"><img :src="product.business_product.product.public_image_url" style="width:30px;"/>
+                                            {{product.business_product.product.name}}</td>
                                         <td>&#8358; {{numberWithCommas(product.amount/product.qty)}}</td>
                                         <td>{{product.business_product.product.size?product.business_product.product.size:''}}</td>
                                         <td>{{product.business_product.product.sku?product.business_product.product.sku:''}}</td>
                                         <td>{{product.qty}}</td>
                                         <td>&#8358; {{numberWithCommas(product.amount)}}</td>
                                       </tr>
-                                             
+
                                     </tbody>
                                   </table>
                             </div>
@@ -158,12 +157,12 @@
                       </div>
 
                                 <!-- <div class="mt-5" v-if="!transactions.length && loading" style="text-align:center">
-                  
+
                                       <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
                                         <span class="sr-only">Loading...</span>
                                       </div><br>
                                       Loading...
-                                      
+
                                 </div> -->
                                 <Loading v-if="!transactions.length && loading">Loading...</Loading>
                                 <div class="card mt-5" v-if="!transactions.length && !loading">
@@ -174,7 +173,7 @@
                                 <!-- </div> -->
                             </div>
 
-                            
+
 
 
 
@@ -199,7 +198,7 @@
                                         <th scope="col">Size</th>
                                         <th scope="col">SKU</th>
                                         <th scope="col">Quantity</th>
-                                        
+
                                         <th scope="col">Total</th>
                                       </tr>
                                     </thead>
@@ -214,13 +213,13 @@
                                         <td>{{product.qty}}</td>
                                         <td>&#8358; {{numberWithCommas(product.amount)}}</td>
                                       </tr>
-                                             
+
                                     </tbody>
                                   </table>
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                              
+
                             </div>
                           </div>
                         </div>
@@ -233,19 +232,19 @@
                                       <tr style="text-align:center">
                                         <th scope="col">#</th>
                                         <th scope="col">Items</th>
-                                        <th scope="col">Price</th>                                        
+                                        <th scope="col">Price</th>
                                         <th scope="col">Delivery date</th>
                                         <th scope="col">Total</th>
                                       </tr>
                                     </thead>
                                     <tbody>
-                                                                   
+
                                       <tr style="text-align:center">
                                         <td>Status</td>
                                         <th scope="row"></th>
                                         <th scope="row"></th>
                                         <th scope="row"></th>
-                                        
+
                                         <td>{{status}}</td>
                                       </tr>
                                       <tr style="text-align:center">
@@ -253,7 +252,7 @@
                                         <th scope="row"></th>
                                         <th scope="row"></th>
                                         <th scope="row"></th>
-                                        
+
                                         <td class="font-weight-bold">&#8358; {{numberWithCommas(total)}}</td>
                                       </tr>
                                     </tbody>
@@ -283,7 +282,7 @@
                                     <div class="row mt-3">
                                       <button data-dismiss="modal" class="btn btn-danger btn-block">CLOSE</button>
                                     </div>
-         
+
         </div>
       </div>
     </div>

@@ -52,13 +52,15 @@ export default {
             scrollPosition: 0,
             fees: [],
             vat: 0.0,
+            awaitingCustomerWalletResponse: false,
+            customerWalletResponse: null,
             api_headers: {
-                headers: {
-                    'Content-Type': 'application/json',
+                'Content-Type': 'application/json',
                     'Accept': 'application/json',
                     'Authorization': getToken()
-                }
-            }
+            },
+            last_order_id: null,
+            wallet_transaction_response: false
         }
     },
     computed: {
@@ -68,7 +70,7 @@ export default {
     },
     methods: {
         fetchFees() {
-          fetch(BASE_URL + '/fees', this.api_headers)
+          fetch(BASE_URL + '/fees', { headers: this.apiHeaders} )
               .then(response => response.json())
               .then(response => {
                   this.fees = response.data;
@@ -80,6 +82,31 @@ export default {
               .catch(err => console.log(err));
         },
 
+        performPingRequest () {
+            // ping the api via backend
+            let url = "/user/order-payment/"+this.last_order_id+"/ping-response";
+
+            fetch(BASE_URL + url, {
+                method: 'GET',
+                headers: this.api_headers
+            })
+            .then(res => res.json())
+            .then(res => {
+                console.log('wallet response', res);
+
+                this.customerWalletResponse = res.data;
+            })
+            .catch(err => console.log(err));
+        },
+
+        checkingCustomerWalletResponse() {
+            let interval = setInterval(() => this.performPingRequest(), 30000);
+
+            if(this.customerWalletResponse !== null) {
+                this.getProducts(true);
+                clearInterval(interval);
+            }
+        },
 
         numberWithCommas(x) {
             const num = parseFloat(x)
@@ -200,11 +227,10 @@ export default {
                 .catch(err => console.log(err));
         },
 
-        getProducts() {
+        getProducts(without_loading = null) {
             if(checkUserPermission('order products') == false && getRole() !== 'Distributor'){
                 this.selected_outlet = window.localStorage.getItem("cashier_outlet");
-                this.results = [];
-                this.loading = true;
+                this.loading = !!without_loading;
                 this.cat = false
                 fetch(BASE_URL + '/my/outlet/'+this.selected_outlet+'/products?per_page='+this.per_page, {
                             headers: {
@@ -217,37 +243,38 @@ export default {
                     .then(res => {
                         if (res.message === 'Unauthenticated.') {
                             this.$swal({
-                title: 'Error',
-                text: "Session Expired",
-                icon: 'error',
-                confirmButtonText: 'ok'
-            });
+                            title: 'Error',
+                            text: "Session Expired",
+                            icon: 'error',
+                            confirmButtonText: 'ok'
+                        });
                             console.log(res);
                             logout();
                             this.$router.push({ name: 'welcome' });
-                        }
-                        console.log(res.data.data);
-                        this.getCart();
-                        this.products = res.data.data;
-                        this.products.forEach((data) => {
-                            this.results.push({
-                                product_id: data.product.id,
-                                name: data.product.name,
-                                amount: data.price > 0 ? parseInt(data.price) : parseInt(data.product.recommended_price),
-                                sell_price: data.price > 0 ? parseInt(data.price) : parseInt(data.product.recommended_price),
-                                quantity: data.qty,
-                                size: data.product.size,
-                                public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
-                                qty: data.qty,
-                                sku: data.product.sku,
-                                date:data.product.created_at,
-                                
+                    }
+                    console.log(res.data.data);
+                    this.getCart();
+                    this.products = res.data.data;
+                    this.results = [];
+                    this.products.forEach((data) => {
+                        this.results.push({
+                            product_id: data.product.id,
+                            name: data.product.name,
+                            amount: data.price > 0 ? parseInt(data.price) : parseInt(data.product.recommended_price),
+                            sell_price: data.price > 0 ? parseInt(data.price) : parseInt(data.product.recommended_price),
+                            quantity: data.qty,
+                            size: data.product.size,
+                            public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
+                            qty: data.qty,
+                            sku: data.product.sku,
+                            date:data.product.created_at,
 
-                            });
+
                         });
-                        console.log(this.results);
+                    });
+                    console.log(this.results);
 
-                        this.loading = false;
+                    this.loading = false;
                     })
                     .catch(err => {
                             console.log(err)
@@ -360,14 +387,14 @@ export default {
                 this.products = res.data.data;
                 this.products.forEach((data) => {
                     this.results.push({
-                        product_id: data.product.id,
+                        product_id: data.id,
                         name: data.product.name,
                         amount: parseInt(data.pack_price),
                         sell_price: parseInt(data.pack_price),
-                        quantity: data.pack_qty,
+                        quantity: data.qty,
                         size: data.product.size,
                         public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
-                        qty: data.pack_qty,
+                        qty: data.qty,
                         sku: data.product.sku,
                         date:data.product.created_at,
                         minimum_order: data.minimum_order_qty,
@@ -762,9 +789,10 @@ export default {
             this.cart_order = [];
         },
         saveOrder(type) {
-            console.log(this.customer)
-            this.loading = true;
             this.saving = true;
+            this.loading = true;
+
+            console.log(this.customer);
                 if(this.distributor){
                     this.saved_orders = JSON.parse(window.localStorage.getItem("distributor_cart"))
                     var business =  JSON.parse(window.localStorage.getItem("cashier_business"))
@@ -781,34 +809,38 @@ export default {
                 "payment_type":type,
                 "outlet_id": checkUserPermission('order products') === true ? window.localStorage.getItem("retailer_outlet") : window.localStorage.getItem("cashier_outlet")
             }
-        this.loading = false
-            console.log(payload);
 
 
             fetch(BASE_URL + url, {
                     method: 'POST',
-                    body: JSON.stringify(payload),
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': getToken()
-                    }
+                    body: JSON.stringify(payload), headers: this.api_headers
                 })
                 .then(res => res.json())
                 .then(res => {
-                    
+                    this.loading = false;
+                    this.saving = false;
+
                     if(res.success){
+                        this.last_order_id = res.data.transaction.order_group_id;
+
+                        if(type === "wallet") {
+                            this.awaitingCustomerWalletResponse = true;
+                            this.checkingCustomerWalletResponse()
+                        } else {
+                            this.$swal({
+                                title: 'Success',
+                                text: 'Payment successful',
+                                icon: 'success',
+                                confirmButtonText: 'ok'
+                            });
+
+                            this.getProducts(true);
+                        }
+
                         this.removeCart();
                         this.customer = '';
-                            this.show_cat = false;
-                            this.cart_order = [];
-                        this.$swal({
-                            title: 'Success',
-                            text: 'Payment successful',
-                            icon: 'success',
-                            confirmButtonText: 'ok'
-                        });
-
+                        this.show_cat = false;
+                        this.cart_order = [];
                     }else{
                         this.$swal({
                             title: 'Error',
@@ -817,21 +849,18 @@ export default {
                             confirmButtonText: 'ok'
                         });
                     }
-                    
-                    this.saving = false;
-
-                    this.getProducts();
                 })
                 .catch(err => {
+                    console.log('error', err);
                     this.saving = false;
-                    this.$swal();
+                    // this.$swal();
                     this.$swal({
                         title: 'Error',
                         text: err.response.data.message,
                         icon: 'error',
                         confirmButtonText: 'ok'
                     });
-                    this.getProducts();
+                    this.getProducts(true);
                     console.log(err)
                     if (err.response.status == 401) {
                         this.$swal({

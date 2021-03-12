@@ -27,6 +27,7 @@ import BusinessComponent from "../views/user/business/Business.vue";
 import OutletComponent from "../views/user/retailer_outlet/Outlet.vue";
 import OrderHistoryComponent from "../views/user/order_history/OrderHistory.vue";
 import TransactionComponent from "../views/user/transaction/Transaction.vue";
+import IncompleteTransactionComponent from "../views/user/incomplete/Transaction.vue";
 import DistributorTransactionsComponent from "../views/user/sales_transaction/Transaction.vue";
 import ProductComponent from "../views/user/product/Product.vue";
 import WalletComponent from "../views/user/wallet/Wallet.vue";
@@ -178,6 +179,12 @@ const routes = [{
                 name: "transactionOverview",
                 path: "/transaction/overview/",
                 component: TransactionComponent,
+                ...preventRoutes
+            },
+            {
+                name: "incompleteTransaction",
+                path: "/incomplete/transaction/",
+                component: IncompleteTransactionComponent,
                 ...preventRoutes
             },
             {

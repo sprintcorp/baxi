@@ -89,7 +89,7 @@
                             <div class="row pr-3 pb-3" v-if="!cat && !distributor" style="background-color:#d6d6d6;margin-top:-20px">
                                 <div :class="[show_cat ? 'col-md-3' : 'col-md-2']" v-for="(product,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
-                                    <div class="card p-1" style="height:15rem;margin:10px;">
+                                    <div class="card p-1" style="height:15rem;">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                       <div class="card-body">
                                        <div class="row d-flex justify-content-center" style="">
@@ -170,7 +170,7 @@
                                 Loading...
                                                     
                             </div> -->
-                            <Loading v-if="!results.length && loading"></Loading>
+                            <Loading v-if="loading"></Loading>
                             
                             <div class="card" v-if="!filerResult.length && !loading && search.length > 0">
                                 <div class="card-body text-center">
@@ -208,8 +208,7 @@
                                         <div class="row">
                                             <div class="col-md-12 d-flex justify-content-end">
                                                 <div class="input-group mb-1">
-                                                    <input type="button" @click="decrease(product.quantity)" v-if="quantity_value > product.minimum_order && distributor" value="-" class="button-minus" data-field="quantity">
-                                                    <input type="button" value="-" v-if="quantity_value <= product.minimum_order && distributor"  class="button-minus" data-field="quantity">
+                                                    <input type="button" @click="decrease(product.quantity)" v-if="distributor" value="-" class="button-minus" data-field="quantity">
                                                     <input type="number" v-if="distributor" step="1" :max="product.quantity" :min="product.minimum_order" :value="quantity_value" name="quantity" @change="changes()" class="quantity-field">
 
 
@@ -235,7 +234,11 @@
                         </div>
                         <!-- End of Add Cart -->
 
-            <div class="col-md-4" v-if="show_cat" style="margin-top:-20px;min-height:20vh;overflow:hidden">
+            <div class="col-md-4" v-if="show_cat" style="margin-top:-20px;min-height:20vh;overflow:hidden;position: fixed;right: 0;">
+                <div class="bg-warning"><h4 class="m-0 p-2">
+                    <i class="fa fa-shopping-cart"></i>
+                    Cart
+                </h4></div>
               <div class="bg-dark" style="width:100%">
                   <table class="table table-dark">
                     <thead class="">
@@ -301,7 +304,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h6 class="modal-title font-weight-bold"> Customer information</h6>
+                  <h6 class="modal-title font-weight-bold"> Customer information <em>(optional)</em></h6>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -310,21 +313,21 @@
                 <div class="modal-body row">
                   <!-- <div class="row"> -->
                     <div class="col-md-6">
-                      <input type="name" v-model="customer.firstname" placeholder="customer firstname" class="form-control">
+                      <input type="name" v-model="customer.firstname" placeholder="Firstname" class="form-control">
                     </div>
                     <div class="col-md-6">
-                      <input type="name" v-model="customer.lastname" placeholder="customer lastname" class="form-control">
+                      <input type="name" v-model="customer.lastname" placeholder="Lastname" class="form-control">
                     </div>
                   <!-- </div> -->
                   <!-- <div class="row"> -->
                     <div class="col-md-12 mt-3">
-                      <input type="text " v-model="customer.phone" placeholder="customer phone" class="form-control">
+                      <input type="text " v-model="customer.phone" placeholder="Phone" class="form-control">
                     </div>
                     
                   <!-- </div> -->
                   <!-- <div class="row"> -->
                     <div class="col-md-12 mt-3">
-                      <input type="email " v-model="customer.email" placeholder="customer email" class="form-control">
+                      <input type="email " v-model="customer.email" placeholder="Email" class="form-control">
                     </div>
                   <!-- </div> -->
                   <div class="col-md-12 d-flex justify-content-end mt-2 mb-1">
@@ -394,8 +397,6 @@
               </div>
             </div>
           </div>
-
-
 
 
 
@@ -479,13 +480,44 @@
           <span aria-hidden="true" class="text-primary mt-3" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">&leftarrow; Back to payment methods</span>
         </button>
       </div>
+
       <div class="modal-body text-center text-dark">
-        <div class="col-md-12 mt-3">
-            <input type="text" v-model="customer.baxi_username" placeholder="customer username" class="form-control">
-        </div>
-         <!-- <button class="btn btn-outline-secondary rounded-pill">Account ID: RST12345</button> <br> -->
-         <button class="btn btn-warning rounded-pill mt-4" data-dismiss="modal" @click="saveOrder('wallet')">Continue</button>
+          <div v-if="awaitingCustomerWalletResponse">
+              <div v-if="customerWalletResponse===null">
+                <span class="fs-20 m-auto d-block w-75 font-weight-bold" style="border-radius: 550px;">
+    <!--                <i class="fa fa-spinner fa-pulse fa-fw"></i>-->
+                    &nbsp; Awaiting Customer Response...
+                    <br>Please wait
+                </span>
+
+                  <button class="btn btn-sm btn-warning mt-2 mr-4 w-25" @click="performPingRequest"><i class="fa fa-search"></i> Recheck</button>
+                  <button class="btn btn-sm btn-danger mt-2 w-25" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+              </div>
+
+            <span class="text-danger fs-20 m-auto d-block w-75 font-weight-bold" style="border-radius: 550px;" v-if="customerWalletResponse===false">
+                <i class="fa fa-times"></i>
+                &nbsp; Customer declined payment
+            </span>
+
+              <div v-if="customerWalletResponse===true">
+                <span class="text-success fs-20 m-auto d-block w-75 font-weight-bold" style="border-radius: 550px;" >
+                    <i class="fa fa-check"></i>
+                    &nbsp; Customer confirmed payment
+                </span>
+
+                <button class="btn btn-sm btn-success mt-2" data-dismiss="modal">Done</button>
+            </div>
+          </div>
+
+          <div v-if="!awaitingCustomerWalletResponse">
+              <div class="col-md-12 mt-3">
+                  <input type="text" v-model="customer.baxi_username" placeholder="Baxi Username" class="form-control">
+              </div>
+              <!-- <button class="btn btn-outline-secondary rounded-pill">Account ID: RST12345</button> <br> -->
+              <button class="btn btn-warning rounded-pill mt-4" @click="saveOrder('wallet')">Continue</button>
+          </div>
       </div>
+
     </div>
   </div>
 </div>

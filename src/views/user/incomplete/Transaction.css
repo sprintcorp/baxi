@@ -1,0 +1,58 @@
+.container-fluid{
+    background-color: white;
+    min-height:80vh;
+    padding-left:5% !important;
+    padding-right:5% !important;
+}
+.page-item.active .page-link{
+    background-color:#FFCF00 !important;
+    border:1px solid #FFCF00 !important;
+    color:white!important;
+  }
+  .page-link{
+    color:black !important;
+  }
+  .top-section{
+    width: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 7px;
+  }
+  .store-info{
+    width: 100%;
+    background-color: #ececec8f;
+    margin-top: -5px;
+    height: 20vh;
+  }
+  .store-column{
+    border:1px solid white;
+    height:8vh;
+    border-radius:35px
+  }
+
+
+.payment-method-card .card {
+    /*background: linear-gradient(to bottom left, #ccc, #eee);*/
+}
+.payment-method-card img {
+    margin-top: 5px;
+    height: 50px;
+}
+
+.payment-method-card .card:hover {
+    cursor: pointer;
+    box-shadow: 0 0 10px 0 #999;
+}
+
+.payment-method-card .card-body .nav-link {
+    padding: 0 !important;
+    margin: 15px 0 0 0 !important;
+    font-size:12px;
+    font-weight: bold;
+    color: #000;
+}
+
+
+.container-fluid,
+.container {
+    margin-top: 80px !important;
+}

@@ -139,13 +139,13 @@
                             <div class="modal-dialog modal-dialog-centered">
                                 
                                 <div class="modal-content">
-                                    <button type="button" class="btn btn-light" style="border-radius:20px;color:red;position:absolute;right:0" data-dismiss="modal">X</button>                                    
+                                    <!-- <button type="button" class="btn btn-light" style="border-radius:20px;color:red;position:absolute;right:0" data-dismiss="modal">X</button>                                     -->
                                     <div class="row text-center">
                                         <div class="col-md-12">
                                             <div class="fs-20 font-weight-bolder text-black">Add this item to order?</div>                                        
                                         </div>
                                     </div>
-                                    
+                                    <button type="button" class="close-modal" data-dismiss="modal"><img :src="require('@/assets/icon/noun_cancel_2014884.png')" class='rounded' alt="img"/></button>
                                 <div class="modal-body" style="margin-top:-30px">
                                      <div class="row card border-0">
                                          

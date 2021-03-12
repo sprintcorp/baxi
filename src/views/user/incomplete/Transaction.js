@@ -103,7 +103,7 @@ export default {
         getTransaction() {
             if(checkUserPermission('distributor') == false){
                 this.loading = true;
-                fetch(BASE_URL + '/my/retailer/transactions?paid=1', {
+                fetch(BASE_URL + '/my/retailer/transactions?paid=0', {
                         headers: {
                             'Content-Type': 'application/json',
                             'Accept': 'application/json',
@@ -187,7 +187,7 @@ export default {
         getPageTransaction(page) {
             this.transactions =[];
             this.loading = true;
-            fetch(page+'&paid=1', {
+            fetch(page+'&paid=0', {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',

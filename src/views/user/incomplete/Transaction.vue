@@ -27,7 +27,8 @@
                                 <div class="row border-2 mt-1">
                                   <div class="col-md-2 mt-2 font-weight-bold" style="">
                                     <!-- {{distributor}} -->
-                                    <span class="link-line" v-if="!distributor">Complete Transactions</span>
+                                    <router-link :to="{name:'transactionOverview'}" class="top-text-block" v-if="!distributor" style="color:black;text-decoration:none">Complete Transactions</router-link>
+                                    
                                     
                                     <router-link :to="{name:'distributorSalesTransaction'}" v-if="distributor" class="top-text-block" style="color:black;text-decoration:none">Sales Transaction</router-link>
                                   </div>
@@ -39,7 +40,7 @@
                                       <!-- <router-link :to="{name:'distributorSalesTransaction'}" v-if="!distributor" class="top-text-block" style="color:black;text-decoration:none">Incomplete Transactions</router-link> -->
                                     </div>
                                     <div class="col-md-2 mt-2 font-weight-bold" v-if="!distributor"> 
-                                      <router-link :to="{name:'incompleteTransaction'}" class="top-text-block" style="color:black;text-decoration:none">Incomplete Transactions</router-link>
+                                      <span class="link-line" >Incomplete Transactions</span>
                                     </div>
                                   
                                   <div class="col-md-4 d-flex justify-content-end">
@@ -81,7 +82,7 @@
                                           {{transaction.customer ? transaction.customer.customer.firstname+' '+transaction.customer.customer.lastname: 'No info'}}<br>
                                           <span v-if="transaction.customer && transaction.customer.customer.phone">{{transaction.customer.customer.phone}}</span>
                                         </td>
-                                        <td v-if="transaction.paid && !show_receipt" class="text-success">Paid</td>
+                                        <td v-if="!transaction.paid && !show_receipt" class="text-danger">Not Paid</td>
                                         <!-- <td v-else class="text-danger">Not Paid</td> -->
                                         <td v-if="!show_receipt">{{transaction.outlet.name}}</td>
                                         <td>
@@ -128,7 +129,6 @@
                                         <th>S/N</th>
                                         <th>Transaction Ref</th>
                                         <th>Type</th>
-                                        <th>Date</th>
                                         <th>No of Items</th>
                                         <th>Amount</th>
                                         <th>View</th>
@@ -146,8 +146,7 @@
                                         <td>{{transaction.orders.length}}</td>
                                         <td>&#8358; {{numberWithCommas(transaction.amount)}}</td>
                                         <td>
-                                          <!-- <button data-toggle="modal" data-target="#order" type="button" @click="showTransaction(transaction)" class="btn btn-warning text-white"><i class="fa fa-eye"></i></button> -->
-                                          <button type="button" @click="showTransaction(transaction)" class="btn btn-warning text-white"><i class="fa fa-eye"></i></button>
+                                          <button data-toggle="modal" data-target="#order" type="button" @click="showTransaction(transaction)" class="btn btn-warning text-white"><i class="fa fa-eye"></i></button>
                                         </td>
                                       </tr>
                                       </tbody>
@@ -225,7 +224,7 @@
                                      <div class="col-md-12 d-flex justify-content-center mt-2">Grand Total</div>
                                      <div class="col-md-12 h5 d-flex justify-content-center mt-2"> &#8358; {{numberWithCommas(transaction_product.amount)}}</div>
                                      <div class="col-md-12 h5 d-flex justify-content-center mt-5">
-                                       <button v-if="!transaction_product.paid && !distributor" type="button" class="btn btn-success" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Pay Now</button>
+                                       <button v-if="!transaction_product.paid && !distributor" type="button" class="btn btn-success mr-2" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Pay Now</button>
                                        <button type="button" v-if="!distributor"  class="btn btn-dark" @click="printReceipt(transaction_product.orders)">Print</button>
                                      </div>
                                      <div class="col-md-12 mt-3 d-flex justify-content-center"><p>Powered by baxi</p></div><br>

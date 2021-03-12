@@ -9,7 +9,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" style="z-index:10;background-color:#facc48 !important" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse" style="z-index:10;" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mt-3">
                 <li :class="[this.$router.currentRoute.name === 'dashboard' ? 'nav-item active' : 'nav-item']">
                     <router-link :to="{name:'dashboard'}" class="nav-link font-weight-bold" href="#"><i class="fa fa-home"></i> Dashboard</router-link>
@@ -82,7 +82,7 @@
                    
                 </div> -->
                 
-                <div class="vl"></div>
+
                 <!-- <button class="mr-2" v-if="order_products" data-toggle="modal" data-target="#cartModal"><i class="fa fa-shopping-cart fs-25" style="color:#ffc107"></i></button> -->
                 <div class="" v-if="!distributor">
                     <div class="icon-badge-container top-head-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -108,7 +108,7 @@
                 
                 <div class="" v-if="distributor">
                     <div class="icon-badge-container top-head-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="far fa-bell icon-badge-icon" style="color:#ffc107"></i>
+                      <i class="far fa-bell icon-badge-icon" style="color:black"></i>
                         <div class="icon-badge" style="width:7px;height:7px"></div> 
                         <ul class="dropdown-menu dropdown-menu-right" style="width:330px;border:0px;background-color:white;align:justify">
                             <div class="">
@@ -290,7 +290,7 @@ import {BASE_URL} from '../../../env'
     }
     a{
         font-family: 'Rubik', Times, serif;
-        font-size: 15px;
+        font-size: 18px;
     }
     li{
         margin-right: 20px;
@@ -376,6 +376,11 @@ import {BASE_URL} from '../../../env'
     color:white;
     border: 0px;
 }
+
+.navbar-nav {
+    margin-top: 0 !important;
+}
+
 /* .top-text-block:hover{
     content: '';
         width: 4px;

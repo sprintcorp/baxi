@@ -43,6 +43,7 @@ export default {
             return res.getDate() +' '+this.days[res.getDay()] +' '+this.months[res.getMonth()]+' '+ res.getFullYear();
         },
         showTransaction(transaction){
+            console.log('trans', transaction);
             this.transaction = transaction;
         },
         getTransaction() {
