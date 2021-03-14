@@ -226,7 +226,8 @@
                                      <div class="col-md-12 h5 d-flex justify-content-center mt-2"> &#8358; {{numberWithCommas(transaction_product.amount)}}</div>
                                      <div class="col-md-12 h5 d-flex justify-content-center mt-5">
                                        <button v-if="!transaction_product.paid && !distributor" type="button" class="btn btn-success" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Pay Now</button>
-                                       <button type="button" v-if="!distributor"  class="btn btn-dark" @click="printReceipt(transaction_product.orders)">Print</button>
+                                       <button type="button" class="btn btn-dark mr-2" @click="printReceipt(transaction_product.orders)">Print</button>
+                                       <button type="button" class="btn btn-warning" @click="generateReport()">Download</button>
                                      </div>
                                      <div class="col-md-12 mt-3 d-flex justify-content-center"><p>Powered by baxi</p></div><br>
                                      
@@ -419,8 +420,28 @@
                         </div>
                       </div>
 
-
+                  
                       <div class="modal fade" tabindex="-1" aria-hidden="true" id="printMe">
+
+                      <vue-html2pdf
+                        :show-layout="false"
+                        :float-layout="true"
+                        :enable-download="true"
+                        :preview-modal="true"
+                        :paginate-elements-by-height="1200"
+                        filename="baxi_receipt"
+                        :pdf-quality="2"
+                        :manual-pagination="false"
+                        pdf-format="a5"
+                        pdf-orientation="portrait"
+                        pdf-content-width="500px"
+                
+                        @progress="onProgress($event)"
+                        @hasStartedGeneration="hasStartedGeneration()"
+                        @hasGenerated="hasGenerated($event)"
+                        ref="html2Pdf"
+                    >
+                      <section slot="pdf-content">
                         <div class="row p-5" style="width:500px">
                            <div class="col-md-12  d-flex justify-content-center"><img :src="require('@/assets/baxi.png')" width="50"></div><br>
                            <div class="col-md-12  d-flex justify-content-center"><h4>{{titleCase(business_name)}} Store</h4></div><br>
@@ -467,11 +488,16 @@
                           <div class="col-md-12 mt-5 d-flex justify-content-center"><p>Terms & Conditions Apply</p></div><br>
                           <div class="col-md-12 d-flex justify-content-center"><p>No refund of money after payment</p></div><br>
                           <div class="col-md-12 d-flex justify-content-center"><p><b>Thank you for your patronage</b></p></div><br>
-                          <div class="col-md-7 mt-3 d-flex justify-content-start"><p>Sales Officer:</p></div>
-                            <div class="col-md-5 mt-3 d-flex justify-content-start"><p>{{business_name}}</p></div>
-                            <div class="col-md-12 mt-3 d-flex justify-content-center"><p>Powered by baxi</p></div><br>
+                          <div class="col-md-7 mt-2 d-flex justify-content-start"><p>Sales Officer:</p></div>
+                            <div class="col-md-5 mt-2 d-flex justify-content-start"><p>{{business_name}}</p></div>
+                            <div class="col-md-12 mt-2 d-flex justify-content-center"><p>Powered by baxi</p></div><br>
                         </div>
+                      </section>
+                    </vue-html2pdf>
+
+
                       </div>
+                    
 
 
   <div class="modal fade" id="search" tabindex="-1" role="dialog" aria-labelledby="user" aria-hidden="true">

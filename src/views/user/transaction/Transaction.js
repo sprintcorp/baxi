@@ -1,6 +1,7 @@
 import { getName, logout, getToken, getOutlet,checkUserPermission } from '../../../config'
 import { BASE_URL } from '../../../env'
 import Loading from "../../../components/Loader.vue";
+import VueHtml2pdf from 'vue-html2pdf'
 
 import Vue from 'vue';
 Vue.use(require('vue-moment'));
@@ -8,7 +9,8 @@ Vue.use(require('vue-moment'));
 export default {
     name: "TransactionComponent",
     components: {
-        Loading
+        Loading,
+        VueHtml2pdf
       },
     data() {
         return {
@@ -62,7 +64,10 @@ export default {
         // }
     },
     methods: {
-        performPingRequest () {
+        generateReport() {
+            this.$refs.html2Pdf.generatePdf()
+        },
+        performPingRequest() {
             // ping the api via backend
             let url = "/user/order-payment/"+this.last_order_id+"/ping-response";
 
