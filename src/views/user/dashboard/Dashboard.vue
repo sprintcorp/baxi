@@ -89,7 +89,7 @@
                             <div class="row pr-3 pb-3" v-if="!cat && !distributor" style="background-color:#d6d6d6;margin-top:-20px">
                                 <div :class="[show_cat ? 'col-md-3' : 'col-md-2']" v-for="(product,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
-                                    <div class="card p-1" style="height:15rem;">
+                                    <div class="card p-1" style="height:15rem;width:100%">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                       <div class="card-body">
                                        <div class="row d-flex justify-content-center" style="">
@@ -124,7 +124,7 @@
                             <div class="row pr-3 pb-3" v-if="!cat && distributor" style="background-color:#d6d6d6;margin-top:-20px">
                                 <div :class="[show_cat ? 'col-md-3' : 'col-md-2']" v-for="(product,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
-                                    <div class="card p-1" style="margin:10px;">
+                                    <div class="card p-1" style="margin:10px;height:15rem;width:100%">
                                         <div class="card-body">
                                             <div class="row d-flex justify-content-center" style="">
                                                 <h6 class="fs-13 m-0" style="font-weight:bold !important"> {{product.name.length > 20 ? product.name.substr(0, 20)+'...' : product.name}}</h6></div>
