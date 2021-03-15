@@ -92,8 +92,9 @@
                                     <div class="card p-1" style="height:15rem;width:100%">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                       <div class="card-body">
-                                       <div class="row d-flex justify-content-center" style="">
-                                           <h6 class="fs-13 m-0" style="font-weight:bold !important"> {{product.name.length > 20 ? product.name.substr(0, 20)+'...' : product.name}}</h6></div>
+                                       <div class="row d-flex justify-content-center" style="height:15%;">
+                                           <h6 class="fs-13 m-0" style="font-weight:bold !important"> {{product.name.length > 20 ? product.name.substr(0, 20)+'...' : product.name}}</h6>
+                                        </div>
                                        <div class="row d-flex justify-content-center"> <h6 class="fs-10" style="font-weight:bold !important"> {{product.size}}</h6></div>
                                         <div class="row" style="height:50%;margin-top:-5px">
                                           <div class="col-md-12">
@@ -126,7 +127,7 @@
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
                                     <div class="card p-1" style="margin:10px;height:15rem;width:100%">
                                         <div class="card-body">
-                                            <div class="row d-flex justify-content-center" style="">
+                                            <div class="row d-flex justify-content-center" style="height:15%;">
                                                 <h6 class="fs-13 m-0" style="font-weight:bold !important"> {{product.name.length > 20 ? product.name.substr(0, 20)+'...' : product.name}}</h6></div>
                                        <div class="row d-flex justify-content-center"> <h6 class="fs-10" style="font-weight:bold !important"> {{product.size}}</h6></div>
                                         <div class="row" style="height:50%;">
