@@ -1,4 +1,4 @@
-import { getName, logout, getToken, getOutlet,checkUserPermission } from '../../../config'
+import { getName, logout, getToken, getOutlet,checkUserPermission, getFullName } from '../../../config'
 import { BASE_URL } from '../../../env'
 import Loading from "../../../components/Loader.vue";
 import VueHtml2pdf from 'vue-html2pdf'
@@ -17,6 +17,7 @@ export default {
             transactions: [],
             page:[],
             name: '',
+            user:'',
             loading: false,
             outlet: '',
             transaction_product: [],
@@ -339,10 +340,11 @@ export default {
         }
         
         this.name = getName();
+        this.user = getFullName();
         this.outlet = getOutlet();
         this.start_date = new Date("2015-08-21").getTime();
         this.end_date = new Date().getTime();
-        this.business_name = window.localStorage.getItem("name")
+        this.business_name = getName();
         this.outlet_name = JSON.parse(window.localStorage.getItem("outlet_name"))
         this.current_date = new Date().toISOString().slice(0,10);
         this.current_time = new Date(new Date().getTime() + 60*60).toLocaleTimeString();

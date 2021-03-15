@@ -7,14 +7,16 @@ export const saveToken = (token) => {
 
 export const saveUser = (user) => {
     if(user.roles[0].name == 'Retailer'){
-        window.localStorage.setItem(NAME, user.buid);
+       
         window.localStorage.setItem("retailer_business", user.business_id);
         window.localStorage.setItem("retailer_outlet", JSON.stringify(user.outlets_ids[0]));
     }else{
-        window.localStorage.setItem(NAME, user.buid); 
+        
         window.localStorage.setItem(CASHIER_OUTLET,user.outlet_id)
         window.localStorage.setItem(CASHIER_BUSINESS,user.business_id)
     }
+    window.localStorage.setItem(NAME, user.buid); 
+    window.localStorage.setItem("user", user.info.first_name +' '+ user.info.last_name);
     window.localStorage.setItem(ID, user.id);
     window.localStorage.setItem(ROLE, user.roles[0].name);
     window.localStorage.setItem("image", user.public_image_url);
@@ -83,6 +85,9 @@ export const getName = () => {
     // if (hasToken(getToken())) {
     return window.localStorage.getItem(NAME);
     // }
+};
+export const getFullName = () => {
+    return window.localStorage.getItem("user");
 };
 
 export const getRole = () => {

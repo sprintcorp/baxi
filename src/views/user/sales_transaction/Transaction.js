@@ -1,14 +1,16 @@
-import { getName, logout, getToken, getOutlet,checkUserPermission } from '../../../config'
+import { getName, logout, getToken,checkUserPermission,getFullName } from '../../../config'
 import { BASE_URL } from '../../../env'
 import Loading from "../../../components/Loader.vue";
 import Vue from 'vue';
+import VueHtml2pdf from 'vue-html2pdf'
 
 Vue.use(require('vue-moment'));
 
 export default {
     name: "DistributorTransactionsComponent",
     components: {
-        Loading
+        Loading,
+        VueHtml2pdf
       },
     data() {
         return {
@@ -16,12 +18,15 @@ export default {
             page:[],
             name: '',
             loading: false,
-            outlet: '',
+            outlet_name: '',
             search: '',
             start_date: '',
             end_date: '',
             distributor:false,
-            transaction:''
+            transaction:'',
+            show_receipt:false,
+            current_date:'',
+            current_time:''
         }
     },
     computed: {
@@ -31,6 +36,9 @@ export default {
         },
     },
     methods: {
+        generateReport() {
+            this.$refs.html2Pdf.generatePdf()
+        },
         numberWithCommas(x) {
             const num = parseFloat(x)
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -43,8 +51,17 @@ export default {
             return res.getDate() +' '+this.days[res.getDay()] +' '+this.months[res.getMonth()]+' '+ res.getFullYear();
         },
         showTransaction(transaction){
-            console.log('trans', transaction);
+            this.show_receipt = true;
             this.transaction = transaction;
+            console.log(transaction)
+            console.log(this.show_receipt)
+        },
+        closeReceipt(){
+            this.show_receipt = false;
+            this.transaction = [];
+        },
+        titleCase(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
         },
         getTransaction() {
                 this.loading = true;
@@ -134,9 +151,11 @@ export default {
     mounted() {
         this.distributor = checkUserPermission('distributor');
         this.getTransaction();
-        this.name = getName();
-        this.outlet = getOutlet();
+        this.name = getFullName();
+        this.outlet_name = getName();
         this.start_date = new Date("2015-08-21").getTime();
         this.end_date = new Date().getTime();
+        this.current_date = new Date().toISOString().slice(0,10);
+        this.current_time = new Date(new Date().getTime() + 60*60).toLocaleTimeString();
     },
 }

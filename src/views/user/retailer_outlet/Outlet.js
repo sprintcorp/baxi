@@ -500,6 +500,7 @@ export default {
                 
         },
         getOutletInformation(){ 
+            this.transactions = [];
             this.outlet_transactions = [];
             this.chartOptions.xaxis.categories = [];
             this.series[0].data = [];

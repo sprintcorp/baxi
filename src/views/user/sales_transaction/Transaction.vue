@@ -49,7 +49,7 @@
                                   <div class="row">
 
 
-
+                                <div :class="show_receipt ? 'col-md-9' : 'col-md-12'">
                                   <div class="table-responsive mt-5" v-if="transactions.length && !loading && distributor">
                                     <table class="table table-striped">
                                       <thead>
@@ -77,7 +77,7 @@
                                         <td>{{transaction.orders.length}}</td>
                                         <td>&#8358; {{numberWithCommas(transaction.amount)}}</td>
                                         <td>
-                                          <button data-toggle="modal" data-target="#order" type="button" @click="showTransaction(transaction)" class="btn btn-primary text-white"><i class="fa fa-eye"></i></button>
+                                          <button type="button" @click="showTransaction(transaction)" class="btn btn-warning text-white"><i class="fa fa-eye"></i></button>
                                         </td>
                                       </tr>
                                       </tbody>
@@ -111,68 +111,78 @@
                                       </ul>
                                     </nav>
                                   </div>
+                                </div>
+
+
+                                  
+                                  <div class="col-md-3 mt-3 p-3" v-if="show_receipt"> 
+                                        <div class="row">
+                                          <div class="col-md-10">
+                                            <span>Receipt</span>
+                                          </div>
+                                            <div class="col-md-2">
+                                            <button @click="closeReceipt()">X</button>
+                                          </div>
+                                        </div>
+                                        <div class="row mt-5 p-3" style="background-color:#fbfbfb">
+                                          <!-- <pre>{{transaction.orders}}</pre> -->
+
+                                          <div class="col-md-3  d-flex justify-content-start"><img :src="require('@/assets/baxi.png')" width="30"></div><br>
+                                          <div class="col-md-9  d-flex justify-content-end">{{titleCase(outlet_name)}}</div>
+                                          <div class="col-md-12 mt-2">Transaction Ref:</div>
+                                          <div class="col-md-12 h4 mt-1" style="color:grey">{{transaction.orders[0].group_id}}</div>
+                                          <div class="col-md-12 mt-1" style="color:grey"> {{transaction.orders[0].created_at | moment("ddd, Do MMMM 'YY, h:mma") }}</div>
+
+                                        </div>
+                                        <div class="row">
+                                          <table class="table table-borderless caption-top">
+                                            <thead>
+                                            
+                                              <tr style="text-align:center">
+                                                <th scope="col">Product</th>
+                                                <th scope="col">QTY</th>                                        
+                                                <!-- <th scope="col">Price</th> -->
+                                                <th scope="col" width="100">Total</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                                                          
+                                              <tr style="text-align:center" v-for="(product,index) in transaction.orders" :key="index">
+                                                <td>{{product.business_product.product.name}}</td>
+                                                <td scope="row">{{product.qty}}</td>
+                                                <!-- <td scope="row">{{product.amount / product.qty}}</td> -->
+                                                <td scope="row">&#8358; {{numberWithCommas(product.amount)}}</td>
+                                                
+                                                <td>{{status}}</td>
+                                              </tr>
+                                              
+                                            </tbody>
+                                          </table>
+                                          <div class="col-md-12 d-flex justify-content-center mt-2">Grand Total</div>
+                                          <div class="col-md-12 h5 d-flex justify-content-center mt-2"> &#8358; {{numberWithCommas(transaction.amount)}}</div>
+                                          <div class="col-md-12 h5 d-flex justify-content-center mt-5">
+                                            <!-- <button v-if="!transaction.paid && !distributor" type="button" class="btn btn-success" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Pay Now</button> -->
+                                            <button type="button" class="btn btn-dark mr-2" @click="printReceipt(transaction.orders)">Print</button>
+                                            <!-- <button type="button" class="btn btn-warning" @click="generateReport()">Download</button> -->
+                                          </div>
+                                          <div class="col-md-12 mt-3 d-flex justify-content-center"><p>Powered by baxi</p></div><br>
+                                          
+                                        </div>
+                                  </div> 
 
 
                                 </div>
 
 
 
-                                <div class="modal fade" id="order" tabindex="-1" aria-labelledby="order" aria-hidden="true">
-                        <div class="modal-dialog modal-lg modal-dialog-centered">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Transaction Information</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <table class="table caption-top">
-                                    <thead>
-                                      <tr style="text-align:center">
-                                        <th scope="col">#</th>
-                                        <th scope="col">Items</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Size</th>
-                                        <th scope="col">SKU</th>
-                                        <th scope="col">Quantity</th>
+                         
 
-                                        <th scope="col">Total</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr style="text-align:center" v-for="(product,index) in transaction.orders" :key="index">
-                                        <td scope="row">{{index+1}}</td>
-                                        <td scope="row"><img :src="product.business_product.product.public_image_url" style="width:30px;"/>
-                                            {{product.business_product.product.name}}</td>
-                                        <td>&#8358; {{numberWithCommas(product.amount/product.qty)}}</td>
-                                        <td>{{product.business_product.product.size?product.business_product.product.size:''}}</td>
-                                        <td>{{product.business_product.product.sku?product.business_product.product.sku:''}}</td>
-                                        <td>{{product.qty}}</td>
-                                        <td>&#8358; {{numberWithCommas(product.amount)}}</td>
-                                      </tr>
-
-                                    </tbody>
-                                  </table>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                               <button type="button" class="btn btn-primary" @click="printReceipt(transaction_product.orders)">Print</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                                <!-- <div class="mt-5" v-if="!transactions.length && loading" style="text-align:center">
-
-                                      <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
-                                        <span class="sr-only">Loading...</span>
-                                      </div><br>
-                                      Loading...
-
-                                </div> -->
+                              
                                 <Loading v-if="!transactions.length && loading">Loading...</Loading>
                                 
-                                <!-- </div> -->
                             </div>
+
+
 
 
 
@@ -181,98 +191,20 @@
                             </div>
                         </section>
 
-                      <!-- <div class="modal fade" id="order" tabindex="-1" aria-labelledby="order" aria-hidden="true">
-                        <div class="modal-dialog modal-lg modal-dialog-centered">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Transaction Information</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <table class="table caption-top">
-                                    <thead>
-                                      <tr style="text-align:center">
-                                        <th scope="col">#</th>
-                                        <th scope="col"></th>
-                                        <th scope="col">Items</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Size</th>
-                                        <th scope="col">SKU</th>
-                                        <th scope="col">Quantity</th>
+                      
 
-                                        <th scope="col">Total</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr style="text-align:center" v-for="(product,index) in transaction_product.orders" :key="index">
-                                        <th scope="row">{{index+1}}</th>
-                                        <th scope="row"><img :src="product.product.public_image_url" height="50"/></th>
-                                        <td>{{product.product.name}}</td>
-                                        <td>&#8358; {{numberWithCommas(product.amount/product.qty)}}</td>
-                                        <td>{{product.product.size?product.product.size:''}}</td>
-                                        <td>{{product.product.sku?product.product.sku:''}}</td>
-                                        <td>{{product.qty}}</td>
-                                        <td>&#8358; {{numberWithCommas(product.amount)}}</td>
-                                      </tr>
-
-                                    </tbody>
-                                  </table>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-
-                      <div class="modal fade" tabindex="-1" ria-hidden="true" id="printMe">
-                        <table class="table caption-top">
-                                    <thead>
-                                      <tr style="text-align:center">
-                                        <th scope="col">#</th>
-                                        <th scope="col">Items</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Delivery date</th>
-                                        <th scope="col">Total</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-
-                                      <tr style="text-align:center">
-                                        <td>Status</td>
-                                        <th scope="row"></th>
-                                        <th scope="row"></th>
-                                        <th scope="row"></th>
-
-                                        <td>{{status}}</td>
-                                      </tr>
-                                      <tr style="text-align:center">
-                                        <td>Total</td>
-                                        <th scope="row"></th>
-                                        <th scope="row"></th>
-                                        <th scope="row"></th>
-
-                                        <td class="font-weight-bold">&#8358; {{numberWithCommas(total)}}</td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                      </div> -->
-
-
-  <div class="modal fade" id="search" tabindex="-1" role="dialog" aria-labelledby="user" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
-          <span class="login100-form-title p-b-33">Search with date range</span>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="input-group">
-                  <span class="input-group-text" id="basic-addon3">From</span>
-                    <input type="date" v-model="start_date" class="form-control" @change="showDate"/>
-                </div>
-              </div>
+                        <div class="modal fade" id="search" tabindex="-1" role="dialog" aria-labelledby="user" aria-hidden="true">
+                          <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                              <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
+                                <span class="login100-form-title p-b-33">Search with date range</span>
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon3">From</span>
+                                          <input type="date" v-model="start_date" class="form-control" @change="showDate"/>
+                                      </div>
+                                    </div>
                                       <div class="col-md-6">
                                         <div class="input-group">
                                           <span class="input-group-text" id="basic-addon3">To</span>
@@ -284,10 +216,93 @@
                                       <button data-dismiss="modal" class="btn btn-danger btn-block">CLOSE</button>
                                     </div>
 
-        </div>
-      </div>
-    </div>
-  </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
+                         <div class="modal fade" tabindex="-1" aria-hidden="true" id="printMe">
+
+                      <vue-html2pdf
+                        :show-layout="false"
+                        :float-layout="true"
+                        :enable-download="true"
+                        :preview-modal="true"
+                        :paginate-elements-by-height="1200"
+                        filename="baxi_receipt"
+                        :pdf-quality="2"
+                        :manual-pagination="false"
+                        pdf-format="a5"
+                        pdf-orientation="portrait"
+                        pdf-content-width="500px"
+                
+                        @progress="onProgress($event)"
+                        @hasStartedGeneration="hasStartedGeneration()"
+                        @hasGenerated="hasGenerated($event)"
+                        ref="html2Pdf"
+                    >
+                      <section slot="pdf-content">
+                        <div class="row pl-5" style="width:500px;">
+                           <div class="col-md-12  d-flex justify-content-center"><img :src="require('@/assets/baxi.png')" width="50"></div><br>
+                           <div class="col-md-12  d-flex justify-content-center"><h4>{{titleCase(outlet_name)}} Store</h4></div><br>
+                           <div class="col-md-12  d-flex justify-content-center"><h5>Outlet : {{titleCase(outlet_name)}}</h5></div><br>
+                           <div class="col-md-12  d-flex justify-content-center"><h6>Tran Ref {{transaction.order_group_id}}</h6></div><br>
+                           <div v-if="transaction.trans_ref" class="col-md-12 mt-3 d-flex justify-content-center"><h6>Receipt</h6></div><br>
+                           <!-- <div class="row"> -->
+                            <div class="col-md-7 mt-3 d-flex justify-content-start"><h6>Date : {{current_date}}</h6></div>
+                            <div class="col-md-5 mt-3 d-flex justify-content-start"><h6>Time : {{current_time}}</h6></div>
+                            <div class="col-md-12 mt-5 d-flex justify-content-center"><h6>Purchase Details</h6></div>
+                           <!-- </div> -->
+                        
+                          <table class="table caption-top">
+                                      <thead>
+                                      
+                                        <tr style="text-align:center">
+                                          <th scope="col">Product</th>
+                                          <th scope="col">QTY</th>                                        
+                                          <th scope="col">Price</th>
+                                          <th scope="col">Total</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                                                    
+                                        <tr style="text-align:center" v-for="(product,index) in transaction.orders" :key="index">
+                                          <td>{{product.business_product.product.name}}</td>
+                                          <td scope="row">{{product.qty}}</td>
+                                          <td scope="row">{{product.amount / product.qty}}</td>
+                                          <td scope="row">{{product.amount}}</td>
+                                          
+                                          <td>{{status}}</td>
+                                        </tr>
+                                        <tr style="">
+                                          <td>Total</td>
+                                          <th scope="row"></th>
+                                          <th scope="row"></th>
+                                          <!-- <th scope="row">{{transaction.amount}}</th> -->
+                                          
+                                          <td class="font-weight-bold"  width="100">&#8358; {{numberWithCommas(transaction.amount)}}</td>
+                                        </tr>
+                                      </tbody>
+                          </table>
+                          <div class="col-md-12 mt-2 d-flex justify-content-center"><h6>{{transaction.payment_type}} transaction</h6></div><br>
+                          <div class="col-md-12 mt-5 d-flex justify-content-center"><p>Terms & Conditions Apply</p></div><br>
+                          <div class="col-md-12 d-flex justify-content-center"><p>No refund of money after payment</p></div><br>
+                          <div class="col-md-12 d-flex justify-content-center"><p><b>Thank you for your patronage</b></p></div><br>
+                          <div class="col-md-7 mt-2 d-flex justify-content-start"><p>Sales Officer:</p></div>
+                            <div class="col-md-5 mt-2 d-flex justify-content-start"><p>{{name}}</p></div>
+                            <div class="col-md-12 mt-2 d-flex justify-content-center"><p>Powered by baxi</p></div><br>
+                        </div>
+                      </section>
+                    </vue-html2pdf>
+
+
+                      </div>
+
+
+
+
+                       
 
 
 

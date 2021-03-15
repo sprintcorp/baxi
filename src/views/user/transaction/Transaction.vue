@@ -260,51 +260,6 @@
                             </div>
                         </section>
 
-                      <div class="modal fade" id="order" tabindex="-1" aria-labelledby="order" aria-hidden="true">
-                        <div class="modal-dialog modal-lg modal-dialog-centered">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Transaction Information</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <table class="table caption-top">
-                                    <thead>
-                                      <tr style="text-align:center">
-                                        <th scope="col">#</th>
-                                        <th scope="col"></th>
-                                        <th scope="col">Items</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Size</th>
-                                        <th scope="col">SKU</th>
-                                        <th scope="col">Quantity</th>
-                                        
-                                        <th scope="col">Total</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr style="text-align:center" v-for="(product,index) in transaction_product.orders" :key="index">
-                                        <th scope="row">{{index+1}}</th>
-                                        <th scope="row"><img :src="product.product.public_image_url" height="50"/></th>
-                                        <td>{{product.product.name}}</td>
-                                        <td>&#8358; {{numberWithCommas(product.amount/product.qty)}}</td>
-                                        <td>{{product.product.size?product.product.size:''}}</td>
-                                        <td>{{product.product.sku?product.product.sku:''}}</td>
-                                        <td>{{product.qty}}</td>
-                                        <td>&#8358; {{numberWithCommas(product.amount)}}</td>
-                                      </tr>
-                                             
-                                    </tbody>
-                                  </table>
-                            </div>
-                            <div class="modal-footer">
-                              <button v-if="!transaction_product.paid && !distributor" type="button" class="btn btn-success" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Pay Now</button>
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                               <button type="button" v-if="!distributor"  class="btn btn-primary" @click="printReceipt(transaction_product.orders)">Print</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
 
 
 
@@ -442,7 +397,7 @@
                         ref="html2Pdf"
                     >
                       <section slot="pdf-content">
-                        <div class="row p-5" style="width:500px">
+                        <div class="row pl-5" style="width:500px">
                            <div class="col-md-12  d-flex justify-content-center"><img :src="require('@/assets/baxi.png')" width="50"></div><br>
                            <div class="col-md-12  d-flex justify-content-center"><h4>{{titleCase(business_name)}} Store</h4></div><br>
                            <div class="col-md-12  d-flex justify-content-center"><h5>Outlet : {{titleCase(outlet_name)}}</h5></div><br>
@@ -489,7 +444,7 @@
                           <div class="col-md-12 d-flex justify-content-center"><p>No refund of money after payment</p></div><br>
                           <div class="col-md-12 d-flex justify-content-center"><p><b>Thank you for your patronage</b></p></div><br>
                           <div class="col-md-7 mt-2 d-flex justify-content-start"><p>Sales Officer:</p></div>
-                            <div class="col-md-5 mt-2 d-flex justify-content-start"><p>{{business_name}}</p></div>
+                            <div class="col-md-5 mt-2 d-flex justify-content-start"><p>{{user}}</p></div>
                             <div class="col-md-12 mt-2 d-flex justify-content-center"><p>Powered by baxi</p></div><br>
                         </div>
                       </section>
