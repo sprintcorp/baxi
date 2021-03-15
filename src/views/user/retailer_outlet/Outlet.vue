@@ -320,7 +320,7 @@
                     <div class="row">
                       <div class="col-md-7"><strong>PRODUCTS LEFT</strong></div>
                       <!-- <div class="col-md-1">|</div> -->
-                      <div class="col-md-3">10099883</div>
+                      <div class="col-md-3">45</div>
                     </div>
                   </div>                  
                 </div>
@@ -338,7 +338,7 @@
                       <div class="col-md-8">
                         <div><h6 class="m-0"><strong>{{product.product.name}}</strong></h6></div>
                         <!-- <div><p>Product id</p></div> -->
-                        <div>Sold : {{product.count}}</div>
+                        <!-- <div>Sold : {{product.count}}</div> -->
                         <!-- <div><p>Amount Left</p></div> -->
                       </div>
                       <!-- <hr> -->
