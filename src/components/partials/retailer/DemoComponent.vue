@@ -40,9 +40,9 @@
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form> -->
 
-                <div>
-                    <div v-if="!distributor && order_products" class="pull-right mt-3">
-                        <h6 style="font-size:14px;text-align: right"><i class="fa fa-building"></i> {{name}}</h6>
+                <div style="margin-right: 20px;">
+                    <div v-if="!distributor && order_products" class="pull-right mt-2">
+                        <h6 style="font-size:16px;text-align: right"><i class="fa fa-building"></i> <strong>{{name}}</strong></h6>
                         <!-- <h5 style="font-size:18px;">{{name}}</h5> -->
                     </div>
 
@@ -89,9 +89,9 @@
                       <i class="far fa-bell icon-badge-icon" style="color:rgb(90 90 90)"></i>
                         <div class="icon-badge" style="width:7px;height:7px"></div> 
                         <ul class="dropdown-menu dropdown-menu-right" style="width:350px;border:0px;background-color:white">
-                            <li style="margin-bottom:25px;" v-for="(notifications,index) in notification" :key="index">
+                            <li style="margin-bottom:30px;" v-for="(notifications,index) in notification" :key="index">
                                 <router-link :to="{name:'orderInformation',params: { id: notifications.data.order_id }}" href="#" class="top-text-block" style="">
-                                    <div class="top-text-heading notification-style fs-12" style="color:black;line-height:15px"> {{notifications.data.title}}</div>
+                                    <div class="top-text-heading notification-style fs-12" style="color:black;line-height:14px"> {{notifications.data.title}}</div>
                                     <!-- <div class="top-text-light">15 minutes ago</div> -->
                                 </router-link> 
                             </li>
@@ -135,7 +135,7 @@
                 <div class="mr-0 ml-3 mb-1">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <img :src="image" class="rounded-circle border" alt="" width="45" height="45"></a>
+                    <img :src="image" class="rounded-circle border" alt="" width="35" height="35"></a>
                     <ul class="dropdown-menu" style="">
                     <li><a title="" @click="logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
                     <li></li>
@@ -283,14 +283,14 @@ import {BASE_URL} from '../../../env'
 
 <style scoped>
     .active{
-        padding-bottom:50px !important;
+        padding-bottom:30px !important;
         border-bottom: 4px solid rgb(255, 193, 7);
         /* background-color: white; */
         
     }
     a{
         font-family: 'Rubik', Times, serif;
-        font-size: 18px;
+        font-size: 14px;
     }
     li{
         margin-right: 20px;
@@ -309,12 +309,12 @@ import {BASE_URL} from '../../../env'
 }
 
 .icon-badge-container {
-  margin-top: 20px;
+  margin-top: 10px;
   position: relative;
 }
 
 .icon-badge-icon {
-  font-size: 30px;
+  font-size: 25px;
   position: relative;
 }
 

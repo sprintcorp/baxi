@@ -1,13 +1,17 @@
 // import { mapGetters } from "vuex";
 // import { GET_BUSINESS } from "../../../store/action";
 import { getName, getToken, logout } from '../../../config'
-import { BASE_URL } from '../../../env'
+import { BASE_URL } from '../../../env';
+import Loading from "../../../components/Loader.vue";
 import Vue from 'vue';
 
 Vue.use(require('vue-moment'));
 
 export default {
     name: "DashboardComponent",
+    components: {
+        Loading
+      },
     data() {
         return {
             user: null,
@@ -26,7 +30,7 @@ export default {
             outlet_transactions:[],
             total_quantity:0,
             restock_level:[],
-            duration:30,
+            duration:1,
             page:'',
             series: [{
                 data: []
@@ -147,11 +151,12 @@ export default {
                     }
                     this.loading = false;
                     this.outlets = res.data;
-                    this.getOutletTransaction(this.outlets[0].id)
+                    window.localStorage.setItem('retailer_outlet', this.outlets[0].id); 
+                    // this.getOutletTransaction()
                     this.selected_outlet = this.outlets[0].id;
-                    this.getTransaction(this.outlets[0].id);
-                    this.getTopSellingProduct(this.outlets[0].id);
-                    this.getRestockLevel(this.outlets[0].id);
+                    // this.getTransaction(this.outlets[0].id);
+                    // this.getTopSellingProduct(this.outlets[0].id);
+                    // this.getRestockLevel(this.outlets[0].id);
                     
                     // console.log(this.outlets);
                 })
@@ -160,11 +165,11 @@ export default {
                         this.loading = false;
                         if (err.response.status == 401) {
                             this.$swal({
-     title: 'Error',
-     text: "Session Expired",
-     icon: 'error',
-     confirmButtonText: 'ok'
-});
+                                title: 'Error',
+                                text: "Session Expired",
+                                icon: 'error',
+                                confirmButtonText: 'ok'
+                            });
                             logout();
                             this.$router.push({ name: 'welcome' });
                         }
@@ -174,9 +179,16 @@ export default {
         },
         getOutletTransaction(id) {
             // alert(id)
+            var newDate = Date.now() + -parseInt(this.duration)*24*3600*1000;
+            var day = new Date(newDate).getDate().toString();
+            var month = parseInt(new Date(newDate).getMonth().toString()) + 1;
+            var year = new Date(newDate).getFullYear().toString();
+            const mon = month > 9 ? month : '0'+month;
+            const period = year+'-'+mon+'-'+day;
+
             this.total_transaction = 0;
             this.loading = true;
-            fetch(BASE_URL + '/my/outlets/' + id + '/transactions', {
+            fetch(BASE_URL + '/my/outlets/' + id + '/transactions?start_date='+period, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
@@ -208,9 +220,17 @@ export default {
         },
         getPageOutletTransaction(page) {
             // alert(id)
+            this.transactions = [];
+            var newDate = Date.now() + -parseInt(this.duration)*24*3600*1000;
+            var day = new Date(newDate).getDate().toString();
+            var month = parseInt(new Date(newDate).getMonth().toString()) + 1;
+            var year = new Date(newDate).getFullYear().toString();
+            const mon = month > 9 ? month : '0'+month;
+            const period = year+'-'+mon+'-'+day;
+
             this.total_transaction = 0;
             this.loading = true;
-            fetch(page, {
+            fetch(page+'&start_date='+period, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
@@ -266,11 +286,11 @@ export default {
                         this.loading = false;
                         if (err.response.status == 401) {
                             this.$swal({
-     title: 'Error',
-     text: "Session Expired",
-     icon: 'error',
-     confirmButtonText: 'ok'
-});
+                                title: 'Error',
+                                text: "Session Expired",
+                                icon: 'error',
+                                confirmButtonText: 'ok'
+                            });
                             logout();
                             this.$router.push({ name: 'welcome' });
                         }
@@ -312,16 +332,28 @@ export default {
                   if (err.response.status == 401) {
                       this.saving = false;
                       this.$swal({
-     title: 'Error',
-     text: "Session Expired",
-     icon: 'error',
-     confirmButtonText: 'ok'
-});
+                        title: 'Error',
+                        text: "Session Expired",
+                        icon: 'error',
+                        confirmButtonText: 'ok'
+                    });
                       logout();
                       this.$router.push({ name: 'welcome' });
                   }
               });
           },
+        getTransactionDuration(){
+            // var newDate = Date.now() + -parseInt(this.duration)*24*3600*1000;
+            // var day = new Date(newDate).getDate().toString();
+            // var month = parseInt(new Date(newDate).getMonth().toString()) + 1;
+            // var year = new Date(newDate).getFullYear().toString();
+            // const mon = month > 9 ? month : '0'+month;
+            // const period = year+'-'+mon+'-'+day; 
+            // console.log(period)
+            this.transactions = [];
+            this.getOutletTransaction(window.localStorage.getItem('retailer_outlet'));
+            
+        },
         getTransaction(id){
             this.loading = true;
             this.chart = false;
@@ -481,13 +513,15 @@ export default {
     },
 
     mounted() {   
-        this.getOutletTransaction();     
+        this.getOutletTransaction(window.localStorage.getItem('retailer_outlet'));  
+        this.getTransaction(window.localStorage.getItem('retailer_outlet')); 
+        this.getRestockLevel(window.localStorage.getItem('retailer_outlet'));
+        this.getTransaction(window.localStorage.getItem('retailer_outlet'));  
+        this.getTopSellingProduct(window.localStorage.getItem('retailer_outlet'));      
         this.getBusinessOutlets();
-        // this.getUserBusiness();
         
         this.name = getName();
         this.getSecondaryUsers();
-        // this.getTopSellingProduct();
         this.start_date = new Date("2015-08-21").getTime();
         this.end_date = new Date().getTime();
         this.showDate()

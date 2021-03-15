@@ -19,7 +19,7 @@
 
                 <div class="col-md-8 d-flex justify-content-end p-5">
                   <div class="mr-2">
-                    <select class="form-control" v-model="duration" @change="showDate()">
+                    <select class="form-control" v-model="duration" @change="getTransactionDuration()">
                       <!-- <option selected>All</option> -->
                       <option value="1">Today</option>
                       <option value="7">Weekly</option>
@@ -186,7 +186,7 @@
                     </thead>
                     <tbody  v-if="transactions.length && !loading">
 
-                    <tr v-for="(transaction,index) in filterTransactions" :key="index">
+                    <tr v-for="(transaction,index) in transactions" :key="index">
                       <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                       <td>{{ transaction.order_group_id }}</td>
                       <td>&#8358; {{ transaction.amount }}</td>
@@ -203,6 +203,11 @@
                     </tbody>
                   
                   </table>
+                  <div class="card mb-3" v-if="!transactions.length && !loading">
+                    <div class="card-body text-center">
+                      There are no transactions for this outlet at the moment
+                    </div>
+                  </div>
                   <nav aria-label="Page navigation example">
                     <ul class="mb-5 pagination justify-content-center">
                       <li class="page-item mr-1">
@@ -229,19 +234,16 @@
                 </div>
               </div>
 
-             <div v-if="!transactions.length && loading" class="col-md-12 col-sm-6" style="text-align:center">
+             <!-- <div v-if="!transactions.length && loading" class="col-md-12 col-sm-6" style="text-align:center">
                   
                   <div class="spinner-border" style="width: 3rem; height: 3rem;">
                     <span class="sr-only">Loading...</span>
                   </div><br>
                   Loading...
                   
-            </div>
-            <div class="card" v-if="!transactions.length && !loading">
-              <div class="card-body text-center">
-                There are no transactions for this outlet at the moment
-              </div>
-            </div>
+            </div> -->
+            <Loading v-if="!transactions.length && loading">Loading...</Loading>
+            
             </div>
 
             

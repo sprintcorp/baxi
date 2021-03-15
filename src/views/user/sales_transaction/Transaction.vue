@@ -83,6 +83,11 @@
                                       </tbody>
 
                                     </table>
+                                    <div class="card mt-3 mb-3" v-if="!transactions.length && !loading">
+                                      <div class="card-body text-center">
+                                        There are no transaction for this outlet at the moment
+                                      </div>
+                                    </div>
                                     <nav aria-label="Page navigation example">
                                       <ul class="mb-5 pagination justify-content-center">
                                         <li class="page-item mr-1">
@@ -165,11 +170,7 @@
 
                                 </div> -->
                                 <Loading v-if="!transactions.length && loading">Loading...</Loading>
-                                <div class="card mt-5" v-if="!transactions.length && !loading">
-                                  <div class="card-body text-center">
-                                    There are no transaction for this outlet at the moment
-                                  </div>
-                                </div>
+                                
                                 <!-- </div> -->
                             </div>
 
