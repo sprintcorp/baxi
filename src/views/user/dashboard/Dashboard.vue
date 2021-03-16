@@ -235,7 +235,7 @@
                         </div>
                         <!-- End of Add Cart -->
 
-            <div class="col-md-4" v-if="show_cat" style="margin-top:-20px;min-height:20vh;overflow:hidden;position: fixed;right: 0;">
+            <div class="col-md-4" v-if="show_cat" style="margin-top:-20px;min-height:20vh;overflow:hidden;right: 0;">
                 <div class="bg-warning"><h4 class="m-0 p-2">
                     <i class="fa fa-shopping-cart"></i>
                     Cart

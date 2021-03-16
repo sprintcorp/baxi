@@ -70,7 +70,7 @@ export default {
     },
     methods: {
         fetchFees() {
-          fetch(BASE_URL + '/fees', { headers: this.apiHeaders} )
+          fetch(BASE_URL + '/fees', { headers: this.api_headers} )
               .then(response => response.json())
               .then(response => {
                   this.fees = response.data;
@@ -433,6 +433,8 @@ export default {
                 let sum_product = this.cart_order.map(o => parseFloat(o.qty)).reduce((a, c) => { return a + c });
 
                 this.total_with_vat = sum * this.vat/100;
+                console.log('vat', this.vat);
+                console.log('total_vat', this.total_with_vat);
                 this.total = sum;
                 this.total_product = sum_product;
             }
