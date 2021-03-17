@@ -145,7 +145,7 @@ export default {
         moq(){
             this.$swal({
                 title: 'Action Denied',
-                text: "Product quantity cannot be less than minimum order quantity",
+                text: "product order quantity can't less than 5 (minimum order quantity)",
                 icon: 'warning',
                 confirmButtonText: 'ok'
             });

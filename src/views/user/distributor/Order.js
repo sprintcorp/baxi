@@ -86,13 +86,21 @@ export default {
             .then(res => {
                 this.saving = false;
                 console.log(res)
+                if(res.statusCode == 200){
                 this.$swal({
                     title: 'Success',
                     text: res.message,
                     icon: 'success',
                     confirmButtonText: 'ok'
                 });
-                
+                }else{
+                this.$swal({
+                    title: 'Error',
+                    text: 'Error occured',
+                    icon: 'error',
+                    confirmButtonText: 'ok'
+                });
+            }
                 this.getOrders();
                 this.orderInformation();
             })
