@@ -68,6 +68,7 @@ export default {
                 cashier:""
             },
             top_selling:[],
+            product_info:0
         }
     },
     computed: {
@@ -457,6 +458,25 @@ export default {
                 })
                 .catch(err => console.log(err));
         },
+        getProductInfo(id){            
+            fetch(BASE_URL + '/my/outlets/' +id+ '/products/stat', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.message === 'Unauthenticated.') {
+                        console.log(res);
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                   this.product_info = res.data;
+                })
+                .catch(err => console.log(err));
+        },
         sumArray(objArr){
             console.log(objArr.length)
             if(objArr.length > 0){
@@ -508,7 +528,7 @@ export default {
             this.getTopSellingProduct(this.selected_outlet);           
             this.getRestockLevel(this.selected_outlet);           
             this.getOutletTransaction(this.selected_outlet);
-            
+            this.getProductInfo(this.selected_outlet);
         }
         
     },
@@ -520,7 +540,7 @@ export default {
         this.getTransaction(window.localStorage.getItem('retailer_outlet'));  
         this.getTopSellingProduct(window.localStorage.getItem('retailer_outlet'));      
         this.getBusinessOutlets();
-        
+        this.getProductInfo(window.localStorage.getItem('retailer_outlet'));
         this.name = getName();
         this.getSecondaryUsers();
         this.start_date = new Date("2015-08-21").getTime();

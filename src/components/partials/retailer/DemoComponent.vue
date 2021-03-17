@@ -85,7 +85,7 @@
 
                 <!-- <button class="mr-2" v-if="order_products" data-toggle="modal" data-target="#cartModal"><i class="fa fa-shopping-cart fs-25" style="color:#ffc107"></i></button> -->
                 <div class="" v-if="!distributor">
-                    <div class="icon-badge-container top-head-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="icon-badge-container top-head-dropdown" data-toggle="dropdown" title="Notification" aria-haspopup="true" aria-expanded="false">
                       <i class="far fa-bell icon-badge-icon" style="color:rgb(90 90 90)"></i>
                         <div class="icon-badge" style="width:7px;height:7px"></div> 
                         <ul class="dropdown-menu dropdown-menu-right" style="width:350px;border:0px;background-color:white">
@@ -107,7 +107,7 @@
                 </div>
                 
                 <div class="" v-if="distributor">
-                    <div class="icon-badge-container top-head-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="icon-badge-container top-head-dropdown" data-toggle="dropdown" title="Notification" aria-haspopup="true" aria-expanded="false">
                       <i class="far fa-bell icon-badge-icon" style="color:black"></i>
                         <div class="icon-badge" style="width:7px;height:7px"></div> 
                         <ul class="dropdown-menu dropdown-menu-right" style="width:330px;border:0px;background-color:white;align:justify">

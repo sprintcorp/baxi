@@ -320,7 +320,7 @@
                     <div class="row">
                       <div class="col-md-7"><strong>PRODUCTS LEFT</strong></div>
                       <!-- <div class="col-md-1">|</div> -->
-                      <div class="col-md-3">45</div>
+                      <div class="col-md-3">{{product_info.total_products_left}}</div>
                     </div>
                   </div>                  
                 </div>
