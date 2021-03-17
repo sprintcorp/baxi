@@ -78,10 +78,18 @@
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ transaction.order_group_id }}</td>
                                         <td>{{ transaction.payment_type ? transaction.payment_type.toUpperCase() : 'PENDING' }}</td>
-                                        <td>
-                                          {{transaction.customer ? transaction.customer.customer.firstname+' '+transaction.customer.customer.lastname: 'No info'}}<br>
-                                          <span v-if="transaction.customer && transaction.customer.customer.phone">{{transaction.customer.customer.phone}}</span>
+
+                                        <td v-if="transaction.customer &&
+                                                transaction.customer.customer.user_id">
+                                          {{ transaction.customer.customer.user.buid }}
                                         </td>
+
+                                          <td v-if="transaction.customer && !transaction.customer.customer.user_id">
+                                              {{
+                                              transaction.customer ? transaction.customer.customer.firstname+' '+transaction.customer.customer.lastname : 'No info'}}<br>
+                                              <span v-if="transaction.customer && transaction.customer.customer.phone">{{transaction.customer.customer.phone}}</span>
+                                          </td>
+
                                         <td v-if="!transaction.paid && !show_receipt" class="text-danger">Not Paid</td>
                                         <!-- <td v-else class="text-danger">Not Paid</td> -->
                                         <td v-if="!show_receipt">{{transaction.outlet.name}}</td>
