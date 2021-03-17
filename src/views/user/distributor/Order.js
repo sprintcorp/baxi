@@ -39,6 +39,7 @@ export default {
             add_fee:false,
             query:'',
             link:'',
+            statusCode:''
         }
     },
     computed: {
@@ -63,6 +64,7 @@ export default {
             this.getOrders();
         },
         confirmOrder(id){
+            // var statusCode = '';
             this.saving = true;
             const payload = {
                 "status":id,
@@ -82,18 +84,23 @@ export default {
                     'Authorization': getToken()
                 }
             })
-            .then(res => res.json())
+
+            .then(res =>  res.json())
             .then(res => {
+                
+
+
                 this.saving = false;
-                console.log(res)
-                if(res.statusCode == 200){
+                console.log(res.message)
+                if(res.success == true){
                 this.$swal({
                     title: 'Success',
                     text: res.message,
                     icon: 'success',
                     confirmButtonText: 'ok'
                 });
-                }else{
+                }
+                if(res.success == false){
                 this.$swal({
                     title: 'Error',
                     text: 'Error occured',
@@ -106,24 +113,15 @@ export default {
             })
             .catch(err => {
                 this.saving = false;
-                this.$swal({
-                    title: 'Error',
-                    text: err.response.data.message,
-                    icon: 'error',
-                    confirmButtonText: 'ok'
-                });
-                this.getOrders();
+                // this.$swal({
+                //     title: 'Error',
+                //     text: err.data.message,
+                //     icon: 'error',
+                //     confirmButtonText: 'ok'
+                // });
                 console.log(err)
-                if (err.response.status == 401) {
-                    this.$swal({
-                title: 'Error',
-                text: "Session Expired",
-                icon: 'error',
-                confirmButtonText: 'ok'
-            });
-                    logout();
-                    this.$router.push({ name: 'welcome' });
-                }
+                this.getOrders();
+              
             });
         },
         numberWithCommas(x) {

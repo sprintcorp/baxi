@@ -492,7 +492,7 @@
                 </span>
 
                   <button class="btn btn-sm btn-warning mt-2 mr-4 w-25" @click="performPingRequest"><i class="fa fa-search"></i> Recheck</button>
-                  <button class="btn btn-sm btn-danger mt-2 w-25" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                  <button class="btn btn-sm btn-danger mt-2 w-25" data-dismiss="modal"><i class="fa fa-times"></i> Continue Other Operation</button>
               </div>
 
             <span class="text-danger fs-20 m-auto d-block w-75 font-weight-bold" style="border-radius: 550px;" v-if="customerWalletResponse===false">

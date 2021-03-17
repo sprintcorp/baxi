@@ -27,7 +27,7 @@
                                 <div class="row border-2 mt-1">
                                   <div class="col-md-2 mt-2 font-weight-bold" style="">
                                     <!-- {{distributor}} -->
-                                    <span class="link-line" v-if="!distributor">Complete Transactions</span>
+                                    <span class="link-line" v-if="!distributor">Complete</span>
                                     
                                     <router-link :to="{name:'distributorSalesTransaction'}" v-if="distributor" class="top-text-block" style="color:black;text-decoration:none">Sales Transaction</router-link>
                                   </div>

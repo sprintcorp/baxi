@@ -25,9 +25,9 @@
                           <div class="row">
                             <div class="col-md-12" v-if="transaction_tab">
                                 <div class="row border-2 mt-1">
-                                  <div class="col-md-2 mt-2 font-weight-bold" style="">
+                                  <div class="col-md-1 mt-2 font-weight-bold" style="">
                                     <!-- {{distributor}} -->
-                                    <router-link :to="{name:'transactionOverview'}" class="top-text-block" v-if="!distributor" style="color:black;text-decoration:none">Complete Transactions</router-link>
+                                    <router-link :to="{name:'transactionOverview'}" class="top-text-block" v-if="!distributor" style="color:black;text-decoration:none">Complete</router-link>
                                     
                                     
                                     <router-link :to="{name:'distributorSalesTransaction'}" v-if="distributor" class="top-text-block" style="color:black;text-decoration:none">Sales Transaction</router-link>
@@ -40,7 +40,7 @@
                                       <!-- <router-link :to="{name:'distributorSalesTransaction'}" v-if="!distributor" class="top-text-block" style="color:black;text-decoration:none">Incomplete Transactions</router-link> -->
                                     </div>
                                     <div class="col-md-2 mt-2 font-weight-bold" v-if="!distributor"> 
-                                      <span class="link-line" >Incomplete Transactions</span>
+                                      <span class="link-line" >Incomplete</span>
                                     </div>
                                   
                                   <div class="col-md-4 d-flex justify-content-end">
@@ -90,7 +90,10 @@
                                               <span v-if="transaction.customer && transaction.customer.customer.phone">{{transaction.customer.customer.phone}}</span>
                                           </td>
 
-                                        <td v-if="!transaction.paid && !show_receipt" class="text-danger">Not Paid</td>
+                                        <td >
+                                            <span v-if="transaction.paid==0" class="text-muted">Pending</span>
+                                            <span v-if="transaction.paid==-1" class="text-danger">Declined</span>
+                                        </td>
                                         <!-- <td v-else class="text-danger">Not Paid</td> -->
                                         <td v-if="!show_receipt">{{transaction.outlet.name}}</td>
                                         <td>
@@ -231,9 +234,24 @@
                                     </table>
                                      <div class="col-md-12 d-flex justify-content-center mt-2">Grand Total</div>
                                      <div class="col-md-12 h5 d-flex justify-content-center mt-2"> &#8358; {{numberWithCommas(transaction_product.amount)}}</div>
+
+                                     <h4 class="text-center m-auto">
+                                         <span v-if="transaction_product.paid==0" class="text-muted">Not Paid</span>
+                                         <span v-if="transaction_product.paid==1" class="text-success">Paid</span>
+                                         <span v-if="transaction_product.paid==-1" class="text-danger">Declined</span>
+                                     </h4>
+
+
+
                                      <div class="col-md-12 h5 d-flex justify-content-center mt-5">
-                                       <button v-if="!transaction_product.paid && !distributor" type="button" class="btn btn-success mr-2" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Pay Now</button>
-                                       <button type="button" v-if="!distributor"  class="btn btn-dark" @click="printReceipt(transaction_product.orders)">Print</button>
+                                       <div v-if="!transaction_product.paid">
+                                           <button @click="performPingRequest(transaction_product.order_group_id)" class="btn btn-primary">Check</button>
+                                       </div>
+
+                                        <div v-else>
+                                            <button v-if="!transaction_product.paid && !distributor" type="button" class="btn btn-success mr-2" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Pay Now</button>
+                                            <button type="button" v-if="!distributor"  class="btn btn-dark" @click="printReceipt(transaction_product.orders)">Print</button>
+                                        </div>
                                      </div>
                                      <div class="col-md-12 mt-3 d-flex justify-content-center"><p>Powered by baxi</p></div><br>
                                      

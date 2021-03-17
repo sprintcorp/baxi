@@ -64,9 +64,9 @@ export default {
         // }
     },
     methods: {
-        performPingRequest () {
+        performPingRequest (order_id = null) {
             // ping the api via backend
-            let url = "/user/order-payment/"+this.last_order_id+"/ping-response";
+            let url = "/user/order-payment/"+order_id+"/ping-response";
 
             fetch(BASE_URL + url, {
                 method: 'GET',
