@@ -205,6 +205,7 @@ export default {
             this.transaction_product = transaction;
         },
         getProductCategories() {
+            this.results = [];
             this.loading = true
             this.cat = true
             this.show_cat = false;
@@ -221,7 +222,23 @@ export default {
                         logout();
                         this.$router.push({ name: 'welcome' });
                     }
-                    this.results = res.data
+                    // this.results = res.data
+                    res.data.forEach((data) => {
+                        this.results.push({
+                            product_id: data.id,
+                            name: data.name,
+                            // amount: data.price > 0 ? parseInt(data.price) : parseInt(data.product.recommended_price),
+                            // sell_price: data.price > 0 ? parseInt(data.price) : parseInt(data.product.recommended_price),
+                            // quantity: data.qty,
+                            // size: data.product.size,
+                            public_image_url: data.public_image_url?data.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
+                            // qty: data.qty,
+                            sku: data.uid,
+                            // date:data.product.created_at,
+
+
+                        });
+                    });
                     this.loading = false;
                 })
                 .catch(err => console.log(err));
@@ -662,7 +679,7 @@ export default {
                         }
                         console.log(res.data.data);
                         this.loading = false;
-                        this.products = res.data;
+                        this.products = res.data.results.data;
                         this.products.forEach((data) => {
                             this.results.push({
                                 product_id: data.product.id,

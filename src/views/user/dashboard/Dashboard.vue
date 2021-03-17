@@ -65,7 +65,7 @@
               </select>
             </div>
           </div>
-            <!-- <pre>{{show_cat}}</pre> -->
+            <!-- <pre>{{filerResult}}</pre> -->
           <div class="row">
            
             <div :class="[!show_cat ?  'col-md-12' : 'col-md-8']">
@@ -73,7 +73,7 @@
                             <div class="row p-3" v-if="cat" style="background-color:#dee2e645;margin-top:-20px">
                                 <div class="col-md-2" v-for="(category,index) in filerResult" :key="index">
                                     <!-- <router-link :to="{name:'categoryVendor',params: { id: category.id }}"> -->
-                                    <div class="card p-2" style="height:13rem;background-color:#ffc107;border:0px;width:12rem" @click="getCategoryProduct(category.id)">
+                                    <div class="card p-2" style="height:13rem;background-color:#ffc107;border:0px;width:12rem" @click="getCategoryProduct(category.product_id)">
                                         <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                         <div class="card-body">
                                         <div class="text-center mt-3"><img :src="category.public_image_url" class="rounded-circle" alt="" width="70" height="70"/></div>
