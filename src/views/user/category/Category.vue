@@ -52,11 +52,11 @@
                             <div :class="[!show_cart ? 'col-md-12' : 'col-md-8']" style="">
                                 <div class="row">
                                     <div :class="[!show_cart ? 'col-md-4 d-flex justify-content-center' : 'col-md-6 d-flex justify-content-center']" v-for="(product,index) in list_products" :key="index">
-                                        <div class="card p-2" style="width: 25rem;height:8rem;border-radius:0px">
+                                        <div class="card p-2" style="width: 100%;border-radius:0px">
                                             <!-- <div class=""> -->
                                                 <div class="row g-0">
                                                 <div class="col-md-2 mr-2"><img :src="product.image" class="rounded-circle" alt="" width="70" height="70"/></div>
-                                                <div class="col-md-7">
+                                                <div class="col-md-7" style="height:80%">
                                                     <p class="fs-14 font-weight-bold text-black"> {{product.name.length > 22 ? product.name.substr(0, 22)+'...' : product.name}}</p>
                                                     <p class="fs-12 font-weight-bold text-black" style="margin-top:-20px">{{product.size}}</p>
                                                     <p class="fs-12 font-weight-bold text-black" style="margin-top:-5px"> &#8358; {{ numberWithCommas(product.price) }}.00</p>
@@ -88,7 +88,7 @@
                                 <div class="row" style="margin-top:-15px">
                                     <div style="margin-top:-15px" class="col-md-12 d-flex justify-content-center" v-for="(carts,index) in cart_order" :key="index">
                                             
-                                            <div class="card p-2" style="width:100%;height:6.5rem;border-radius:0px">
+                                            <div class="card p-2" style="width:10   0%;height:6.5rem;border-radius:0px">
                                                 <!-- hello -->
                                                 <div class="row g-0">
                                                 <div class="col-md-3 mt-2"><img :src="carts.image" class="rounded-circle" alt="" width="70" height="70"/></div>
