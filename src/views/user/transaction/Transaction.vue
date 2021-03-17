@@ -127,7 +127,7 @@
                                       <tr style="text-align:center">
                                         <th>S/N</th>
                                         <th>Transaction Ref</th>
-                                        <th>Type</th>
+                                        <th>Delivery Type</th>
                                         <th>Date</th>
                                         <th>No of Items</th>
                                         <th>Amount</th>
