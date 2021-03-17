@@ -52,7 +52,7 @@
                             <div :class="[!show_cart ? 'col-md-12' : 'col-md-8']" style="">
                                 <div class="row">
                                     <div :class="[!show_cart ? 'col-md-4 d-flex justify-content-center' : 'col-md-6 d-flex justify-content-center']" v-for="(product,index) in list_products" :key="index">
-                                        <div class="card p-2" style="width: 100%;border-radius:0px">
+                                        <div class="card p-2" style="width: 100%;height:70%;border-radius:0px">
                                             <!-- <div class=""> -->
                                                 <div class="row g-0">
                                                 <div class="col-md-2 mr-2"><img :src="product.image" class="rounded-circle" alt="" width="70" height="70"/></div>
