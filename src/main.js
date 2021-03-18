@@ -10,7 +10,7 @@ import JsonCSV from 'vue-json-csv';
 import Toasted from 'vue-toasted';
 import '@fortawesome/fontawesome-free/css/all.css';
 import '@fortawesome/fontawesome-free/js/all.js';
-import TrendChart from "vue-trend-chart";
+// import TrendChart from "vue-trend-chart";
 // import ApexCharts from 'apexcharts';
 import VueApexCharts from 'vue-apexcharts';
 import VueHtmlToPaper from 'vue-html-to-paper';
@@ -46,7 +46,7 @@ Vue.use(VueSweetalert2, option);
 Vue.use(VueApexCharts)
 Vue.use(VueHtmlToPaper, options);
 Vue.component('apexchart', VueApexCharts)
-Vue.use(TrendChart);
+// Vue.use(TrendChart);
 Vue.use(Toasted)
 Vue.component('downloadCsv', JsonCSV)
 // Vue.use(VueSweetalert2);

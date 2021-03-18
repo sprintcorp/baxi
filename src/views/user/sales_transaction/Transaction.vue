@@ -182,6 +182,12 @@
                                 
                             </div>
 
+                            <div class="card mt-5" v-if="!transactions.length && !loading">
+                                  <div class="card-body text-center">
+                                    There are no sales transaction at the moment
+                                  </div>
+                                </div>
+
 
 
 
