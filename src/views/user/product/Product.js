@@ -769,7 +769,7 @@ export default {
             }
         },
         getCategories() {
-            this.loading = true;
+            // this.loading = true;
             fetch(BASE_URL + '/my/product_categories', {
                     headers: {
                         'Content-Type': 'application/json',
@@ -944,6 +944,7 @@ export default {
     mounted() {
         // this.getSystemProducts();
         this.userPermission();
+        this.getProducts();
         this.create_product = checkUserPermission('create products');
         // this.distributor = checkUserPermission('distributor');
         if(getRole() == 'Distributor'){
@@ -951,7 +952,7 @@ export default {
         }
         // this.business_id = window.localStorage.getItem("retailer_business");
         this.name = getName();
-        this.getProducts();
+        
         this.getCategories();
         this.outlet = getOutlet();
         this.start_date = new Date("2015-08-21").getTime();

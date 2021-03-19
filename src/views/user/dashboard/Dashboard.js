@@ -807,7 +807,8 @@ export default {
             this.show_cat = false;
             this.cart_order = [];
         },
-        saveOrder(type) {
+        
+        saveOrder(type,save = 0) {
             this.saving = true;
             this.loading = true;
 
@@ -827,6 +828,11 @@ export default {
                 "customer":this.customer,
                 "payment_type":type,
                 "outlet_id": checkUserPermission('order products') === true ? window.localStorage.getItem("retailer_outlet") : window.localStorage.getItem("cashier_outlet")
+            }
+            if(save == 1){
+                var message = 'Order successfully saved'
+            }else{
+                message = 'Payment successful'
             }
 
 
@@ -848,7 +854,7 @@ export default {
                         } else {
                             this.$swal({
                                 title: 'Success',
-                                text: 'Payment successful',
+                                text: message,
                                 icon: 'success',
                                 confirmButtonText: 'ok'
                             });
@@ -947,6 +953,7 @@ export default {
 
     created() {
         // get fees
+        this.getProducts();
         this.fetchFees();
 
         if (!this.distributor && JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length > 0) {
@@ -968,7 +975,7 @@ export default {
         this.userPermission();
         this.checkPermission();
         this.checkColumn();
-        this.getProducts();
+        
         this.username = getName();
         this.start_date = new Date("2015-08-21").getTime();
         this.end_date = new Date().getTime();

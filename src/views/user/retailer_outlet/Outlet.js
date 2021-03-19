@@ -135,7 +135,7 @@ export default {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
         getBusinessOutlets() {
-            this.loading = true;
+            // this.loading = true;
             fetch(BASE_URL + '/my/businesses/' + this.$route.params.id + '/outlets ', {
                     headers: {
                         'Content-Type': 'application/json',
@@ -262,7 +262,7 @@ export default {
                 );
         },
         getSecondaryUsers(){
-            this.loading = true;
+            // this.loading = true;
             fetch(BASE_URL + '/user/'+window.localStorage.getItem('name') +'/secondary-users', {
                     headers: {
                         'Content-Type': 'application/json',
@@ -356,7 +356,7 @@ export default {
             
         },
         getTransaction(id){
-            this.loading = true;
+            // this.loading = true;
             this.chart = false;
             this.outlet_transactions = [];
             fetch(BASE_URL + '/my/retailer/orders?outlet_id='+id, {
@@ -537,7 +537,7 @@ export default {
         this.getOutletTransaction(window.localStorage.getItem('retailer_outlet'));  
         this.getTransaction(window.localStorage.getItem('retailer_outlet')); 
         this.getRestockLevel(window.localStorage.getItem('retailer_outlet'));
-        this.getTransaction(window.localStorage.getItem('retailer_outlet'));  
+        // this.getTransaction(window.localStorage.getItem('retailer_outlet'));  
         this.getTopSellingProduct(window.localStorage.getItem('retailer_outlet'));      
         this.getBusinessOutlets();
         this.getProductInfo(window.localStorage.getItem('retailer_outlet'));

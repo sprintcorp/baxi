@@ -327,7 +327,8 @@ export default {
 
     mounted() {
         // this.distributor = checkUserPermission('distributor');
-        
+        this.current_date = new Date().toISOString().slice(0,10);
+        this.current_time = new Date(new Date().getTime() + 60*60).toLocaleTimeString();
         if(checkUserPermission('distributor')){
             // alert(true)
             this.getDistributorTransactions()
@@ -346,8 +347,7 @@ export default {
         this.end_date = new Date().getTime();
         this.business_name = getName();
         this.outlet_name = JSON.parse(window.localStorage.getItem("outlet_name"))
-        this.current_date = new Date().toISOString().slice(0,10);
-        this.current_time = new Date(new Date().getTime() + 60*60).toLocaleTimeString();
+        
         // alert(this.distributor);
     },
 }

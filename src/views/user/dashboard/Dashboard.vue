@@ -359,7 +359,7 @@
                 </div>
                 
                 <div class="modal-body">
-                    <form action="#" @submit.prevent="saveOrder()">
+                    <form action="#" @submit.prevent="saveOrder('',1)">
                         <div class="row">
                             <div class="col-md-12 mt-3">
                                 <input type="text" v-model="customer.baxi_username" placeholder="customer username" class="form-control">
@@ -420,7 +420,7 @@
                 <div class="card-body text-center" style="padding: 0 !important;color:#ccc;">
                    <div class="nav-link">
                        <span class="d-block">Wallet</span>
-                       <small><em>Coming Soon...</em></small>
+                       <small><em></em></small>
                      </div> 
                 </div>
           </div>
@@ -492,7 +492,7 @@
                 </span>
 
                   <button class="btn btn-sm btn-warning mt-2 mr-4 w-25" @click="performPingRequest"><i class="fa fa-search"></i> Recheck</button>
-                  <button class="btn btn-sm btn-danger mt-2 w-25" data-dismiss="modal"><i class="fa fa-times"></i> Continue Other Operation</button>
+                  <button class="btn btn-sm btn-danger mt-2 w-25" data-dismiss="modal"><i class="fa fa-times"></i> Check Later</button>
               </div>
 
             <span class="text-danger fs-20 m-auto d-block w-75 font-weight-bold" style="border-radius: 550px;" v-if="customerWalletResponse===false">
@@ -515,7 +515,7 @@
                   <input type="text" v-model="customer.baxi_username" placeholder="Baxi Username" class="form-control">
               </div>
               <!-- <button class="btn btn-outline-secondary rounded-pill">Account ID: RST12345</button> <br> -->
-              <button class="btn btn-warning rounded-pill mt-4" @click="saveOrder('wallet')">Continue</button>
+              <button class="btn btn-warning rounded-pill mt-4" data-dismiss="modal" @click="saveOrder('wallet')">Continue</button>
           </div>
       </div>
 

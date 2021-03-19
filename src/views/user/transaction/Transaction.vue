@@ -27,7 +27,7 @@
                                 <div class="row border-2 mt-1">
                                   <div class="col-md-2 mt-2 font-weight-bold" style="">
                                     <!-- {{distributor}} -->
-                                    <span class="link-line" v-if="!distributor">Complete</span>
+                                    <span class="link-line" v-if="!distributor">Complete Transaction</span>
                                     
                                     <router-link :to="{name:'distributorSalesTransaction'}" v-if="distributor" class="top-text-block" style="color:black;text-decoration:none">Sales Transaction</router-link>
                                   </div>
@@ -222,6 +222,7 @@
                                         
                                       </tbody>
                                     </table>
+                                   
                                      <div class="col-md-12 d-flex justify-content-center mt-2">Grand Total</div>
                                      <div class="col-md-12 h5 d-flex justify-content-center mt-2"> &#8358; {{numberWithCommas(transaction_product.amount)}}</div>
                                      <div class="col-md-12 h5 d-flex justify-content-center mt-5">
@@ -354,7 +355,8 @@
                                       <br>Please wait
                                   </span>
 
-                                  <button class="btn btn-sm btn-warning mt-2" @click="performPingRequest">Recheck</button>
+                                  <button class="btn btn-sm btn-warning mt-2 w-25" @click="performPingRequest">Recheck</button>
+                                    <button class="btn btn-sm btn-danger mt-2 w-25" data-dismiss="modal"><i class="fa fa-times"></i> Check Later</button>
                                 </div>
 
                                 <span class="text-danger fs-20 m-auto d-block w-75 font-weight-bold" style="border-radius: 550px;" v-if="customerWalletResponse===false">
@@ -399,8 +401,8 @@
                       <section slot="pdf-content">
                         <div class="row pl-5" style="width:500px">
                            <div class="col-md-12  d-flex justify-content-center"><img :src="require('@/assets/baxi.png')" width="50"></div><br>
-                           <div class="col-md-12  d-flex justify-content-center"><h4>{{titleCase(business_name)}} Store</h4></div><br>
-                           <div class="col-md-12  d-flex justify-content-center"><h5>Outlet : {{titleCase(outlet_name)}}</h5></div><br>
+                           <div class="col-md-12  d-flex justify-content-center" v-if="!this.distributor"><h4>{{titleCase(business_name)}} Store</h4></div><br>
+                           <div class="col-md-12  d-flex justify-content-center" v-if="!this.distributor"><h5>Outlet : {{titleCase(outlet_name)}}</h5></div><br>
                            <div class="col-md-12  d-flex justify-content-center"><h6>Tran Ref {{transaction_product.order_group_id}}</h6></div><br>
                            <div v-if="transaction_product.trans_ref" class="col-md-12 mt-3 d-flex justify-content-center"><h6>Receipt</h6></div><br>
                            <!-- <div class="row"> -->
@@ -439,7 +441,8 @@
                                         </tr>
                                       </tbody>
                           </table>
-                          <div class="col-md-12 mt-2 d-flex justify-content-center"><h6>{{transaction_product.payment_type}} transaction</h6></div><br>
+                          <div class="col-md-12 mt-2 d-flex justify-content-center" v-if="!this.distributor"><h6>{{transaction_product.payment_type}} transaction</h6></div><br>
+                          <div class="col-md-12 mt-2 d-flex justify-content-center" v-if="this.distributor"><h6>Delivery type: {{transaction_product.delivery_type}}</h6></div><br>
                           <div class="col-md-12 mt-5 d-flex justify-content-center"><p>Terms & Conditions Apply</p></div><br>
                           <div class="col-md-12 d-flex justify-content-center"><p>No refund of money after payment</p></div><br>
                           <div class="col-md-12 d-flex justify-content-center"><p><b>Thank you for your patronage</b></p></div><br>

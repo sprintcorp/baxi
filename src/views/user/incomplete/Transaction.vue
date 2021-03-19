@@ -84,7 +84,8 @@
                                           {{ transaction.customer.customer.user.buid }}
                                         </td>
 
-                                          <td v-if="transaction.customer && !transaction.customer.customer.user_id">
+                                          <!-- <td v-if="transaction.customer && !transaction.customer.customer.user_id"> -->
+                                            <td>
                                               {{
                                               transaction.customer ? transaction.customer.customer.firstname+' '+transaction.customer.customer.lastname : 'No info'}}<br>
                                               <span v-if="transaction.customer && transaction.customer.customer.phone">{{transaction.customer.customer.phone}}</span>
@@ -244,11 +245,9 @@
 
 
                                      <div class="col-md-12 h5 d-flex justify-content-center mt-5">
-                                       <div v-if="!transaction_product.paid">
-                                           <button @click="performPingRequest(transaction_product.order_group_id)" class="btn btn-primary">Check</button>
-                                       </div>
-
-                                        <div v-else>
+                                       <div>
+                                           <button @click="performPingRequest(transaction_product.order_group_id)" v-if="!transaction_product.paid" class="btn btn-primary mr-2">Check</button>
+                                       
                                             <button v-if="!transaction_product.paid && !distributor" type="button" class="btn btn-success mr-2" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Pay Now</button>
                                             <button type="button" v-if="!distributor"  class="btn btn-dark" @click="printReceipt(transaction_product.orders)">Print</button>
                                         </div>
@@ -423,7 +422,8 @@
                                       <br>Please wait
                                   </span>
 
-                                  <button class="btn btn-sm btn-warning mt-2" @click="performPingRequest">Recheck</button>
+                                  <button class="btn btn-sm btn-warning mt-2 mr-4" @click="performPingRequest">Recheck</button>
+
                                 </div>
 
                                 <span class="text-danger fs-20 m-auto d-block w-75 font-weight-bold" style="border-radius: 550px;" v-if="customerWalletResponse===false">

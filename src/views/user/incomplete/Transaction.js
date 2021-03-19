@@ -283,6 +283,7 @@ export default {
                                 icon: 'success',
                                 confirmButtonText: 'ok'
                             });
+                            this.closeReceipt();
                         }
                     } else {
                         this.$swal({

@@ -441,8 +441,7 @@ export default {
                 });
         },
     },
-    mounted() {
-        
+    mounted() {        
         this.getProductCategories();
         this.getNotification();
         this.wallet =  window.localStorage.getItem('wallet-balance');
