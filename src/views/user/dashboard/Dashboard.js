@@ -113,6 +113,7 @@ export default {
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
         addToCart(product,index){
+            console.log('prod', product);
             this.product = product;
             this.key = index
             console.log(this.key)
@@ -294,25 +295,22 @@ export default {
                     this.loading = false;
                     })
                     .catch(err => {
-                            console.log(err)
-                            this.loading = false;
-                            if (err.response.status == 401) {
-                                this.$swal({
-                title: 'Error',
-                text: "Session Expired",
-                icon: 'error',
-                confirmButtonText: 'ok'
-            });
-                                logout();
-                                this.$router.push({ name: 'welcome' });
-                            }
+                        console.log(err)
+                        this.loading = false;
+                        if (err.response.status == 401) {
+                            this.$swal({
+                                title: 'Error',
+                                text: "Session Expired",
+                                icon: 'error',
+                                confirmButtonText: 'ok'
+                            });
+                            logout();
+                            this.$router.push({ name: 'welcome' });
                         }
-
-                    );
-                
+                    }
+                );
             }
             if(checkUserPermission('order products') == true && getRole() !== 'Distributor'){
-
                 this.results = [];
                 this.loading = true;
                 this.cat = false
@@ -342,7 +340,7 @@ export default {
                         console.log(this.products);
                         this.products.forEach((data) => {
                             this.results.push({
-                                product_id: data.product.id,
+                                product_id: data.id,
                                 name: data.product.name,
                                 amount: data.price > 0 ? parseInt(data.price) : parseInt(data.product.recommended_price),
                                 sell_price: data.price > 0 ? parseInt(data.price) : parseInt(data.product.recommended_price),
@@ -376,7 +374,7 @@ export default {
                     );
             }
 
-            if(getRole() == 'Distributor'){
+            if(getRole() == 'Distributor') {
                 this.results = [];
                 this.distributor = true;
                 this.cat = false;
@@ -387,22 +385,22 @@ export default {
                         'Authorization': getToken()
                     }
                 })
-            .then(res => res.json())
-            .then(res => {
-                if (res.message === 'Unauthenticated.') {
-                    this.$swal({
-                title: 'Error',
-                text: "Session Expired",
-                icon: 'error',
-                confirmButtonText: 'ok'
-            });
-                    console.log(res);
-                    logout();
-                    this.$router.push({ name: 'welcome' });
-                }
-                this.loading = false;
-                this.products = res.data.data;
-                this.products.forEach((data) => {
+                .then(res => res.json())
+                .then(res => {
+                    if (res.message === 'Unauthenticated.') {
+                        this.$swal({
+                            title: 'Error',
+                            text: "Session Expired",
+                            icon: 'error',
+                            confirmButtonText: 'ok'
+                        });
+                        console.log(res);
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                    this.loading = false;
+                    this.products = res.data.data;
+                    this.products.forEach((data) => {
                     this.results.push({
                         product_id: data.id,
                         name: data.product.name,
@@ -953,6 +951,8 @@ export default {
 
     created() {
         // get fees
+        this.userPermission();
+        this.checkPermission();
         this.getProducts();
         this.fetchFees();
 
@@ -972,8 +972,7 @@ export default {
             this.getOrderNotification();
         // }
         this.getBalance();
-        this.userPermission();
-        this.checkPermission();
+        
         this.checkColumn();
         
         this.username = getName();

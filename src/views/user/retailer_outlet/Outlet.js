@@ -423,16 +423,7 @@ export default {
             .catch(err => {
                     console.log(err)
                     this.loading = false;
-                    if (err.response.status == 401) {
-                        this.$swal({
-     title: 'Error',
-     text: "Session Expired",
-     icon: 'error',
-     confirmButtonText: 'ok'
-});
-                        logout();
-                        this.$router.push({ name: 'welcome' });
-                    }
+                    
                 }
 
             );

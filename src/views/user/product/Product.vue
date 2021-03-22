@@ -66,6 +66,7 @@
                                   </div>
 
                                 </div>
+                                <!-- {{local_product}} -->
                                   <div class="row">
                                   <div class="table-responsive mt-5" v-if="local_product.length && !loading">
                                     <table class="table table-striped">
@@ -73,12 +74,13 @@
                                       <tr>
                                         <th>S/N</th>
                                         <th>Products</th>
-                                        <th>Products ID</th>
+<!--                                        <th>Products ID</th>-->
                                         <th>Category</th>
-                                        <th>Size</th>
-                                        <th>Quantity</th>                                                                              
-                                        <th>Amount</th>
-                                        <th>Date</th> 
+<!--                                        <th>Size</th>-->
+                                        <th>Qty (Left)</th>
+                                        <th>Sold (Units)</th>
+                                        <th>Sold (Amount)</th>
+                                        <th>Price</th>
                                         <th v-if="create_product || distributor">Action</th> 
                                         <!-- <th>Numbers</th> -->
                                       </tr>
@@ -87,13 +89,27 @@
 
                                       <tr v-for="(product,index) in filerProducts" :key="index">
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
-                                        <td>{{ product.name }}</td>
-                                        <td>{{ product.sku }}</td>
+                                        <td>
+                                          <div class="pull-left" style="width:50px;padding:10px">
+                                            <img :src="product.public_image_url" style="width:100%" />
+                                          </div>
+                                          <div class="pull-left">
+                                            <strong class="fs-16">
+                                              {{ product.name }}
+                                              <span v-if="product.size">({{product.size}})</span>
+                                            </strong><br>
+                                            <small>SKU: {{product.sku}}</small>
+                                          </div>
+                                          <div class="clearfix"></div>
+                                        </td>
+<!--                                        <td>{{ product.sku }}</td>-->
                                         <td>{{product.category != '' ? product.category :'No Category'}}</td>
-                                        <td>{{product.size}}</td>
+<!--                                        <td>{{product.size}}</td>-->
                                         <td>{{ product.outlet_qty}}</td>                                        
+                                        <td>{{ product.sales}}</td>
+                                        <td>₦{{ numberWithCommas(product.sales_amount)}}.00</td>
                                         <td>₦{{ numberWithCommas(product.recommended_price) }}</td>
-                                        <td>{{product.date | moment("ddd, Do MMMM 'YY, h:mma") }}</td>
+<!--                                        <td>{{product.date | moment("ddd, Do MMMM 'YY, h:mma") }}</td>-->
                                         <td v-if="create_product || distributor">
                                           <button v-if="create_product" @click="editRetailerProduct(product)" data-toggle="modal" data-target="#editProduct" title="Edit Product"><i class="fa fa-edit"></i></button>
                                           <button @click="editRetailerProduct(product)" data-toggle="modal" data-target="#updateQuantity" title="Update Stock"><i class="fa fa-arrow-up"></i></button>

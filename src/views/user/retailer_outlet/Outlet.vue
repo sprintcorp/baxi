@@ -334,9 +334,9 @@
 
                   <div class="col-md-12" v-if="top_selling.length > 0">
                     <div class="row mb-3" v-for="(product,index) in top_selling" :key="index">
-                      <div class="col-md-4 text-center"><img :src="product.product.public_image_url" alt="" style="height:70px"></div>
+                      <div class="col-md-4 text-center"><img :src="product.outlet_product.product.public_image_url" alt="" style="height:70px"></div>
                       <div class="col-md-8">
-                        <div><h6 class="m-0"><strong>{{product.product.name}}</strong></h6></div>
+                        <div><h6 class="m-0"><strong>{{product.outlet_product.  product.name}}</strong></h6></div>
                         <!-- <div><p>Product id</p></div> -->
                         <!-- <div>Sold : {{product.count}}</div> -->
                         <!-- <div><p>Amount Left</p></div> -->

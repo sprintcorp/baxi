@@ -212,7 +212,7 @@
                                       <tbody>
                                                                     
                                         <tr style="text-align:center" v-for="(product,index) in transaction_product.orders" :key="index">
-                                          <td>{{product.product.name}}</td>
+                                          <td>{{product.outlet_product.product.name}}</td>
                                           <td scope="row">{{product.qty}}</td>
                                           <!-- <td scope="row">{{product.amount / product.qty}}</td> -->
                                           <td scope="row">&#8358; {{numberWithCommas(product.amount)}}</td>
@@ -424,7 +424,7 @@
                                       <tbody>
                                                                     
                                         <tr style="text-align:center" v-for="(product,index) in transaction_product.orders" :key="index">
-                                          <td>{{product.product.name}}</td>
+                                          <td>{{product.outlet_product.product.name}}</td>
                                           <td scope="row">{{product.qty}}</td>
                                           <td scope="row">{{product.amount / product.qty}}</td>
                                           <td scope="row">{{product.amount}}</td>
