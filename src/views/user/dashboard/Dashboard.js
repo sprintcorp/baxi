@@ -951,9 +951,10 @@ export default {
 
     created() {
         // get fees
-        this.userPermission();
+        
         this.checkPermission();
         this.getProducts();
+        this.userPermission();
         this.fetchFees();
 
         if (!this.distributor && JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length > 0) {
