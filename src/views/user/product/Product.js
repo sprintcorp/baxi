@@ -541,6 +541,7 @@ export default {
                         // console.log(this.products);
                         this.products.forEach((data) => {
                             this.local_product.push({
+                                sales_stat: data.sales_stat,
                                 product_id: data.product.id,
                                 name: data.product.name,
                                 recommended_price: parseInt(data.pack_price),

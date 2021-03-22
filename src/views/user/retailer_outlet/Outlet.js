@@ -376,10 +376,11 @@ export default {
                     this.loading = false;
                     res.data.forEach((data)=>{
                         this.outlet_transactions.push({
-                            product:data.product.name,
+                            product:data.outlet_product.product.name,
                             quantity:data.qty
                         })
                     })
+                    console.log(this.outlet_transactions);
                     this.sumArray(this.outlet_transactions);
                     
                 })
@@ -524,7 +525,7 @@ export default {
         
     },
 
-    mounted() {   
+    created() {   
         this.getOutletTransaction(window.localStorage.getItem('retailer_outlet'));  
         this.getTransaction(window.localStorage.getItem('retailer_outlet')); 
         this.getRestockLevel(window.localStorage.getItem('retailer_outlet'));

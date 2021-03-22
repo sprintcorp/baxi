@@ -608,7 +608,7 @@ export default {
             }
         },
         getBusinessOutlets() {
-            this.loading = true;
+            // this.loading = true;
             fetch(BASE_URL + '/my/businesses/' + this.business_id + '/outlets ', {
                     headers: {
                         'Content-Type': 'application/json',

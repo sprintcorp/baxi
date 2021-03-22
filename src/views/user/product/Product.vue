@@ -162,7 +162,7 @@
                                
                                 <div class="card mt-5" v-if="!local_product.length && !loading">
                                   <div class="card-body text-center">
-                                    There are no products for this outlet at the moment
+                                    There are no products for this business at the moment
                                   </div>
                                 </div>
                                 <!-- </div> -->
