@@ -867,7 +867,7 @@ export default {
                     }else{
                         this.$swal({
                             title: 'Error',
-                            text: "Error saving order",
+                            text: res.data.errors,
                             icon: 'error',
                             confirmButtonText: 'ok'
                         });

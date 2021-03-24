@@ -189,7 +189,6 @@
                                      </div>
                                    </div>
                                    <div class="row mt-5 p-3" style="background-color:#fbfbfb">
-                                     <!-- <pre>{{transaction_product.orders}}</pre> -->
 
                                      <div class="col-md-3  d-flex justify-content-start"><img :src="require('@/assets/baxi.png')" width="30"></div><br>
                                      <div class="col-md-9  d-flex justify-content-end">{{titleCase(outlet_name)}}</div>
@@ -204,17 +203,16 @@
                                       
                                         <tr style="text-align:center">
                                           <th scope="col">Product</th>
-                                          <th scope="col">QTY</th>                                        
-                                          <!-- <th scope="col">Price</th> -->
+                                          <th scope="col">QTY</th>              
                                           <th scope="col" width="100">Total</th>
                                         </tr>
                                       </thead>
                                       <tbody>
                                                                     
                                         <tr style="text-align:center" v-for="(product,index) in transaction_product.orders" :key="index">
-                                          <td>{{product.outlet_product.product.name}}</td>
+                                          <td v-if="!distributor">{{product.outlet_product.product.name}}</td>
+                                          <td v-if="distributor">{{product.product.name}}</td>
                                           <td scope="row">{{product.qty}}</td>
-                                          <!-- <td scope="row">{{product.amount / product.qty}}</td> -->
                                           <td scope="row">&#8358; {{numberWithCommas(product.amount)}}</td>
                                           
                                           <td>{{status}}</td>
@@ -224,10 +222,10 @@
                                     </table>
                                    
                                      <div class="col-md-12 d-flex justify-content-center mt-2">Grand Total</div>
-                                     <div class="col-md-12 h5 d-flex justify-content-center mt-2"> &#8358; {{numberWithCommas(transaction_product.amount)}}</div>
+                                     <!-- <div class="col-md-12 h5 d-flex justify-content-center mt-2"> &#8358; {{numberWithCommas(transaction_product.amount)}}</div> -->
                                      <div class="col-md-12 h5 d-flex justify-content-center mt-5">
                                        <button v-if="!transaction_product.paid && !distributor" type="button" class="btn btn-success" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Pay Now</button>
-                                       <button type="button" class="btn btn-dark mr-2" @click="printReceipt(transaction_product.orders)">Print</button>
+                                       <!-- <button type="button" class="btn btn-dark mr-2" @click="printReceipt(transaction_product.orders)">Print</button> -->
                                        <button type="button" class="btn btn-warning" @click="generateReport()">Download</button>
                                      </div>
                                      <div class="col-md-12 mt-3 d-flex justify-content-center"><p>Powered by baxi</p></div><br>
@@ -424,7 +422,8 @@
                                       <tbody>
                                                                     
                                         <tr style="text-align:center" v-for="(product,index) in transaction_product.orders" :key="index">
-                                          <td>{{product.outlet_product.product.name}}</td>
+                                          <td v-if="distributor">{{product.product.name}}</td>
+                                          <td v-if="!distributor">{{product.outlet_product.product.name}}</td>
                                           <td scope="row">{{product.qty}}</td>
                                           <td scope="row">{{product.amount / product.qty}}</td>
                                           <td scope="row">{{product.amount}}</td>
