@@ -849,7 +849,7 @@ export default {
                         if(type === "wallet") {
                             this.awaitingCustomerWalletResponse = true;
                             this.checkingCustomerWalletResponse()
-                        } else {
+                        }
                             this.$swal({
                                 title: 'Success',
                                 text: message,
@@ -858,7 +858,7 @@ export default {
                             });
 
                             this.getProducts(true);
-                        }
+                        
 
                         this.removeCart();
                         this.customer = '';
