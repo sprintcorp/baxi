@@ -37,7 +37,7 @@
                   </div>             
             </div>
             <div class="col-md-7 d-flex justify-content-end" style="">   
-                <input type="text" v-model="search" placeholder="Type to search for a product" class="inp" style="background-color:white;width:91%;"/>
+                <input type="text" v-model="search" v-on:input="myChangeFunction()" placeholder="Type to search for a product" class="inp" style="background-color:white;width:91%;"/>
                 <button type="submit"><i class="fa fa-search"></i></button>      
             </div>
           </div>
@@ -515,7 +515,7 @@
                   <input type="text" v-model="customer.baxi_username" placeholder="Baxi Username" class="form-control">
               </div>
               <!-- <button class="btn btn-outline-secondary rounded-pill">Account ID: RST12345</button> <br> -->
-              <button class="btn btn-warning rounded-pill mt-4" data-dismiss="modal" @click="saveOrder('wallet')">Continue</button>
+              <button class="btn btn-warning rounded-pill mt-4" @click="saveOrder('wallet')">Continue</button>
           </div>
       </div>
 

@@ -27,7 +27,7 @@ export default {
             total:0,
             total_with_vat:0,
             product:'',
-            quantity_value:0,
+            quantity_value:1,
             error:false,
             cart:[],
             permission:false,
@@ -65,10 +65,24 @@ export default {
     },
     computed: {
         filerResult() {
-            return this.results.filter((result) => result.name.toLowerCase().includes(this.search.toLowerCase()) || result.sku.toLowerCase().includes(this.search.toLowerCase()))
+            
+            if(isNaN(this.search)){                
+                return this.results.filter((result) => result.name.toLowerCase().includes(this.search.toLowerCase()) || result.sku.toLowerCase().includes(this.search.toLowerCase()))
+            }else{
+                this.myChangeFunction();
+                return this.results.filter((result) => result.sku.toLowerCase().includes(this.search.toLowerCase()))
+            }
         }
     },
     methods: {
+        myChangeFunction(){
+            // if(this.filerResult().length == 1){
+                const data = this.results.filter((result) => result.sku.toLowerCase().includes(this.search.toLowerCase()))
+                console.log(data);
+                // this.quantity_value = 1;
+                this.submitToCart(this.quantity_value,data[0]);
+            // }
+        },
         fetchFees() {
           fetch(BASE_URL + '/fees', { headers: this.api_headers} )
               .then(response => response.json())
@@ -164,7 +178,7 @@ export default {
             this.pushToArray(this.cart, product);
             window.localStorage.setItem("retailer_cashier_order", JSON.stringify(this.cart));
             this.cart = [];
-            this.quantity_value = 0;
+            this.quantity_value = 1;
             this.getCart();
             console.log(this.cart)
         }else{
@@ -174,7 +188,7 @@ export default {
             this.pushToArray(this.cart, product);
             window.localStorage.setItem("distributor_cart", JSON.stringify(this.cart));
             this.cart = [];
-            this.quantity_value = 0;
+            this.quantity_value = 1;
             this.getCart();
             console.log(this.cart)
         }
@@ -285,6 +299,7 @@ export default {
                             public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
                             qty: data.qty,
                             sku: data.product.sku,
+                            barcode: data.product.barcode ? data.product.barcode : 'No Barcode',
                             date:data.product.created_at,
 
 
@@ -349,6 +364,7 @@ export default {
                                 public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
                                 qty: data.qty,
                                 sku: data.product.sku,
+                                barcode: data.product.barcode ? data.product.barcode : 'No Barcode',
                                 date:data.product.created_at,
                                
 
@@ -411,6 +427,7 @@ export default {
                         public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
                         qty: data.qty,
                         sku: data.product.sku,
+                        barcode: data.product.barcode ? data.product.barcode : 'No Barcode',
                         date:data.product.created_at,
                         minimum_order: data.minimum_order_qty,
                         customer: {
@@ -845,6 +862,8 @@ export default {
 
                     if(res.success){
                         this.last_order_id = res.data.transaction.order_group_id;
+
+                        console.log('type', type === "wallet");
 
                         if(type === "wallet") {
                             this.awaitingCustomerWalletResponse = true;

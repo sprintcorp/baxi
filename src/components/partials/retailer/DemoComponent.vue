@@ -212,7 +212,7 @@ import {BASE_URL} from '../../../env'
                 console.log(filteredItems)
             },
             getBalance() {
-                this.reload = true;
+            this.reload = true;
             fetch(BASE_URL + '/user/wallet-balance', {
                         headers: {
                                 'Content-Type': 'application/json',

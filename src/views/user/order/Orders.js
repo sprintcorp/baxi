@@ -101,7 +101,7 @@ export default {
             .then(res => {
                 window.localStorage.setItem("wallet-balance",res.data.wallet_balance);
                 this.getRetailerOrders();
-                this.getBalance()
+                // this.getBalance()
                 // if(action == 1){
                 //     window.reload();
                 // }
