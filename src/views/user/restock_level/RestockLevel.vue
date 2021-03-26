@@ -31,7 +31,7 @@
                                         <div class="row g-0">
                                         <div class="col-md-3 mt-2"><img :src="product.image" class="rounded-circle" alt="" width="70" height="70"/></div>
                                         <div class="col-md-6 mt-2">
-                                            <p class="fs-15 font-weight-bold text-black"> {{product.name}}</p>
+                                            <p class="fs-15 font-weight-bold text-black"> {{product.name.length > 20 ? product.name.substr(0, 20)+'...' : product.name}}</p>
                                             <p class="fs-14 font-weight-bold text-black" style="margin-top:-15px">Restock Level {{product.restock_level}} </p>
                                             <p class="fs-14 font-weight-bold text-black" style="margin-top:-15px">Outlet Quantity {{product.quantity}} </p>
                                         </div>

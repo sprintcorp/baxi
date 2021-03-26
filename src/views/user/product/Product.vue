@@ -55,7 +55,7 @@
                                       <img src="../../../assets/icon/noun_filter_3070438.png" alt="img"/>  Date Filter
                                     </button>
 
-                                    <router-link :to="{name:'restockLevel'}">
+                                    <router-link v-if="!distributor" :to="{name:'restockLevel'}">
                                       <button  class="btns shadow white-skin btn-sm sml-radius text-black  mr-2 p-2"  style="border-radius:25px;border:2px solid black">
                                         <i class="fa fa-microchip"></i> Restock Level
                                       </button>
