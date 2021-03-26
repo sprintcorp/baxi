@@ -50,7 +50,7 @@
                                     <!-- </div> -->
                                   </div>
 
-                                  <div class="col-md-5">
+                                  <div class="col-md-5 d-flex justify-content-end">
                                     <button data-toggle="modal" data-target="#search" class="btn shadow mr-1 btn-light btn-sm sml-radius text-black p-2" style="border-radius:30px;width:120px;height:40px !important">
                                       <img src="../../../assets/icon/noun_filter_3070438.png" alt="img"/>  Date Filter
                                     </button>
