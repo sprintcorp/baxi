@@ -62,7 +62,7 @@
                                       <tr style="text-align:center">
                                         <th>S/N</th>
                                         <th>Transaction Ref</th>
-                                        <th>Payment Type</th>
+                                        <!-- <th>Payment Type</th> -->
                                         <th>Customer</th>
                                         <th v-if="!show_receipt">Status</th>
                                         <th v-if="!show_receipt">Outlet name</th> 
@@ -77,7 +77,7 @@
                                       <tr style="text-align:center" v-for="(transaction,index) in filterTransactions" :key="index">
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ transaction.order_group_id }}</td>
-                                        <td>{{ transaction.payment_type ? transaction.payment_type.toUpperCase() : 'PENDING' }}</td>
+                                        <!-- <td>{{ transaction.payment_type ? transaction.payment_type.toUpperCase() : 'PENDING' }}</td> -->
 
                                         <td v-if="transaction.customer &&
                                                 transaction.customer.customer.user_id">

@@ -69,7 +69,7 @@
                                       <tr style="text-align:center" v-for="(transaction,index) in filterTransactions" :key="index">
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ transaction.order_group_id }}</td>
-                                        <td>Paid</td>
+                                        <td>{{transaction.paid == 0 ? 'incomplete' : 'completed'}}</td>
                                         <td>{{transaction.payment_type}}</td>
                                         <td>
                                             {{transaction.created_at | moment("ddd, Do MMMM 'YY, h:mma") }}
