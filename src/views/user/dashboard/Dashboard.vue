@@ -288,7 +288,7 @@
                     </table>
                     <div class="row">
                       <div class="col-md-12 m-1" style="font-size: 10px;">
-                        <button class="btn btn-success col-md-4" data-toggle="modal" style="font-size: 14px;" data-target="#customerInfo">Proceed <span class="fa fa-check"></span></button>
+                        <button class="btn btn-success col-md-4" data-toggle="modal" style="font-size: 14px;" data-target="#modeofpaymentModal">Proceed <span class="fa fa-check"></span></button>
 
                           <div class="col-md-6 pull-right text-right">
                             <button class="btn btn-warning" style="margin:2px;font-size: 14px;" data-toggle="modal" data-target="#saveInfo">Save <span class="fa fa-save"></span></button>
@@ -333,8 +333,8 @@
                   <!-- </div> -->
                   <div class="col-md-12 d-flex justify-content-end mt-2 mb-1">
                     
-                    <button class="btn btn-default mr-3" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Skip</button>
-                    <button class="btn btn-warning" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Next</button>
+                    <!-- <button class="btn btn-default mr-3" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Skip</button> -->
+                    <button class="btn btn-warning" @click="saveOrder('cash')" data-dismiss="modal">Save</button>
                   </div>
                 </div>
               </div>
@@ -454,7 +454,7 @@
               </div>
           </div>
 
-          <div class="col-md-3 payment-method-card" @click="saveOrder('cash')" data-dismiss="modal">
+          <div class="col-md-3 payment-method-card" data-toggle="modal" data-target="#customerInfo"  data-dismiss="modal">
           <div class="card m-1 h-100 p-0">
              <div class="mx-auto mt-1">
                   <img :src="require('@/assets/images/img12.png')" class='rounded' alt="img"/>
@@ -491,8 +491,8 @@
                     <br>Please wait
                 </span>
 
-                  <button class="btn btn-sm btn-warning mt-2 mr-4 w-25" @click="performPingRequest"><i class="fa fa-search"></i> Recheck</button>
-                  <button class="btn btn-sm btn-danger mt-2 w-25" data-dismiss="modal"><i class="fa fa-times"></i> Check Later</button>
+                  <button class="btn btn-sm btn-success mt-2 mr-4 w-25" @click="performPingRequest"><i class="fa fa-search"></i> Check</button>
+                  <button class="btn btn-sm btn-warning mt-2 w-25" data-dismiss="modal"><i class="fa fa-times"></i> Check Later</button>
               </div>
 
             <span class="text-danger fs-20 m-auto d-block w-75 font-weight-bold" style="border-radius: 550px;" v-if="customerWalletResponse===false">

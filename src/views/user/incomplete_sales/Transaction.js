@@ -26,7 +26,11 @@ export default {
             transaction:'',
             show_receipt:false,
             current_date:'',
-            current_time:''
+            current_time:'',
+            awaitingCustomerWalletResponse: false,
+            customerWalletResponse: null,
+            last_order_id: null,
+            wallet_transaction_response: false,
         }
     },
     computed: {
@@ -65,7 +69,7 @@ export default {
         },
         getTransaction() {
                 this.loading = true;
-                fetch(BASE_URL + '/my/distributor/customer/transactions?paid=1', {
+                fetch(BASE_URL + '/my/distributor/customer/transactions?paid=0', {
                         headers: {
                             'Content-Type': 'application/json',
                             'Accept': 'application/json',
@@ -108,9 +112,10 @@ export default {
         },
 
         getPageTransaction(page) {
+            this.closeReceipt();
             this.transactions =[];
             this.loading = true;
-            fetch(page+'&paid=1', {
+            fetch(page+'&paid=0', {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
@@ -145,6 +150,113 @@ export default {
                     }
 
                 );
+        },
+        saveOrder(type) {
+            console.log(type + this.transaction.order_group_id)
+            this.saving = true;
+                if(this.distributor){
+                    this.saved_orders = JSON.parse(window.localStorage.getItem("distributor_cart"))
+                   
+                    var url = '/my/distributor/customer/order'
+                }else{
+                    url = '/my/retailer/orders'
+                }
+            const payload = {
+                "order_id": this.transaction.order_group_id,
+                "payment_type":type,
+    
+            }
+            this.loading = false
+            console.log(payload);
+
+
+            fetch(BASE_URL + url, {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    
+                    if(res.success) {
+                        this.last_order_id = res.data.transaction.order_group_id;
+
+                        if(res.data.transaction.payment_type === "wallet") {
+                            this.awaitingCustomerWalletResponse = true;
+
+                            this.checkingCustomerWalletResponse()
+                        } else {
+                            this.$swal({
+                                title: 'Success',
+                                text: 'Payment successful',
+                                icon: 'success',
+                                confirmButtonText: 'ok'
+                            });
+                            this.closeReceipt();
+                            this.getTransaction();
+                        }
+                    } else {
+                        this.$swal({
+                            title: 'Error',
+                            text: "Error saving order",
+                            icon: 'error',
+                            confirmButtonText: 'ok'
+                        });
+                    }
+                    
+                    this.saving = false;
+                    
+                })
+                .catch(err => {
+                    this.saving = false;
+                    this.$swal({
+                        title: 'Error',
+                        text: err.response.data.message,
+                        icon: 'error',
+                        confirmButtonText: 'ok'
+                    });
+                    this.getTransaction();
+                    console.log(err)
+                    if (err.response.status == 401) {
+                        this.$swal({
+                            title: 'Error',
+                            text: "Session Expired",
+                            icon: 'error',
+                            confirmButtonText: 'ok'
+                        });
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                });
+        },
+        performPingRequest() {
+            // ping the api via backend
+            let url = "/user/order-payment/"+this.last_order_id+"/ping-response";
+
+            fetch(BASE_URL + url, {
+                method: 'GET',
+                headers: this.api_headers
+            })
+                .then(res => res.json())
+                .then(res => {
+                    console.log('wallet response', res);
+
+                    this.customerWalletResponse = res.data;
+                })
+                .catch(err => console.log(err));
+        },
+
+        checkingCustomerWalletResponse() {
+            console.log("got here");
+            let interval = setInterval(() => this.performPingRequest(), 1000);
+
+            if(this.customerWalletResponse !== null) {
+                clearInterval(interval);
+            }
         },
     },
 

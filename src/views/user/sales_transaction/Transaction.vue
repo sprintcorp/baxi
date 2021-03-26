@@ -26,18 +26,23 @@
                             <div class="col-md-12">
                                 <div class="row border-2 mt-1">
                                   <div class="col-md-2 mt-2 font-weight-bold" style="margin-left:-30px">
-                                      <span class="link-line">Sales Transaction</span>
+                                      <small class="link-line" style="font-weight:bold">Complete Sales Transaction</small>
+                                  </div>
+                                  <div class="col-md-2 mt-2 font-weight-bold" style="margin-left:-30px">
+                                     <router-link :to="{name:'distributorSalesTransactionIncomplete'}" class="top-text-block" style="color:black;text-decoration:none">
+                                        <small style="font-weight:bold">Incomplete Sales Transaction</small>
+                                     </router-link>
                                   </div>
 
-                                  <div class="col-md-2 mt-2 font-weight-bold" style="">
-                                    <router-link :to="{name:'transactionOverview'}" class="top-text-block" style="color:black;text-decoration:none">
-                                     <span>Order Transaction</span>
+                                  <div class="col-md-1 mt-2 font-weight-bold" style="">
+                                    <router-link :to="{name:'transactionOverview'}" class="top-text-block" style="color:black;text-decoration:none">                                   
+                                     <small style="font-weight:bold">Order</small>
                                     </router-link>
                                   </div>
 
 
 
-                                  <div class="col-md-4 d-flex justify-content-end">
+                                  <div class="col-md-3 d-flex justify-content-end">
                                      <input type="text" v-model="search" placeholder="Search for transaction ref" class="inp" style="background-color:white;width:91%;"/>
                                   </div>
                                   <div class="col-md-4 d-flex justify-content-end">

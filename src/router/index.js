@@ -29,6 +29,7 @@ import OrderHistoryComponent from "../views/user/order_history/OrderHistory.vue"
 import TransactionComponent from "../views/user/transaction/Transaction.vue";
 import IncompleteTransactionComponent from "../views/user/incomplete/Transaction.vue";
 import DistributorTransactionsComponent from "../views/user/sales_transaction/Transaction.vue";
+import DistributorIncompleteTransactionsComponent from "../views/user/incomplete_sales/Transaction.vue";
 import ProductComponent from "../views/user/product/Product.vue";
 import WalletComponent from "../views/user/wallet/Wallet.vue";
 import NotificationComponent from "../views/user/notification/Notification.vue";
@@ -170,8 +171,15 @@ const routes = [{
             },
             {
                 name: "distributorSalesTransaction",
-                path: "/distributor/transaction/",
+                path: "/distributor/transaction/complete",
                 component: DistributorTransactionsComponent,
+                ...preventRoutes,
+                meta: { authorize: 'distributor' } 
+            },
+            {
+                name: "distributorSalesTransactionIncomplete",
+                path: "/distributor/transaction/incomplete",
+                component: DistributorIncompleteTransactionsComponent,
                 ...preventRoutes,
                 meta: { authorize: 'distributor' } 
             },

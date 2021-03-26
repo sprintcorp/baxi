@@ -84,11 +84,15 @@
                                           {{ transaction.customer.customer.user.buid }}
                                         </td>
 
-                                          <!-- <td v-if="transaction.customer && !transaction.customer.customer.user_id"> -->
-                                            <td>
+                                          <td v-if="transaction.customer && !transaction.customer.customer.user_id">
+                                            <!-- <td> -->
                                               {{
                                               transaction.customer ? transaction.customer.customer.firstname+' '+transaction.customer.customer.lastname : 'No info'}}<br>
                                               <span v-if="transaction.customer && transaction.customer.customer.phone">{{transaction.customer.customer.phone}}</span>
+                                          </td>
+
+                                          <td v-if="!transaction.customer">
+                                              No user info
                                           </td>
 
                                         <td >

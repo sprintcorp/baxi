@@ -868,14 +868,14 @@ export default {
                         if(type === "wallet") {
                             this.awaitingCustomerWalletResponse = true;
                             this.checkingCustomerWalletResponse()
-                        }
+                        }else{
                             this.$swal({
                                 title: 'Success',
                                 text: message,
                                 icon: 'success',
                                 confirmButtonText: 'ok'
                             });
-
+                        }
                             this.getProducts(true);
                         
 
