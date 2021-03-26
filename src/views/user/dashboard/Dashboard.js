@@ -80,7 +80,7 @@ export default {
                 const data = this.results.filter((result) => result.sku.toLowerCase().includes(this.search.toLowerCase()))
                 console.log(data);
                 // this.quantity_value = 1;
-                this.submitToCart(this.quantity_value,data[0]);
+                // this.submitToCart(this.quantity_value,data[0]);
             // }
         },
         fetchFees() {
