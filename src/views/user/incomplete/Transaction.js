@@ -272,7 +272,7 @@ export default {
                     if(res.success) {
                         this.last_order_id = res.data.transaction.order_group_id;
 
-                        if(res.data.transaction.payment_type === "wallet") {
+                        if(type === "wallet") {
                             this.awaitingCustomerWalletResponse = true;
 
                             this.checkingCustomerWalletResponse()

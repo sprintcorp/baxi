@@ -865,7 +865,7 @@ export default {
 
                         console.log('type', type === "wallet");
 
-                        if(type === "wallet") {
+                        if(type.toLowerCase() == "wallet") {
                             this.awaitingCustomerWalletResponse = true;
                             this.checkingCustomerWalletResponse()
                         }else{
@@ -880,7 +880,7 @@ export default {
                         
 
                         this.removeCart();
-                        this.customer = '';
+                        this.customer = [];
                         this.show_cat = false;
                         this.cart_order = [];
                     }else{

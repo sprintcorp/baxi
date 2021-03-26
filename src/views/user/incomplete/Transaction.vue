@@ -348,7 +348,7 @@
                             </div>
 
                             <div class="modal-body row">
-                              <div class="col-md-3 payment-method-card" data-toggle="modal" data-target="#optionModal" data-dismiss="modal">
+                              <div class="col-md-3 payment-method-card" @click="saveOrder('wallet')" data-toggle="modal" data-target="#optionModal" data-dismiss="modal">
                                 <div class="card m-1 h-100 p-0">
                                   <div class="mx-auto mt-1">
                                     <img :src="require('@/assets/images/img8.png')" class='rounded' alt="img"/>
