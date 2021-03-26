@@ -223,7 +223,7 @@
                                     </table>
                                    
                                      <div class="col-md-12 d-flex justify-content-center mt-2">Grand Total</div>
-                                     <!-- <div class="col-md-12 h5 d-flex justify-content-center mt-2"> &#8358; {{numberWithCommas(transaction_product.amount)}}</div> -->
+                                     <div class="col-md-12 h5 d-flex justify-content-center mt-2"> &#8358; {{numberWithCommas(transaction_product.amount)}}</div>
                                      <div class="col-md-12 h5 d-flex justify-content-center mt-5">
                                        <button v-if="!transaction_product.paid && !distributor" type="button" class="btn btn-success" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Pay Now</button>
                                        <button type="button" class="btn btn-dark mr-2" @click="printReceipt(transaction_product.orders)">Print</button>
