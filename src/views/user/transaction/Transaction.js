@@ -333,13 +333,15 @@ export default {
             // alert(true)
             this.getDistributorTransactions()
             this.distributor = true;
-            this.outlet_name = JSON.parse(window.localStorage.getItem("name"))
-            
+            // this.outlet_name = JSON.parse(window.localStorage.getItem("name"))
+            this.outlet_name = window.localStorage.getItem("name")
+
         }else{
-            this.outlet_name = JSON.parse(window.localStorage.getItem("outlet_name"))
+            // this.outlet_name = JSON.parse(window.localStorage.getItem("outlet_name"))
+            this.outlet_name = window.localStorage.getItem("outlet_name")
             this.getTransaction();
         }
-        
+
         this.name = getName();
         this.user = getFullName();
         this.outlet = getOutlet();

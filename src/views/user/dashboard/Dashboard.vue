@@ -171,7 +171,7 @@
                                 Loading...
                                                     
                             </div> -->
-                            <Loading v-if="loading"></Loading>
+                            <Loading v-if="loading && !filerResult.length"></Loading>
                             
                             <div class="card" v-if="!filerResult.length && !loading && search.length > 0">
                                 <div class="card-body text-center">

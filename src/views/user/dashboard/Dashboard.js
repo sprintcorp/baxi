@@ -13,7 +13,7 @@ export default {
             user: null,
             businesses: [],
             username: '',
-            loading: false,
+            loading: true,
             type: 'product',
             search: '',
             start_date: '',
@@ -84,7 +84,7 @@ export default {
             // }
         },
         fetchFees() {
-          fetch(BASE_URL + '/fees', { headers: this.api_headers} )
+          fetch(BASE_URL + '/fees', { headers: this.api_headers})
               .then(response => response.json())
               .then(response => {
                   this.fees = response.data;
@@ -92,6 +92,7 @@ export default {
                   this.fees.forEach(fee => {
                       if(fee.name === 'VAT') this.vat = fee.value;
                   });
+                  console.log(this.vat)
               })
               .catch(err => console.log(err));
         },
@@ -651,16 +652,7 @@ export default {
                 .catch((err) => {
 
                         this.loading = false;
-                        if (err.response.status == 401) {
-                            this.$swal({
-                title: 'Error',
-                text: "Session Expired",
-                icon: 'error',
-                confirmButtonText: 'ok'
-            });
-                            logout();
-                            this.$router.push({ name: 'welcome' });
-                        }
+                        console.log(err)
                     }
 
                 );
@@ -979,11 +971,13 @@ export default {
         if (!this.distributor && JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length > 0) {
             this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"));
             this.getCart();
+            // this.sumProduct()
         }
 
         if (this.distributor && JSON.parse(window.localStorage.getItem("distributor_cart")) && JSON.parse(window.localStorage.getItem("distributor_cart")).length > 0) {
             this.cart = JSON.parse(window.localStorage.getItem("distributor_cart"));
             this.getCart();
+            // this.sumProduct()
             console.log(this.cart)
 
         }

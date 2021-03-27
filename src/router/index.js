@@ -39,6 +39,7 @@ import RetailerOrderOverviewComponent from "../views/user/order_overview/Order.v
 import RetailerOrderComponent from "../views/user/place_order/PlaceOrder.vue";
 import RetailerProfileComponent from "../views/user/profile/Profile.vue";
 import RestockLevelComponent from "../views/user/restock_level/RestockLevel.vue";
+import CartComponent from "../views/user/cart/Cart.vue";
 
 Vue.use(VueRouter);
 
@@ -193,6 +194,12 @@ const routes = [{
                 name: "incompleteTransaction",
                 path: "/incomplete/transaction/",
                 component: IncompleteTransactionComponent,
+                ...preventRoutes
+            },
+            {
+                name: "cartItem",
+                path: "/user/cart/",
+                component: CartComponent,
                 ...preventRoutes
             },
             {

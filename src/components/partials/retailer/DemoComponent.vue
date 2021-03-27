@@ -83,7 +83,9 @@
                 </div> -->
                 
 
-                <!-- <button class="mr-2" v-if="order_products" data-toggle="modal" data-target="#cartModal"><i class="fa fa-shopping-cart fs-25" style="color:#ffc107"></i></button> -->
+                <router-link :to="{name:'cartItem'}">
+                    <button class="mr-2"><i class="fa fa-shopping-cart fs-20" style="color:black"></i></button>
+                </router-link>
                 <div class="" v-if="!distributor">
                     <div class="icon-badge-container top-head-dropdown" data-toggle="dropdown" title="Notification" aria-haspopup="true" aria-expanded="false">
                       <i class="far fa-bell icon-badge-icon" style="color:rgb(90 90 90)"></i>
