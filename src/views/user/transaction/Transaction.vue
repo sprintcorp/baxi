@@ -267,8 +267,8 @@
 
                                               <div class="col-md-12 h5 d-flex justify-content-center mt-5">
                                                   <button v-if="!transaction_product.paid && !distributor" type="button" class="btn btn-success" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Pay Now</button>
-                                                  <button type="button" class="btn btn-dark mr-2" @click="printReceipt(transaction_product.orders)">Print</button>
-                                                  <button type="button" class="btn btn-warning" @click="generateReport()">Download</button>
+                                                  <button type="button" class="btn btn-dark mr-2" @click="printReceipt(transaction_product.orders)"><i class="fa fa-print"></i> Print</button>
+                                                  <button type="button" class="btn btn-warning" @click="generateReport()"><i class="fa fa-download"></i> Download</button>
                                               </div>
                                               <div class="col-md-12 mt-3 d-flex justify-content-center">
                                                   <p>Powered by <img :src="require('@/assets/baxi.png')" width="25">
@@ -521,7 +521,7 @@
                           <div class="col-md-12 mt-2 d-flex justify-content-center" v-if="!this.distributor"><h6>{{transaction_product.payment_type}} transaction</h6></div><br>
                           <div class="col-md-12 mt-2 d-flex justify-content-center" v-if="this.distributor"><h6>Delivery type: {{transaction_product.delivery_type}}</h6></div><br>
 
-                          <div class="col-md-12 mt-5 text-center"><p>Terms & Conditions Apply <br> No refund of money after payment <br><strong>Thank you for your patronage</strong></p></div><br>
+                          <div class="col-md-12 mt-3 text-center"><p>Terms & Conditions Apply <br> No refund of money after payment <br><strong>Thank you for your patronage</strong></p></div><br>
                           <div class="col-md-7 mt-2 d-flex justify-content-start"><p>Sales Officer:</p></div>
                             <div class="col-md-5 mt-2 d-flex justify-content-start"><p>{{user}}</p></div>
                             <div class="col-md-12 mt-2 d-flex justify-content-center"><p>Powered by Baxi</p></div><br>
