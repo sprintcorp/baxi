@@ -70,7 +70,7 @@
                                     <tbody>
                                       <tr style="text-align:center" v-for="(order,index) in order_product.orders" :key="index">
                                         <td class="col-3">{{index + 1}}</td>
-                                        <td>{{order.product.name}}</td>
+                                        <td>{{order.business_product.product.name}}</td>
                                         <td>{{order.amount/order.qty}}</td>
                                         <td>{{order.qty}}</td>
                                         <td>₦{{numberWithCommas(order.amount)}}</td>
@@ -94,10 +94,11 @@
                                       </tr>
                                       <tr v-if="order_product.status == 1">
                                         <td></td>
-                                        <th scope="row"></th>
                                         
-                                        <th scope="row"><button type="submit" class="btn btn-danger" @click="orderAction(-1)">Reject</button></th>
+                                        
+                                        <th scope="row"><button type="submit" class="btn btn-danger" @click="orderAction(5)">Reject</button></th>
                                         <th scope="row"><button type="submit" class="btn btn-success" @click="orderAction(2)" style="z-index:999 !important">Accept</button></th>
+                                        <th scope="row"></th>
                                         <th scope="row"></th>
                                         
                                       </tr>

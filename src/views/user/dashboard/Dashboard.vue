@@ -371,7 +371,7 @@
                             <small class="col-md-12 mt-3 text-danger"><em>Required without username</em></small>
                             <!-- <div class="row"> -->
                             <div class="col-md-6">
-                              <input type="name" v-bind:required="!customer.baxi_username" v-model="customer.firstname" placeholder="Firstname *" class="form-control">
+                              <input type="name" v-bind:required="customer.baxi_username==''" v-model="customer.firstname" placeholder="Firstname *" class="form-control">
                             </div>
                             <div class="col-md-6">
                               <input type="name" v-model="customer.lastname" placeholder="Lastname" class="form-control">

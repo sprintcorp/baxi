@@ -290,7 +290,7 @@ export default {
                     this.results = [];
                     this.products.forEach((data) => {
                         this.results.push({
-                            product_id: data.product.id,
+                            product_id: data.id,
                             name: data.product.name,
                             amount: data.price > 0 ? parseInt(data.price) : parseInt(data.product.recommended_price),
                             sell_price: data.price > 0 ? parseInt(data.price) : parseInt(data.product.recommended_price),

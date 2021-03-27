@@ -144,12 +144,13 @@ export default {
             }else{
                 this.add_fee = false;
             }
-            console.log(order)
+
             order.orders.forEach((data)=>{
                 this.product_id.push({
-                    id:data.product.id
+                    id:data.business_product.id
                 })
             })
+
             const product = this.sumArray(this.product_id)
             
             this.order_groups.push({
@@ -287,8 +288,9 @@ export default {
     },
 
     mounted() {
-        this.orderInformation();
         this.getOrders();
+        this.orderInformation();
+        
         this.name = getName();
         this.outlet = getOutlet();
         this.start_date = new Date("2015-08-21").getTime();

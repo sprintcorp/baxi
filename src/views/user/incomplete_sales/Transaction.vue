@@ -34,20 +34,20 @@
                                       <small class="link-line" style="font-weight:bold">Incomplete Sales Transaction</small>
                                   </div>
 
-                                  <div class="col-md-1 mt-2 font-weight-bold" style="">
+                                  <div class="col-md-2 mt-2 font-weight-bold" style="">
                                     <router-link :to="{name:'transactionOverview'}" class="top-text-block" style="color:black;text-decoration:none">
-                                     <small style="font-weight:bold">Order</small>
+                                     <small style="font-weight:bold">Order Transaction</small>
                                     </router-link>
                                   </div>
 
 
 
-                                  <div class="col-md-3 d-flex justify-content-end">
+                                  <div class="col-md-3">
                                      <input type="text" v-model="search" placeholder="Search for transaction ref" class="inp" style="background-color:white;width:91%;"/>
                                   </div>
-                                  <div class="col-md-4 d-flex justify-content-end">
+                                  <div class="col-md-3">
                                     <button data-toggle="modal" data-target="#search" class="btns shadow btn-light btn-sm sml-radius text-black p-2" style="border-radius:30px">
-                                      <img src="../../../assets/icon/noun_filter_3070438.png" alt="img"/> Filter by transaction: From last 30 days
+                                      <img src="../../../assets/icon/noun_filter_3070438.png" alt="img"/> Filter transaction: From last 30 days
                                     </button>
                                   </div>
                                 </div>

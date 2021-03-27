@@ -269,7 +269,7 @@
                                         <td></td>
                                         <th scope="row"></th>
                                         
-                                        <th scope="row"><button type="submit" class="btn btn-danger" @click="orderAction(-1)">Reject</button></th>
+                                        <th scope="row"><button type="submit" class="btn btn-danger" @click="orderAction(5)">Reject</button></th>
                                         <th scope="row"><button type="submit" class="btn btn-success" @click="orderAction(2)">Accept</button></th>
                                         <th scope="row"></th>
                                         

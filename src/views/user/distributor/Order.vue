@@ -188,13 +188,13 @@
 
                                         <tr v-for="(order,index) in order_product.orders" :key="index">
                                             <td>{{  index + 1 }}</td>
-                                            <td>{{order.product.name ? order.product.name:'' }}</td>
-                                            <td>{{order.product.size ? order.product.size:''}}</td>                                      
+                                            <td>{{order.business_product.product.name ? order.business_product.product.name:'' }}</td>
+                                            <td>{{order.business_product.product.size ? order.business_product.product.size:''}}</td>
                                             <td>{{order.qty ? order.qty:'' }}</td>
-                                            <td>{{order.product.barcode ?order.product.barcode:'Not Available' }}</td>
-                                            <td>{{order.product.sku ? order.product.sku : 'Not Available'}}</td>
-                                            <td><img :src="order.product.public_image_url ? order.product.public_image_url : ''" width="40" height="40"></td>
-                                            
+                                            <td>{{order.business_product.product.barcode ?order.business_product.product.barcode:'Not Available' }}</td>
+                                            <td>{{order.business_product.product.sku ? order.business_product.product.sku : 'Not Available'}}</td>
+                                            <td><img :src="order.business_product.product.public_image_url ? order.business_product.product.public_image_url : ''" width="40" height="40"></td>
+
                                         </tr>
                                         </tbody>
                                         

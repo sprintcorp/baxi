@@ -99,7 +99,8 @@ export default {
             })
             .then(res => res.json())
             .then(res => {
-                window.localStorage.setItem("wallet-balance",res.data.wallet_balance);
+                if(res.data && res.data.wallet_balance)
+                    window.localStorage.setItem("wallet-balance",res.data.wallet_balance);
                 this.getRetailerOrders();
                 // this.getBalance()
                 // if(action == 1){
@@ -108,16 +109,16 @@ export default {
                 this.saving = false;
                 console.log(res)
                 this.$swal({
-                    title: 'Success',
+                    title: res.success===false ? 'Error' : 'Success',
                     text: res.message,
-                    icon: 'success',
+                    icon: res.success===false ? 'error' : 'success',
                     confirmButtonText: 'ok'
                 });               
                 
             })
             .catch(err => {
                 this.saving = false;
-                console.log(err)
+                console.log('asd', err)
                 this.$swal({
                     title: 'Error',
                     text: err.message,
@@ -126,11 +127,11 @@ export default {
                 });
                 if (err.response.status == 401) {
                     this.$swal({
-                title: 'Error',
-                text: "Session Expired",
-                icon: 'error',
-                confirmButtonText: 'ok'
-            });
+                        title: 'Error',
+                        text: "Session Expired",
+                        icon: 'error',
+                        confirmButtonText: 'ok'
+                    });
                     logout();
                     this.$router.push({ name: 'welcome' });
                 }

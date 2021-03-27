@@ -30,7 +30,7 @@
                                     <span class="link-line" v-if="!distributor">Complete Transaction</span>
                                     
                                     <router-link :to="{name:'distributorSalesTransaction'}" v-if="distributor" class="top-text-block" style="color:black;text-decoration:none">
-                                      <small style="font-weight:bold">Complete Transaction</small></router-link>
+                                      <small style="font-weight:bold">Sales Transaction</small></router-link>
                                   </div>
 
                                   <!-- <pre>{{filterTransactions}}</pre> -->
@@ -40,7 +40,7 @@
                                       <!-- <router-link :to="{name:'distributorSalesTransaction'}" v-if="!distributor" class="top-text-block" style="color:black;text-decoration:none">Incomplete Transactions</router-link> -->
                                     </div>
                                     <div class="col-md-2 mt-2 font-weight-bold" v-if="!distributor"> 
-                                      <router-link :to="{name:'incompleteTransaction'}" class="top-text-block" style="color:black;text-decoration:none">Incomplete Transactions</router-link>
+                                      <router-link :to="{name:'incompleteTransaction'}" class="top-text-block" style="color:black;text-decoration:none">Incomplete Transaction</router-link>
                                     </div>
                                   
                                   <div class="col-md-4 d-flex justify-content-end">

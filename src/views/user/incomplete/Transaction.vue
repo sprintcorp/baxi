@@ -25,9 +25,9 @@
                           <div class="row">
                             <div class="col-md-12" v-if="transaction_tab">
                                 <div class="row border-2 mt-1">
-                                  <div class="col-md-1 mt-2 font-weight-bold" style="">
+                                  <div class="col-md-2 mt-2 font-weight-bold" style="">
                                     <!-- {{distributor}} -->
-                                    <router-link :to="{name:'transactionOverview'}" class="top-text-block" v-if="!distributor" style="color:black;text-decoration:none">Complete</router-link>
+                                    <router-link :to="{name:'transactionOverview'}" class="top-text-block" v-if="!distributor" style="color:black;text-decoration:none">Complete Transaction</router-link>
                                     
                                     
                                     <router-link :to="{name:'distributorSalesTransaction'}" v-if="distributor" class="top-text-block" style="color:black;text-decoration:none">Sales Transaction</router-link>
@@ -40,7 +40,7 @@
                                       <!-- <router-link :to="{name:'distributorSalesTransaction'}" v-if="!distributor" class="top-text-block" style="color:black;text-decoration:none">Incomplete Transactions</router-link> -->
                                     </div>
                                     <div class="col-md-2 mt-2 font-weight-bold" v-if="!distributor"> 
-                                      <span class="link-line" >Incomplete</span>
+                                      <span class="link-line" >Incomplete Transaction</span>
                                     </div>
                                   
                                   <div class="col-md-4 d-flex justify-content-end">
