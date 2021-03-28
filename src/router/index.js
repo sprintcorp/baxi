@@ -114,7 +114,7 @@ const routes = [{
         },
         children: [{
                 name: "dashboard",
-                path: "/retailer",
+                path: "/dashboard",
                 component: DashboardComponent,
                 ...preventRoutes
             },

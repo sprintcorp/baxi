@@ -138,9 +138,8 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <img :src="image" class="rounded-circle border" alt="" width="35" height="35"></a>
-                    <ul class="dropdown-menu" style="">
-                    <li><a title="" @click="logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
-                    <li></li>
+                    <ul class="dropdown-menu" style="left: -100px !important;padding:0;height: 40px;margin-top:20px;border: none">
+                    <li style="width: 100%;text-align: right"><a id="logout-link" title="" @click="logout()">Logout <i class="fa fa-share ml-2"></i></a></li>
                     </ul>
                 </li>
                 </div>
@@ -171,8 +170,8 @@ import {BASE_URL} from '../../../env'
                 distributor:false,
                 image:'',
                 notification:'',
-                wallet:'',
-                ledger:'',
+                wallet:0,
+                ledger:0,
                 reload:false,
             }
         },
@@ -399,4 +398,21 @@ import {BASE_URL} from '../../../env'
     font-size: 0.8em; */
 /* }  */
 
+.dropdown-menu.show {
+    display: block;
+}
+
+    #logout-link {
+        font-family: sans-serif !important;
+        font-size:16px;
+        font-weight: bold;
+        display: block;
+        padding:8px;
+        background-color: #f6af47;
+        color:#000;
+    }
+
+    #logout-link:hover {
+        background-color: #eaa134;
+    }
 </style>

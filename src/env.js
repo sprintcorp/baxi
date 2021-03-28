@@ -1,5 +1,5 @@
-export const BASE_URL = 'https://staging.baxiims.com.ng/api/v1';
-// export const BASE_URL = 'https://ims.staging.baxi-services.com/api/v1';
+// export const BASE_URL = 'https://staging.baxiims.com.ng/api/v1';
+export const BASE_URL = 'https://ims.staging.baxi-services.com/api/v1';
 // export const BASE_URL = 'http://be.baxi-ims.local/api/v1';
 export const AUTH_TOKEN = 'access_token';
 export const NAME = 'name';

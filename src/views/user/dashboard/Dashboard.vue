@@ -5,13 +5,19 @@
         <div class="heading-sec">
           <!-- Retailer header -->
           <div class="row p-5" v-if="change_outlet">
-            <div class="col-md-8" style="">   
+            <div class="col-md-12" style="">
                   <div class="heading-profile">
-                    <h2 class="text-black">
+                    <h2 class="text-black pull-left w-50">
                       Welcome back, <span class="text-black">{{ username }}!</span>
 
                         <span v-if="distributor && notification_info" style="font-size:16px;font-weight:bold;color:#fff;background-color:#681b1b;padding:2px 4px;border-radius:5px;margin-left:10px;"> <router-link :to="{name:'distributorOrders'}" style="color:#fff">{{notification_info}} pending orders</router-link></span>
                     </h2>
+
+                      <h5 class="pull-right text-right w-50" style="font-family: sans-serif;font-weight: bold">
+                          {{ role }}
+                      </h5>
+                      <div class="clearfix"></div>
+
                   </div>             
             </div>
             <div class="col-md-4" style="" v-if="!distributor">   
@@ -37,7 +43,7 @@
                   </div>             
             </div>
             <div class="col-md-7 d-flex justify-content-end" style="">   
-                <input type="text" v-model="search" v-on:input="myChangeFunction()" placeholder="Type to search for a product" class="inp" style="background-color:white;width:91%;"/>
+                <input type="text" v-model="search" @input="myChangeFunctions()" placeholder="Type to search for a product" class="inp" style="background-color:white;width:91%;"/>
                 <button type="submit"><i class="fa fa-search"></i></button>      
             </div>
           </div>

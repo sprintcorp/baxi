@@ -10,6 +10,7 @@ export default {
     },
     data() {
         return {
+            role: localStorage.getItem('role'),
             user: null,
             businesses: [],
             username: '',
@@ -69,16 +70,67 @@ export default {
         },
 
         filerResult() {
-            
-            if(isNaN(this.search)){                
+            console.log(isNaN(this.search))
+            if(isNaN(this.search) || this.search.length < 1){                
                 return this.results.filter((result) => result.name.toLowerCase().includes(this.search.toLowerCase()) || result.sku.toLowerCase().includes(this.search.toLowerCase()))
-            }else{
-                this.myChangeFunction();
-                return this.results.filter((result) => result.sku.toLowerCase().includes(this.search.toLowerCase()))
+            }
+            if(this.search.length > 5 && !isNaN(this.search)){
+                
+                return this.results.filter((result) => result.barcode == this.search)
+            }
+
+        }
+    },
+    watch: {
+        search(barcode){
+            if(barcode.length > 11 && !isNaN(barcode)){
+               this.myChangeFunctions(); 
+            }
+            if(barcode.length > 4 && barcode.length < 6){
+                // this.search = '';
+                this.getProducts();
             }
         }
     },
     methods: {
+        myChangeFunctions(){
+                // const data = this.results.filter((result) => result.barcode.toLowerCase().includes(this.search.toLowerCase()))
+                // console.log(data);
+                console.log(this.search)
+                if(this.search.length > 10){
+                    fetch(BASE_URL + '/my/outlet/'+window.localStorage.getItem("retailer_outlet")+'/products?barcode='+this.search, { headers: this.api_headers})
+                    .then(response => response.json())
+                    .then(response => {
+                        
+                        console.log(response.data)
+                        this.products = response.data.data;
+                        this.results = [];
+                        this.products.forEach((data) => {
+                            this.results.push({
+                                product_id: data.id,
+                                name: data.product.name,
+                                amount: data.price > 0 ? parseInt(data.price) : parseInt(data.product.recommended_price),
+                                sell_price: data.price > 0 ? parseInt(data.price) : parseInt(data.product.recommended_price),
+                                quantity: data.qty,
+                                size: data.product.size,
+                                public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
+                                qty: data.qty,
+                                sku: data.product.sku,
+                                barcode: data.product.barcode ? data.product.barcode : 'No Barcode',
+                                date:data.product.created_at,
+
+
+                            });
+                        });
+                        this.submitToCart(this.results[0],'scan');
+                    })
+                    .catch(err => console.log(err));
+                            
+                            // this.submitToCart(data[0],'scan');
+                            // this.search = '';
+                    }
+        },
+        
         myChangeFunction(){
             // if(this.filerResult().length == 1){
                 const data = this.results.filter((result) => result.barcode.toLowerCase().includes(this.search.toLowerCase()))
@@ -206,36 +258,7 @@ export default {
                 console.log(this.cart)
             }
         }
-        // else if(type == 'scan'){
-        //     product.qty = 1
-        //     product.price = value * product.sell_price 
-        //     product.int_amount = product.amount
-        //     product.amount = product.price.toString()
-        //     // product.customer.name = 'web';
-        //     // product.customer.replace = true;
-        //     product.retailer_id = getId()
-        //     if(!this.distributor){
-        //     if (JSON.parse(window.localStorage.getItem("retailer_cashier_order"))) {
-        //         this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
-        //     }
-        //     this.pushToArray(this.cart, product);
-        //     window.localStorage.setItem("retailer_cashier_order", JSON.stringify(this.cart));
-        //     this.cart = [];
-        //     this.quantity_value = 1;
-        //     this.getCart();
-        //     console.log(this.cart)
-        //     }else{
-        //         if (JSON.parse(window.localStorage.getItem("distributor_cart"))) {
-        //             this.cart = JSON.parse(window.localStorage.getItem("distributor_cart"))
-        //         }
-        //         this.pushToArray(this.cart, product);
-        //         window.localStorage.setItem("distributor_cart", JSON.stringify(this.cart));
-        //         this.cart = [];
-        //         this.quantity_value = 1;
-        //         this.getCart();
-        //         console.log(this.cart)
-        //     }
-        // }
+        
         else{
             this.$swal({
                 title: 'Action Denied',
