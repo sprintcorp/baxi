@@ -133,7 +133,7 @@
                     <form action="#" @submit.prevent="saveOrder('',1)">
                         <div class="row">
                             <div class="col-md-12 mt-3">
-                                <input type="text" v-model="customer.baxi_username" placeholder="customer username" class="form-control">
+                                <input type="text" v-model="customer.baxi_username" placeholder="Baxi Username" class="form-control">
                             </div>
                         </div>
 

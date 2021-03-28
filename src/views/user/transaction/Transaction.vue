@@ -79,8 +79,8 @@
                                         <td>{{ transaction.order_group_id }}</td>
                                         <td>{{ transaction.payment_type ? transaction.payment_type.toUpperCase() : 'PENDING' }}</td>
                                         <td v-if="transaction.customer_id">
-                                          {{!transaction.customer.customer.user ? transaction.customer.customer.firstname+' '+transaction.customer.customer.lastname: transaction.customer.customer.user.buid}}<br>
-                                          <span v-if="transaction.customer && transaction.customer.customer.phone">{{transaction.customer.customer.phone}} </span>
+                                          {{!transaction.customer.user ? transaction.customer.firstname+' '+transaction.customer.lastname: transaction.customer.user.buid}}<br>
+                                          <span v-if="transaction.customer && transaction.customer.phone">{{transaction.customer.phone}} </span>
                                         </td>
                                         <td v-if="!transaction.customer_id">
                                           No Info

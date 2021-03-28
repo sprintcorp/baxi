@@ -75,7 +75,7 @@
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ transaction.order_group_id }}</td>
                                         <td>{{transaction.paid == 0 ? 'incomplete' : 'completed'}}</td>
-                                        <td>{{transaction.payment_type}}</td>
+                                          <td>{{ transaction.payment_type ? transaction.payment_type.toUpperCase() : 'PENDING' }}</td>
                                         <td>
                                             {{transaction.created_at | moment("ddd, Do MMMM 'YY, h:mma") }}
                                         </td>
@@ -222,7 +222,6 @@
                                   <div class="card-body text-center" style="padding: 0 !important;color:#ccc;">
                                     <div class="nav-link">
                                       <span class="d-block">Wallet</span>
-                                      <small><em>Coming Soon...</em></small>
                                     </div>
                                   </div>
                                 </div>
@@ -250,30 +249,73 @@
                                   <div class="card-body text-center" style="padding: 0 !important;color:#ccc;">
                                     <div class="nav-link">
                                       <span class="d-block">Other POS</span>
-                                      <small><em>Coming Soon...</em></small>
                                     </div>
                                   </div>
                                 </div>
                               </div>
 
-                              <div class="col-md-3 payment-method-card" @click="saveOrder('cash')" data-dismiss="modal">
+                            <div class="col-md-3 payment-method-card"  data-toggle="modal" data-target="#customerInfo"  data-dismiss="modal">
                                 <div class="card m-1 h-100 p-0">
-                                  <div class="mx-auto mt-1">
-                                    <img :src="require('@/assets/images/img12.png')" class='rounded' alt="img"/>
-                                  </div>
-                                  <div class="card-body text-center" style="padding: 0 !important;">
-                                    <div class="nav-link">
-                                      <span class="d-block">Cash</span>
+                                    <div class="mx-auto mt-1">
+                                        <img :src="require('@/assets/images/img12.png')" class='rounded' alt="img"/>
                                     </div>
-                                  </div>
+                                    <div class="card-body text-center" style="padding: 0 !important;">
+                                        <div class="nav-link">
+                                            <span class="d-block">Cash</span>
+                                        </div>
+                                    </div>
                                 </div>
-                              </div>
+                            </div>
                             </div>
                           </div>
                         </div>
                       </div>
 
-                      <!-- Modal -->
+
+
+                        <div class="modal fade" id="customerInfo" tabindex="-1" role="dialog" aria-labelledby="customerInfo" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h6 class="modal-title font-weight-bold"> Customer information <em>(optional)</em></h6>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-body row">
+                                        <!-- <div class="row"> -->
+                                        <div class="col-md-6">
+                                            <input type="name" v-model="customer.firstname" placeholder="Firstname" class="form-control">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="name" v-model="customer.lastname" placeholder="Lastname" class="form-control">
+                                        </div>
+                                        <!-- </div> -->
+                                        <!-- <div class="row"> -->
+                                        <div class="col-md-12 mt-3">
+                                            <input type="text " v-model="customer.phone" placeholder="Phone" class="form-control">
+                                        </div>
+
+                                        <!-- </div> -->
+                                        <!-- <div class="row"> -->
+                                        <div class="col-md-12 mt-3">
+                                            <input type="email " v-model="customer.email" placeholder="Email" class="form-control">
+                                        </div>
+                                        <!-- </div> -->
+                                        <div class="col-md-12 d-flex justify-content-end mt-2 mb-1">
+
+                                            <!-- <button class="btn btn-default mr-3" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Skip</button> -->
+                                            <button class="btn btn-warning" @click="saveOrder('cash')" data-dismiss="modal">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <!-- Modal -->
                       <div class="modal fade" id="optionModal" tabindex="-1" role="dialog" aria-labelledby="optionModal" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                           <div class="modal-content">

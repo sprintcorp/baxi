@@ -335,9 +335,49 @@
 
 
 
+                    <div class="modal fade" id="customerInfo" tabindex="-1" role="dialog" aria-labelledby="customerInfo" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h6 class="modal-title font-weight-bold"> Customer information <em>(optional)</em></h6>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                <div class="modal-body row">
+                                    <!-- <div class="row"> -->
+                                    <div class="col-md-6">
+                                        <input type="name" v-model="customer.firstname" placeholder="Firstname" class="form-control">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="name" v-model="customer.lastname" placeholder="Lastname" class="form-control">
+                                    </div>
+                                    <!-- </div> -->
+                                    <!-- <div class="row"> -->
+                                    <div class="col-md-12 mt-3">
+                                        <input type="text " v-model="customer.phone" placeholder="Phone" class="form-control">
+                                    </div>
+
+                                    <!-- </div> -->
+                                    <!-- <div class="row"> -->
+                                    <div class="col-md-12 mt-3">
+                                        <input type="email " v-model="customer.email" placeholder="Email" class="form-control">
+                                    </div>
+                                    <!-- </div> -->
+                                    <div class="col-md-12 d-flex justify-content-end mt-2 mb-1">
+
+                                        <!-- <button class="btn btn-default mr-3" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Skip</button> -->
+                                        <button class="btn btn-warning" @click="saveOrder('cash')" data-dismiss="modal">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
-                      <div class="modal fade" id="modeofpaymentModal" tabindex="-1" role="dialog" aria-labelledby="modeofpaymentModal" aria-hidden="true">
+
+                        <div class="modal fade" id="modeofpaymentModal" tabindex="-1" role="dialog" aria-labelledby="modeofpaymentModal" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -348,7 +388,7 @@
                             </div>
 
                             <div class="modal-body row">
-                              <div class="col-md-3 payment-method-card" @click="saveOrder('wallet')" data-toggle="modal" data-target="#optionModal" data-dismiss="modal">
+                              <div class="col-md-3 payment-method-card" data-toggle="modal" data-target="#optionModal" data-dismiss="modal">
                                 <div class="card m-1 h-100 p-0">
                                   <div class="mx-auto mt-1">
                                     <img :src="require('@/assets/images/img8.png')" class='rounded' alt="img"/>
@@ -356,7 +396,6 @@
                                   <div class="card-body text-center" style="padding: 0 !important;color:#ccc;">
                                     <div class="nav-link">
                                       <span class="d-block">Wallet</span>
-                                      <small><em>Coming Soon...</em></small>
                                     </div>
                                   </div>
                                 </div>
@@ -384,13 +423,12 @@
                                   <div class="card-body text-center" style="padding: 0 !important;color:#ccc;">
                                     <div class="nav-link">
                                       <span class="d-block">Other POS</span>
-                                      <small><em>Coming Soon...</em></small>
                                     </div>
                                   </div>
                                 </div>
                               </div>
 
-                              <div class="col-md-3 payment-method-card" @click="saveOrder('cash')" data-dismiss="modal">
+                              <div class="col-md-3 payment-method-card"  data-toggle="modal" data-target="#customerInfo"  data-dismiss="modal">
                                 <div class="card m-1 h-100 p-0">
                                   <div class="mx-auto mt-1">
                                     <img :src="require('@/assets/images/img12.png')" class='rounded' alt="img"/>
@@ -407,46 +445,56 @@
                         </div>
                       </div>
 
-                      <!-- Modal -->
-                      <div class="modal fade" id="optionModal" tabindex="-1" role="dialog" aria-labelledby="optionModal" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <button class="btn btn-outline-secondary rounded-pill">Wallet to wallet</button>
-                              <button type="button" class="" data-dismiss="" aria-label="">
-                                <span aria-hidden="true" class="text-primary mt-3" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">&leftarrow; Back to payment methods</span>
-                              </button>
-                            </div>
+                        <div class="modal fade" id="optionModal" tabindex="-1" role="dialog" aria-labelledby="optionModal" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button class="btn btn-outline-secondary rounded-pill">Wallet to wallet</button>
+                                        <button type="button" class="" data-dismiss="" aria-label="">
+                                            <span aria-hidden="true" class="text-primary mt-3" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">&leftarrow; Back to payment methods</span>
+                                        </button>
+                                    </div>
 
-                            <div class="modal-body text-center text-dark">
-                                <div v-if="customerWalletResponse===null">
-                                  <span class="fs-20 m-auto d-block w-75 font-weight-bold" style="border-radius: 550px;">
-                      <!--                <i class="fa fa-spinner fa-pulse fa-fw"></i>-->
-                                      &nbsp; Awaiting Customer Response...
-                                      <br>Please wait
-                                  </span>
+                                    <div class="modal-body text-center text-dark">
+                                        <div v-if="awaitingCustomerWalletResponse">
+                                            <div v-if="customerWalletResponse===null">
+                <span class="fs-20 m-auto d-block w-75 font-weight-bold" style="border-radius: 550px;">
+    <!--                <i class="fa fa-spinner fa-pulse fa-fw"></i>-->
+                    &nbsp; Awaiting Customer Response...
+                    <br>Please wait
+                </span>
 
-                                  <button class="btn btn-sm btn-warning mt-2 mr-4" @click="performPingRequest">Recheck</button>
+                                                <button class="btn btn-sm btn-success mt-2 mr-4 w-25" @click="performPingRequest"><i class="fa fa-search"></i> Check</button>
+                                                <button class="btn btn-sm btn-warning mt-2 w-25" data-dismiss="modal"><i class="fa fa-times"></i> Check Later</button>
+                                            </div>
 
-                                </div>
+                                            <span class="text-danger fs-20 m-auto d-block w-75 font-weight-bold" style="border-radius: 550px;" v-if="customerWalletResponse===false">
+                <i class="fa fa-times"></i>
+                &nbsp; Customer declined payment
+            </span>
 
-                                <span class="text-danger fs-20 m-auto d-block w-75 font-weight-bold" style="border-radius: 550px;" v-if="customerWalletResponse===false">
-                                    <i class="fa fa-times"></i>
-                                    &nbsp; Customer declined payment
-                                </span>
-
-                                <div v-if="customerWalletResponse===true">
+                                            <div v-if="customerWalletResponse===true">
                 <span class="text-success fs-20 m-auto d-block w-75 font-weight-bold" style="border-radius: 550px;" >
                     <i class="fa fa-check"></i>
                     &nbsp; Customer confirmed payment
                 </span>
 
-                                <button class="btn btn-sm btn-success mt-2" data-dismiss="modal">Done</button>
-                              </div>
+                                                <button class="btn btn-sm btn-success mt-2" data-dismiss="modal">Done</button>
+                                            </div>
+                                        </div>
+
+                                        <div v-if="!awaitingCustomerWalletResponse">
+                                            <div class="col-md-12 mt-3">
+                                                <input type="text" v-model="customer.baxi_username" placeholder="Baxi Username" class="form-control">
+                                            </div>
+                                            <!-- <button class="btn btn-outline-secondary rounded-pill">Account ID: RST12345</button> <br> -->
+                                            <button class="btn btn-warning rounded-pill mt-4" @click="saveOrder('wallet')">Continue</button>
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
-                          </div>
                         </div>
-                      </div>
 
 
                       <div class="modal fade" tabindex="-1" aria-hidden="true" id="printMe">

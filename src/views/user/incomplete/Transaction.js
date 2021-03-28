@@ -45,6 +45,13 @@ export default {
             last_order_id: null,
             wallet_transaction_response: false,
             show_receipt:false,
+            customer:{
+                firstname:'',
+                lastname:'',
+                phone:'',
+                email:'',
+                baxi_username:''
+            },
         }
     },
     computed: {
@@ -251,7 +258,7 @@ export default {
             const payload = {
                 "order_id": this.transaction_product.order_group_id,
                 "payment_type":type,
-    
+                "customer": this.customer,
             }
             this.loading = false
             console.log(payload);

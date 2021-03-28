@@ -59,14 +59,15 @@
                                     <table class="table table-striped">
                                       <thead>
                                       <tr style="text-align:center">
-                                        <th>S/N</th>
-                                        <th>Transaction Ref</th>
-                                        <th>Status</th>
-                                        <th>Payment type</th>
-                                        <th>Date</th>
-                                        <th>No of Items</th>
-                                        <th>Amount</th>
-                                        <th>View</th>
+                                          <th>S/N</th>
+                                          <th>Transaction Ref</th>
+                                          <th>Payment Type</th>
+                                          <th>Customer</th>
+                                          <th>Status</th>
+                                          <th>Transaction date</th>
+                                          <th>No of items</th>
+                                          <th>Amount</th>
+                                          <th>View</th>
                                       </tr>
                                       </thead>
                                       <tbody>
@@ -74,8 +75,13 @@
                                       <tr style="text-align:center" v-for="(transaction,index) in filterTransactions" :key="index">
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ transaction.order_group_id }}</td>
+                                          <td v-if="transaction.customer_id">
+                                              {{!transaction.customer.user ? transaction.customer.firstname+' '+transaction.customer.lastname: transaction.customer.user.buid}}<br>
+                                              <span v-if="transaction.customer && transaction.customer.phone">{{transaction.customer.phone}} </span>
+                                          </td>
+                                          <td>{{ transaction.payment_type ? transaction.payment_type.toUpperCase() : 'PENDING' }}</td>
+
                                         <td>{{transaction.paid == 0 ? 'incomplete' : 'completed'}}</td>
-                                        <td>{{transaction.payment_type}}</td>
                                         <td>
                                             {{transaction.created_at | moment("ddd, Do MMMM 'YY, h:mma") }}
                                         </td>

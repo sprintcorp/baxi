@@ -15,7 +15,7 @@ export default {
             order_products:'',
             cart_order:[],
             total:'',
-            type:'',
+            type:'pickup',
             date:'',
             show_date:false,
             saving:false,

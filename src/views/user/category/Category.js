@@ -20,7 +20,7 @@ export default {
             businesses:[],
             quantity_value:0,
             error:false,
-            type:'',
+            type:'pickup',
             date:'',
             show_cart:false,
             cart:[],

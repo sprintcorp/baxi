@@ -227,7 +227,7 @@
                                     
                                 </div>
                                 <div class="row pb-3 d-flex justify-content-center">
-                                    <button type="button" :class="quantity_value > 0 && !error ? 'btn btn-warning mr-3' : 'btn btn-warning mr-3 disabled'" data-dismiss="modal" @click="submitToCart(quantity_value,product)" style="border-radius:20px"><i class="fa fa-shopping-cart"></i> ADD TO CART</button>
+                                    <button type="button" :class="quantity_value > 0 && !error ? 'btn btn-warning mr-3' : 'btn btn-warning mr-3 disabled'" data-dismiss="modal" @click="submitToCart(product,'cart', quantity_value)" style="border-radius:20px"><i class="fa fa-shopping-cart"></i> ADD TO CART</button>
                                     <!-- <button type="button" class="btn btn-light" style="border-radius:20px;color:red" data-dismiss="modal">CLOSE</button>                                     -->
                                 </div>
                                 </div>
@@ -291,7 +291,7 @@
                         <button class="btn btn-success col-md-4" data-toggle="modal" style="font-size: 14px;" data-target="#modeofpaymentModal">Proceed <span class="fa fa-check"></span></button>
 
                           <div class="col-md-6 pull-right text-right">
-                            <button class="btn btn-warning" style="margin:2px;font-size: 14px;" data-toggle="modal" data-target="#saveInfo">Save <span class="fa fa-save"></span></button>
+                            <button class="btn btn-warning" style="margin:2px;font-size: 14px;" data-toggle="modal" data-target="#saveInfo" data-backdrop="false" @click="saveOrder('',1)">Save <span class="fa fa-save"></span></button>
                             <button class="btn btn-danger" style="margin:2px;font-size: 14px;" @click="removeCart()">Clear <span class="fa fa-times"></span></button>
                           </div>
                       </div>
@@ -342,8 +342,45 @@
           </div>
 
 
+          <div class="modal fade" id="posCustomerInfo" tabindex="-1" role="dialog" aria-labelledby="posCustomerInfo" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h6 class="modal-title font-weight-bold"> Customer information <em>(optional)</em></h6>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
 
+                <div class="modal-body row">
+                  <!-- <div class="row"> -->
+                    <div class="col-md-6">
+                      <input type="name" v-model="customer.firstname" placeholder="Firstname" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                      <input type="name" v-model="customer.lastname" placeholder="Lastname" class="form-control">
+                    </div>
+                  <!-- </div> -->
+                  <!-- <div class="row"> -->
+                    <div class="col-md-12 mt-3">
+                      <input type="text " v-model="customer.phone" placeholder="Phone" class="form-control">
+                    </div>
 
+                  <!-- </div> -->
+                  <!-- <div class="row"> -->
+                    <div class="col-md-12 mt-3">
+                      <input type="email " v-model="customer.email" placeholder="Email" class="form-control">
+                    </div>
+                  <!-- </div> -->
+                  <div class="col-md-12 d-flex justify-content-end mt-2 mb-1">
+
+                    <!-- <button class="btn btn-default mr-3" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Skip</button> -->
+                    <button class="btn btn-warning" @click="saveOrder('other_pos')" data-dismiss="modal">Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
 
           <div class="modal fade" id="saveInfo" tabindex="-1" role="dialog" aria-labelledby="saveInfo" aria-hidden="true">
@@ -351,49 +388,24 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <div class="modal-title font-weight-bold">
-                      <h6><strong>Customer information</strong> <em>(required)</em></h6>
+                      <h6 class="mb-0" style="font-family: sans-serif">Saved Order Info</h6>
+                      <small>Saved Orders can be found in your
+                          <router-link  v-if="!distributor" :to="{name:'incompleteTransaction'}">transactions</router-link>
+
+                          <router-link v-if="distributor" :to="{name:'distributorSalesTransactionIncomplete'}">transactions</router-link>
+
+                          page
+                      </small>
                   </div>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 
-                <div class="modal-body">
-                    <form action="#" @submit.prevent="saveOrder('',1)">
-                        <div class="row">
-                            <div class="col-md-12 mt-3">
-                                <input type="text" v-model="customer.baxi_username" placeholder="customer username" class="form-control">
-                            </div>
-                        </div>
-
-
-                        <div class="row">
-                            <small class="col-md-12 mt-3 text-danger"><em>Required without username</em></small>
-                            <!-- <div class="row"> -->
-                            <div class="col-md-6">
-                              <input type="name" v-bind:required="customer.baxi_username==''" v-model="customer.firstname" placeholder="Firstname *" class="form-control">
-                            </div>
-                            <div class="col-md-6">
-                              <input type="name" v-model="customer.lastname" placeholder="Lastname" class="form-control">
-                            </div>
-                          <!-- </div> -->
-                          <!-- <div class="row"> -->
-                            <div class="col-md-6 mt-3">
-                              <input type="text " v-model="customer.phone" placeholder="Phone" class="form-control">
-                            </div>
-
-                          <!-- </div> -->
-                          <!-- <div class="row"> -->
-                            <div class="col-md-6 mt-3">
-                              <input type="email " v-model="customer.email" placeholder="Email" class="form-control">
-                            </div>
-                          <!-- </div> -->
-                        </div>
-
-                      <div class="col-md-12 d-flex justify-content-end mt-2 mb-1">
-                        <button type="submit" class="btn btn-warning">Save</button>
-                      </div>
-                    </form>
+                <div class="modal-body text-center">
+                    <h5>Order ID:</h5>
+                    <h3 class="mb-3 text-success">{{ last_order_id }}</h3>
+                    <p style="font-size:18px;font-family: sans-serif;line-height:14px !important;"><small>Share with customer. <br>Last 4 digits {{ order_id_last_for_digits }} can be used for quick identification.</small></p>
                 </div>
               </div>
             </div>
@@ -440,7 +452,7 @@
               </div>
           </div>
 
-          <div class="col-md-3 payment-method-card">
+          <div class="col-md-3 payment-method-card" data-toggle="modal" data-target="#posCustomerInfo"  data-dismiss="modal">
               <div class="card m-1 h-100 p-0">
                   <div class="mx-auto mt-1">
                       <img :src="require('@/assets/images/img9.png')" class='rounded' alt="img"/>
@@ -448,7 +460,6 @@
                   <div class="card-body text-center" style="padding: 0 !important;color:#ccc;">
                       <div class="nav-link">
                           <span class="d-block">Other POS</span>
-                          <small><em>Coming Soon...</em></small>
                       </div>
                   </div>
               </div>

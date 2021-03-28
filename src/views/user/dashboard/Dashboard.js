@@ -60,10 +60,14 @@ export default {
                     'Authorization': getToken()
             },
             last_order_id: null,
-            wallet_transaction_response: false
+            wallet_transaction_response: false,
         }
     },
     computed: {
+        order_id_last_for_digits() {
+            if(this.last_order_id) return this.last_order_id.slice(-4);
+        },
+
         filerResult() {
             
             if(isNaN(this.search)){                
@@ -77,10 +81,13 @@ export default {
     methods: {
         myChangeFunction(){
             // if(this.filerResult().length == 1){
-                const data = this.results.filter((result) => result.sku.toLowerCase().includes(this.search.toLowerCase()))
+                const data = this.results.filter((result) => result.barcode.toLowerCase().includes(this.search.toLowerCase()))
                 console.log(data);
                 // this.quantity_value = 1;
-                // this.submitToCart(this.quantity_value,data[0]);
+                if(this.search.length > 2){
+                    this.submitToCart(data[0],'scan');
+                    this.search = '';
+                }
             // }
         },
         fetchFees() {
@@ -119,6 +126,7 @@ export default {
 
             if(this.customerWalletResponse !== null) {
                 this.getProducts(true);
+
                 clearInterval(interval);
             }
         },
@@ -162,8 +170,12 @@ export default {
                 arr[index] = obj;
             }
         },
-        submitToCart(value,product){
+        submitToCart(product,type,value = 1){
             // product.quantity = value
+            // if(type == 'scan' && !value){
+                // value = 1;
+                console.log(type)
+            // }
             if(value > 0 && value <= product.quantity){
             product.qty = value
             product.price = value * product.sell_price 
@@ -182,25 +194,56 @@ export default {
             this.quantity_value = 1;
             this.getCart();
             console.log(this.cart)
-        }else{
-            if (JSON.parse(window.localStorage.getItem("distributor_cart"))) {
-                this.cart = JSON.parse(window.localStorage.getItem("distributor_cart"))
+            }else{
+                if (JSON.parse(window.localStorage.getItem("distributor_cart"))) {
+                    this.cart = JSON.parse(window.localStorage.getItem("distributor_cart"))
+                }
+                this.pushToArray(this.cart, product);
+                window.localStorage.setItem("distributor_cart", JSON.stringify(this.cart));
+                this.cart = [];
+                this.quantity_value = 1;
+                this.getCart();
+                console.log(this.cart)
             }
-            this.pushToArray(this.cart, product);
-            window.localStorage.setItem("distributor_cart", JSON.stringify(this.cart));
-            this.cart = [];
-            this.quantity_value = 1;
-            this.getCart();
-            console.log(this.cart)
         }
-    }else{
-        this.$swal({
-            title: 'Action Denied',
-            text: "Quantity must not be more than available quantity or less than One",
-            icon: 'warning',
-            confirmButtonText: 'ok'
-        });
-    }
+        // else if(type == 'scan'){
+        //     product.qty = 1
+        //     product.price = value * product.sell_price 
+        //     product.int_amount = product.amount
+        //     product.amount = product.price.toString()
+        //     // product.customer.name = 'web';
+        //     // product.customer.replace = true;
+        //     product.retailer_id = getId()
+        //     if(!this.distributor){
+        //     if (JSON.parse(window.localStorage.getItem("retailer_cashier_order"))) {
+        //         this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
+        //     }
+        //     this.pushToArray(this.cart, product);
+        //     window.localStorage.setItem("retailer_cashier_order", JSON.stringify(this.cart));
+        //     this.cart = [];
+        //     this.quantity_value = 1;
+        //     this.getCart();
+        //     console.log(this.cart)
+        //     }else{
+        //         if (JSON.parse(window.localStorage.getItem("distributor_cart"))) {
+        //             this.cart = JSON.parse(window.localStorage.getItem("distributor_cart"))
+        //         }
+        //         this.pushToArray(this.cart, product);
+        //         window.localStorage.setItem("distributor_cart", JSON.stringify(this.cart));
+        //         this.cart = [];
+        //         this.quantity_value = 1;
+        //         this.getCart();
+        //         console.log(this.cart)
+        //     }
+        // }
+        else{
+            this.$swal({
+                title: 'Action Denied',
+                text: "Quantity must not be more than available quantity or less than One",
+                icon: 'warning',
+                confirmButtonText: 'ok'
+            });
+        }
 
         },
         getResponse() {
@@ -504,6 +547,7 @@ export default {
             }
         },
         increaseCart(cart,index){
+            console.log(this.cart[index].qty)
             if(this.cart[index].qty < this.cart[index].quantity){
             var size = ++this.cart[index].qty;
             }else{
@@ -820,15 +864,15 @@ export default {
             this.loading = true;
 
             console.log(this.customer);
-                if(this.distributor){
-                    this.saved_orders = JSON.parse(window.localStorage.getItem("distributor_cart"))
-                    var business =  JSON.parse(window.localStorage.getItem("cashier_business"))
-                    var url = '/my/distributor/customer/order'
-                }else{
-                    this.saved_orders = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
-                    business = JSON.parse(window.localStorage.getItem("retailer_business"))
-                    url = '/my/retailer/orders'
-                }
+            if(this.distributor){
+                this.saved_orders = JSON.parse(window.localStorage.getItem("distributor_cart"))
+                var business =  JSON.parse(window.localStorage.getItem("cashier_business"))
+                var url = '/my/distributor/customer/order'
+            }else{
+                this.saved_orders = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
+                business = JSON.parse(window.localStorage.getItem("retailer_business"))
+                url = '/my/retailer/orders'
+            }
             const payload = {
                 "orders": this.saved_orders,
                 "business_id":business,
@@ -868,11 +912,18 @@ export default {
                                 confirmButtonText: 'ok'
                             });
                         }
-                            this.getProducts(true);
+                        this.getProducts(true);
                         
 
                         this.removeCart();
-                        this.customer = [];
+                        this.customer = {
+                            firstname:'',
+                            lastname:'',
+                            phone:'',
+                            email:'',
+                            baxi_username:''
+                        };
+
                         this.show_cat = false;
                         this.cart_order = [];
                     }else{
