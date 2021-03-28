@@ -97,14 +97,19 @@ export default {
                 // const data = this.results.filter((result) => result.barcode.toLowerCase().includes(this.search.toLowerCase()))
                 // console.log(data);
                 console.log(this.search)
+                var url = '/my/distributor/products?barcode='+this.search
+                if(!this.distributor){
+                    url = '/my/outlet/'+window.localStorage.getItem("retailer_outlet")+'/products?barcode='+this.search
+                }
                 if(this.search.length > 10){
-                    fetch(BASE_URL + '/my/outlet/'+window.localStorage.getItem("retailer_outlet")+'/products?barcode='+this.search, { headers: this.api_headers})
+                    fetch(BASE_URL + url, { headers: this.api_headers})
                     .then(response => response.json())
                     .then(response => {
                         
                         console.log(response.data)
                         this.products = response.data.data;
                         this.results = [];
+                        if(!this.distributor){
                         this.products.forEach((data) => {
                             this.results.push({
                                 product_id: data.id,
@@ -122,7 +127,46 @@ export default {
 
                             });
                         });
-                        this.submitToCart(this.results[0],'scan');
+                    }else{
+                        this.products.forEach((data) => {
+                            this.results.push({
+                                product_id: data.id,
+                                name: data.product.name,
+                                amount: parseInt(data.pack_price),
+                                sell_price: parseInt(data.pack_price),
+                                quantity: data.qty,
+                                size: data.product.size,
+                                public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
+                                qty: data.qty,
+                                sku: data.product.sku,
+                                barcode: data.product.barcode ? data.product.barcode : 'No Barcode',
+                                date:data.product.created_at,
+                                minimum_order: data.minimum_order_qty,
+                                customer: {
+                                    name: 'web',
+                                }
+        
+                            });
+                        });
+                    }
+                        (async () => {
+
+                            const { value: quantity } = await this.$swal({
+                              title: 'Quantity',
+                              input: 'number',
+                              inputLabel: 'Product Quantity',
+                              inputPlaceholder: 'Enter quantity',
+                              inputAttributes: {
+                                maxlength: 10,
+                                autocapitalize: 'off',
+                                autocorrect: 'off'
+                              }
+                            })
+                            console.log(quantity)
+                            this.submitToCart(this.results[0],'scan',quantity);
+                            })()
+                          
+                        
                     })
                     .catch(err => console.log(err));
                             
