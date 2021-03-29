@@ -684,9 +684,9 @@ export default {
                     this.saving = true;
                     const payload = {
                         'qty':this.retailer_product.restock,
-                        'product_id':this.retailer_product.product_id
+                        'price':this.retailer_product.price
                     };
-                fetch(BASE_URL + '/my/outlet/' + window.localStorage.getItem("retailer_outlet") + '/product', {
+                fetch(BASE_URL + '/my/outlet/' + window.localStorage.getItem("retailer_outlet") + '/product/'+this.retailer_product.product_id, {
                     method: 'PUT',
                     body: JSON.stringify(payload),
                     headers: {
