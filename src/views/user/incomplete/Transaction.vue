@@ -80,15 +80,15 @@
                                         <!-- <td>{{ transaction.payment_type ? transaction.payment_type.toUpperCase() : 'PENDING' }}</td> -->
 
                                         <td v-if="transaction.customer &&
-                                                transaction.customer.customer.user_id">
-                                          {{ transaction.customer.customer.user.buid }}
+                                                transaction.customer.user_id">
+                                          {{ transaction.customer.user.buid }}
                                         </td>
 
-                                          <td v-if="transaction.customer && !transaction.customer.customer.user_id">
+                                          <td v-if="transaction.customer && !transaction.customer.user_id">
                                             <!-- <td> -->
                                               {{
-                                              transaction.customer ? transaction.customer.customer.firstname+' '+transaction.customer.customer.lastname : 'No info'}}<br>
-                                              <span v-if="transaction.customer && transaction.customer.customer.phone">{{transaction.customer.customer.phone}}</span>
+                                              transaction.customer ? transaction.customer.firstname+' '+transaction.customer.lastname : 'No info'}}<br>
+                                              <span v-if="transaction.customer && transaction.customer.phone">{{transaction.customer.phone}}</span>
                                           </td>
 
                                           <td v-if="!transaction.customer">

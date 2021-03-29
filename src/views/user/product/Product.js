@@ -542,7 +542,7 @@ export default {
                         this.products.forEach((data) => {
                             this.local_product.push({
                                 sales_stat: data.sales_stat,
-                                product_id: data.product.id,
+                                product_id: data.id,
                                 name: data.product.name,
                                 recommended_price: parseInt(data.pack_price),
                                 quantity: data.qty,
@@ -618,7 +618,8 @@ export default {
         updateProduct(){
             this.saving = true;
             if(getRole() == 'Distributor'){
-                this.page = '/my/products/' + this.retailer_product.product_id
+                this.retailer_product.type = 'pack';
+                this.page = '/my/distributor/product/' + this.retailer_product.product_id
             }else{
                 this.page = '/my/outlet/'+window.localStorage.getItem("retailer_outlet")+'/product/' + this.retailer_product.product_id
             }
@@ -637,12 +638,21 @@ export default {
             .then(res => res.json())
             .then(res => {
                 this.saving = false;
-                this.$swal({
-                    title: 'Success',
-                    text: res.message,
-                    icon: 'success',
-                    confirmButtonText: 'ok'
-                });
+                if(res.success){
+                    this.$swal({
+                        title: 'Success',
+                        text: res.message,
+                        icon: 'success',
+                        confirmButtonText: 'ok'
+                    });
+                }else{
+                    this.$swal({
+                        title: 'Warning',
+                        text: res.message,
+                        icon: 'warning',
+                        confirmButtonText: 'ok'
+                    });
+                }
                 this.getProducts();
                 this.getCategories();
             })
@@ -688,13 +698,21 @@ export default {
                 .then(res => res.json())
                 .then(res => {
                     this.saving = false;
-                    
+                    if(res.success){
                     this.$swal({
                         title: 'Success',
                         text: res.message,
                         icon: 'success',
                         confirmButtonText: 'ok'
                     });
+                }else{
+                    this.$swal({
+                        title: 'Warning',
+                        text: res.message,
+                        icon: 'warning',
+                        confirmButtonText: 'ok'
+                    });
+                }
                     this.getProducts();
                     this.getCategories();
                 })
@@ -741,12 +759,21 @@ export default {
                 .then(res => {
                     this.saving = false;
                     
-                    this.$swal({
-                        title: 'Success',
-                        text: res.message,
-                        icon: 'success',
-                        confirmButtonText: 'ok'
-                    });
+                    if(res.success){
+                        this.$swal({
+                            title: 'Success',
+                            text: res.message,
+                            icon: 'success',
+                            confirmButtonText: 'ok'
+                        });
+                    }else{
+                        this.$swal({
+                            title: 'Warning',
+                            text: res.message,
+                            icon: 'warning',
+                            confirmButtonText: 'ok'
+                        });
+                    }
                     this.getProducts();
                     this.getCategories();
                 })

@@ -93,6 +93,12 @@ export default {
         }
     },
     methods: {
+        focusScanner(){
+            this.$refs.search.focus()
+        },
+        clear(){
+            this.search = '';
+        },
         myChangeFunctions(){
                 // const data = this.results.filter((result) => result.barcode.toLowerCase().includes(this.search.toLowerCase()))
                 // console.log(data);

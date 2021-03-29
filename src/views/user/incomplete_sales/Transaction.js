@@ -249,13 +249,19 @@ export default {
 
             fetch(BASE_URL + url, {
                 method: 'GET',
-                headers: this.api_headers
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': getToken()
+                }
             })
                 .then(res => res.json())
                 .then(res => {
                     console.log('wallet response', res);
 
                     this.customerWalletResponse = res.data;
+                    // this. closeReceipt()
+                    // this.getTransaction()
                 })
                 .catch(err => console.log(err));
         },

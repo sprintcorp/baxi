@@ -64,25 +64,25 @@ export default {
         }
     },
     computed: {
-        filerResult() {
+        // filerResult() {
             
-            if(isNaN(this.search)){                
-                return this.results.filter((result) => result.name.toLowerCase().includes(this.search.toLowerCase()) || result.sku.toLowerCase().includes(this.search.toLowerCase()))
-            }else{
-                this.myChangeFunction();
-                return this.results.filter((result) => result.sku.toLowerCase().includes(this.search.toLowerCase()))
-            }
-        }
+        //     if(isNaN(this.search)){                
+        //         return this.results.filter((result) => result.name.toLowerCase().includes(this.search.toLowerCase()) || result.sku.toLowerCase().includes(this.search.toLowerCase()))
+        //     }else{
+        //         this.myChangeFunction();
+        //         return this.results.filter((result) => result.sku.toLowerCase().includes(this.search.toLowerCase()))
+        //     }
+        // }
     },
     methods: {
-        myChangeFunction(){
-            // if(this.filerResult().length == 1){
-                const data = this.results.filter((result) => result.sku.toLowerCase().includes(this.search.toLowerCase()))
-                console.log(data);
-                // this.quantity_value = 1;
-                // this.submitToCart(this.quantity_value,data[0]);
-            // }
-        },
+        // myChangeFunction(){
+        //     // if(this.filerResult().length == 1){
+        //         const data = this.results.filter((result) => result.sku.toLowerCase().includes(this.search.toLowerCase()))
+        //         console.log(data);
+        //         // this.quantity_value = 1;
+        //         // this.submitToCart(this.quantity_value,data[0]);
+        //     // }
+        // },
         fetchFees() {
           fetch(BASE_URL + '/fees', { headers: this.api_headers})
               .then(response => response.json())
@@ -249,7 +249,7 @@ export default {
             }
         },
         getCart(){
-            if (JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length > 0 && !this.distributor) {
+            if (JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length > 0 && getRole().toLowerCase() !== 'distributor') {
                 const cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order")).filter(cart => parseInt(cart.retailer_id) == getId());
                 this.cart = cart;
                 this.sumProduct()
@@ -258,7 +258,7 @@ export default {
                 }
             }
 
-            if (JSON.parse(window.localStorage.getItem("distributor_cart")) && JSON.parse(window.localStorage.getItem("distributor_cart")).length > 0 && this.distributor) {
+            if (JSON.parse(window.localStorage.getItem("distributor_cart")) && JSON.parse(window.localStorage.getItem("distributor_cart")).length > 0 && getRole().toLowerCase() == 'distributor') {
                 
                 const cart = JSON.parse(window.localStorage.getItem("distributor_cart")).filter(cart => parseInt(cart.retailer_id) == getId());
                 this.cart = cart;

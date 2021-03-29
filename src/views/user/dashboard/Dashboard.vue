@@ -51,10 +51,15 @@
 
           <div class="row" v-if="change_outlet" style="margin-top:-30px">
             <div class="col-md-12 d-flex justify-content-center">
-             <!-- <form class="form-inline search-form my-2 my-lg-0" style="width:90%"> -->
-                    <input type="text" v-model="search" placeholder="Type to search for a product" class="inp" style="background-color:white;width:91%;"/>
-                    <button type="submit"><i class="fa fa-search"></i></button>
-              <!-- </form> -->
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1" @click="focusScanner()"><img :src="require('@/assets/icon/qr-code.png')" class='rounded' alt="img"/></span>
+                    </div>
+                  
+                    <input type="text" ref="search" v-model="search" placeholder="Type to search for a product" class="inp" style="background-color:white;width:91%;"/>
+                  </div>
+                    <button type="submit" @click="clear()"><i class="fa fa-times-circle"></i></button>
+              
             </div>
           </div>
 
