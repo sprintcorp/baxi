@@ -84,7 +84,7 @@ export default {
     },
     watch: {
         search(barcode){
-            if(barcode.length > 11 && !isNaN(barcode)){
+            if(barcode.length > 6 && !isNaN(barcode)){
                this.myChangeFunctions(); 
             }
             if(barcode.length > 4 && barcode.length < 6){
@@ -109,7 +109,7 @@ export default {
                 if(!this.distributor){
                     url = '/my/outlet/'+window.localStorage.getItem("retailer_outlet")+'/products?barcode='+this.search
                 }
-                if(this.search.length > 10){
+                if(this.search.length > 6){
                     fetch(BASE_URL + url, { headers: this.api_headers})
                     .then(response => response.json())
                     .then(response => {
@@ -117,7 +117,8 @@ export default {
                         console.log(response.data)
                         this.products = response.data.data;
                         this.results = [];
-                        if(!this.distributor){
+                        console.log(this.distributor)
+                    if(!this.distributor){
                         this.products.forEach((data) => {
                             this.results.push({
                                 product_id: data.id,
@@ -159,7 +160,7 @@ export default {
                     }
                     // this.scan = true;
                     // this.product = this.results[0];
-                    if(this.results[0].length > 0){
+                    if(response.data.data.length > 0){
                         (async () => {
 
                             const { value: quantity } = await this.$swal({
@@ -173,7 +174,7 @@ export default {
                                 autocorrect: 'off'
                               }
                             })
-                            console.log(quantity)
+                            console.log(this.results[0])
                             this.submitToCart(this.results[0],'scan',quantity);
                             })()
                         }
