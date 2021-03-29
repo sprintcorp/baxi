@@ -405,7 +405,7 @@ export default {
                         this.products.forEach((data) => {
                             this.local_product.push({
                                 sales_stat: data.sales_stat,
-                                product_id: data.product.id,
+                                product_id: data.id,
                                 name: data.product.name,
                                 amount: parseInt(data.price),
                                 recommended_price: parseInt(data.price),
@@ -473,7 +473,7 @@ export default {
                         this.products.forEach((data) => {
                             this.local_product.push({
                                 sales_stat: data.sales_stat,
-                                product_id: data.product.id,
+                                product_id: data.id,
                                 name: data.product.name,
                                 recommended_price: parseInt(data.price),
                                 price: parseInt(data.price),
@@ -857,12 +857,21 @@ export default {
             .then(res => res.json())
             .then(res => {
                 this.saving = false;
-                this.$swal({
-                    title: 'Success',
-                    text: res.message,
-                    icon: 'success',
-                    confirmButtonText: 'ok'
-                });
+                if(res.success){
+                    this.$swal({
+                        title: 'Success',
+                        text: res.message,
+                        icon: 'success',
+                        confirmButtonText: 'ok'
+                    });
+                }else{
+                    this.$swal({
+                        title: 'Warning',
+                        text: res.message,
+                        icon: 'warning',
+                        confirmButtonText: 'ok'
+                    });
+                }
                 console.log(res);
                 this.getProducts();
                 this.getCategories();
@@ -893,13 +902,21 @@ export default {
                 .then(res => res.json())
                 .then(res => {
                     this.saving = false;
-                    this.$swal();
+                   if(res.success){
                     this.$swal({
                         title: 'Success',
                         text: res.message,
                         icon: 'success',
                         confirmButtonText: 'ok'
                     });
+                }else{
+                    this.$swal({
+                        title: 'Warning',
+                        text: res.message,
+                        icon: 'warning',
+                        confirmButtonText: 'ok'
+                    });
+                }
                     this.getProducts();
                     this.getCategories();
                 })

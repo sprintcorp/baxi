@@ -42,7 +42,7 @@
 
                 <div style="margin-right: 20px;">
                     <div v-if="!distributor && order_products" class="pull-right mt-2">
-                        <h6 style="font-size:16px;text-align: right"><i class="fa fa-building"></i> <strong>{{name}}</strong></h6>
+                        <h6 style="font-size:16px;text-align: right"><i class="fa fa-building"></i> <strong>{{name.length > 20 ? name.substr(0, 20)+'...' : name}}</strong></h6>
                         <!-- <h5 style="font-size:18px;">{{name}}</h5> -->
                     </div>
 
