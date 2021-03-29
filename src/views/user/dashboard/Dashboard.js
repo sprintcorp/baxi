@@ -62,6 +62,7 @@ export default {
             },
             last_order_id: null,
             wallet_transaction_response: false,
+            scan:false,
         }
     },
     computed: {
@@ -98,6 +99,7 @@ export default {
         },
         clear(){
             this.search = '';
+            this.getProducts();
         },
         myChangeFunctions(){
                 // const data = this.results.filter((result) => result.barcode.toLowerCase().includes(this.search.toLowerCase()))
@@ -155,6 +157,9 @@ export default {
                             });
                         });
                     }
+                    // this.scan = true;
+                    // this.product = this.results[0];
+                    if(this.results[0].length > 0){
                         (async () => {
 
                             const { value: quantity } = await this.$swal({
@@ -171,7 +176,7 @@ export default {
                             console.log(quantity)
                             this.submitToCart(this.results[0],'scan',quantity);
                             })()
-                          
+                        }
                         
                     })
                     .catch(err => console.log(err));

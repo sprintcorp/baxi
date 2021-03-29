@@ -246,6 +246,58 @@
                         </div>
                         <!-- End of Add Cart -->
 
+
+<!-- 
+                        <div class="modal fade" id="scan" tabindex="-1" role="dialog" aria-labelledby="product" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content" style="width:450px !important;">
+                                    <div class="row text-center">
+                                        <div class="col-md-12 mt-4">
+                                            <div class="fs-20 font-weight-bolder text-black">Add this item to order?</div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="close-modal" data-dismiss="modal"><img :src="require('@/assets/icon/noun_cancel_2014884.png')" class='rounded' alt="img"/></button>
+                                    
+                                <div class="modal-body" style="margin-top:-65px">
+                                     <div class="row card border-0">
+                                        <div class="text-center"><img :src="product.public_image_url" width="200" height="200"/></div>
+                                        <div class="fs-15 mt-2 h5 text-center">{{product.name}} ({{product.size}})</div>
+                                        <div class="fs-15 mt-1 h5 text-center">&#8358; {{ numberWithCommas(product.sell_price) }}.00</div>
+                                        <div class="fs-13 text-center">{{ product.quantity }} Units Left</div>
+                                        
+                                        <div class="fs-15 mt-1 mb-1 text-center">Select Quantity</div>
+                                        <div class="row">
+                                            <div class="col-md-12 d-flex justify-content-end">
+                                                <div class="input-group mb-1">
+                                                    <input type="button" @click="decrease(product.quantity)" v-if="distributor" value="-" class="button-minus" data-field="quantity">
+                                                    <input type="number" v-if="distributor" step="1" :max="product.quantity" :min="product.minimum_order" :value="quantity_value" name="quantity" @change="changes()" class="quantity-field">
+
+
+                                                    <input type="button" v-if="!distributor" @click="decrease(product.quantity)" value="-" class="button-minus" data-field="quantity">
+                                                    <input type="number" v-if="!distributor" step="1" max=""  :value="quantity_value" name="quantity" @change="changes()" class="quantity-field">
+                                                    <input type="button" @click="increase(product.quantity)" value="+" class="button-plus" data-field="quantity">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="fs-15 mt-5 mb-1 text-center" style="color:red" v-if="error">Selected quantity is more than available quantity</div>
+                                    </div>
+                                    
+
+                                   
+                                    
+                                </div>
+                                <div class="row pb-3 d-flex justify-content-center">
+                                    <button type="button" :class="quantity_value > 0 && !error ? 'btn btn-warning mr-3' : 'btn btn-warning mr-3 disabled'" data-dismiss="modal" @click="submitToCart(product,'cart', quantity_value)" style="border-radius:20px"><i class="fa fa-shopping-cart"></i> ADD TO CART</button>
+                                   
+                                </div>
+                                </div>
+                            </div>
+                        </div> -->
+
+
+
+
+
             <div class="col-md-4" v-if="show_cat" style="margin-top:-20px;min-height:20vh;overflow:hidden;right: 0;">
                 <div class="bg-warning"><h4 class="m-0 p-2">
                     <i class="fa fa-shopping-cart"></i>

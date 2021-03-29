@@ -63,6 +63,7 @@
                                         <th>Transaction Ref</th>
                                         <th>Status</th>
                                         <th>Payment type</th>
+                                        <th>Customer</th>
                                         <th>Date</th>
                                         <th>No of Items</th>
                                         <th>Amount</th>
@@ -75,7 +76,14 @@
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ transaction.order_group_id }}</td>
                                         <td>{{transaction.paid == 0 ? 'incomplete' : 'completed'}}</td>
-                                          <td>{{ transaction.payment_type ? transaction.payment_type.toUpperCase() : 'PENDING' }}</td>
+                                        <td>{{ transaction.payment_type ? transaction.payment_type.toUpperCase() : 'PENDING' }}</td>
+                                        <td v-if="transaction.customer_id">
+                                          {{!transaction.customer.user ? transaction.customer.firstname+' '+transaction.customer.lastname: transaction.customer.user.buid}}<br>
+                                          <span v-if="transaction.customer && transaction.customer.phone">{{transaction.customer.phone}} </span>
+                                        </td>
+                                        <td v-if="!transaction.customer_id">
+                                          No Info
+                                        </td>
                                         <td>
                                             {{transaction.created_at | moment("ddd, Do MMMM 'YY, h:mma") }}
                                         </td>
