@@ -155,7 +155,7 @@
                 <!-- <div class="row"> -->
                           <download-csv
                               class="btn btn-info"
-                              :data="filterTransactions"
+                              :data="transactions"
                               name="transaction.csv">
 
                               Download Excel <i class="fa fa-file"></i>
