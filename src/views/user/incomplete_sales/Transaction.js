@@ -267,12 +267,21 @@ export default {
         },
 
         checkingCustomerWalletResponse() {
-            console.log("got here");
-            let interval = setInterval(() => this.performPingRequest(), 1000);
-
-            if(this.customerWalletResponse !== null) {
-                clearInterval(interval);
+            // console.log("got here");
+            if(this.awaitingCustomerWalletResponse == true){
+              setInterval(() => this.performPingRequest(), 3000);
             }
+
+            // if(this.customerWalletResponse !== null) {
+            //     clearInterval(interval);
+            // }
+        },
+        confirmPayment(){
+            this.awaitingCustomerWalletResponse = false;
+            this.customerWalletResponse = false;
+            this.getTransaction();
+            this.closeReceipt()
+            console.log('hello ' + this.awaitingCustomerWalletResponse);
         },
     },
 

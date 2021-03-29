@@ -29,7 +29,16 @@
 
          </div>
          <div class="col-md-7" style="height:100vh">
-            <div class="right-side-image">
+            <div class="slider_div">
+
+              <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item active right-side-image" v-for="(slide,index) in slider" :key="index">
+                    <img class="d-block w-100" :src="slide.image" alt="First slide">
+                  </div>
+                  
+                </div>
+              </div>
              
               
             </div>
@@ -84,14 +93,22 @@
     /* margin-right: 50%; */
     margin-top: 20%;
   }
-
+  img {
+    max-width: 100%;
+    max-height: 100%;
+}
   .right-side-image {
-    background-image: url(/images/background.png);
+    /* background-image: url(/images/background.png); */
     width: 100%;
     height:100vh;
     background-size: cover;
     background-repeat: no-repeat;
+    overflow: hidden;
+    margin-top: 0px;
     /* zoom:1 */
+  }
+  .slider_div{
+    margin-top: -50px;
   }
 
   .container-fluid{

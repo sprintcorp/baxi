@@ -362,6 +362,9 @@
                               <button type="button" class="" data-dismiss="" aria-label="">
                                 <span aria-hidden="true" class="text-primary mt-3" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">&leftarrow; Back to payment methods</span>
                               </button>
+                              <button type="button" @click="confirmPayment()" class="" data-dismiss="modal" aria-label="">
+                                X
+                              </button>
                             </div>
 
                               <div class="modal-body text-center text-dark">
@@ -374,7 +377,7 @@
                 </span>
 
                                           <button class="btn btn-sm btn-success mt-2 mr-4 w-25" @click="performPingRequest"><i class="fa fa-search"></i> Check</button>
-                                          <button class="btn btn-sm btn-warning mt-2 w-25" data-dismiss="modal"><i class="fa fa-times"></i> Check Later</button>
+                                          <button type="submit" @click=" confirmPayment()" class="btn btn-sm btn-warning mt-2 w-25" data-dismiss="modal"><i class="fa fa-times"></i> Check Later</button>
                                       </div>
 
                                       <span class="text-danger fs-20 m-auto d-block w-75 font-weight-bold" style="border-radius: 550px;" v-if="customerWalletResponse===false">
@@ -388,7 +391,7 @@
                     &nbsp; Customer confirmed payment
                 </span>
 
-                                          <button class="btn btn-sm btn-success mt-2" data-dismiss="modal">Done</button>
+                                          <button type="submit" @click=" confirmPayment()" class="btn btn-sm btn-success mt-2" data-dismiss="modal">Done</button>
                                       </div>
                                   </div>
 

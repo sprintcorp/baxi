@@ -16,6 +16,7 @@ export default {
                 username: '',
                 password: '',
             },
+            slider:[],
         };
     },
 
@@ -75,6 +76,24 @@ export default {
                     });
                 })
             // }
+        },
+        getSlides(){
+            fetch('https://ams.baxi.com.ng/api/ads?advertTypeId=2', { 
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            })
+              .then(response => response.json())
+              .then(response => {
+                this.slider = response.data
+                 
+                  console.log(response)
+              })
+              .catch(err => console.log(err));
         }
     },
+    created(){
+        this.getSlides();
+    }
 }

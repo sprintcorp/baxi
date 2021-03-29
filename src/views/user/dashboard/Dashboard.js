@@ -219,8 +219,14 @@ export default {
                 console.log('wallet response', res);
 
                 this.customerWalletResponse = res.data;
+                window.setTimeout(this.customerWalletResponse == '',5000);
             })
             .catch(err => console.log(err));
+        },
+        confirmPayment(){
+            this.awaitingCustomerWalletResponse = false;
+            this.customerWalletResponse = false;
+            console.log('hello ' + this.awaitingCustomerWalletResponse);
         },
 
         checkingCustomerWalletResponse() {
@@ -706,6 +712,7 @@ export default {
                 this.getCart();
                 this.sumProduct();
                 this.checkColumn(); 
+                
             }
         },
         checkColumn(){
