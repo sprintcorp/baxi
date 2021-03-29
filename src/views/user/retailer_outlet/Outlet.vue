@@ -383,7 +383,7 @@
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary" @click="createOutlet()">Save</button>
+                      <button type="submit" class="btn btn-primary" @click="createOutlet()" data-dismiss="modal">Save</button>
                     </div>
                   </div>
                 </div>

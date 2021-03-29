@@ -300,6 +300,7 @@ export default {
                 );
         },
         createOutlet(){
+            if(this.payload.name.length >= 3){
             this.saving = true;
               fetch(BASE_URL + '/my/outlets/new', {
                   method: 'POST',
@@ -319,7 +320,7 @@ export default {
                     icon: 'success',
                     confirmButtonText: 'ok'
                 });
-                  
+                  this.getBusinessOutlets()
               })
               .catch(err => {
                   this.$swal({
@@ -342,6 +343,14 @@ export default {
                       this.$router.push({ name: 'welcome' });
                   }
               });
+            }else{
+                this.$swal({
+                    title: 'warning',
+                    text: "Outlet name must be more than 2 characters long",
+                    icon: 'warning',
+                    confirmButtonText: 'ok'
+                });
+            }
           },
         getTransactionDuration(){
             // var newDate = Date.now() + -parseInt(this.duration)*24*3600*1000;
