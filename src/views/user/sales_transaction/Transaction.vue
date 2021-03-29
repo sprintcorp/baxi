@@ -92,7 +92,7 @@
                                         <td>{{transaction.orders.length}}</td>
                                         <td>&#8358; {{numberWithCommas(transaction.amount)}}</td>
                                         <td>
-                                          <button type="button" @click="showTransaction(transaction)" class="btn btn-warning text-white"><i class="fa fa-eye"></i></button>
+                                          <button type="button" @click="showTransaction(transaction)" class="btn btn-warning btn-sm text-white"><i class="fa fa-eye"></i></button>
                                         </td>
                                       </tr>
                                       </tbody>

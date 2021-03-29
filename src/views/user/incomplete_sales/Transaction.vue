@@ -67,7 +67,7 @@
                                         <th>Date</th>
                                         <th>No of Items</th>
                                         <th>Amount</th>
-                                        <th>View</th>
+                                        <th>Action</th>
                                       </tr>
                                       </thead>
                                       <tbody>
@@ -90,7 +90,8 @@
                                         <td>{{transaction.orders.length}}</td>
                                         <td>&#8358; {{numberWithCommas(transaction.amount)}}</td>
                                         <td>
-                                          <button type="button" @click="showTransaction(transaction)" class="btn btn-warning text-white"><i class="fa fa-eye"></i></button>
+                                          <button type="button" @click="showTransaction(transaction)" class="btn btn-warning mr-1 btn-sm text-white"><i class="fa fa-eye"></i></button>
+                                          <button type="button" @click="confirmDelivery(transaction.id)" class="btn btn-dark btn-sm text-white"><i class="fa fa-trash"></i></button>
                                         </td>
                                       </tr>
                                       </tbody>

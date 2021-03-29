@@ -283,7 +283,7 @@
                         </div>
                       </div>
 
-
+                    
                       <div class="modal fade" id="product" tabindex="-1" aria-labelledby="product" aria-hidden="true">
                         <div class="modal-dialog modal-xl modal-dialog-centered">
                           <div class="modal-content">
@@ -306,7 +306,7 @@
                                       <!-- <Select2 v-model="myValue" class="form-control" style="width:200px" :options="system_products" :settings="{ settingOption: value, settingOption: value }"
                                     @change="myChangeEvent($event)" @select="mySelectEvent($event)"/> -->
                                     
-                                      <Select2 v-model="myValue" style="width:100%" :options="list_products" :settings="select2Options" @change="myChangeEvent($event)" @select="selectedProduct($event)" />
+                                      <Select2 v-model="myValue" style="width:100%" :options="list_products" :settings="select2Options" @change="myChangeEvent($event)" @select="selectedProduct($event)" required />
 
 <!--                                      <Dropdown-->
 <!--                                        :options="list_products"-->
@@ -323,7 +323,7 @@
                                             <div class="input-group-prepend">
                                               <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/coins.png')" class='rounded' alt="img"/></span>
                                             </div>
-                                              <input type="text" class="form-control" v-model="product.pack_price" aria-describedby="quantity">
+                                              <input type="text" class="form-control" v-model="product.pack_price" aria-describedby="quantity" required>
                                           </div>
                                         <input type="hidden" class="form-control" v-model="retailer_product.product_id" aria-describedby="quantity">
                                  
@@ -339,8 +339,8 @@
                                         <div class="input-group-prepend">
                                           <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/noun_product_2646445.png')" class='rounded' alt="img"/></span>
                                         </div>
-                                        <input type="text" v-if="distributor" class="form-control" v-model="product.pack_qty" aria-describedby="quantity">
-                                        <input type="text" v-if="!distributor" class="form-control" v-model="product.qty" aria-describedby="quantity">
+                                        <input type="text" v-if="distributor" class="form-control" required v-model="product.pack_qty" aria-describedby="quantity">
+                                        <input type="text" v-if="!distributor" class="form-control" required v-model="product.qty" aria-describedby="quantity">
                                       </div>
                                     </div>
 
@@ -361,7 +361,7 @@
                                         <div class="input-group-prepend">
                                           <span class="input-group-text" id="basic-addon1"><img :src="require('@/assets/icon/noun_dashboard_3542616.png')" class='rounded' alt="img"/></span>
                                         </div>
-                                        <input type="text" class="form-control" v-model="product.minimum_order_quantity" aria-describedby="restock level">
+                                        <input type="text" class="form-control" required v-model="product.minimum_order_quantity" aria-describedby="restock level">
                                         
                                       </div>
                                     </div>
@@ -461,9 +461,8 @@
                               </div>
                             </div>
                             <div class="modal-footer">
-                              <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-                              <button type="button" class="btn btn-warning" @click="createProduct()" data-dismiss="modal" v-if="distributor">Add Product</button>
-                              <button type="button" class="btn btn-warning" @click="createRetailerProduct()" data-dismiss="modal" v-if="!distributor">Add Product</button>
+                              <button type="submit" class="btn btn-warning" @click="createProduct()" data-dismiss="modal" v-if="distributor">Add Product</button>
+                              <button type="submit" class="btn btn-warning" @click="createRetailerProduct()" data-dismiss="modal" v-if="!distributor">Add Product</button>
                             </div>
                           </div>
                         </div>

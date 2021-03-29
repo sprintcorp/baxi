@@ -69,7 +69,7 @@
                                         <th>Transaction date</th>
                                         <th>No of items</th>
                                         <th>Amount</th>
-                                        <th>View</th>
+                                        <th>Action</th>
                                       </tr>
                                       </thead>
                                       <tbody>
@@ -95,7 +95,7 @@
                                               No user info
                                           </td>
 
-                                        <td >
+                                        <td v-if="!show_receipt">
                                             <span v-if="transaction.paid==0" class="text-muted">Pending</span>
                                             <span v-if="transaction.paid==-1" class="text-danger">Declined</span>
                                         </td>
@@ -107,7 +107,8 @@
                                         <td>{{transaction.orders.length}}</td>
                                         <td>&#8358; {{numberWithCommas(transaction.amount)}}</td>
                                         <td>
-                                          <button type="button" @click="showTransaction(transaction)" class="btn btn-warning text-white"><i class="fa fa-eye"></i></button>
+                                          <button type="button" @click="showTransaction(transaction)" class="btn btn-warning btn-sm mr-1 text-white"><i class="fa fa-eye"></i></button>
+                                          <button type="button" @click="confirmDelivery(transaction.id)" class="btn btn-dark btn-sm text-white"><i class="fa fa-trash"></i></button>
                                         </td>
                                       </tr>
                                       </tbody>
@@ -268,10 +269,10 @@
 
 
                                                   <div class="col-md-12 h5 d-flex justify-content-center mt-5">
-                                                      <button @click="performPingRequest(transaction_product.order_group_id)" v-if="!transaction_product.paid" class="btn btn-primary mr-2"><i class="fa fa-search"></i> Check</button>
+                                                      <button @click="performPingRequest(transaction_product.order_group_id)" v-if="!transaction_product.paid" class="btn btn-primary btn-sm mr-2"><i class="fa fa-search"></i> Check</button>
 
 
-                                                      <button type="button" class="btn btn-success mr-2" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal"><i class="fa fa-money"></i> Pay Now</button>
+                                                      <button type="button" class="btn btn-success btn-sm mr-2" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal"><i class="fa fa-credit-card"></i> Pay Now</button>
 
                                                       <!-- <button type="button" class="btn btn-dark" @click="printReceipt(transaction_product.orders)"><i class="fa fa-print"></i> Print</button> -->
                                                   </div>
@@ -488,8 +489,8 @@
                     <br>Please wait
                 </span>
 
-                                                <button class="btn btn-sm btn-success mt-2 mr-4 w-25" @click="performPingRequest"><i class="fa fa-search"></i> Check</button>
-                                                <button class="btn btn-sm btn-warning mt-2 w-25" data-dismiss="modal"><i class="fa fa-times"></i> Check Later</button>
+                                                <button class="btn btn-sm btn-success mt-2 mr-4" @click="performPingRequest"><i class="fa fa-search"></i> Check</button>
+                                                <button class="btn btn-sm btn-warning mt-2" data-dismiss="modal"><i class="fa fa-times"></i> Check Later</button>
                                             </div>
 
                                             <span class="text-danger fs-20 m-auto d-block w-75 font-weight-bold" style="border-radius: 550px;" v-if="customerWalletResponse===false">

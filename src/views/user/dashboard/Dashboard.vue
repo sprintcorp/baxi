@@ -351,11 +351,11 @@
                     </table>
                     <div class="row">
                       <div class="col-md-12 m-1" style="font-size: 10px;">
-                        <button class="btn btn-success col-md-4" data-toggle="modal" style="font-size: 14px;" data-target="#modeofpaymentModal">Proceed <span class="fa fa-check"></span></button>
+                        <button class="btn btn-success btn-sm col-md-4" data-toggle="modal" style="font-size: 14px;" data-target="#modeofpaymentModal">Proceed <span class="fa fa-check"></span></button>
 
                           <div class="col-md-6 pull-right text-right">
-                            <button class="btn btn-warning" style="margin:2px;font-size: 14px;" data-toggle="modal" data-target="#saveInfo" data-backdrop="false" @click="saveOrder('',1)">Save <span class="fa fa-save"></span></button>
-                            <button class="btn btn-danger" style="margin:2px;font-size: 14px;" @click="removeCart()">Clear <span class="fa fa-times"></span></button>
+                            <button class="btn btn-warning btn-sm" style="margin:2px;font-size: 14px;" data-toggle="modal" data-target="#saveInfo" data-backdrop="false" @click="saveOrder('',1)">Save <span class="fa fa-save"></span></button>
+                            <button class="btn btn-danger btn-sm" style="margin:2px;font-size: 14px;" @click="removeCart()">Clear <span class="fa fa-times"></span></button>
                           </div>
                       </div>
                     </div>

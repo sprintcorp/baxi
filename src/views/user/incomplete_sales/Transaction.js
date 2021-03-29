@@ -265,6 +265,55 @@ export default {
                 })
                 .catch(err => console.log(err));
         },
+        confirmDelivery(id){
+            this.$swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirm'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    this.deleteTransaction(id)
+                }
+              })
+            //   console.log(action)
+        },
+        deleteTransaction(id){
+            this.loading = true;
+            fetch(BASE_URL + '/my/distributor/customer/order/'+id, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': getToken()
+                }
+            })
+                .then(res => res.json())
+                .then(res => {
+                    this.loading = false;
+                    console.log(res);
+                    if(res.success){
+                        this.$swal({
+                            title: 'Success',
+                            text: res.message,
+                            icon: 'success',
+                            confirmButtonText: 'ok'
+                        });
+                    }else{
+                        this.$swal({
+                            title: 'Warning',
+                            text: res.message,
+                            icon: 'warning',
+                            confirmButtonText: 'ok'
+                        });
+                    }
+                    this.getTransaction();
+                })
+                .catch(err => console.log(err));
+        },
 
         checkingCustomerWalletResponse() {
             // console.log("got here");

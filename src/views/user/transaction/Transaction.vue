@@ -99,7 +99,7 @@
                                         <td>{{transaction.orders.length}}</td>
                                         <td>&#8358; {{numberWithCommas(transaction.amount)}}</td>
                                         <td>
-                                          <button type="button" @click="showTransaction(transaction)" class="btn btn-warning text-white"><i class="fa fa-eye"></i></button>
+                                          <button type="button" @click="showTransaction(transaction)" class="btn btn-warning btn-sm text-white"><i class="fa fa-eye"></i></button>
                                         </td>
                                       </tr>
                                       </tbody>
@@ -266,9 +266,9 @@
                                               <div v-if="!distributor" class="col-md-12 h5 d-flex justify-content-center mt-2"> &#8358; {{numberWithCommas(transaction_product.amount)}}.00</div>
 
                                               <div class="col-md-12 h5 d-flex justify-content-center mt-5">
-                                                  <button v-if="!transaction_product.paid && !distributor" type="button" class="btn btn-success" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Pay Now</button>
-                                                  <button type="button" class="btn btn-dark mr-2" @click="printReceipt(transaction_product.orders)"><i class="fa fa-print"></i> Print</button>
-                                                  <button type="button" class="btn btn-warning" @click="generateReport()"><i class="fa fa-download"></i> Download</button>
+                                                  <button v-if="!transaction_product.paid && !distributor" type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Pay Now</button>
+                                                  <button type="button" class="btn btn-sm btn-dark mr-2" @click="printReceipt(transaction_product.orders)"><i class="fa fa-print"></i> Print</button>
+                                                  <button type="button" class="btn btn-sm btn-warning" @click="generateReport()"><i class="fa fa-download"></i> Download</button>
                                               </div>
                                               <div class="col-md-12 mt-3 d-flex justify-content-center">
                                                   <p>Powered by <img :src="require('@/assets/baxi.png')" width="25">

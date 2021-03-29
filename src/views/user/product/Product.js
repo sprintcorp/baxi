@@ -838,6 +838,7 @@ export default {
                 );
         },
         createRetailerProduct(){
+            if(this.product.pack_price && this.product.qty && this.product.restock_level){
             this.saving = true;
             delete this.product.sku;
             this.product.product_id = this.product.id;
@@ -885,7 +886,14 @@ export default {
                     confirmButtonText: 'ok'
                 });
             });
-
+        }else{
+            this.$swal({
+                title: 'Warning',
+                text: 'Empty feilds cannot be submitted',
+                icon: 'warning',
+                confirmButtonText: 'ok'
+            });
+        }
         },
         createProduct() {
             this.saving = true;
