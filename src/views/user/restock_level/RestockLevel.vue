@@ -2,7 +2,7 @@
     <div>
         <div class="container-fluid mt-5" style="margin-left:50px;margin-right:50px">
            <div class="row">
-               <div class="col-md-12" style=";">
+               <div class="col-md-12" style="margin-top:50px">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="font-weight-bold h4">Restock Level</div>

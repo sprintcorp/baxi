@@ -343,7 +343,7 @@ export default {
                                 recommended_price: parseInt(data.pack_price),
                                 price: parseInt(data.pack_price),
                                 pack_price: parseInt(data.pack_price),
-                                unit_price: parseInt(data.unit_price),
+                                unit_price: data.unit_price,
                                 quantity: data.qty,
                                 outlet_qty: data.qty,
                                 category: data.product.categories[0].name,
@@ -552,7 +552,7 @@ export default {
                                 recommended_price: parseInt(data.pack_price),
                                 price: parseInt(data.pack_price),
                                 pack_price: parseInt(data.pack_price),
-                                unit_price: parseInt(data.unit_price),
+                                unit_price: data.unit_price,
                                 quantity: data.qty,
                                 outlet_qty: data.qty,
                                 category: data.product.categories[0].name,
@@ -627,6 +627,9 @@ export default {
             this.saving = true;
             if(getRole() == 'Distributor'){
                 this.retailer_product.type = 'pack';
+                delete this.retailer_product.qty
+                this.retailer_product.unit_price = this.retailer_product.unit_price.toString();
+                this.retailer_product.pack_price = this.retailer_product.pack_price.toString();
                 this.page = '/my/distributor/product/' + this.retailer_product.product_id
             }else{
                 this.page = '/my/outlet/'+window.localStorage.getItem("retailer_outlet")+'/product/' + this.retailer_product.product_id

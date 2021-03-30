@@ -16,7 +16,7 @@ export default {
             cart_order:[],
             total:'',
             type:'pickup',
-            date:'',
+            date:'1',
             show_date:false,
             saving:false,
             search:'',

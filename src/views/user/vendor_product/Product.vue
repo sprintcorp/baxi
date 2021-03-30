@@ -247,7 +247,7 @@
                                         </div>
                                       <div class="col-md-12 mt-3" v-if="show_date">
                                         <div class="input-group">
-                                          <span class="input-group-text" id="basic-addon3">Delivery Date</span>
+                                          <span class="input-group-text" id="basic-addon3">Delivery Period</span>
                                          <select class="form-control" v-model="date" aria-label="Default select example">
                                             <option value="1">24 Hours</option>
                                             <option value="2">48 Hours</option>

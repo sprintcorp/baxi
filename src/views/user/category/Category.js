@@ -21,7 +21,7 @@ export default {
             quantity_value:0,
             error:false,
             type:'pickup',
-            date:'',
+            date:'1',
             show_cart:false,
             cart:[],
             wallet:'',

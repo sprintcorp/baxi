@@ -1,5 +1,5 @@
 import {BASE_URL} from '../../../env';
-import { getToken, logout,getId,checkUserPermission } from '../../../config'
+import { getToken, logout,getId,checkUserPermission,getRole } from '../../../config'
 import Loading from "../../../components/Loader.vue"
 export default {
     components:{
@@ -36,7 +36,7 @@ export default {
             })
             .then(res => res.json())
             .then(res => {
-                this.getRestockLevel();
+                this.getRestock();
                 this.saving = false;
                 this.$swal({
                     title: 'success',
@@ -110,13 +110,56 @@ export default {
                 })
                 .catch(err => console.log(err));
         },
+        getDistributorRestockLevel(){
+            this.vendor_products = [];
+            this.loading = true
+            fetch(BASE_URL + '/my/distributor/business/'+window.localStorage.getItem("cashier_business") +'/products/restock-level', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': getToken()
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.message === 'Unauthenticated.') {
+                        console.log(res);
+                        logout();
+                        this.$router.push({ name: 'welcome' });
+                    }
+                    res.data.forEach((data) => {
+                        this.vendor_products.push({
+                            product_id: data.business_product.id,
+                            business_id: data.business_product.business_id,
+                            name: data.business_product.product.name,
+                            restock_level: data.business_product.restock_level,
+                            size: data.business_product.product.size,
+                            sku: data.business_product.product.sku,
+                            image:data.business_product.product.public_image_url?data.business_product.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
+                            qty: data.business_product.qty,
+                            quantity: data.business_product.qty,
+                            // retailer_id: getId(),
+                        });
+                    });
+                    console.log(this.vendor_products);
+                    this.loading = false;
+                })
+                .catch(err => console.log(err));
+        },
         numberWithCommas(x) {
             const num = parseFloat(x)
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
+        getRestock(){
+            if(getRole() == 'Distributor'){
+                this.getDistributorRestockLevel()
+            }else{
+                this.getRestockLevel()
+            }
+        }
     },
     mounted() {
-        this.getRestockLevel()
+        this.getRestock()
         this.create_product = checkUserPermission('create products');
     },
 }
