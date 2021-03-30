@@ -63,6 +63,8 @@ export default {
             retailer_product:{
                 barcode: '',
                 price: '',
+                unit_price: '',
+                pack_price: '',
                 outlet_qty: '',
                 category_id: '',
                 restock_level: '',
@@ -339,6 +341,9 @@ export default {
                                 product_id: data.product.id,
                                 name: data.product.name,
                                 recommended_price: parseInt(data.pack_price),
+                                price: parseInt(data.pack_price),
+                                pack_price: parseInt(data.pack_price),
+                                unit_price: parseInt(data.unit_price),
                                 quantity: data.qty,
                                 outlet_qty: data.qty,
                                 category: data.product.categories[0].name,
@@ -348,7 +353,7 @@ export default {
                                 image: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
                                 qty: data.qty,
                                 sku: data.product.sku,
-                                restock_level: data.product.restock_level,
+                                restock_level: data.restock_level,
                                 date:data.product.created_at
 
                             });
@@ -545,6 +550,9 @@ export default {
                                 product_id: data.id,
                                 name: data.product.name,
                                 recommended_price: parseInt(data.pack_price),
+                                price: parseInt(data.pack_price),
+                                pack_price: parseInt(data.pack_price),
+                                unit_price: parseInt(data.unit_price),
                                 quantity: data.qty,
                                 outlet_qty: data.qty,
                                 category: data.product.categories[0].name,
@@ -556,7 +564,7 @@ export default {
                                 sales:data.sales_stat?data.sales_stat.total_sold:0,
                                 sales_amount:data.sales_stat?data.sales_stat.total_amount:0,
                                 sku: data.product.sku,
-                                restock_level: data.product.restock_level,
+                                restock_level: data.restock_level,
                                 date:data.product.created_at
 
                             });

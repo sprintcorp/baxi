@@ -181,9 +181,9 @@ export default {
         saveOrder() {
             this.saving = true;
             if(this.date.length > 0){
-                var date = new Date();
+                var date = new Date((new Date()).getTime() + (parseInt(this.date) * 86400000));
                     const month = date.getMonth() + 1;
-                    const day = date.getDate() + parseInt(this.date);
+                    const day = date.getDate();
                     
                     var period = date.getFullYear()+'-'+ month +'-'+day;
             }

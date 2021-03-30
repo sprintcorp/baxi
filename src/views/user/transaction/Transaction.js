@@ -55,7 +55,7 @@ export default {
            )
         },
         distributorTransactions() {
-            return this.transactions.filter((transaction) => transaction.order_group_id.toLowerCase().includes(this.search.toLowerCase()) || transaction.delivery_type.toLowerCase().includes(this.search.toLowerCase()) || (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
+            return this.transactions.filter((transaction) => transaction.order_group_id.toLowerCase().includes(this.search.toLowerCase()) && (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
                     new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()))
         },
         // amount(){

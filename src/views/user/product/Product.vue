@@ -208,9 +208,19 @@
                                     </div>
                                   </div>
                                   <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" v-if="!distributor">
                                       <label class="form-label">Price</label>
                                       <input type="text" class="form-control"  v-model="retailer_product.price" aria-describedby="quantity">
+                                      <input type="hidden" class="form-control" v-model="retailer_product.product_id" aria-describedby="quantity">
+                                    </div>
+                                    <div class="col-md-6" v-if="distributor">
+                                      <label class="form-label">Pack Price</label>
+                                      <input type="text" class="form-control"  v-model="retailer_product.pack_price" aria-describedby="quantity">
+                                      
+                                    </div>
+                                    <div class="col-md-6" v-if="distributor">
+                                      <label class="form-label">Unit Price</label>
+                                      <input type="text" class="form-control"  v-model="retailer_product.unit_price" aria-describedby="quantity">
                                       <input type="hidden" class="form-control" v-model="retailer_product.product_id" aria-describedby="quantity">
                                     </div>
                                     
