@@ -13,10 +13,12 @@ export default {
             retailer_product:{
                 qty: '',
                 restock_level: '',
-                product_id:''
+                product_id:'',
+                pack_qty:''
             },
             create_product:'',
             saving:false,
+            url:''
         }
     },
     methods:{
@@ -24,8 +26,15 @@ export default {
             this.retailer_product = product;
         },
         updateProductQuantity(){
+            if(getRole().toLowerCase() == 'distributor'){
+                
+                this.url = '/my/distributor/product/'+this.retailer_product.product_id
+            }else{
+                this.url = '/my/outlet/' + window.localStorage.getItem("retailer_outlet") + '/product'
+            }
           this.saving = true;
-            fetch(BASE_URL + '/my/outlet/' + window.localStorage.getItem("retailer_outlet") + '/product', {
+          this.retailer_product.pack_qty = this.retailer_product.qty;
+            fetch(BASE_URL + this.url, {
                 method: 'PUT',
                 body: JSON.stringify(this.retailer_product),
                 headers: {
@@ -151,7 +160,7 @@ export default {
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
         getRestock(){
-            if(getRole() == 'Distributor'){
+            if(getRole().toLowerCase() == 'distributor'){
                 this.getDistributorRestockLevel()
             }else{
                 this.getRestockLevel()
