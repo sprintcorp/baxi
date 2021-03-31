@@ -147,10 +147,10 @@ export default {
         }
     },
     computed: {
-        filerProducts() {
-            return this.local_product.filter((product) => (new Date(this.start_date).getTime() < new Date(product.date).getTime() &&
-                new Date(product.date).getTime() < new Date(this.end_date).getTime()))
-        }
+        // filerProducts() {
+        //     return this.local_product.filter((product) => (new Date(this.start_date).getTime() < new Date(product.date).getTime() &&
+        //         new Date(product.date).getTime() < new Date(this.end_date).getTime()))
+        // }
     },
     methods: {
         myChangeEvent(val){
@@ -166,7 +166,9 @@ export default {
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
         showDate() {
+            this.local_product = [];
             console.log(this.start_date.toString());
+            this.getProducts();
         },
         getQuatity(index, event) {
             console.log(event.target.value + " index " + index);
@@ -181,7 +183,7 @@ export default {
             this.local_product = [];
             if(checkUserPermission('order products') == false && this.distributor == false){
                 this.loading = true;
-                fetch(page, {
+                fetch(page+'&start_date='+this.start_date+'&end_date='+this.end_date, {
                             headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',
@@ -244,7 +246,7 @@ export default {
             if(checkUserPermission('order products') == true && this.distributor == false){
 
                 this.loading = true;
-                fetch(page, {
+                fetch(page+'&start_date='+this.start_date+'&end_date='+this.end_date, {
                             headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',
@@ -311,7 +313,7 @@ export default {
             if(this.distributor == true){
 
                 this.loading = true;
-                fetch(page, {
+                fetch(page+'&start_date='+this.start_date+'&end_date='+this.end_date, {
                             headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',
@@ -383,7 +385,7 @@ export default {
             this.local_product = [];
             if(checkUserPermission('order products') == false && this.distributor == false){
                 this.loading = true;
-                fetch(BASE_URL + '/my/outlet/'+window.localStorage.getItem("cashier_business")+'/products?per_page='+this.per_page, {
+                fetch(BASE_URL + '/my/outlet/'+window.localStorage.getItem("cashier_business")+'/products?per_page='+this.per_page+'&start_date='+this.start_date+'&end_date='+this.end_date, {
                             headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',
@@ -451,7 +453,7 @@ export default {
             if(checkUserPermission('order products') == true && this.distributor == false){
 
                 this.loading = true;
-                fetch(BASE_URL + '/my/outlet/'+window.localStorage.getItem("retailer_outlet")+'/products?per_page='+this.per_page, {
+                fetch(BASE_URL + '/my/outlet/'+window.localStorage.getItem("retailer_outlet")+'/products?per_page='+this.per_page+'&start_date='+this.start_date+'&end_date='+this.end_date, {
                             headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',
@@ -520,7 +522,7 @@ export default {
 
             if(this.distributor == true && checkUserPermission('distributor') == true){
                 this.loading = true;
-                fetch(BASE_URL + '/my/distributor/products', {
+                fetch(BASE_URL + '/my/distributor/products?start_date='+this.start_date+'&end_date='+this.end_date, {
                             headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',

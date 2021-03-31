@@ -56,9 +56,7 @@ export default {
     },
     computed: {
         filterTransactions() {
-            return this.transactions.filter((transaction) => transaction.order_group_id.toLowerCase().includes(this.search.toLowerCase()) && (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
-            new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()) 
-           )
+            return this.transactions.filter((transaction) => transaction.order_group_id.toLowerCase().includes(this.search.toLowerCase()))
         },
         distributorTransactions() {
             return this.transactions.filter((transaction) => transaction.order_group_id.toLowerCase().includes(this.search.toLowerCase()) || transaction.delivery_type.toLowerCase().includes(this.search.toLowerCase()) || (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
@@ -151,7 +149,9 @@ export default {
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
         showDate() {
-            console.log(this.start_date.toString());
+            console.log(this.start_date.toString() +' '+this.end_date.toString());
+            this.transactions = [];
+            this.getTransaction();
         },
         changeTab() {
             console.log(this.transaction_tab)
@@ -159,9 +159,9 @@ export default {
         },
         
         getTransaction() {
-            if(checkUserPermission('distributor') == false){
+            // if(checkUserPermission('distributor') == false){
                 this.loading = true;
-                fetch(BASE_URL + '/my/retailer/transactions?paid=0', {
+                fetch(BASE_URL + '/my/retailer/transactions?paid=0&start_date='+this.start_date+'&end_date='+this.end_date, {
                         headers: {
                             'Content-Type': 'application/json',
                             'Accept': 'application/json',
@@ -195,7 +195,7 @@ export default {
                             }
                         }
                     );
-                }
+                // }
         },
         getDistributorTransactions(){
             // alert(true)
@@ -245,7 +245,7 @@ export default {
         getPageTransaction(page) {
             this.transactions =[];
             this.loading = true;
-            fetch(page+'&paid=0', {
+            fetch(page+'&paid=0&start_date='+this.start_date+'&end_date='+this.end_date, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',

@@ -50,13 +50,10 @@ export default {
     },
     computed: {
         filterTransactions() {
-            return this.transactions.filter((transaction) => transaction.order_group_id.toLowerCase().includes(this.search.toLowerCase()) && (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
-            new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()) 
-           )
+            return this.transactions.filter((transaction) => transaction.order_group_id.toLowerCase().includes(this.search.toLowerCase()) && transaction.paid == 1)
         },
         distributorTransactions() {
-            return this.transactions.filter((transaction) => transaction.order_group_id.toLowerCase().includes(this.search.toLowerCase()) && (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
-                    new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()))
+            return this.transactions.filter((transaction) => transaction.order_group_id.toLowerCase().includes(this.search.toLowerCase()))
         },
         // amount(){
             // (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
@@ -99,7 +96,13 @@ export default {
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
         showDate() {
-            console.log(this.start_date.toString());
+            console.log(this.start_date.toString() +' '+this.end_date.toString());
+            this.transactions = [];
+            if(checkUserPermission('distributor')){
+                this.getDistributorTransactions()
+            }else{
+                this.getTransaction();
+            }
         },
         changeTab() {
             console.log(this.transaction_tab)
@@ -107,9 +110,10 @@ export default {
         },
         
         getTransaction() {
-            if(checkUserPermission('distributor') == false){
+            // if(checkUserPermission('distributor') == false){
+                
                 this.loading = true;
-                fetch(BASE_URL + '/my/retailer/transactions?paid=1', {
+                fetch(BASE_URL + '/my/retailer/transactions?paid=1&start_date='+this.start_date+'&end_date='+this.end_date, {
                         headers: {
                             'Content-Type': 'application/json',
                             'Accept': 'application/json',
@@ -143,12 +147,12 @@ export default {
                             }
                         }
                     );
-                }
+                // }
         },
         getDistributorTransactions(){
             // alert(true)
            this.loading = true;
-            fetch(BASE_URL + '/my/distributor/transactions', {
+            fetch(BASE_URL + '/my/distributor/transactions?start_date='+this.start_date+'&end_date='+this.end_date, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
@@ -193,7 +197,7 @@ export default {
         getPageTransaction(page) {
             this.transactions =[];
             this.loading = true;
-            fetch(page+'&paid=1', {
+            fetch(page+'&paid=1&start_date='+this.start_date+'&end_date='+this.end_date, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
@@ -346,7 +350,7 @@ export default {
         this.user = getFullName();
         this.outlet = getOutlet();
         this.start_date = new Date("2015-08-21").getTime();
-        this.end_date = new Date().getTime();
+        this.end_date = new Date().toString();
         this.business_name = getName();
         this.outlet_name = JSON.parse(window.localStorage.getItem("outlet_name"))
         

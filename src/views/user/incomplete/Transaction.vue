@@ -576,33 +576,38 @@
                       </div>
 
 
-  <div class="modal fade" id="search" tabindex="-1" role="dialog" aria-labelledby="user" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
-          <span class="login100-form-title p-b-33">Search with date range</span>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="input-group">
-                  <span class="input-group-text" id="basic-addon3">From</span>
-                    <input type="date" v-model="start_date" class="form-control" @change="showDate"/>
-                </div>
-              </div>
-                                      <div class="col-md-6">
-                                        <div class="input-group">
-                                          <span class="input-group-text" id="basic-addon3">To</span>
-                                          <input type="date" v-model="end_date" class="form-control" @change="showDate"/>
-                                        </div>
+                        <div class="modal fade" id="search" tabindex="-1" role="dialog" aria-labelledby="user" aria-hidden="true">
+                          <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                              <div class="wrap-login100 pt-4 p-l-60"> 
+                                <!-- <span class="login100-form-title p-b-33">Search with date range</span> -->
+                                  <div class="row">
+                                    <div class="col-md-5">
+                                      <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon3">From</span>
+                                          <input type="date" v-model="start_date" class="form-control"/>
                                       </div>
                                     </div>
-                                    <div class="row mt-3">
-                                      <button data-dismiss="modal" class="btn btn-danger btn-block">CLOSE</button>
+                                      <div class="col-md-5">
+                                        <div class="input-group">
+                                          <span class="input-group-text" id="basic-addon3">To</span>
+                                          <input type="date" v-model="end_date" class="form-control"/>
+                                        </div>
+                                      </div>
+                                      <div class="col-md-1">
+                                         <button @click="showDate()" data-dismiss="modal" class="btn btn-dangwarninger bt-sm btn-block"><i class="fa fa-search"></i></button>
+                                         
+                                      </div>
+                                      <div class="col-md-1">
+                                        
+                                         <button data-dismiss="modal" class="btn btn-dangwarninger bt-sm btn-block">X</button>
+                                      </div>
                                     </div>
-         
-        </div>
-      </div>
-    </div>
-  </div>
+
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
 
 
 

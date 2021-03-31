@@ -40,10 +40,10 @@ export default {
         }
     },
     computed: {
-        filterTransactions() {
-            return this.orders.filter((transaction) => (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
-                    new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()))
-        },
+        // filterTransactions() {
+        //     return this.orders.filter((transaction) => (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
+        //             new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()))
+        // },
 
         // createdAt() {
         //     return this.
@@ -55,7 +55,9 @@ export default {
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
         showDate() {
+            this.orders = [];
             console.log(this.start_date.toString());
+            this.getOrders();
         },
         
         
@@ -66,9 +68,9 @@ export default {
         getOrders() {
             this.loading = true;
             if(this.query.length < 1){
-                this.link = '/my/distributor/groupTransactions'
+                this.link = '/my/distributor/groupTransactions?start_date='+this.start_date+'&end_date='+this.end_date
             }else{
-                this.link = '/my/distributor/groupTransactions?status='+ this.query
+                this.link = '/my/distributor/groupTransactions?status='+ this.query+'&start_date='+this.start_date+'&end_date='+this.end_date
             }
 
             fetch(BASE_URL + this.link, {
@@ -136,7 +138,7 @@ export default {
         },
         getPageOrders(page) {
             this.loading = true;
-            fetch(page, {
+            fetch(page+'&start_date='+this.start_date+'&end_date='+this.end_date, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',

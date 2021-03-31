@@ -44,8 +44,7 @@ export default {
     },
     computed: {
         filterTransactions() {
-            return this.transactions.filter((transaction) => transaction.order_group_id.toLowerCase().includes(this.search.toLowerCase()) && (new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
-                    new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime()))
+            return this.transactions.filter((transaction) => transaction.order_group_id.toLowerCase().includes(this.search.toLowerCase()))
         },
     },
     methods: {
@@ -57,7 +56,9 @@ export default {
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
         showDate() {
-            console.log(this.start_date.toString());
+            console.log(this.start_date.toString() +' '+this.end_date.toString());
+            this.transactions = [];
+            this.getTransaction();
         },
         getDate(date){
             const res = new Date(date);
@@ -78,7 +79,7 @@ export default {
         },
         getTransaction() {
                 this.loading = true;
-                fetch(BASE_URL + '/my/distributor/customer/transactions?paid=0', {
+                fetch(BASE_URL + '/my/distributor/customer/transactions?paid=0&start_date='+this.start_date+'&end_date='+this.end_date, {
                         headers: {
                             'Content-Type': 'application/json',
                             'Accept': 'application/json',
