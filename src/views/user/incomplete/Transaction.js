@@ -4,6 +4,7 @@ import Loading from "../../../components/Loader.vue";
 import VueHtml2pdf from 'vue-html2pdf'
 
 import Vue from 'vue';
+import Mpos from "../../../services/providers/mpos";
 Vue.use(require('vue-moment'));
 
 export default {
@@ -52,6 +53,7 @@ export default {
                 email:'',
                 baxi_username:''
             },
+            mpos: new Mpos()
         }
     },
     computed: {
@@ -69,6 +71,19 @@ export default {
         // }
     },
     methods: {
+        processMposPayment() {
+            this.payment_type = "";
+
+            let resp = this.saveOrder(this.payment_type,1);
+
+            // check for order id
+            resp.then(val => {
+                let order = JSON.stringify(val);
+                localStorage.setItem('order_for_mpos', order);
+                this.mpos.instantiate();
+            });
+        },
+
         performPingRequest (order_id = null) {
             // ping the api via backend
             let url = "/user/order-payment/"+order_id+"/ping-response";
@@ -85,7 +100,15 @@ export default {
                 })
                 .catch(err => console.log(err));
         },
-        confirmDelivery(id){
+        checkingCustomerWalletResponse() {
+            console.log("got here");
+            let interval = setInterval(() => this.performPingRequest(), 1000);
+
+            if(this.customerWalletResponse !== null) {
+                clearInterval(interval);
+            }
+        },
+        confirmDeete(id){
             this.$swal({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -134,16 +157,6 @@ export default {
                 })
                 .catch(err => console.log(err));
         },
-
-        checkingCustomerWalletResponse() {
-            console.log("got here");
-            let interval = setInterval(() => this.performPingRequest(), 1000);
-
-            if(this.customerWalletResponse !== null) {
-                clearInterval(interval);
-            }
-        },
-
         numberWithCommas(x) {
             const num = parseFloat(x)
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -157,7 +170,6 @@ export default {
             console.log(this.transaction_tab)
             this.transaction_tab = true;
         },
-        
         getTransaction() {
             // if(checkUserPermission('distributor') == false){
                 this.loading = true;
@@ -236,12 +248,10 @@ export default {
                 );
             
         },
-
         printReceipt(product){
             console.log(product)
             this.$htmlToPaper('printMe');
         },
-
         getPageTransaction(page) {
             this.transactions =[];
             this.loading = true;
@@ -293,8 +303,7 @@ export default {
             this.show_receipt = false;
             this.transaction_product = [];
         },
-
-        saveOrder(type) {
+        async saveOrder(type) {
             console.log(type + this.transaction_product.order_group_id)
             this.saving = true;
                 if(this.distributor){
@@ -313,7 +322,7 @@ export default {
             console.log(payload);
 
 
-            fetch(BASE_URL + url, {
+            await fetch(BASE_URL + url, {
                     method: 'POST',
                     body: JSON.stringify(payload),
                     headers: {
@@ -375,6 +384,20 @@ export default {
                         this.$router.push({ name: 'welcome' });
                     }
                 });
+
+            payload.total_amount = this.getTotalOrdersAmount(payload.orders);
+            payload.order_id = this.last_order_id;
+            payload.merchant_username = localStorage.getItem('name');
+
+            return payload;
+        },
+        getTotalOrdersAmount(orders) {
+            let total = 0;
+            orders.forEach(order => {
+                total += order.price;
+            })
+
+            return total;
         },
     },
 
@@ -394,8 +417,8 @@ export default {
         
         this.name = getName();
         this.outlet = getOutlet();
-        this.start_date = new Date("2015-08-21").getTime();
-        this.end_date = new Date().getTime();
+        // this.start_date = new Date("2015-08-21").getTime();
+        // this.end_date = new Date().getTime();
         this.business_name = window.localStorage.getItem("name")
         this.outlet_name = JSON.parse(window.localStorage.getItem("outlet_name"))
         this.current_date = new Date().toISOString().slice(0,10);

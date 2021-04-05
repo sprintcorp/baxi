@@ -314,12 +314,21 @@ export default {
               .then(res => res.json())
               .then(res => {
                   this.saving = false;
+                  if(res.succcess){
                   this.$swal({
                     title: 'Success',
                     text: res.message,
                     icon: 'success',
                     confirmButtonText: 'ok'
                 });
+                }else{
+                    this.$swal({
+                        title: 'Warning',
+                        text: res.message,
+                        icon: 'warning',
+                        confirmButtonText: 'ok'
+                    });
+                }
                   this.getBusinessOutlets()
               })
               .catch(err => {

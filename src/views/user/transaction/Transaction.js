@@ -349,8 +349,8 @@ export default {
         this.name = getName();
         this.user = getFullName();
         this.outlet = getOutlet();
-        this.start_date = new Date("2015-08-21").getTime();
-        this.end_date = new Date().toString();
+        // this.start_date = new Date("2015-08-21").getTime();
+        // this.end_date = new Date().toString();
         this.business_name = getName();
         this.outlet_name = JSON.parse(window.localStorage.getItem("outlet_name"))
         

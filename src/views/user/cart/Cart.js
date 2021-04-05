@@ -3,6 +3,7 @@
 import { getName, getToken, logout,getPermissions,checkUserPermission,getId,getRole } from '../../../config'
 import { BASE_URL } from '../../../env'
 import Loading from "../../../components/Loader.vue"
+import Mpos from "../../../services/providers/mpos";
 export default {
     name: "DashboardComponent",
     components:{
@@ -60,7 +61,8 @@ export default {
                     'Authorization': getToken()
             },
             last_order_id: null,
-            wallet_transaction_response: false
+            wallet_transaction_response: false,
+            mpos: new Mpos()
         }
     },
     computed: {
@@ -75,6 +77,18 @@ export default {
         // }
     },
     methods: {
+        processMposPayment() {
+            this.payment_type = "";
+
+            let resp = this.saveOrder(this.payment_type,1);
+
+            // check for order id
+            resp.then(val => {
+                let order = JSON.stringify(val);
+                localStorage.setItem('order_for_mpos', order);
+                this.mpos.instantiate();
+            });
+        },
         // myChangeFunction(){
         //     // if(this.filerResult().length == 1){
         //         const data = this.results.filter((result) => result.sku.toLowerCase().includes(this.search.toLowerCase()))
@@ -96,7 +110,6 @@ export default {
               })
               .catch(err => console.log(err));
         },
-
         performPingRequest () {
             // ping the api via backend
             let url = "/user/order-payment/"+this.last_order_id+"/ping-response";
@@ -113,7 +126,6 @@ export default {
             })
             .catch(err => console.log(err));
         },
-
         checkingCustomerWalletResponse() {
             let interval = setInterval(() => this.performPingRequest(), 30000);
 
@@ -122,7 +134,6 @@ export default {
                 clearInterval(interval);
             }
         },
-
         numberWithCommas(x) {
             const num = parseFloat(x)
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -162,47 +173,7 @@ export default {
                 arr[index] = obj;
             }
         },
-        submitToCart(value,product){
-            // product.quantity = value
-            if(value > 0 && value <= product.quantity){
-            product.qty = value
-            product.price = value * product.sell_price 
-            product.int_amount = product.amount
-            product.amount = product.price.toString()
-            // product.customer.name = 'web';
-            // product.customer.replace = true;
-            product.retailer_id = getId()
-            if(!this.distributor){
-            if (JSON.parse(window.localStorage.getItem("retailer_cashier_order"))) {
-                this.cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
-            }
-            this.pushToArray(this.cart, product);
-            window.localStorage.setItem("retailer_cashier_order", JSON.stringify(this.cart));
-            this.cart = [];
-            this.quantity_value = 1;
-            this.getCart();
-            console.log(this.cart)
-        }else{
-            if (JSON.parse(window.localStorage.getItem("distributor_cart"))) {
-                this.cart = JSON.parse(window.localStorage.getItem("distributor_cart"))
-            }
-            this.pushToArray(this.cart, product);
-            window.localStorage.setItem("distributor_cart", JSON.stringify(this.cart));
-            this.cart = [];
-            this.quantity_value = 1;
-            this.getCart();
-            console.log(this.cart)
-        }
-    }else{
-        this.$swal({
-            title: 'Action Denied',
-            text: "Quantity must not be more than available quantity or less than One",
-            icon: 'warning',
-            confirmButtonText: 'ok'
-        });
-    }
-
-        },
+        
         getResponse() {
             this.results = [];
             if(this.type == 'product'){                
@@ -220,11 +191,6 @@ export default {
         showProducts(transaction) {
             this.transaction_product = transaction;
         },
-        
-
-       
-
-
         sumProduct() {
             if (JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length && !this.distributor) {
                 this.cart_order = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
@@ -382,9 +348,6 @@ export default {
                 confirmButtonText: 'close'
             });
         },
-        
-        
-     
         removeCart(){
             this.cart = [];
             if(getRole().toLowerCase() == 'distributor'){
@@ -400,8 +363,7 @@ export default {
             this.total_product = '0';
             this.total = '00';
         },
-        
-        saveOrder(type,save = 0) {
+        async saveOrder(type,save = 0) {
             this.saving = true;
             this.loading = true;
 
@@ -429,7 +391,7 @@ export default {
             }
 
 
-            fetch(BASE_URL + url, {
+            await fetch(BASE_URL + url, {
                     method: 'POST',
                     body: JSON.stringify(payload), headers: this.api_headers
                 })
@@ -493,10 +455,21 @@ export default {
                         this.$router.push({ name: 'welcome' });
                     }
                 });
-        },
-        
-        
 
+            payload.total_amount = this.getTotalOrdersAmount(payload.orders);
+            payload.order_id = this.last_order_id;
+            payload.merchant_username = localStorage.getItem('name');
+
+            return payload;
+        },
+        getTotalOrdersAmount(orders) {
+            let total = 0;
+            orders.forEach(order => {
+                total += order.price;
+            })
+
+            return total;
+        },
     },
 
     created() {

@@ -108,7 +108,7 @@
                                         <td>&#8358; {{numberWithCommas(transaction.amount)}}</td>
                                         <td>
                                           <button type="button" @click="showTransaction(transaction)" class="btn btn-warning btn-sm mr-1 text-white"><i class="fa fa-eye"></i></button>
-                                          <button type="button" @click="confirmDelivery(transaction.id)" class="btn btn-dark btn-sm text-white"><i class="fa fa-trash"></i></button>
+                                          <button type="button" @click="confirmDeete(transaction.id)" class="btn btn-dark btn-sm text-white"><i class="fa fa-trash"></i></button>
                                         </td>
                                       </tr>
                                       </tbody>
@@ -401,6 +401,46 @@
                     </div>
 
 
+                        <div class="modal fade" id="baxiPosCustomerInfo" tabindex="-1" role="dialog" aria-labelledby="baxiPosCustomerInfo" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h6 class="modal-title font-weight-bold"> Customer information <em>(optional)</em></h6>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-body row">
+                                        <!-- <div class="row"> -->
+                                        <div class="col-md-6">
+                                            <input type="name" v-model="customer.firstname" placeholder="Firstname" class="form-control">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="name" v-model="customer.lastname" placeholder="Lastname" class="form-control">
+                                        </div>
+                                        <!-- </div> -->
+                                        <!-- <div class="row"> -->
+                                        <div class="col-md-12 mt-3">
+                                            <input type="text " v-model="customer.phone" placeholder="Phone" class="form-control">
+                                        </div>
+
+                                        <!-- </div> -->
+                                        <!-- <div class="row"> -->
+                                        <div class="col-md-12 mt-3">
+                                            <input type="email " v-model="customer.email" placeholder="Email" class="form-control">
+                                        </div>
+                                        <!-- </div> -->
+                                        <div class="col-md-12 d-flex justify-content-end mt-2 mb-1">
+
+                                            <!-- <button class="btn btn-default mr-3" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal">Skip</button> -->
+                                            <button class="btn btn-warning" @click="processMposPayment()" data-dismiss="modal">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <div class="modal fade" id="modeofpaymentModal" tabindex="-1" role="dialog" aria-labelledby="modeofpaymentModal" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -425,20 +465,19 @@
                                   </div>
                                 </div>
                               </div>
-
-                              <div class="col-md-3 payment-method-card">
-                                <div class="card m-1 h-100 p-0">
-                                  <div class="mx-auto mt-1">
-                                    <img :src="require('@/assets/images/img9.png')" class='rounded' alt="img"/>
-                                  </div>
-                                  <div class="card-body text-center" style="padding: 0 !important;color:#ccc;">
-                                    <div class="nav-link">
-                                      <span class="d-block">Baxi POS</span>
-                                      <small><em>Coming Soon...</em></small>
+                                <div class="col-md-3 payment-method-card" data-toggle="modal" data-target="#baxiPosCustomerInfo"  data-dismiss="modal">
+                                    <div class="card m-1 h-100 p-0">
+                                        <div class="mx-auto mt-1">
+                                            <img :src="require('@/assets/images/img9.png')" class='rounded' alt="img"/>
+                                        </div>
+                                        <div class="card-body text-center" style="padding: 0 !important;color:#ccc;">
+                                            <div class="nav-link">
+                                                <span class="d-block">Baxi POS</span>
+                                                <!--                          <small><em>Coming Soon...</em></small>-->
+                                            </div>
+                                        </div>
                                     </div>
-                                  </div>
                                 </div>
-                              </div>
 
                               <div class="col-md-3 payment-method-card">
                                 <div class="card m-1 h-100 p-0">

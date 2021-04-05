@@ -3,6 +3,7 @@
 import { getName, getToken, logout,getPermissions,checkUserPermission,getId,getRole } from '../../../config'
 import { BASE_URL,CASHIER_BUSINESS } from '../../../env'
 import Loading from "../../../components/Loader.vue"
+import Mpos from "../../../services/providers/mpos";
 export default {
     name: "DashboardComponent",
     components:{
@@ -63,6 +64,7 @@ export default {
             last_order_id: null,
             wallet_transaction_response: false,
             scan:false,
+            mpos: new Mpos()
         }
     },
     computed: {
@@ -94,6 +96,18 @@ export default {
         }
     },
     methods: {
+        processMposPayment() {
+            this.payment_type = "";
+
+            let resp = this.saveOrder(this.payment_type,1);
+
+            // check for order id
+            resp.then(val => {
+                let order = JSON.stringify(val);
+                localStorage.setItem('order_for_mpos', order);
+                this.mpos.instantiate();
+            });
+        },
         focusScanner(){
             this.$refs.search.focus()
         },
@@ -142,7 +156,7 @@ export default {
                                 product_id: data.id,
                                 name: data.product.name,
                                 amount: parseInt(data.pack_price),
-                                sell_price: parseInt(data.pack_price),
+                                sell_price: data.unit_price ? parseInt(data.unit_price) : parseInt(data.product.recommended_price),
                                 quantity: data.qty,
                                 size: data.product.size,
                                 public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
@@ -186,7 +200,6 @@ export default {
                             // this.search = '';
                     }
         },
-        
         myChangeFunction(){
             // if(this.filerResult().length == 1){
                 const data = this.results.filter((result) => result.barcode.toLowerCase().includes(this.search.toLowerCase()))
@@ -211,7 +224,6 @@ export default {
               })
               .catch(err => console.log(err));
         },
-
         performPingRequest () {
             // ping the api via backend
             let url = "/user/order-payment/"+this.last_order_id+"/ping-response";
@@ -234,7 +246,6 @@ export default {
             this.customerWalletResponse = false;
             console.log('hello ' + this.awaitingCustomerWalletResponse);
         },
-
         checkingCustomerWalletResponse() {
             let interval = setInterval(() => this.performPingRequest(), 30000);
 
@@ -244,7 +255,6 @@ export default {
                 clearInterval(interval);
             }
         },
-
         numberWithCommas(x) {
             const num = parseFloat(x)
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -387,7 +397,6 @@ export default {
                 })
                 .catch(err => console.log(err));
         },
-
         getProducts(without_loading = null) {
             if(checkUserPermission('order products') == false && getRole() !== 'Distributor'){
                 this.selected_outlet = window.localStorage.getItem("cashier_outlet");
@@ -549,8 +558,8 @@ export default {
                     this.results.push({
                         product_id: data.id,
                         name: data.product.name,
-                        amount: parseInt(data.pack_price),
-                        sell_price: parseInt(data.pack_price),
+                        amount: data.unit_price ? parseInt(data.unit_price) : parseInt(data.product.recommended_price),
+                        sell_price: data.unit_price ? parseInt(data.unit_price) : parseInt(data.product.recommended_price),
                         quantity: data.qty,
                         size: data.product.size,
                         public_image_url: data.product.public_image_url?data.product.public_image_url:'https://cdn.iconscout.com/icon/premium/png-512-thumb/add-product-5-837103.png',
@@ -585,8 +594,6 @@ export default {
             );
             }
         },
-
-
         sumProduct() {
             if (JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length && !this.distributor) {
                 this.cart_order = JSON.parse(window.localStorage.getItem("retailer_cashier_order"))
@@ -944,8 +951,7 @@ export default {
             this.show_cat = false;
             this.cart_order = [];
         },
-        
-        saveOrder(type,save = 0) {
+        async saveOrder(type,save = 0) {
             this.saving = true;
             this.loading = true;
 
@@ -966,14 +972,10 @@ export default {
                 "payment_type":type,
                 "outlet_id": checkUserPermission('order products') === true ? window.localStorage.getItem("retailer_outlet") : window.localStorage.getItem("cashier_outlet")
             }
-            if(save == 1){
-                var message = 'Order successfully saved'
-            }else{
-                message = 'Payment successful'
-            }
+            let message = save === 1 ? 'Order successfully saved' : 'Payment successful'
 
 
-            fetch(BASE_URL + url, {
+            await fetch(BASE_URL + url, {
                     method: 'POST',
                     body: JSON.stringify(payload), headers: this.api_headers
                 })
@@ -1012,6 +1014,8 @@ export default {
 
                         this.show_cat = false;
                         this.cart_order = [];
+
+                        console.log('qwe', res.data.transaction.order_group_id);
                     }else{
                         this.$swal({
                             title: 'Error',
@@ -1044,6 +1048,20 @@ export default {
                         this.$router.push({ name: 'welcome' });
                     }
                 });
+
+            payload.total_amount = this.getTotalOrdersAmount(payload.orders);
+            payload.order_id = this.last_order_id;
+            payload.merchant_username = localStorage.getItem('name');
+
+            return payload;
+        },
+        getTotalOrdersAmount(orders) {
+            let total = 0;
+            orders.forEach(order => {
+                total += order.price;
+            })
+
+            return total;
         },
         getBalance() {
             
@@ -1094,7 +1112,6 @@ export default {
                 
             });
         },
-
     },
 
     created() {

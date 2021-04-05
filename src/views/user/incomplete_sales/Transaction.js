@@ -3,6 +3,7 @@ import { BASE_URL } from '../../../env'
 import Loading from "../../../components/Loader.vue";
 import Vue from 'vue';
 import VueHtml2pdf from 'vue-html2pdf'
+import Mpos from "../../../services/providers/mpos";
 
 Vue.use(require('vue-moment'));
 
@@ -40,6 +41,7 @@ export default {
             },
             saving:false,
             status:'',
+            mpos: new Mpos()
         }
     },
     computed: {
@@ -76,6 +78,55 @@ export default {
         },
         titleCase(string) {
             return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+        },
+        confirmDelete(id){
+            this.$swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirm'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    this.deleteTransaction(id)
+                }
+              })
+            //   console.log(action)
+        },
+        deleteTransaction(id){
+            this.loading = true;
+            fetch(BASE_URL + '/my/distributor/customer/order/'+id, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': getToken()
+                }
+            })
+                .then(res => res.json())
+                .then(res => {
+                    this.loading = false;
+                    console.log(res);
+                    if(res.success){
+                        this.$swal({
+                            title: 'Success',
+                            text: res.message,
+                            icon: 'success',
+                            confirmButtonText: 'ok'
+                        });
+                    }else{
+                        this.$swal({
+                            title: 'Warning',
+                            text: res.message,
+                            icon: 'warning',
+                            confirmButtonText: 'ok'
+                        });
+                    }
+                    this.getTransaction();
+                })
+                .catch(err => console.log(err));
         },
         getTransaction() {
                 this.loading = true;
@@ -115,12 +166,10 @@ export default {
                     );
                 
         },
-
         printReceipt(product){
             console.log(product)
             this.$htmlToPaper('printMe');
         },
-
         getPageTransaction(page) {
             this.closeReceipt();
             this.transactions =[];
@@ -161,7 +210,7 @@ export default {
 
                 );
         },
-        saveOrder(type) {
+        async saveOrder(type) {
             console.log(type + this.transaction.order_group_id)
             this.saving = true;
                 if(this.distributor){
@@ -181,7 +230,7 @@ export default {
             console.log(payload);
 
 
-            fetch(BASE_URL + url, {
+            await fetch(BASE_URL + url, {
                     method: 'POST',
                     body: JSON.stringify(payload),
                     headers: {
@@ -243,6 +292,19 @@ export default {
                         this.$router.push({ name: 'welcome' });
                     }
                 });
+            payload.total_amount = this.getTotalOrdersAmount(payload.orders);
+            payload.order_id = this.last_order_id;
+            payload.merchant_username = localStorage.getItem('name');
+
+            return payload;
+        },
+        getTotalOrdersAmount(orders) {
+            let total = 0;
+            orders.forEach(order => {
+                total += order.price;
+            })
+
+            return total;
         },
         performPingRequest() {
             // ping the api via backend
@@ -266,56 +328,6 @@ export default {
                 })
                 .catch(err => console.log(err));
         },
-        confirmDelivery(id){
-            this.$swal({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Confirm'
-              }).then((result) => {
-                if (result.isConfirmed) {
-                    this.deleteTransaction(id)
-                }
-              })
-            //   console.log(action)
-        },
-        deleteTransaction(id){
-            this.loading = true;
-            fetch(BASE_URL + '/my/distributor/customer/order/'+id, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': getToken()
-                }
-            })
-                .then(res => res.json())
-                .then(res => {
-                    this.loading = false;
-                    console.log(res);
-                    if(res.success){
-                        this.$swal({
-                            title: 'Success',
-                            text: res.message,
-                            icon: 'success',
-                            confirmButtonText: 'ok'
-                        });
-                    }else{
-                        this.$swal({
-                            title: 'Warning',
-                            text: res.message,
-                            icon: 'warning',
-                            confirmButtonText: 'ok'
-                        });
-                    }
-                    this.getTransaction();
-                })
-                .catch(err => console.log(err));
-        },
-
         checkingCustomerWalletResponse() {
             // console.log("got here");
             if(this.awaitingCustomerWalletResponse == true){
@@ -340,8 +352,8 @@ export default {
         this.getTransaction();
         this.name = getFullName();
         this.outlet_name = getName();
-        this.start_date = new Date("2015-08-21").getTime();
-        this.end_date = new Date().getTime();
+        // this.start_date = new Date("2015-08-21").getTime();
+        // this.end_date = new Date().getTime();
         this.current_date = new Date().toISOString().slice(0,10);
         this.current_time = new Date(new Date().getTime() + 60*60).toLocaleTimeString();
     },

@@ -1032,8 +1032,8 @@ export default {
         
         this.getCategories();
         this.outlet = getOutlet();
-        this.start_date = new Date("2015-08-21").getTime();
-        this.end_date = new Date().getTime();
+        // this.start_date = new Date("2015-08-21");
+        // this.end_date = new Date().toString();
         if (JSON.parse(window.localStorage.getItem("orders"))) {
             this.product_orders = JSON.parse(window.localStorage.getItem("orders"));
         }        

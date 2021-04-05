@@ -182,7 +182,7 @@ export default {
         this.getOrders();
         this.name = getName();
         this.outlet = getOutlet();
-        this.start_date = new Date("2015-08-21").getTime();
-        this.end_date = new Date().getTime();
+        // this.start_date = new Date("2015-08-21").getTime();
+        // this.end_date = new Date().getTime();
     },
 }
