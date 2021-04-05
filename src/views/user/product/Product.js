@@ -920,7 +920,7 @@ export default {
         },
         createProduct() {
             this.saving = true;
-         
+            if(!this.product != ''){
             fetch(BASE_URL + '/my/distributor/product/'+this.product.id+'/add', {
                     method: 'POST',
                     body: JSON.stringify(this.product),
@@ -974,7 +974,15 @@ export default {
                     }
                 });
 
-
+            }else{
+                this.$swal({
+                    title: 'Warning',
+                    text: "Feilds Empty",
+                    icon: 'warning',
+                    confirmButtonText: 'ok'
+                }); 
+                this.saving = false;
+            }
 
         },
 

@@ -269,7 +269,7 @@
 
 
                                                   <div class="col-md-12 h5 d-flex justify-content-center mt-5">
-                                                      <button @click="performPingRequest(transaction_product.order_group_id)" v-if="!transaction_product.paid" class="btn btn-primary btn-sm mr-2"><i class="fa fa-search"></i> Check</button>
+                                                      <button @click="performPingRequest(transaction_product.order_id)" v-if="!transaction_product.paid" class="btn btn-primary btn-sm mr-2"><i class="fa fa-search"></i> Check</button>
 
 
                                                       <button type="button" class="btn btn-success btn-sm mr-2" data-toggle="modal" data-target="#modeofpaymentModal" data-dismiss="modal"><i class="fa fa-credit-card"></i> Pay Now</button>
