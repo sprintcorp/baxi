@@ -888,6 +888,7 @@ export default {
                         icon: 'success',
                         confirmButtonText: 'ok'
                     });
+                    this.product = '';
                 }else{
                     this.$swal({
                         title: 'Warning',
@@ -912,7 +913,7 @@ export default {
         }else{
             this.$swal({
                 title: 'Warning',
-                text: 'Empty feilds cannot be submitted',
+                text: 'Please fill in the product details',
                 icon: 'warning',
                 confirmButtonText: 'ok'
             });
@@ -940,6 +941,7 @@ export default {
                         icon: 'success',
                         confirmButtonText: 'ok'
                     });
+                    this.product = '';
                 }else{
                     this.$swal({
                         title: 'Warning',
@@ -977,7 +979,7 @@ export default {
             }else{
                 this.$swal({
                     title: 'Warning',
-                    text: "Feilds Empty",
+                    text: "Please fill in the product details",
                     icon: 'warning',
                     confirmButtonText: 'ok'
                 }); 
