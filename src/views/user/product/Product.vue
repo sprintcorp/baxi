@@ -80,6 +80,8 @@
                                         <th>Qty (Left)</th>
                                         <th>Sold (Units)</th>
                                         <th>Sold (Amount)</th>
+                                        <th v-if="distributor">Pack (QTY)</th>
+                                        <th v-if="distributor">Unit (QTY)</th>
                                         <th>Price</th>
                                         <th v-if="create_product || distributor">Action</th> 
                                         <!-- <th>Numbers</th> -->
@@ -108,6 +110,8 @@
                                         <td>{{ product.outlet_qty}}</td>                                        
                                         <td>{{ product.sales}}</td>
                                         <td>₦{{ numberWithCommas(product.sales_amount)}}.00</td>
+                                        <td v-if="distributor">{{product.pack_qty}}</td>
+                                        <td v-if="distributor">{{product.unit_qty}}</td>
                                         <td>₦{{ numberWithCommas(product.recommended_price) }}</td>
 <!--                                        <td>{{product.date | moment("ddd, Do MMMM 'YY, h:mma") }}</td>-->
                                         <td v-if="create_product || distributor">
@@ -271,13 +275,13 @@
                                       <label class="form-label">Update Quantity</label>
                                       <input type="text" class="form-control"  v-model="retailer_product.restock" aria-describedby="restock level">
                                     </div>
-                                    <div class="col-md-12" v-if="distributor">
-                                      <label class="form-label">Type</label>
-                                      <select v-model="retailer_product.type" class="form-control">
-                                        <option selected disabled>Select type</option>
-                                        <option value="pack">Pack</option>
-                                        <option value="unit">Unit</option>
-                                      </select>
+                                    <div class="col-md-6" v-if="distributor">
+                                      <label class="form-label">Pack Quantity</label>
+                                      <input type="text" class="form-control" v-model="retailer_product.pack_qty" aria-describedby="pack quantity">
+                                    </div>
+                                    <div class="col-md-6" v-if="distributor">
+                                      <label class="form-label">Unit Quantity</label>
+                                      <input type="text" class="form-control" v-model="retailer_product.unit_qty" aria-describedby="unit quantity">
                                     </div>
                                   </div>
                                   

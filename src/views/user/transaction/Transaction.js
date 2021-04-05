@@ -152,7 +152,7 @@ export default {
         getDistributorTransactions(){
             // alert(true)
            this.loading = true;
-            fetch(BASE_URL + '/my/distributor/transactions?start_date='+this.start_date+'&end_date='+this.end_date, {
+            fetch(BASE_URL + '/my/distributor/transactions?status=4&start_date='+this.start_date+'&end_date='+this.end_date, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
@@ -197,7 +197,7 @@ export default {
         getPageTransaction(page) {
             this.transactions =[];
             this.loading = true;
-            fetch(page+'&paid=1&start_date='+this.start_date+'&end_date='+this.end_date, {
+            fetch(page+'&paid=1&status=4&start_date='+this.start_date+'&end_date='+this.end_date, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',

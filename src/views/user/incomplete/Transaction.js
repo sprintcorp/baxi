@@ -105,10 +105,12 @@ export default {
             let interval = setInterval(() => this.performPingRequest(), 1000);
 
             if(this.customerWalletResponse !== null) {
+
                 clearInterval(interval);
+                this.getTransaction
             }
         },
-        confirmDeete(id){
+        confirmDelete(id){
             this.$swal({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",

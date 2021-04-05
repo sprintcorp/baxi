@@ -97,7 +97,7 @@ export default {
         },
         deleteTransaction(id){
             this.loading = true;
-            fetch(BASE_URL + '/my/distributor/customer/order/'+id, {
+            fetch(BASE_URL + '/my/distributor/customer/transactions/'+id, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

@@ -108,7 +108,7 @@
                                         <td>&#8358; {{numberWithCommas(transaction.amount)}}</td>
                                         <td>
                                           <button type="button" @click="showTransaction(transaction)" class="btn btn-warning btn-sm mr-1 text-white"><i class="fa fa-eye"></i></button>
-                                          <button type="button" @click="confirmDeete(transaction.id)" class="btn btn-dark btn-sm text-white"><i class="fa fa-trash"></i></button>
+                                          <button type="button" @click="confirmDelete(transaction.id)" class="btn btn-dark btn-sm text-white"><i class="fa fa-trash"></i></button>
                                         </td>
                                       </tr>
                                       </tbody>
