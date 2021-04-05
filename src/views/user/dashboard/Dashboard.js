@@ -1019,7 +1019,7 @@ export default {
                     }else{
                         this.$swal({
                             title: 'Error',
-                            text: res.data.errors,
+                            text: res.data.errors[0].product_1,
                             icon: 'error',
                             confirmButtonText: 'ok'
                         });
