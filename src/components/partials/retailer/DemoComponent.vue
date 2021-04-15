@@ -191,27 +191,7 @@ import {BASE_URL} from '../../../env'
                 logout();
                     this.$router.push({ name: 'welcome' });              
             },
-            sumProduct() {
-                if (JSON.parse(window.localStorage.getItem("retailer_order")) && JSON.parse(window.localStorage.getItem("retailer_order")).length) {
-                    this.cart_order = JSON.parse(window.localStorage.getItem("retailer_order"))
-                    let sum = this.cart_order.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
-                    this.total = sum;
-                }
-            },
-            getCart(){
-                if (JSON.parse(window.localStorage.getItem("retailer_order"))) {
-                    this.cart_order = JSON.parse(window.localStorage.getItem("retailer_order"));
-                    this.sumProduct()
-                }
-            },
-            removeFromCart(cart_order,index){
-                const filteredItems = cart_order.slice(0, index).concat(cart_order.slice(index + 1, cart_order.length))
-                window.localStorage.setItem("retailer_order", JSON.stringify(filteredItems));
-                
-                this.sumProduct();
-                this.getCart();
-                console.log(filteredItems)
-            },
+ 
             getBalance() {
             this.reload = true;
             fetch(BASE_URL + '/user/wallet-balance', {
@@ -227,7 +207,7 @@ import {BASE_URL} from '../../../env'
                     window.localStorage.setItem("ledger-balance",res.data.ledger_balance)
                     this.wallet =  window.localStorage.getItem('wallet-balance');
                     this.ledger =  window.localStorage.getItem('ledger-balance');
-                    this.name = JSON.parse(window.localStorage.getItem('outlet_name'))
+                    this.name = window.localStorage.getItem('outlet_name')
                     this.reload = false;
                 })
                 .catch(err => {
@@ -255,12 +235,19 @@ import {BASE_URL} from '../../../env'
                 })
                 .catch(err => console.log(err));
         },
-        
+        getOutLetName(){
+            setInterval(function(){
+                
+                this.name = window.localStorage.getItem('outlet_name')
+                console.log(this.name);
+            },3000);
+        }
         },
          mounted(){
-             this.getBalance();
-             console.log(this.$router.currentRoute.name)
-             this.getNotification();
+             this.getOutLetName();  
+            this.getBalance();
+            console.log(this.$router.currentRoute.name)
+            this.getNotification();
             this.order_products = checkUserPermission('order products')
             this.image =  window.localStorage.getItem('image');
             this.wallet =  window.localStorage.getItem('wallet-balance');
@@ -269,13 +256,11 @@ import {BASE_URL} from '../../../env'
                 // alert('hhhh')
                 this.distributor = true
             }else{
-                this.name = JSON.parse(window.localStorage.getItem('outlet_name'))
+                this.name = window.localStorage.getItem('outlet_name')
             }
 
-            
-            
-            this.outlet = getOutlet();
-            
+            this.outlet = getOutlet();  
+                    
             
         },
         

@@ -83,14 +83,15 @@ export default {
         },
 
         checkingCustomerWalletResponse() {
-            console.log("got here");
-            let interval = setInterval(() => this.performPingRequest(), 1000);
+            this.walletCheckInterval = setInterval(() => this.performPingRequest(), 1000);
 
             if(this.customerWalletResponse !== null) {
-                clearInterval(interval);
+                this.clearWalletCheckInterval(this.walletCheckInterval);
             }
         },
-
+        clearWalletCheckInterval(interval) {
+            console.log('cleared_interval', clearInterval(interval));
+        },
         numberWithCommas(x) {
             const num = parseFloat(x)
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -283,7 +284,8 @@ export default {
                         if(res.data.transaction.payment_type === "wallet") {
                             this.awaitingCustomerWalletResponse = true;
 
-                            this.checkingCustomerWalletResponse()
+                            // disabled due to resource timeout issue
+                            // this.checkingCustomerWalletResponse()
                         } else {
                             this.$swal({
                                 title: 'Success',

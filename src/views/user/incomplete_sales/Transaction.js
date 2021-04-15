@@ -41,7 +41,8 @@ export default {
             },
             saving:false,
             status:'',
-            mpos: new Mpos()
+            mpos: new Mpos(),
+            walletCheckInterval: null
         }
     },
     computed: {
@@ -248,7 +249,8 @@ export default {
                         if(res.data.transaction.payment_type === "wallet") {
                             this.awaitingCustomerWalletResponse = true;
 
-                            this.checkingCustomerWalletResponse()
+                            // disabled due to resource timeout issue
+                            // this.checkingCustomerWalletResponse()
                         } else {
                             this.$swal({
                                 title: 'Success',
@@ -329,14 +331,14 @@ export default {
                 .catch(err => console.log(err));
         },
         checkingCustomerWalletResponse() {
-            // console.log("got here");
-            if(this.awaitingCustomerWalletResponse == true){
-              setInterval(() => this.performPingRequest(), 3000);
-            }
+            this.walletCheckInterval = setInterval(() => this.performPingRequest(), 20000);
 
-            // if(this.customerWalletResponse !== null) {
-            //     clearInterval(interval);
-            // }
+            if(this.customerWalletResponse !== null) {
+                this.clearWalletCheckInterval(this.walletCheckInterval);
+            }
+        },
+        clearWalletCheckInterval(interval) {
+            console.log('cleared_interval', clearInterval(interval));
         },
         confirmPayment(){
             this.awaitingCustomerWalletResponse = false;

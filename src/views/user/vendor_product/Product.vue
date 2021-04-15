@@ -104,7 +104,7 @@
                                              <div class="col-md-12 d-flex justify-content-end">
                                                 <div class="input-group rm">
                                                     <input type="button" @click="decrease(product.quantity)" v-if="quantity_value > product.minimum_order" value="-" class="button-minus" data-field="quantity">
-                                                    <input type="button" @click="moq()" value="-" v-if="quantity_value <= product.minimum_order"  class="button-minus" data-field="quantity">
+                                                    <input type="button" @click="moq(product.minimum_order)" value="-" v-if="quantity_value <= product.minimum_order"  class="button-minus" data-field="quantity">
                                                     <input type="number" step="1" :max="product.quantity" :min="product.minimum_order" :value="quantity_value" name="quantity" @change="changes()" class="quantity-field">
                                                     <input type="button" @click="increase(product.quantity)" value="+" class="button-plus" data-field="quantity">
                                                     <!-- <h6 style="margin-top:12px;font-size:14px">{{product.pack_label}}s</h6> -->

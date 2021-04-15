@@ -31,9 +31,9 @@
                         <div v-if="!show_business">
                             <div class="col-md-12" v-if="categories.length && !loading && search.length < 1">
                                 <div class="row">
-                                    <div class="col-md-3 d-flex justify-content-center" v-for="(category,index) in categories" :key="index">
+                                    <div class="col-md-3d-flex justify-content-center" v-for="(category,index) in categories" :key="index">
                                         <router-link :to="{name:'categoryVendor',params: { id: category.id }}">
-                                        <div class="card p-2" style="width: 12rem;height:10rem;margin-right:3px;background-color:#ffc107;border:0px">
+                                        <div class="card p-2" style="width: 12rem;height:10rem;margin-right:10px;background-color:#ffc107;border:0px;overflow:hidden">
                                             <!-- <div style="font-size:100px"><i class="fa fa-beer"></i></div> -->
                                             <div class="text-center mt-3"><img :src="category.public_image_url" class="rounded-circle" alt="" width="70" height="70"/></div>
                                             <div class="card-body text-center">
@@ -162,7 +162,7 @@
                                              <div class="col-md-12 d-flex justify-content-end">
                                                 <div class="input-group rm">
                                                     <input type="button" @click="decrease(product.quantity)" v-if="quantity_value > product.minimum_order" value="-" class="button-minus" data-field="quantity">
-                                                    <input type="button" @click="moq()" value="-" v-if="quantity_value <= product.minimum_order"  class="button-minus" data-field="quantity">
+                                                    <input type="button" @click="moq(product.minimum_order)" value="-" v-if="quantity_value <= product.minimum_order"  class="button-minus" data-field="quantity">
                                                     <input type="number" step="1" :max="product.quantity" :min="product.minimum_order" :value="quantity_value" name="quantity" @change="changes()" class="quantity-field">
                                                     <input type="button" @click="increase(product.quantity)" value="+" class="button-plus" data-field="quantity">
                                                     <!-- <h6 style="margin-top:12px;font-size:14px">{{product.pack_label}}s</h6> -->

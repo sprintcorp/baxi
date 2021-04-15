@@ -53,7 +53,8 @@ export default {
                 email:'',
                 baxi_username:''
             },
-            mpos: new Mpos()
+            mpos: new Mpos(),
+            walletCheckInterval: null
         }
     },
     computed: {
@@ -84,9 +85,9 @@ export default {
             });
         },
 
-        performPingRequest (order_id = null) {
+        performPingRequest () {
             // ping the api via backend
-            let url = "/user/order-payment/"+order_id+"/ping-response";
+            let url = "/user/order-payment/"+this.transaction_product.order_group_id+"/ping-response";
 
             fetch(BASE_URL + url, {
                 method: 'GET',
@@ -94,21 +95,31 @@ export default {
             })
                 .then(res => res.json())
                 .then(res => {
+                    if(checkUserPermission('distributor')){
+                        // alert(true)
+                        this.getDistributorTransactions()                        
+                    }else{
+                        this.getTransaction();
+                    }
                     console.log('wallet response', res);
 
                     this.customerWalletResponse = res.data;
+                    console.log(res.data)
                 })
                 .catch(err => console.log(err));
         },
         checkingCustomerWalletResponse() {
-            console.log("got here");
-            let interval = setInterval(() => this.performPingRequest(), 1000);
+            console.log(this.transaction_product)
+            this.walletCheckInterval = setInterval(() => this.performPingRequest(this.transaction_product.order_group_id), 3000);
 
-            if(this.customerWalletResponse !== null) {
+            if(this.customerWalletResponse) {
 
-                clearInterval(interval);
+                this.clearWalletCheckInterval(this.walletCheckInterval);
                 this.getTransaction
             }
+        },
+        clearWalletCheckInterval(interval) {
+            console.log('cleared_interval', clearInterval(interval));
         },
         confirmDelete(id){
             this.$swal({
@@ -342,7 +353,8 @@ export default {
                         if(type === "wallet") {
                             this.awaitingCustomerWalletResponse = true;
 
-                            this.checkingCustomerWalletResponse()
+                            // disabled due to resource timeout issue
+                            // this.checkingCustomerWalletResponse()
                         } else {
                             this.$swal({
                                 title: 'Success',
@@ -405,7 +417,7 @@ export default {
 
     mounted() {
         // this.distributor = checkUserPermission('distributor');
-        
+        console.log(checkUserPermission('distributor'))
         if(checkUserPermission('distributor')){
             // alert(true)
             this.getDistributorTransactions()
@@ -413,18 +425,15 @@ export default {
             this.outlet_name = JSON.parse(window.localStorage.getItem("name"))
             
         }else{
-            this.outlet_name = JSON.parse(window.localStorage.getItem("outlet_name"))
+            this.outlet_name = window.localStorage.getItem("outlet_name")
             this.getTransaction();
         }
         
         this.name = getName();
         this.outlet = getOutlet();
-        // this.start_date = new Date("2015-08-21").getTime();
-        // this.end_date = new Date().getTime();
         this.business_name = window.localStorage.getItem("name")
-        this.outlet_name = JSON.parse(window.localStorage.getItem("outlet_name"))
+        this.outlet_name = window.localStorage.getItem("outlet_name")
         this.current_date = new Date().toISOString().slice(0,10);
         this.current_time = new Date(new Date().getTime() + 60*60).toLocaleTimeString();
-        // alert(this.distributor);
-    },
+}
 }

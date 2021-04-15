@@ -113,7 +113,7 @@ export default {
                         data.data.results.data.filter(item => {
                             res.push({
                                 id: item.id,
-                                text: `${item.name} (${item.size})`,
+                                text: item.size?`${item.name} (${item.size})`:`${item.name}`,
                                 name: item.name,
                                 amount: parseInt(item.recommended_price),
                                 quantity: item.stock_quantity,

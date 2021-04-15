@@ -395,7 +395,7 @@
                                   </span>
 
                                   <button class="btn btn-sm btn-warning mt-2 w-25" @click="performPingRequest">Recheck</button>
-                                    <button class="btn btn-sm btn-danger mt-2 w-25" data-dismiss="modal"><i class="fa fa-times"></i> Check Later</button>
+                                    <button class="btn btn-sm btn-danger mt-2 w-25" data-dismiss="modal" @click="clearWalletCheckInterval(this.walletCheckInterval)"><i class="fa fa-times"></i> Check Later</button>
                                 </div>
 
                                 <span class="text-danger fs-20 m-auto d-block w-75 font-weight-bold" style="border-radius: 550px;" v-if="customerWalletResponse===false">
@@ -417,13 +417,13 @@
                       </div>
 
 
-                  <div v-if="transactions.length && show_receipt" class="modal fade" tabindex="-1" aria-hidden="true" id="printMe">
+                  <div v-if="transactions.length && show_receipt" class="modal fade" tabindex="-1" style="margin-top:-1000px" aria-hidden="true" id="printMe">
                       <vue-html2pdf
                         :show-layout="true"
                         :float-layout="true"
                         :enable-download="true"
                         :preview-modal="true"
-                        :paginate-elements-by-height="1200"
+                        :paginate-elements-by-height="500"
                         filename="baxi_receipt"
                         :pdf-quality="2"
                         :manual-pagination="false"
@@ -436,7 +436,7 @@
                         ref="html2Pdf"
                     >
                       <section slot="pdf-content">
-                        <div class="row pl-5" style="width:500px">
+                        <div class="row pl-5">
                            <div class="col-md-12 text-center mb-3"><img :src="require('@/assets/baxi.png')" style="height:50px"></div>
 
                                 <div class="col-md-6 fs-14" v-if="transaction_product.business">
@@ -507,7 +507,7 @@
                           </table>
 
                         <div class="clearfix"></div>
-<hr>
+                        <hr>
                         <div style="font-family: sans-serif" class="w-50 pull-left pl-5"><strong>TOTAL</strong></div>
 
                         <div v-if="distributor" class="font-weight-bold text-right w-50 pull-left pr-3">&#8358; {{transaction_product.total_amount.toLocaleString()}}.00</div>
@@ -518,18 +518,20 @@
                           <div class="clearfix"></div>
 
 
-                          <div class="col-md-12 mt-2 d-flex justify-content-center" v-if="!this.distributor"><h6>{{transaction_product.payment_type}} transaction</h6></div><br>
+                          <div class="mt-2 d-flex justify-content-center" v-if="!this.distributor"><h6>{{transaction_product.payment_type}} transaction</h6></div><br>
                           <div class="col-md-12 mt-2 d-flex justify-content-center" v-if="this.distributor"><h6>Delivery type: {{transaction_product.delivery_type}}</h6></div><br>
 
                           <div class="col-md-12 mt-3 text-center"><p>Terms & Conditions Apply <br> No refund of money after payment <br><strong>Thank you for your patronage</strong></p></div><br>
-                          <div class="col-md-7 mt-2 d-flex justify-content-start"><p>Sales Officer:</p></div>
+                          <div class="col-md-5 mt-2 d-flex justify-content-start"><p>Sales Officer:</p></div>
                             <div class="col-md-5 mt-2 d-flex justify-content-start"><p>{{user}}</p></div>
                             <div class="col-md-12 mt-2 d-flex justify-content-center"><p>Powered by Baxi</p></div><br>
                       </section>
                     </vue-html2pdf>
 
 
-                      </div>
+                  </div>
+
+                
 
 
 

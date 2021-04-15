@@ -109,9 +109,9 @@ export default {
                 this.saving = false;
                 console.log(res)
                 this.$swal({
-                    title: res.success===false ? 'Error' : 'Success',
+                    title: res.success === true ? 'Success' : 'Error',
                     text: res.message,
-                    icon: res.success===false ? 'error' : 'success',
+                    icon: res.success === true ? 'success' : 'error',
                     confirmButtonText: 'ok'
                 });               
                 

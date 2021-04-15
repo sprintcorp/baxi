@@ -140,7 +140,8 @@
                                   <div class="row mt-5 ml-5" v-if="order_product.status >= 0 && order_product.status < 5">
                                     <div class="col-md-3">Pending</div>
                                     <div class="col-md-3">Order Accepted</div>
-                                    <div class="col-md-3">{{order_product.status == 3 ?'Fulfilled':'Processing'}}</div>
+                                    <div class="col-md-3" v-if="order_product.delivery_type.toLowerCase() == 'delivery'">{{order_product.status == 3 ?'Fulfilled':'Processing'}}</div>
+                                    <div class="col-md-3" v-if="order_product.delivery_type.toLowerCase() == 'pickup'">Processing</div>
                                     <div class="col-md-3">Delivered</div>
                                   </div>
                                   <!-- <div class="row mt-5 ml-5" v-if="order_product.status < 0">
@@ -149,7 +150,7 @@
                                   <div class="form-check mt-3" v-if="order_product.status == 3">
                                     <input class="form-check-input" type="checkbox" value=""  @change="confirmDelivery(4)">
                                     <label class="form-check-label" for="flexCheckDefault">
-                                      Check if item order has been delivered
+                                     {{order_product.delivery_type.toLowerCase() == 'delivery'? 'Check if item order has been delivered': 'Check if item order has been picked up'}}
                                     </label>
                                   </div>
                                   <div class="form-check mt-3" v-if="order_product.status == 4">

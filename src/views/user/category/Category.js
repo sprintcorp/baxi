@@ -234,10 +234,10 @@ export default {
         this.getCart();
         this.sumProduct();
     },
-    moq(){
+    moq(qty){
         this.$swal({
             title: 'Action Denied',
-            text: "product order quantity can't less than 5 (minimum order quantity)",
+            text: "product order quantity can't less than "+qty+" (minimum order quantity)",
             icon: 'warning',
             confirmButtonText: 'ok'
         });

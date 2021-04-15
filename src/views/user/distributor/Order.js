@@ -99,6 +99,9 @@ export default {
                     icon: 'success',
                     confirmButtonText: 'ok'
                 });
+                this.applied_fees = [];
+                this.add_fee = false;
+                
                 }
                 if(res.success == false){
                 this.$swal({

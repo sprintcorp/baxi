@@ -68,7 +68,8 @@ export default {
                 cashier:""
             },
             top_selling:[],
-            product_info:0
+            product_info:0,
+            excel_info:[],
         }
     },
     computed: {
@@ -76,9 +77,6 @@ export default {
             return this.transactions.filter((transaction) => new Date(this.start_date).getTime() < new Date(transaction.updated_at).getTime() &&
                 new Date(transaction.updated_at).getTime() < new Date(this.end_date).getTime())
         },
-        // amount(){
-        //     return this.filterTransactions.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
-        // }
     },
     methods: {
         showDate() {
@@ -91,43 +89,7 @@ export default {
         goToProduct(){            
             this.$router.push({ name: 'productOverview' });
         },
-        // getUserBusiness() {
-        //     this.loading = true;
-        //     fetch(BASE_URL + '/my/businesses', {
-        //             headers: {
-        //                 'Content-Type': 'application/json',
-        //                 'Accept': 'application/json',
-        //                 'Authorization': getToken()
-        //             }
-        //         })
-        //         .then(res => res.json())
-        //         .then(res => {
-        //             if (res.message === 'Unauthenticated.') {
-        //                 logout();
-        //                 this.$router.push({ name: 'welcome' });
-        //             }
-        //             this.loading = false;
-        //             this.businesses = res.data.my_own_businesses;
-        //             window.localStorage.setItem("retailer_business", this.businesses[0].id);
-
-        //         })
-        //         .catch((err) => {
-        //                 console.log("error log " +
-        //                     err)
-        //                 this.loading = false;
-        //                 if (err.response.status == 401) {
-        //                     this.$swal({
-        //                     title: 'Error',
-        //                     text: "Session Expired",
-        //                     icon: 'error',
-        //                     confirmButtonText: 'ok'
-        //                 });
-        //                     logout();
-        //                     this.$router.push({ name: 'welcome' });
-        //                 }
-        //             }
-        //         );
-        // },
+        
         showProducts(transaction) {
             this.transaction_product = transaction;
         },
@@ -210,6 +172,19 @@ export default {
                     let sum = this.transactions.map(o => parseFloat(o.amount)).reduce((a, c) => { return a + c });
                     // console.log(sum);
                     this.total_transaction = sum;
+                    this.transactions.forEach((data)=>{
+                        data.orders.forEach((transaction)=>{
+                            this.excel_info.push({
+                                transaction_ref:data.order_group_id,
+                                amount:transaction.amount,
+                                product_name:transaction.outlet_product.product.name,
+                                category:transaction.outlet_product.product.categories[0].name,
+                                payment_type:data.payment_type,
+                                date:data.created_at,
+                            })
+                        })
+                    })
+                    console.log(this.excel_info)
                 })
                 .catch(err => {
                         console.log(err)
@@ -315,7 +290,7 @@ export default {
               .then(res => {
                   this.saving = false;
                   console.log(res.success)
-                if(res.succcess == true){
+                if(res.success){
                     this.$swal({
                         title: 'Success',
                         text: res.message,
@@ -366,13 +341,6 @@ export default {
             }
           },
         getTransactionDuration(){
-            // var newDate = Date.now() + -parseInt(this.duration)*24*3600*1000;
-            // var day = new Date(newDate).getDate().toString();
-            // var month = parseInt(new Date(newDate).getMonth().toString()) + 1;
-            // var year = new Date(newDate).getFullYear().toString();
-            // const mon = month > 9 ? month : '0'+month;
-            // const period = year+'-'+mon+'-'+day; 
-            // console.log(period)
             this.transactions = [];
             this.getOutletTransaction(window.localStorage.getItem('retailer_outlet'));
             

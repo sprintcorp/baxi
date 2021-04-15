@@ -11,6 +11,7 @@ export default {
     },
     data() {
         return {
+            show_me:true,
             role: localStorage.getItem('role'),
             user: null,
             businesses: [],
@@ -64,7 +65,8 @@ export default {
             last_order_id: null,
             wallet_transaction_response: false,
             scan:false,
-            mpos: new Mpos()
+            mpos: new Mpos(),
+            walletCheckInterval: null
         }
     },
     computed: {
@@ -241,19 +243,38 @@ export default {
             })
             .catch(err => console.log(err));
         },
+        showModal(){
+            this.show_me = true;
+        },
         confirmPayment(){
+            
             this.awaitingCustomerWalletResponse = false;
+            if(this.awaitingCustomerWalletResponse == false){
+                this.show_me = false;
+                this.$refs.vuemodal.on("hidden.bs.modal")
+                // alert('hooo')
+            }
+            // alert('hooo')
+            
             this.customerWalletResponse = false;
+            
+
+            // disabled due to resource timeout issue
+            // this.checkingCustomerWalletResponse(this.walletCheckInterval);
+            this.performPingRequest();
+
             console.log('hello ' + this.awaitingCustomerWalletResponse);
         },
         checkingCustomerWalletResponse() {
-            let interval = setInterval(() => this.performPingRequest(), 30000);
+            this.walletCheckInterval = setInterval(() => this.performPingRequest(), 20000);
 
             if(this.customerWalletResponse !== null) {
                 this.getProducts(true);
-
-                clearInterval(interval);
+                this.clearWalletCheckInterval(this.walletCheckInterval);
             }
+        },
+        clearWalletCheckInterval(interval) {
+            console.log('cleared_interval', clearInterval(interval));
         },
         numberWithCommas(x) {
             const num = parseFloat(x)
@@ -781,7 +802,9 @@ export default {
                     this.loading = false;
                     this.outlets = res.data;
                     // this.getOutletTransaction(this.outlets[0].id)
-                    window.localStorage.setItem("outlet_name", JSON.stringify(this.outlets[0].name));
+                    if(!window.localStorage.getItem('outlet_name')){
+                    window.localStorage.setItem("outlet_name", this.outlets[0].name);
+                    }
                     this.selected_outlet = window.localStorage.getItem("retailer_outlet");
                     
                     console.log(this.outlets);
@@ -936,7 +959,12 @@ export default {
         changeOutlet(event){
             window.localStorage.setItem("retailer_outlet", JSON.stringify(this.selected_outlet));
             this.selected_outlet = window.localStorage.getItem("retailer_outlet");
-            console.log(event.target.name)
+            var options = event.target.options
+            if (options.selectedIndex > -1) {
+                var name = options[options.selectedIndex].getAttribute('name');
+                console.log(name)
+                window.localStorage.setItem("outlet_name",name);
+            }
             this.getProducts();
         },
         removeCart(){
@@ -954,7 +982,7 @@ export default {
         async saveOrder(type,save = 0) {
             this.saving = true;
             this.loading = true;
-
+            this.awaitingCustomerWalletResponse = true;
             console.log(this.customer);
             if(this.distributor){
                 this.saved_orders = JSON.parse(window.localStorage.getItem("distributor_cart"))
@@ -983,7 +1011,6 @@ export default {
                 .then(res => {
                     this.loading = false;
                     this.saving = false;
-
                     if(res.success){
                         this.last_order_id = res.data.transaction.order_group_id;
 
@@ -991,7 +1018,9 @@ export default {
 
                         if(type.toLowerCase() == "wallet") {
                             this.awaitingCustomerWalletResponse = true;
-                            this.checkingCustomerWalletResponse()
+
+                            // disabled due to resource timeout issue
+                            // this.checkingCustomerWalletResponse()
                         }else{
                             this.$swal({
                                 title: 'Success',
@@ -1017,10 +1046,11 @@ export default {
 
                         console.log('qwe', res.data.transaction.order_group_id);
                     }else{
+                        console.log(Object.values(res.data.errors))
                         this.$swal({
-                            title: 'Error',
-                            text: res.data.errors[0].product_1,
-                            icon: 'error',
+                            title: 'Warning',
+                            text: Object.values(res.data.errors),
+                            icon: 'warning',
                             confirmButtonText: 'ok'
                         });
                     }

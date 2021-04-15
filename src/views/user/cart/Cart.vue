@@ -1,14 +1,14 @@
 <template>
     <div>
-        <div class="container p-2 mt-5 mb-5" style="background-color: white;min-height:80vh;overflow:none">
+        <div class="container p-2 mt-5 mb-5 d-flex justify-content-center" style="background-color: white;min-height:80vh;overflow:none">
         
-            <div class="col-md-12" style="margin-top:40px;min-height:20vh;overflow:hidden;right: 0;">
+            <div class="col-md-8" style="margin-top:40px;min-height:20vh;overflow:hidden;right: 0;">
                 <!-- <pre>{{cart}}</pre> -->
                 <div class="bg-warning"><h4 class="m-0 p-2">
                     <i class="fa fa-shopping-cart"></i>
                     Cart 
                 </h4></div>
-              <div class="" style="width:100%">
+              <div class="" style="width:100%" v-if="cart.length > 0">
                   <table class="table table-dark">
                     <thead class="">
                         <tr>
@@ -66,6 +66,11 @@
                           </div>
                       </div>
                     </div>
+                </div>
+                <div class="card" v-if="!cart.length">
+                  <div class="card-body text-center">
+                    There are no product in cart
+                  </div>
                 </div>
             </div>
         </div>
@@ -244,6 +249,7 @@
                     <div class="card-body text-center" style="padding: 0 !important;color:#ccc;">
                         <div class="nav-link">
                             <span class="d-block">Baxi POS</span>
+                            <small><em>Coming Soon...</em></small>
                         </div>
                     </div>
                 </div>
@@ -302,7 +308,7 @@
                 </span>
 
                   <button class="btn btn-sm btn-success mt-2 mr-4 w-25" @click="performPingRequest"><i class="fa fa-search"></i> Check</button>
-                  <button class="btn btn-sm btn-warning mt-2 w-25" data-dismiss="modal"><i class="fa fa-times"></i> Check Later</button>
+                  <button class="btn btn-sm btn-warning mt-2 w-25" data-dismiss="modal" @click="clearWalletCheckInterval(this.walletCheckInterval)"><i class="fa fa-times"></i> Check Later</button>
               </div>
 
             <span class="text-danger fs-20 m-auto d-block w-75 font-weight-bold" style="border-radius: 550px;" v-if="customerWalletResponse===false">

@@ -62,11 +62,11 @@
                                       <tr style="text-align:center">
                                         <th>S/N</th>
                                         <th>Transaction Ref</th>
-                                        <!-- <th>Payment Type</th> -->
+                                        <th>Payment Type</th>
                                         <th>Customer</th>
-                                        <th v-if="!show_receipt">Status</th>
+                                        <!-- <th v-if="!show_receipt">Status</th> -->
                                         <th v-if="!show_receipt">Outlet name</th> 
-                                        <th>Transaction date</th>
+                                        <th v-if="!show_receipt">Transaction date</th>
                                         <th>No of items</th>
                                         <th>Amount</th>
                                         <th>Action</th>
@@ -77,7 +77,7 @@
                                       <tr style="text-align:center" v-for="(transaction,index) in filterTransactions" :key="index">
                                         <td>{{ page.current_page == 1 ? index + 1:(page.current_page-1)*page.per_page + index + 1 }}</td>
                                         <td>{{ transaction.order_group_id }}</td>
-                                        <!-- <td>{{ transaction.payment_type ? transaction.payment_type.toUpperCase() : 'PENDING' }}</td> -->
+                                        <td>{{ transaction.payment_type ? transaction.payment_type.toUpperCase() : 'PENDING' }}</td>
 
                                         <td v-if="transaction.customer &&
                                                 transaction.customer.user_id">
@@ -95,13 +95,13 @@
                                               No user info
                                           </td>
 
-                                        <td v-if="!show_receipt">
+                                        <!-- <td v-if="!show_receipt">
                                             <span v-if="transaction.paid==0" class="text-muted">Pending</span>
                                             <span v-if="transaction.paid==-1" class="text-danger">Declined</span>
-                                        </td>
+                                        </td> -->
                                         <!-- <td v-else class="text-danger">Not Paid</td> -->
                                         <td v-if="!show_receipt">{{transaction.outlet.name}}</td>
-                                        <td>
+                                        <td v-if="!show_receipt">
                                           {{transaction.created_at | moment("ddd, Do MMMM 'YY, h:mma") }}
                                         </td>
                                         <td>{{transaction.orders.length}}</td>
@@ -529,7 +529,7 @@
                 </span>
 
                                                 <button class="btn btn-sm btn-success mt-2 mr-4" @click="performPingRequest"><i class="fa fa-search"></i> Check</button>
-                                                <button class="btn btn-sm btn-warning mt-2" data-dismiss="modal"><i class="fa fa-times"></i> Check Later</button>
+                                                <button class="btn btn-sm btn-warning mt-2" data-dismiss="modal" @click="clearWalletCheckInterval(this.walletCheckInterval)"><i class="fa fa-times"></i> Check Later</button>
                                             </div>
 
                                             <span class="text-danger fs-20 m-auto d-block w-75 font-weight-bold" style="border-radius: 550px;" v-if="customerWalletResponse===false">

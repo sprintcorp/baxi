@@ -25,7 +25,7 @@
                     <span class="input-group-text bg-white" style="border:1px solid white;color:black">Select Outlet</span>
                     <select v-model='selected_outlet' @change="changeOutlet($event)" class="form-control">
                       <!-- <option>Select outlet</option> -->
-                      <option v-for="(outlet,index) in outlets" :key="index" :value="outlet.id">{{outlet.name}}</option>
+                      <option v-for="(outlet,index) in outlets" :key="index" :value="outlet.id" :name="outlet.name">{{outlet.name}}</option>
                     </select>
                   </div>            
             </div>
@@ -340,7 +340,15 @@
                            <td>₦{{total_with_vat}}.00</td>
                          </tr>
                         <tr>
+                         <tr>
                            <td>Total</td>
+                           <!-- <td></td> -->
+                           <td>QTY</td>
+                           <td>Product</td>
+                           <td>Amount</td>
+                         </tr>
+                        <tr>
+                           <td></td>
                            <!-- <td></td> -->
                            <td>{{total_product}}</td>
                            <td>{{cart.length}}</td>
@@ -526,7 +534,7 @@
       </div>
       
       <div class="modal-body row">
-        <div class="col-md-3 payment-method-card" data-toggle="modal" data-target="#optionModal" data-dismiss="modal">
+        <div class="col-md-3 payment-method-card" @click="showModal()" data-toggle="modal" data-target="#optionModal" data-dismiss="modal">
           <div class="card m-1 h-100 p-0">
               <div class="mx-auto mt-1">
                   <img :src="require('@/assets/images/img8.png')" class='rounded' alt="img"/>
@@ -548,7 +556,7 @@
                   <div class="card-body text-center" style="padding: 0 !important;color:#ccc;">
                       <div class="nav-link">
                           <span class="d-block">Baxi POS</span>
-<!--                          <small><em>Coming Soon...</em></small>-->
+                         <small><em>Coming Soon...</em></small>
                       </div>
                   </div>
               </div>
@@ -585,7 +593,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="optionModal" tabindex="-1" role="dialog" aria-labelledby="optionModal" aria-hidden="true">
+<div class="modal fade" id="optionModal" tabindex="-1" role="dialog" aria-labelledby="optionModal" v-if="show_me" aria-hidden="true" ref="vuemodal">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -626,7 +634,7 @@
             </div>
           </div>
 
-          <div v-if="!awaitingCustomerWalletResponse">
+          <div v-if="awaitingCustomerWalletResponse == false">
               <div class="col-md-12 mt-3">
                   <input type="text" v-model="customer.baxi_username" placeholder="Baxi Username" class="form-control">
               </div>

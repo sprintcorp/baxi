@@ -1,5 +1,6 @@
 class Mpos {
-    // instantiate() {
+    instantiate() {
+        return true;
     //     (function () {
     //         var slice = [].slice;
     //         var open = XMLHttpRequest.prototype.open;
@@ -33,7 +34,7 @@ class Mpos {
 
     //         mynew.ProcessToPayment();
     //     });
-    // }
+    }
 }
 
 export default Mpos;

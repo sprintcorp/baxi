@@ -62,7 +62,8 @@ export default {
             },
             last_order_id: null,
             wallet_transaction_response: false,
-            mpos: new Mpos()
+            mpos: new Mpos(),
+            walletCheckInterval: null
         }
     },
     computed: {
@@ -127,12 +128,15 @@ export default {
             .catch(err => console.log(err));
         },
         checkingCustomerWalletResponse() {
-            let interval = setInterval(() => this.performPingRequest(), 30000);
+            this.walletCheckInterval = setInterval(() => this.performPingRequest(), 20000);
 
             if(this.customerWalletResponse !== null) {
                 this.getProducts(true);
-                clearInterval(interval);
+                this.clearWalletCheckInterval(this.walletCheckInterval);
             }
+        },
+        clearWalletCheckInterval(interval) {
+            console.log('cleared_interval', clearInterval(interval));
         },
         numberWithCommas(x) {
             const num = parseFloat(x)
@@ -215,7 +219,7 @@ export default {
             }
         },
         getCart(){
-            if (JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length > 0 && getRole().toLowerCase() !== 'distributor') {
+            if (JSON.parse(window.localStorage.getItem("retailer_cashier_order")) && JSON.parse(window.localStorage.getItem("retailer_cashier_order")).length >= 0 && getRole().toLowerCase() !== 'distributor') {
                 const cart = JSON.parse(window.localStorage.getItem("retailer_cashier_order")).filter(cart => parseInt(cart.retailer_id) == getId());
                 this.cart = cart;
                 this.sumProduct()
@@ -224,7 +228,7 @@ export default {
                 }
             }
 
-            if (JSON.parse(window.localStorage.getItem("distributor_cart")) && JSON.parse(window.localStorage.getItem("distributor_cart")).length > 0 && getRole().toLowerCase() == 'distributor') {
+            if (JSON.parse(window.localStorage.getItem("distributor_cart")) && JSON.parse(window.localStorage.getItem("distributor_cart")).length >= 0 && getRole().toLowerCase() == 'distributor') {
                 
                 const cart = JSON.parse(window.localStorage.getItem("distributor_cart")).filter(cart => parseInt(cart.retailer_id) == getId());
                 this.cart = cart;
@@ -407,7 +411,9 @@ export default {
 
                         if(type.toLowerCase() == "wallet") {
                             this.awaitingCustomerWalletResponse = true;
-                            this.checkingCustomerWalletResponse()
+
+                            // disabled due to resource timeout issue
+                            // this.checkingCustomerWalletResponse()
                         }else{
                             this.$swal({
                                 title: 'Success',

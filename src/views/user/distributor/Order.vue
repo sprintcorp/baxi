@@ -99,7 +99,7 @@
                                           <td>{{  index + 1 }}</td>
                                           <td>{{ order.order_group_id }}</td>
                                           <td>{{order.status == 0?'Pending':order.status == 1?'Accepted':order.status == 2?'Processing':order.status == 3?'Fulfilled':order.status == 4 ?'Delivered':order.status == 5?'Cancelled':'Declined'}}</td>                                      
-                                          <td>&#8358; {{numberWithCommas(order.amount) }}</td>
+                                          <td>&#8358; {{numberWithCommas(order.total_amount) }}</td>
                                           <td>{{order.orders.length }}</td>
                                           <td>{{order.retailer.buid}}</td>
                                           <td>{{order.delivery_type}}</td>
@@ -254,8 +254,9 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <!-- <button type="button" class="btn btn-danger">Decline</button> -->
-                                    <button type="button" class="btn btn-warning" @click="confirmOrder(1)" data-dismiss="modal">Save</button>
+                                  
+                                    <button type="button" v-if="add_fee" class="btn btn-warning" @click="confirmOrder(1)" data-dismiss="modal">Save</button>
+                                    <button type="button" v-if="!add_fee" class="btn btn-warning" @click="confirmOrder(3)" data-dismiss="modal">Save</button>
                                 </div>
                                 </div>
                             </div>
